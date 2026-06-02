@@ -101,15 +101,47 @@ h1{
   grid-template-columns:repeat(3,1fr);
   gap:28px;
 }
-.card,.benefit,.process-box{
+.flip-card{
+  height:345px;
+  perspective:1200px;
+  cursor:pointer;
+}
+.flip-inner{
+  position:relative;
+  width:100%;
+  height:100%;
+  transition:transform .7s ease;
+  transform-style:preserve-3d;
+}
+.flip-card.flipped .flip-inner{
+  transform:rotateY(180deg);
+}
+.card-face{
+  position:absolute;
+  inset:0;
+  backface-visibility:hidden;
   background:rgba(18,18,25,.9);
   border:1px solid #6d28d9;
   border-radius:24px;
   padding:34px;
   box-shadow:0 0 30px rgba(124,58,237,.12);
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
 }
-.card h3,.benefit h3,.process-box h3{color:#d8b4fe;margin-bottom:16px;font-size:22px}
-.card p,.benefit p,.process-box p{color:#e8ddff;font-size:16px;line-height:1.7}
+.card-back{
+  transform:rotateY(180deg);
+  border-color:#a855f7;
+  box-shadow:0 0 45px rgba(168,85,247,.25);
+}
+.card-face h3,.benefit h3,.process-box h3{color:#d8b4fe;margin-bottom:16px;font-size:22px}
+.card-face p,.benefit p,.process-box p{color:#e8ddff;font-size:16px;line-height:1.7}
+.flip-hint{
+  margin-top:auto;
+  color:#c084fc;
+  font-weight:800;
+  font-size:15px;
+}
 .icon{
   width:54px;height:54px;
   border-radius:17px;
@@ -129,6 +161,13 @@ h1{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:28px;
+}
+.benefit,.process-box{
+  background:rgba(18,18,25,.9);
+  border:1px solid #6d28d9;
+  border-radius:24px;
+  padding:34px;
+  box-shadow:0 0 30px rgba(124,58,237,.12);
 }
 .popular{
   max-width:900px;
@@ -172,6 +211,7 @@ footer p{margin-bottom:10px}
   .sub{font-size:17px}
   .cards,.benefits,.process,.popular-grid{grid-template-columns:1fr}
   .divider{width:85%}
+  .flip-card{height:360px}
 }
 </style>
 </head>
@@ -238,23 +278,58 @@ footer p{margin-bottom:10px}
     <p class="section-subtitle">Simple, affordable pricing — planned at $1 per tool</p>
 
     <div class="cards">
-      <div class="card">
-        <div class="icon">📋</div>
-        <h3>Example: Attendance Tracker</h3>
-        <p><b>Prompt:</b> Build me a daily attendance tracker for my 12 staff with check-in times, weekly hourly summary and payout.</p>
+
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="card-face">
+            <div class="icon">📋</div>
+            <h3>Attendance Tracker</h3>
+            <p>Track staff attendance, hours and payouts in one simple tool.</p>
+            <div class="flip-hint">See prompt 👆</div>
+          </div>
+          <div class="card-face card-back">
+            <div class="icon">💬</div>
+            <h3>Example Prompt</h3>
+            <p><b>Prompt:</b> Build me a daily attendance tracker for my 12 staff with check-in times, weekly hourly summary and payout.</p>
+            <div class="flip-hint">Click to go back 👆</div>
+          </div>
+        </div>
       </div>
 
-      <div class="card">
-        <div class="icon">▦</div>
-        <h3>Example: Notion-style Tool</h3>
-        <p><b>Prompt:</b> Create a project tracker with tasks, owners, due dates and status columns. My theme is black and red.</p>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="card-face">
+            <div class="icon">▦</div>
+            <h3>Notion-style Tool</h3>
+            <p>Create clean project boards, task lists, owners, due dates and status views.</p>
+            <div class="flip-hint">See prompt 👆</div>
+          </div>
+          <div class="card-face card-back">
+            <div class="icon">💬</div>
+            <h3>Example Prompt</h3>
+            <p><b>Prompt:</b> Create a project tracker with tasks, owners, due dates and status columns. My theme is black and red.</p>
+            <div class="flip-hint">Click to go back 👆</div>
+          </div>
+        </div>
       </div>
 
-      <div class="card">
-        <div class="icon">🧮</div>
-        <h3>Example: Billing Calculator</h3>
-        <p><b>Prompt:</b> Make a billing calculator that highlights paid payments in green and pending payments in red.</p>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="card-face">
+            <div class="icon">🧮</div>
+            <h3>Billing Calculator</h3>
+            <p>Calculate invoices, payments, pending balances and highlight statuses.</p>
+            <div class="flip-hint">See prompt 👆</div>
+          </div>
+          <div class="card-face card-back">
+            <div class="icon">💬</div>
+            <h3>Example Prompt</h3>
+            <p><b>Prompt:</b> Make a billing calculator that highlights paid payments in green and pending payments in red.</p>
+            <div class="flip-hint">Click to go back 👆</div>
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -292,14 +367,13 @@ footer p{margin-bottom:10px}
 <section class="section">
   <div class="container">
     <div class="popular">
-      <h2 class="section-title">Popular Requests</h2>
+      <h2 class="section-title">See Popular Requests 👆</h2>
       <div class="popular-grid">
         <div>• Employee Attendance Tracker</div>
         <div>• Payroll Calculator</div>
         <div>• Notion Style Project Tracker</div>
         <div>• CRM & Lead Management Tool</div>
         <div>• Inventory Tracker</div>
-        <div>• Route Planning Tool</div>
         <div>• KPI Dashboard</div>
         <div>• Invoice & Billing Tool</div>
         <div>• Customer Support Tracker</div>
