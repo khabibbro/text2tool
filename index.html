@@ -38,11 +38,14 @@ body:before{
 .particles span:nth-child(3){top:65%;left:12%;animation-delay:2s}
 .particles span:nth-child(4){top:78%;left:75%;animation-delay:3s}
 .particles span:nth-child(5){top:45%;left:50%;animation-delay:4s}
+
 @keyframes float{
   0%,100%{transform:translateY(0);opacity:.3}
   50%{transform:translateY(-30px);opacity:1}
 }
+
 .container{width:90%;max-width:1200px;margin:auto}
+
 .header{
   padding:24px 35px;
   position:absolute;
@@ -51,6 +54,7 @@ body:before{
   left:0;
 }
 .small-logo{width:78px}
+
 .hero{
   min-height:100vh;
   text-align:center;
@@ -91,26 +95,59 @@ h1{
   box-shadow:0 0 30px rgba(168,85,247,.55);
   transition:.25s;
 }
-.btn:hover{transform:translateY(-3px);box-shadow:0 0 45px rgba(168,85,247,.9)}
-.divider{width:55%;height:1px;background:#7c3aed;margin:70px auto}
+.btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 0 45px rgba(168,85,247,.9);
+}
+.divider{
+  width:55%;
+  height:1px;
+  background:#7c3aed;
+  margin:70px auto;
+}
+
 .section{padding:60px 0}
-.section-title{text-align:center;font-size:38px;margin-bottom:12px}
-.section-subtitle{text-align:center;color:#d8c8ff;margin-bottom:50px;font-size:18px}
-.cards{
+.section-title{
+  text-align:center;
+  font-size:38px;
+  margin-bottom:12px;
+}
+.section-subtitle{
+  text-align:center;
+  color:#d8c8ff;
+  margin-bottom:50px;
+  font-size:18px;
+}
+
+.grid-3{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:28px;
 }
+.grid-2{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:28px;
+}
+
 .flip-card{
-  height:345px;
+  height:330px;
   perspective:1200px;
   cursor:pointer;
+  outline:none;
+}
+.flip-card.small{height:285px}
+.flip-card.medium{height:345px}
+.flip-card.large{
+  max-width:900px;
+  height:430px;
+  margin:auto;
 }
 .flip-inner{
   position:relative;
   width:100%;
   height:100%;
-  transition:transform .7s ease;
+  transition:transform .75s ease;
   transform-style:preserve-3d;
 }
 .flip-card.flipped .flip-inner{
@@ -127,23 +164,24 @@ h1{
   box-shadow:0 0 30px rgba(124,58,237,.12);
   display:flex;
   flex-direction:column;
-  justify-content:flex-start;
+  overflow:hidden;
 }
 .card-back{
   transform:rotateY(180deg);
   border-color:#a855f7;
   box-shadow:0 0 45px rgba(168,85,247,.25);
 }
-.card-face h3,.benefit h3,.process-box h3{color:#d8b4fe;margin-bottom:16px;font-size:22px}
-.card-face p,.benefit p,.process-box p{color:#e8ddff;font-size:16px;line-height:1.7}
-.flip-hint{
-  margin-top:auto;
-  color:#c084fc;
-  font-weight:800;
-  font-size:15px;
+.flip-card:hover .card-face{
+  border-color:#a855f7;
+  box-shadow:0 0 45px rgba(168,85,247,.22);
 }
+.flip-card:focus .card-face{
+  border-color:#c084fc;
+}
+
 .icon{
-  width:54px;height:54px;
+  width:54px;
+  height:54px;
   border-radius:17px;
   background:#252532;
   display:flex;
@@ -152,37 +190,46 @@ h1{
   font-size:25px;
   margin-bottom:28px;
 }
-.process{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:28px;
+.card-face h3{
+  color:#d8b4fe;
+  margin-bottom:16px;
+  font-size:22px;
 }
-.benefits{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:28px;
+.card-face p{
+  color:#e8ddff;
+  font-size:16px;
+  line-height:1.7;
 }
-.benefit,.process-box{
-  background:rgba(18,18,25,.9);
-  border:1px solid #6d28d9;
-  border-radius:24px;
-  padding:34px;
-  box-shadow:0 0 30px rgba(124,58,237,.12);
+.flip-hint{
+  margin-top:auto;
+  color:#c084fc;
+  font-weight:800;
+  font-size:15px;
+  padding-top:18px;
 }
-.popular{
-  max-width:900px;
-  margin:auto;
-  background:rgba(18,18,25,.9);
-  border:1px solid #6d28d9;
-  border-radius:24px;
-  padding:38px;
+.prompt-box{
+  background:rgba(168,85,247,.09);
+  border:1px solid rgba(168,85,247,.28);
+  border-radius:16px;
+  padding:16px;
+  color:#f1e8ff;
+  line-height:1.65;
+  font-size:15.5px;
 }
 .popular-grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:14px 30px;
   color:#e8ddff;
-  margin-top:20px;
+  margin-top:8px;
+  font-size:16px;
+  line-height:1.6;
+}
+.popular-intro{
+  color:#e8ddff;
+  font-size:17px;
+  line-height:1.7;
+  max-width:680px;
 }
 .cta-box{
   max-width:760px;
@@ -194,8 +241,15 @@ h1{
   text-align:center;
   box-shadow:0 0 45px rgba(168,85,247,.22);
 }
-.cta-box h2{font-size:38px;margin-bottom:16px}
-.cta-box p{color:#d8c8ff;margin-bottom:30px;font-size:18px}
+.cta-box h2{
+  font-size:38px;
+  margin-bottom:16px;
+}
+.cta-box p{
+  color:#d8c8ff;
+  margin-bottom:30px;
+  font-size:18px;
+}
 footer{
   text-align:center;
   padding:55px 20px;
@@ -203,15 +257,28 @@ footer{
   border-top:1px solid #191925;
 }
 footer p{margin-bottom:10px}
+
 @media(max-width:900px){
   .header{padding:18px}
   .small-logo{width:62px}
-  .main-logo{margin-top:60px;margin-bottom:55px}
+  .main-logo{
+    margin-top:60px;
+    margin-bottom:55px;
+  }
   h1{font-size:42px}
   .sub{font-size:17px}
-  .cards,.benefits,.process,.popular-grid{grid-template-columns:1fr}
+  .grid-3,.grid-2,.popular-grid{
+    grid-template-columns:1fr;
+  }
   .divider{width:85%}
-  .flip-card{height:360px}
+  .flip-card,
+  .flip-card.small,
+  .flip-card.medium{
+    height:360px;
+  }
+  .flip-card.large{
+    height:570px;
+  }
 }
 </style>
 </head>
@@ -250,24 +317,59 @@ footer p{margin-bottom:10px}
     <h2 class="section-title">How It Works</h2>
     <p class="section-subtitle">No coding. No setup. Just describe what you need.</p>
 
-    <div class="process">
-      <div class="process-box">
-        <div class="icon">✍️</div>
-        <h3>1. Describe Your Tool</h3>
-        <p>Tell Text2Tool what you want to build in plain language.</p>
+    <div class="grid-3">
+
+      <div class="flip-card small" tabindex="0">
+        <div class="flip-inner">
+          <div class="card-face">
+            <div class="icon">✍️</div>
+            <h3>1. Describe Your Tool</h3>
+            <p>Tell Text2Tool what you want to build in plain English.</p>
+            <div class="flip-hint">See example 👆</div>
+          </div>
+          <div class="card-face card-back">
+            <div class="icon">💬</div>
+            <h3>Example Input</h3>
+            <p class="prompt-box">“Create an attendance tracker for my team with check-in, check-out, total hours and weekly payout.”</p>
+            <div class="flip-hint">Click to go back 👆</div>
+          </div>
+        </div>
       </div>
 
-      <div class="process-box">
-        <div class="icon">🤖</div>
-        <h3>2. AI Builds It</h3>
-        <p>Our AI uses proven templates and creates a simple working business tool.</p>
+      <div class="flip-card small" tabindex="0">
+        <div class="flip-inner">
+          <div class="card-face">
+            <div class="icon">🤖</div>
+            <h3>2. AI Builds It</h3>
+            <p>Text2Tool AI chooses the best template and customizes it for you.</p>
+            <div class="flip-hint">See what happens 👆</div>
+          </div>
+          <div class="card-face card-back">
+            <div class="icon">⚙️</div>
+            <h3>Behind The Scenes</h3>
+            <p class="prompt-box">The AI detects your tool type, applies a proven layout, adds formulas, columns, colors, dashboards and useful sections.</p>
+            <div class="flip-hint">Click to go back 👆</div>
+          </div>
+        </div>
       </div>
 
-      <div class="process-box">
-        <div class="icon">⬇️</div>
-        <h3>3. Export & Own It</h3>
-        <p>You can export the tool and keep it. No monthly software lock-in.</p>
+      <div class="flip-card small" tabindex="0">
+        <div class="flip-inner">
+          <div class="card-face">
+            <div class="icon">⬇️</div>
+            <h3>3. Export & Own It</h3>
+            <p>Download, copy or export your tool. No monthly software lock-in.</p>
+            <div class="flip-hint">See ownership promise 👆</div>
+          </div>
+          <div class="card-face card-back">
+            <div class="icon">🔓</div>
+            <h3>Yours Forever</h3>
+            <p class="prompt-box">You are not trapped inside our platform. You can take your tool, use it in your business and keep control.</p>
+            <div class="flip-hint">Click to go back 👆</div>
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -277,54 +379,54 @@ footer p{margin-bottom:10px}
     <h2 class="section-title">Just Type What You Want To Build</h2>
     <p class="section-subtitle">Simple, affordable pricing — planned at $1 per tool</p>
 
-    <div class="cards">
+    <div class="grid-3">
 
-      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card medium" tabindex="0">
         <div class="flip-inner">
           <div class="card-face">
             <div class="icon">📋</div>
             <h3>Attendance Tracker</h3>
-            <p>Track staff attendance, hours and payouts in one simple tool.</p>
+            <p>Track staff attendance, check-in times, hours and payout summaries.</p>
             <div class="flip-hint">See prompt 👆</div>
           </div>
           <div class="card-face card-back">
             <div class="icon">💬</div>
-            <h3>Example Prompt</h3>
-            <p><b>Prompt:</b> Build me a daily attendance tracker for my 12 staff with check-in times, weekly hourly summary and payout.</p>
+            <h3>Prompt Example</h3>
+            <p class="prompt-box">Build me a daily attendance tracker for my 12 staff with check-in times, weekly hourly summary and payout.</p>
             <div class="flip-hint">Click to go back 👆</div>
           </div>
         </div>
       </div>
 
-      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card medium" tabindex="0">
         <div class="flip-inner">
           <div class="card-face">
             <div class="icon">▦</div>
             <h3>Notion-style Tool</h3>
-            <p>Create clean project boards, task lists, owners, due dates and status views.</p>
+            <p>Create clean project boards with tasks, owners, due dates and statuses.</p>
             <div class="flip-hint">See prompt 👆</div>
           </div>
           <div class="card-face card-back">
             <div class="icon">💬</div>
-            <h3>Example Prompt</h3>
-            <p><b>Prompt:</b> Create a project tracker with tasks, owners, due dates and status columns. My theme is black and red.</p>
+            <h3>Prompt Example</h3>
+            <p class="prompt-box">Create a project tracker with tasks, owners, due dates and status columns. My theme is black and red.</p>
             <div class="flip-hint">Click to go back 👆</div>
           </div>
         </div>
       </div>
 
-      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card medium" tabindex="0">
         <div class="flip-inner">
           <div class="card-face">
             <div class="icon">🧮</div>
             <h3>Billing Calculator</h3>
-            <p>Calculate invoices, payments, pending balances and highlight statuses.</p>
+            <p>Calculate invoices, pending balances, paid amounts and payment status.</p>
             <div class="flip-hint">See prompt 👆</div>
           </div>
           <div class="card-face card-back">
             <div class="icon">💬</div>
-            <h3>Example Prompt</h3>
-            <p><b>Prompt:</b> Make a billing calculator that highlights paid payments in green and pending payments in red.</p>
+            <h3>Prompt Example</h3>
+            <p class="prompt-box">Make a billing calculator that highlights paid payments in green and pending payments in red.</p>
             <div class="flip-hint">Click to go back 👆</div>
           </div>
         </div>
@@ -336,50 +438,118 @@ footer p{margin-bottom:10px}
 
 <section class="section">
   <div class="container">
-    <div class="benefits">
-      <div class="benefit">
-        <div class="icon">🔒</div>
-        <h3>No Monthly Software Lock-in</h3>
-        <p>Pay for the tool, not endless subscriptions.</p>
+    <div class="grid-2">
+
+      <div class="flip-card small" tabindex="0">
+        <div class="flip-inner">
+          <div class="card-face">
+            <div class="icon">🔒</div>
+            <h3>No Monthly Software Lock-in</h3>
+            <p>Pay for the tool, not endless subscriptions.</p>
+            <div class="flip-hint">See why it matters 👆</div>
+          </div>
+          <div class="card-face card-back">
+            <div class="icon">✅</div>
+            <h3>Simple Ownership</h3>
+            <p class="prompt-box">Instead of renting another expensive app, you get a working tool you can use, export and control.</p>
+            <div class="flip-hint">Click to go back 👆</div>
+          </div>
+        </div>
       </div>
 
-      <div class="benefit">
-        <div class="icon">💼</div>
-        <h3>Startup Friendly</h3>
-        <p>Affordable tools for founders, virtual assistants and growing businesses.</p>
+      <div class="flip-card small" tabindex="0">
+        <div class="flip-inner">
+          <div class="card-face">
+            <div class="icon">💼</div>
+            <h3>Startup Friendly</h3>
+            <p>Affordable tools for founders, VAs, agencies and small teams.</p>
+            <div class="flip-hint">See who it helps 👆</div>
+          </div>
+          <div class="card-face card-back">
+            <div class="icon">🚀</div>
+            <h3>Built For Small Teams</h3>
+            <p class="prompt-box">Perfect when you need a useful business system fast, without hiring a developer or buying a big SaaS platform.</p>
+            <div class="flip-hint">Click to go back 👆</div>
+          </div>
+        </div>
       </div>
 
-      <div class="benefit">
-        <div class="icon">📦</div>
-        <h3>Exportable Tools You Own</h3>
-        <p>Export your tool and use it anywhere.</p>
+      <div class="flip-card small" tabindex="0">
+        <div class="flip-inner">
+          <div class="card-face">
+            <div class="icon">📦</div>
+            <h3>Exportable Tools You Own</h3>
+            <p>Export your tool and use it anywhere.</p>
+            <div class="flip-hint">See the promise 👆</div>
+          </div>
+          <div class="card-face card-back">
+            <div class="icon">🧰</div>
+            <h3>We Build It, You Own It</h3>
+            <p class="prompt-box">Text2Tool is designed around freedom. The goal is to give you a useful tool, not trap your work.</p>
+            <div class="flip-hint">Click to go back 👆</div>
+          </div>
+        </div>
       </div>
 
-      <div class="benefit">
-        <div class="icon">🛡️</div>
-        <h3>Your Data Stays Yours</h3>
-        <p>Your information is not stored on our servers.</p>
+      <div class="flip-card small" tabindex="0">
+        <div class="flip-inner">
+          <div class="card-face">
+            <div class="icon">🛡️</div>
+            <h3>Your Data Stays Yours</h3>
+            <p>Your business information should stay under your control.</p>
+            <div class="flip-hint">See data benefit 👆</div>
+          </div>
+          <div class="card-face card-back">
+            <div class="icon">🔐</div>
+            <h3>No Data Lock-in</h3>
+            <p class="prompt-box">Your generated tool can be exported, copied and used by your own business without depending forever on us.</p>
+            <div class="flip-hint">Click to go back 👆</div>
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
 </section>
 
 <section class="section">
   <div class="container">
-    <div class="popular">
-      <h2 class="section-title">See Popular Requests 👆</h2>
-      <div class="popular-grid">
-        <div>• Employee Attendance Tracker</div>
-        <div>• Payroll Calculator</div>
-        <div>• Notion Style Project Tracker</div>
-        <div>• CRM & Lead Management Tool</div>
-        <div>• Inventory Tracker</div>
-        <div>• KPI Dashboard</div>
-        <div>• Invoice & Billing Tool</div>
-        <div>• Customer Support Tracker</div>
-        <div>• Custom Internal Company Tools</div>
+
+    <div class="flip-card large" tabindex="0">
+      <div class="flip-inner">
+
+        <div class="card-face">
+          <div class="icon">👆</div>
+          <h3>See Popular Requests</h3>
+          <p class="popular-intro">
+            Click this card to see the most common tools people can ask Text2Tool AI to create.
+          </p>
+          <div class="flip-hint">Click to view requests 👆</div>
+        </div>
+
+        <div class="card-face card-back">
+          <div class="icon">✨</div>
+          <h3>Popular Tool Requests</h3>
+
+          <div class="popular-grid">
+            <div>• Employee Attendance Tracker</div>
+            <div>• Payroll Calculator</div>
+            <div>• Notion Style Project Tracker</div>
+            <div>• CRM & Lead Management Tool</div>
+            <div>• Inventory Tracker</div>
+            <div>• KPI Dashboard</div>
+            <div>• Invoice & Billing Tool</div>
+            <div>• Customer Support Tracker</div>
+            <div>• Internal Company Tools</div>
+            <div>• Custom Business Dashboard</div>
+          </div>
+
+          <div class="flip-hint">Click to go back 👆</div>
+        </div>
+
       </div>
     </div>
+
   </div>
 </section>
 
@@ -397,6 +567,21 @@ footer p{margin-bottom:10px}
   <p>Built for startups, agencies, virtual assistants and growing businesses.</p>
   <p>Text2Tool AI © 2026. All rights reserved.</p>
 </footer>
+
+<script>
+document.querySelectorAll(".flip-card").forEach(function(card){
+  card.addEventListener("click", function(){
+    card.classList.toggle("flipped");
+  });
+
+  card.addEventListener("keydown", function(event){
+    if(event.key === "Enter" || event.key === " "){
+      event.preventDefault();
+      card.classList.toggle("flipped");
+    }
+  });
+});
+</script>
 
 </body>
 </html>
