@@ -88,6 +88,10 @@ h1{
   font-weight:800;
   box-shadow:0 0 30px rgba(168,85,247,.55);
   transition:.25s;
+  border:0;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:16px;
 }
 .btn:hover{
   transform:translateY(-3px);
@@ -302,7 +306,7 @@ footer p{margin-bottom:10px}
 
     <p class="flow">Prompt &gt; Wait 15 sec &gt; Tool Created &gt; Export</p>
 
-    <a class="btn" href="https://tally.so/r/VLDdyM" target="_blank">Request Early Access</a>
+    <button class="btn" type="button" data-start-tool>Start Building My Tool</button>
 
     <div class="divider"></div>
   </div>
@@ -557,7 +561,7 @@ footer p{margin-bottom:10px}
     <div class="cta-box">
       <h2>Join the First 100 Beta Users</h2>
       <p>Help shape Text2Tool AI and get priority access when we launch.</p>
-      <a class="btn" href="https://tally.so/r/VLDdyM" target="_blank">Request Early Access</a>
+      <button class="btn" type="button" data-start-tool>Start Building My Tool</button>
     </div>
   </div>
 </section>
@@ -566,6 +570,45 @@ footer p{margin-bottom:10px}
   <p>Built for startups, agencies, virtual assistants and growing businesses.</p>
   <p>Text2Tool AI © 2026. All rights reserved.</p>
 </footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://wldldtmtxmmlufcmubnr.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_R63WYwDu58UPHLJkb2eXPQ_4qUQS5PX";
+const TEXT2TOOL_AFTER_LOGIN_URL = "https://text2tool.com/create-tool";
+
+const text2toolSupabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+async function startText2ToolLogin() {
+  const { data: { session } } = await text2toolSupabase.auth.getSession();
+
+  if (session) {
+    window.location.href = TEXT2TOOL_AFTER_LOGIN_URL;
+    return;
+  }
+
+  const { error } = await text2toolSupabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: TEXT2TOOL_AFTER_LOGIN_URL
+    }
+  });
+
+  if (error) {
+    alert("Google login could not start. Please try again.");
+    console.error(error);
+  }
+}
+
+document.querySelectorAll("[data-start-tool]").forEach(function(button) {
+  button.addEventListener("click", startText2ToolLogin);
+});
+</script>
 
 <script>
 document.querySelectorAll(".flip-card").forEach(function(card){
