@@ -299,7 +299,7 @@ document.getElementById("submitBtn").addEventListener("click", async function() 
   showMessage("success", "Request received. We are preparing your tool preview.");
   btn.textContent = "Preparing Preview...";
 
-  const { error: functionError } = await text2toolSupabase.functions.invoke(
+  const { data: functionData, error: functionError } = await text2toolSupabase.functions.invoke(
     "process-tool-request",
     {
       body: {
@@ -308,15 +308,21 @@ document.getElementById("submitBtn").addEventListener("click", async function() 
     }
   );
 
-  if (functionError) {
-    console.error(functionError);
+  if (functionError || !functionData || !functionData.preview_id || !functionData.preview_token) {
+    console.error(functionError || functionData);
     showMessage("success", "Request received. We are preparing your tool preview.");
     btn.textContent = "Request Received";
     return;
   }
 
-  showMessage("success", "Request received. We are preparing your tool preview.");
-  btn.textContent = "Request Received";
+  showMessage("success", "Preview ready. Redirecting...");
+  btn.textContent = "Preview Ready";
+
+  window.location.href =
+    "https://text2tool.com/preview/?id=" +
+    encodeURIComponent(functionData.preview_id) +
+    "&token=" +
+    encodeURIComponent(functionData.preview_token);
 });
 
 document.getElementById("logoutBtn").addEventListener("click", async function() {
