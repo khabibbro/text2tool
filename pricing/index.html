@@ -5,22 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Pricing | Text2Tool AI</title>
-  <meta name="description" content="Simple early pricing for Text2Tool AI business tool previews and launches." />
+  <meta name="description" content="Text2Tool AI pricing plans with credits for creating business tools." />
 
   <style>
     :root {
       --bg: #07050d;
-      --card: rgba(255, 255, 255, 0.075);
-      --card-strong: rgba(255, 255, 255, 0.11);
       --text: #ffffff;
       --muted: rgba(255, 255, 255, 0.72);
       --line: rgba(255, 255, 255, 0.14);
       --purple: #8b5cf6;
-      --purple-2: #c084fc;
       --pink: #ec4899;
       --green: #22c55e;
-      --radius: 22px;
-      --max: 1120px;
+      --max: 1180px;
       --shadow: 0 24px 80px rgba(0,0,0,.45);
     }
 
@@ -119,7 +115,7 @@
     }
 
     .nav-cta {
-      padding: 12px 16px;
+      padding: 12px 16px !important;
       border-radius: 999px;
       background: linear-gradient(135deg, var(--purple), var(--pink));
       color: #fff !important;
@@ -146,7 +142,7 @@
 
     .hero {
       text-align: center;
-      max-width: 820px;
+      max-width: 920px;
       margin: 0 auto 34px;
     }
 
@@ -176,14 +172,30 @@
       color: var(--muted);
       font-size: 17px;
       line-height: 1.75;
-      max-width: 720px;
+      max-width: 820px;
+    }
+
+    .credit-note {
+      margin: 28px auto 0;
+      max-width: 900px;
+      border: 1px solid rgba(34,197,94,.24);
+      border-radius: 24px;
+      background: rgba(34,197,94,.08);
+      padding: 20px;
+      color: var(--muted);
+      line-height: 1.65;
+      text-align: center;
+    }
+
+    .credit-note strong {
+      color: #fff;
     }
 
     .pricing-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 16px;
-      margin-top: 32px;
+      margin-top: 34px;
     }
 
     .price-card {
@@ -193,17 +205,24 @@
       background: rgba(255,255,255,.075);
       padding: 22px;
       box-shadow: 0 16px 40px rgba(0,0,0,.20);
-      min-height: 430px;
+      min-height: 465px;
       display: flex;
       flex-direction: column;
     }
 
     .price-card.popular {
-      border-color: rgba(192,132,252,.45);
+      border-color: rgba(192,132,252,.55);
       background:
-        radial-gradient(circle at 20% 0%, rgba(139,92,246,.24), transparent 36%),
-        rgba(255,255,255,.09);
+        radial-gradient(circle at 20% 0%, rgba(139,92,246,.28), transparent 36%),
+        rgba(255,255,255,.095);
       transform: translateY(-8px);
+    }
+
+    .price-card.best {
+      border-color: rgba(34,197,94,.45);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(34,197,94,.18), transparent 36%),
+        rgba(255,255,255,.085);
     }
 
     .tag {
@@ -219,6 +238,12 @@
       margin-bottom: 14px;
     }
 
+    .tag.green {
+      color: #bbf7d0;
+      background: rgba(34,197,94,.12);
+      border-color: rgba(34,197,94,.25);
+    }
+
     .price-card h2 {
       margin: 0;
       font-size: 22px;
@@ -226,24 +251,36 @@
     }
 
     .price {
-      font-size: 48px;
+      font-size: 46px;
       font-weight: 950;
       letter-spacing: -0.065em;
-      margin: 12px 0 6px;
+      margin: 12px 0 3px;
     }
 
-    .price span {
-      font-size: 14px;
-      letter-spacing: 0;
-      color: var(--muted);
-      font-weight: 800;
+    .credits {
+      font-size: 26px;
+      font-weight: 950;
+      color: #e9d5ff;
+      margin: 0 0 8px;
+      letter-spacing: -0.035em;
     }
 
     .desc {
       color: var(--muted);
       line-height: 1.62;
       margin: 0 0 16px;
-      min-height: 78px;
+      min-height: 72px;
+    }
+
+    .savings {
+      border: 1px solid rgba(34,197,94,.22);
+      background: rgba(34,197,94,.08);
+      border-radius: 16px;
+      padding: 11px 12px;
+      margin: 0 0 16px;
+      color: #bbf7d0;
+      font-weight: 850;
+      line-height: 1.45;
     }
 
     ul {
@@ -296,17 +333,6 @@
       border: 1px solid var(--line);
     }
 
-    .note {
-      margin-top: 28px;
-      border: 1px solid rgba(192,132,252,.22);
-      border-radius: 24px;
-      background: rgba(139,92,246,.10);
-      padding: 20px;
-      color: var(--muted);
-      line-height: 1.65;
-      text-align: center;
-    }
-
     .faq {
       margin-top: 34px;
       display: grid;
@@ -342,9 +368,9 @@
       font-size: 14px;
     }
 
-    @media (max-width: 1040px) {
+    @media (max-width: 1120px) {
       .pricing-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
       }
 
       .price-card.popular {
@@ -384,6 +410,10 @@
       .nav-links a {
         width: 100%;
         text-align: center;
+      }
+
+      .pricing-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .faq {
@@ -428,49 +458,59 @@
 
   <main>
     <section class="hero">
-      <div class="eyebrow">Simple early pricing</div>
+      <div class="eyebrow">Credit-based pricing</div>
 
-      <h1>Start with a free preview. Launch when ready.</h1>
+      <h1>Buy credits. Use them to create tools.</h1>
 
       <p>
-        Payment is intentionally skipped for now. These prices are shown so the website looks complete while the checkout connection is added later.
+        Every paid plan includes the same Text2Tool features. Higher plans simply give you more credits and better savings.
       </p>
+
+      <div class="credit-note">
+        <strong>Simple rule:</strong> 1 credit can be used toward creating or launching tools. Bigger credit packs give better value.
+      </div>
     </section>
 
     <section class="pricing-grid" aria-label="Pricing plans">
       <article class="price-card">
-        <div class="tag">Start here</div>
+        <div class="tag green">Free</div>
         <h2>Free Preview</h2>
         <div class="price">$0</div>
+        <div class="credits">0 credits</div>
 
         <p class="desc">
-          Describe your tool and see the AI-prepared preview before paying anything.
+          Test your tool idea and see a preview before buying credits.
         </p>
 
+        <div class="savings">Free preview only</div>
+
         <ul>
-          <li>Submit one tool request</li>
-          <li>AI preview page</li>
-          <li>Sections and fields shown</li>
-          <li>No payment needed</li>
+          <li>Create a tool preview</li>
+          <li>See planned sections</li>
+          <li>See suggested fields</li>
+          <li>No payment required</li>
         </ul>
 
         <a class="btn btn-secondary" href="/create-tool/">Start Free Preview</a>
       </article>
 
       <article class="price-card">
-        <div class="tag">Launch offer</div>
-        <h2>First Tool Launch</h2>
+        <div class="tag">Starter</div>
+        <h2>Starter Pack</h2>
         <div class="price">$1</div>
+        <div class="credits">1 credit</div>
 
         <p class="desc">
-          A low-cost launch offer for the first basic tool when payment is connected.
+          Best for testing one small tool after preview.
         </p>
 
+        <div class="savings">Save $0 · 0%</div>
+
         <ul>
-          <li>Basic tool request</li>
-          <li>Preview before payment</li>
-          <li>Saved for 30 days</li>
-          <li>Good for simple tools</li>
+          <li>Same core features</li>
+          <li>1 credit included</li>
+          <li>Good for first test</li>
+          <li>Preview saved for 30 days</li>
         </ul>
 
         <a class="btn btn-secondary" href="/create-tool/">Start Free Preview</a>
@@ -478,61 +518,129 @@
 
       <article class="price-card popular">
         <div class="tag">Most popular</div>
-        <h2>Better Tool Version</h2>
+        <h2>Basic Pack</h2>
         <div class="price">$10</div>
+        <div class="credits">12 credits</div>
 
         <p class="desc">
-          For users who want a better version with more detail, structure and custom workflow thinking.
+          Best for most users starting with multiple small tools.
         </p>
 
+        <div class="savings">Save $2 · 17%</div>
+
         <ul>
-          <li>More detailed tool plan</li>
-          <li>Cleaner structure</li>
-          <li>Useful for small teams</li>
-          <li>Best MVP package</li>
+          <li>Same core features</li>
+          <li>12 credits included</li>
+          <li>2 bonus credits</li>
+          <li>Better than pay-as-you-go</li>
         </ul>
 
         <a class="btn btn-primary" href="/create-tool/">Start Free Preview</a>
       </article>
 
       <article class="price-card">
-        <div class="tag">Custom</div>
-        <h2>Business Tool</h2>
-        <div class="price">$200 <span>launch discount</span></div>
+        <div class="tag">Growth</div>
+        <h2>Growth Pack</h2>
+        <div class="price">$50</div>
+        <div class="credits">70 credits</div>
 
         <p class="desc">
-          For advanced business tools, automations, dashboards, reports or internal workflow systems.
+          Best for businesses creating regular tools and workflows.
         </p>
 
+        <div class="savings">Save $20 · 29%</div>
+
         <ul>
-          <li>Custom workflow planning</li>
-          <li>Advanced dashboards/reports</li>
-          <li>Business logic and automations</li>
-          <li>For serious internal tools</li>
+          <li>Same core features</li>
+          <li>70 credits included</li>
+          <li>20 bonus credits</li>
+          <li>Good monthly starting pack</li>
         </ul>
 
         <a class="btn btn-secondary" href="/create-tool/">Start Free Preview</a>
       </article>
-    </section>
 
-    <div class="note">
-      Checkout is not connected yet. When Lemon Squeezy, Paddle, or another payment system is added, these buttons can be connected without changing the website direction.
-    </div>
+      <article class="price-card">
+        <div class="tag">Business</div>
+        <h2>Business Pack</h2>
+        <div class="price">$100</div>
+        <div class="credits">160 credits</div>
+
+        <p class="desc">
+          Best for small teams and agencies building more tools.
+        </p>
+
+        <div class="savings">Save $60 · 38%</div>
+
+        <ul>
+          <li>Same core features</li>
+          <li>160 credits included</li>
+          <li>60 bonus credits</li>
+          <li>Stronger credit value</li>
+        </ul>
+
+        <a class="btn btn-secondary" href="/create-tool/">Start Free Preview</a>
+      </article>
+
+      <article class="price-card">
+        <div class="tag">Scale</div>
+        <h2>Scale Pack</h2>
+        <div class="price">$150</div>
+        <div class="credits">270 credits</div>
+
+        <p class="desc">
+          Best for power users who want a larger credit balance.
+        </p>
+
+        <div class="savings">Save $120 · 44%</div>
+
+        <ul>
+          <li>Same core features</li>
+          <li>270 credits included</li>
+          <li>120 bonus credits</li>
+          <li>High-volume value</li>
+        </ul>
+
+        <a class="btn btn-secondary" href="/create-tool/">Start Free Preview</a>
+      </article>
+
+      <article class="price-card best">
+        <div class="tag green">Best savings</div>
+        <h2>Agency Pack</h2>
+        <div class="price">$200</div>
+        <div class="credits">400 credits</div>
+
+        <p class="desc">
+          Best for agencies, teams, and serious business tool creation.
+        </p>
+
+        <div class="savings">Save $200 · 50%</div>
+
+        <ul>
+          <li>Same core features</li>
+          <li>400 credits included</li>
+          <li>200 bonus credits</li>
+          <li>Highest savings pack</li>
+        </ul>
+
+        <a class="btn btn-primary" href="/create-tool/">Start Free Preview</a>
+      </article>
+    </section>
 
     <section class="faq" aria-label="Pricing notes">
       <article class="faq-card">
-        <h3>Do users pay first?</h3>
-        <p>No. The current MVP lets users generate a preview first.</p>
+        <h3>Do higher plans unlock extra features?</h3>
+        <p>No. All paid plans include the same core features. Higher plans only give more credits and better savings.</p>
       </article>
 
       <article class="faq-card">
-        <h3>Is payment live?</h3>
-        <p>Not yet. Payment can be connected later after the website structure is complete.</p>
+        <h3>What are credits used for?</h3>
+        <p>Credits are used toward creating or launching tools through Text2Tool.</p>
       </article>
 
       <article class="faq-card">
-        <h3>What happens after preview?</h3>
-        <p>The preview shows the suggested tool structure and a launch offer area.</p>
+        <h3>Can I preview first?</h3>
+        <p>Yes. Start with a free preview, then choose a credit pack when you are ready.</p>
       </article>
     </section>
   </main>
