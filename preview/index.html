@@ -1,344 +1,635 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Tool Preview | Text2Tool AI</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tool Preview | Text2Tool AI</title>
+  <meta name="description" content="Review your Text2Tool AI preview before launch." />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --bg: #07050d;
+      --card: rgba(255, 255, 255, 0.075);
+      --card-strong: rgba(255, 255, 255, 0.11);
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.72);
+      --line: rgba(255, 255, 255, 0.14);
+      --purple: #8b5cf6;
+      --purple-2: #c084fc;
+      --pink: #ec4899;
+      --green: #22c55e;
+      --yellow: #facc15;
+      --red: #ef4444;
+      --radius: 22px;
+      --max: 1120px;
+      --shadow: 0 24px 80px rgba(0,0,0,.45);
+    }
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  min-height:100vh;
-  background:#07070d;
-  color:#fff;
-}
-body:before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:
-    radial-gradient(circle at 20% 20%,rgba(168,85,247,.22),transparent 28%),
-    radial-gradient(circle at 80% 10%,rgba(126,34,206,.18),transparent 25%),
-    radial-gradient(circle at 50% 80%,rgba(168,85,247,.12),transparent 35%);
-  z-index:-1;
-}
-.container{
-  width:92%;
-  max-width:1000px;
-  margin:auto;
-  padding:38px 0 70px;
-}
-.topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:18px;
-  margin-bottom:46px;
-}
-.logo{
-  font-size:26px;
-  font-weight:900;
-  letter-spacing:.5px;
-}
-.logo span{color:#c084fc}
-.userbox{
-  color:#d8c8ff;
-  font-size:14px;
-  text-align:right;
-}
-.logout{
-  margin-top:8px;
-  background:transparent;
-  color:#c084fc;
-  border:1px solid #7c3aed;
-  padding:8px 13px;
-  border-radius:10px;
-  cursor:pointer;
-}
-.card{
-  background:rgba(18,18,25,.94);
-  border:1px solid #6d28d9;
-  border-radius:28px;
-  padding:42px;
-  box-shadow:0 0 45px rgba(168,85,247,.18);
-}
-.badge{
-  display:inline-block;
-  padding:8px 12px;
-  border-radius:999px;
-  background:rgba(168,85,247,.14);
-  border:1px solid rgba(168,85,247,.35);
-  color:#d8b4fe;
-  font-weight:700;
-  margin-bottom:18px;
-}
-h1{
-  font-size:44px;
-  line-height:1.12;
-  margin-bottom:14px;
-}
-.summary{
-  color:#eadfff;
-  font-size:18px;
-  line-height:1.6;
-  margin-bottom:28px;
-}
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:18px;
-  margin-top:20px;
-}
-.box{
-  background:rgba(168,85,247,.08);
-  border:1px solid rgba(168,85,247,.24);
-  border-radius:18px;
-  padding:22px;
-}
-.box h2{
-  font-size:20px;
-  color:#d8b4fe;
-  margin-bottom:14px;
-}
-ul{
-  padding-left:20px;
-  color:#f2eaff;
-  line-height:1.8;
-}
-.empty{
-  color:#bda9e9;
-  line-height:1.6;
-}
-.price-card{
-  margin-top:22px;
-  background:rgba(34,197,94,.10);
-  border:1px solid rgba(34,197,94,.30);
-  border-radius:18px;
-  padding:24px;
-}
-.price-card h2{
-  font-size:22px;
-  margin-bottom:8px;
-}
-.price{
-  font-size:36px;
-  font-weight:900;
-  margin:10px 0;
-}
-.small{
-  color:#d8ffe5;
-  line-height:1.55;
-}
-.actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:14px;
-  margin-top:18px;
-}
-.btn{
-  display:inline-block;
-  background:linear-gradient(135deg,#9333ea,#c084fc);
-  color:#fff;
-  padding:15px 28px;
-  border-radius:14px;
-  border:0;
-  cursor:pointer;
-  font-weight:800;
-  font-size:16px;
-  text-decoration:none;
-  box-shadow:0 0 30px rgba(168,85,247,.45);
-}
-.btn.secondary{
-  background:transparent;
-  border:1px solid #7c3aed;
-  color:#d8c8ff;
-  box-shadow:none;
-}
-.notice{
-  padding:18px;
-  border-radius:16px;
-  background:rgba(239,68,68,.12);
-  border:1px solid rgba(239,68,68,.35);
-  color:#ffe0e0;
-  line-height:1.5;
-}
-.loading{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#d8c8ff;
-  font-size:18px;
-}
-@media(max-width:760px){
-  .topbar{align-items:flex-start;flex-direction:column}
-  .userbox{text-align:left}
-  h1{font-size:34px}
-  .card{padding:28px 20px}
-  .grid{grid-template-columns:1fr}
-}
-</style>
-</head>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 18% 0%, rgba(139, 92, 246, .32), transparent 36%),
+        radial-gradient(circle at 82% 12%, rgba(236, 72, 153, .22), transparent 34%),
+        linear-gradient(180deg, #07050d 0%, #0b0714 52%, #07050d 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
 
-<body>
-<div id="loading" class="loading">Loading your preview...</div>
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
 
-<div id="app" class="container" style="display:none">
-  <div class="topbar">
-    <div class="logo">TEXT<span>2</span>TOOL AI</div>
-    <div class="userbox">
-      <div id="userEmail">Signed in</div>
-      <button class="logout" type="button" id="logoutBtn">Logout</button>
-    </div>
-  </div>
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: rgba(7, 5, 13, .78);
+      border-bottom: 1px solid var(--line);
+    }
 
-  <div id="content"></div>
-</div>
+    .nav {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-const SUPABASE_URL = "https://wldldtmtxmmlufcmubnr.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_R63WYwDu58UPHLJkb2eXPQ_4qUQS5PX";
-const LOGIN_REDIRECT_URL = window.location.href;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+    }
 
-const text2toolSupabase = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      box-shadow: 0 14px 40px rgba(139, 92, 246, .45);
+      font-weight: 950;
+    }
 
-let currentUser = null;
+    .brand small {
+      display: block;
+      font-weight: 700;
+      letter-spacing: .08em;
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 1px;
+    }
 
-function escapeHtml(value) {
-  return String(value || "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
 
-function listHtml(items, emptyText) {
-  if (!Array.isArray(items) || items.length === 0) {
-    return `<p class="empty">${escapeHtml(emptyText)}</p>`;
-  }
+    .nav-links a,
+    .logout-btn {
+      padding: 10px 13px;
+      color: var(--muted);
+      border-radius: 999px;
+      font-weight: 750;
+      font-size: 14px;
+      transition: .2s ease;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+    }
 
-  return "<ul>" + items.map(item => `<li>${escapeHtml(item)}</li>`).join("") + "</ul>";
-}
+    .nav-links a:hover,
+    .nav-links a.active,
+    .logout-btn:hover {
+      color: #fff;
+      background: rgba(255,255,255,.09);
+    }
 
-function showError(message) {
-  document.getElementById("content").innerHTML =
-    `<div class="notice">${escapeHtml(message)}</div>
-     <div class="actions">
-       <a class="btn secondary" href="https://text2tool.com/create-tool/">Create New Tool</a>
-     </div>`;
-}
+    .nav-cta {
+      padding: 12px 16px !important;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--purple), var(--pink)) !important;
+      color: #fff !important;
+      font-weight: 900 !important;
+      box-shadow: 0 14px 34px rgba(139, 92, 246, .28);
+    }
 
-function renderPreview(preview) {
-  const title = preview.preview_title || "Custom Business Tool";
-  const summary = preview.preview_summary || "Your tool preview is ready.";
-  const complexity = preview.complexity || "simple";
+    .menu-btn {
+      display: none;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      border-radius: 12px;
+      padding: 10px 12px;
+      cursor: pointer;
+      font-weight: 900;
+    }
 
-  document.getElementById("content").innerHTML = `
-    <div class="card">
-      <div class="badge">Preview Ready • $1 launch offer</div>
-      <h1>Your ${escapeHtml(title)} preview is ready.</h1>
-      <p class="summary">${escapeHtml(summary)}</p>
+    main {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      padding: 54px 0 64px;
+    }
 
-      <div class="grid">
-        <div class="box">
-          <h2>What your tool will include</h2>
-          ${listHtml(preview.preview_sections, "Sections will be prepared based on your request.")}
-        </div>
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
 
-        <div class="box">
-          <h2>Main fields we plan to include</h2>
-          ${listHtml(preview.preview_fields, "Fields will be selected during tool generation.")}
-        </div>
-      </div>
+    .hero-row {
+      display: grid;
+      grid-template-columns: 1fr 310px;
+      gap: 22px;
+      align-items: start;
+      margin-bottom: 22px;
+    }
 
-      <div class="grid">
-        <div class="box">
-          <h2>Complexity</h2>
-          <p class="empty">${escapeHtml(complexity.charAt(0).toUpperCase() + complexity.slice(1))}</p>
-        </div>
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid rgba(34,197,94,.28);
+      border-radius: 999px;
+      background: rgba(34,197,94,.10);
+      color: #bbf7d0;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
 
-        <div class="box">
-          <h2>Questions</h2>
-          ${listHtml(preview.preview_questions, "No extra questions needed. We can prepare the first version.")}
-        </div>
-      </div>
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1;
+      letter-spacing: -0.06em;
+    }
 
-      <div class="price-card">
-        <h2>Launch offer</h2>
-        <div class="price">$1</div>
-        <p class="small">
-          Next step: payment connection. After payment, this preview will move into tool generation and delivery.
-        </p>
-      </div>
+    .summary {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.72;
+      max-width: 760px;
+    }
 
-      <div class="actions">
-        <button class="btn" type="button" onclick="alert('Payment connection is the next step.');">Continue to Payment</button>
-        <a class="btn secondary" href="https://text2tool.com/create-tool/">Create Another Tool</a>
-      </div>
-    </div>
-  `;
-}
+    .price-card {
+      border: 1px solid rgba(192, 132, 252, .25);
+      border-radius: 24px;
+      background: rgba(139,92,246,.12);
+      padding: 20px;
+    }
 
-async function loadPreview() {
-  const params = new URLSearchParams(window.location.search);
-  const previewId = params.get("id");
-  const previewToken = params.get("token");
+    .price-card small {
+      color: #e9d5ff;
+      font-weight: 850;
+    }
 
-  const { data, error } = await text2toolSupabase.auth.getSession();
+    .price {
+      font-size: 54px;
+      font-weight: 950;
+      letter-spacing: -0.06em;
+      margin: 4px 0 4px;
+    }
 
-  if (error) {
-    console.error(error);
-  }
+    .price-card p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
 
-  if (!data.session) {
-    await text2toolSupabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: LOGIN_REDIRECT_URL
+    .preview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .box {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(0,0,0,.18);
+      padding: 20px;
+    }
+
+    .box h2 {
+      margin: 0 0 14px;
+      font-size: 20px;
+      letter-spacing: -0.025em;
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .list li {
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 14px;
+      background: rgba(255,255,255,.065);
+      padding: 11px 12px;
+      color: rgba(255,255,255,.84);
+      line-height: 1.45;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.07);
+      border-radius: 999px;
+      padding: 10px 12px;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .questions {
+      margin-top: 16px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255,255,255,.055);
+      padding: 20px;
+    }
+
+    .questions h2 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+
+    .questions p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 20px;
+      min-height: 50px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform .2s ease, opacity .2s ease;
+      width: 100%;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      color: #fff;
+      box-shadow: 0 18px 44px rgba(139,92,246,.32);
+    }
+
+    .btn-secondary {
+      color: #fff;
+      background: rgba(255,255,255,.09);
+      border: 1px solid var(--line);
+    }
+
+    .price-actions {
+      display: grid;
+      gap: 10px;
+    }
+
+    .loading-full,
+    .error-state {
+      min-height: 54vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .error-card {
+      max-width: 560px;
+      border: 1px solid rgba(239,68,68,.24);
+      background: rgba(239,68,68,.08);
+      border-radius: 26px;
+      padding: 28px;
+      color: #fecaca;
+    }
+
+    .error-card h1 {
+      font-size: 34px;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .error-card p {
+      color: #fecaca;
+      line-height: 1.65;
+    }
+
+    .spinner {
+      width: 34px;
+      height: 34px;
+      border: 3px solid rgba(255,255,255,.18);
+      border-top-color: #c084fc;
+      border-radius: 50%;
+      animation: spin .9s linear infinite;
+      margin: 0 auto 14px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 28px 0;
+      color: var(--muted);
+      text-align: center;
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .hero-row { grid-template-columns: 1fr; }
+      .preview-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 860px) {
+      .nav { height: auto; padding: 14px 0; align-items: flex-start; }
+      .menu-btn { display: block; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 16px;
+        right: 16px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: rgba(10, 6, 18, .96);
+        flex-direction: column;
+        align-items: stretch;
       }
+      .nav-links.open { display: flex; }
+      .nav-links a, .logout-btn { width: 100%; text-align: center; }
+    }
+
+    @media (max-width: 520px) {
+      .panel { padding: 20px; }
+      .brand span { font-size: 15px; }
+      .brand small { font-size: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="/">
+        <span class="brand-mark">T2T</span>
+        <span>Text2Tool AI<small>We build it, you own it</small></span>
+      </a>
+
+      <button class="menu-btn" type="button" id="menuBtn">Menu</button>
+
+      <div class="nav-links" id="navLinks">
+        <a href="/">Home</a>
+        <a href="/create-tool/">Create Tool</a>
+        <a href="/pricing/">Pricing</a>
+        <button class="logout-btn" type="button" id="logoutBtn" style="display:none;">Logout</button>
+        <a class="nav-cta" href="/create-tool/">Start Free Preview</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div id="loading" class="loading-full">
+      <div>
+        <div class="spinner"></div>
+        <strong>Loading your preview...</strong>
+        <p>Please wait while we open your tool preview.</p>
+      </div>
+    </div>
+
+    <div id="errorState" class="error-state" style="display:none;"></div>
+
+    <section id="previewContent" class="panel" style="display:none;">
+      <div class="hero-row">
+        <div>
+          <div class="badge">✅ Preview Ready • $1 launch offer</div>
+          <h1 id="previewTitle">Your tool preview is ready.</h1>
+          <p class="summary" id="previewSummary"></p>
+
+          <div class="meta-row">
+            <div class="meta" id="complexityMeta">Complexity: Simple</div>
+            <div class="meta">Preview saved for 30 days</div>
+            <div class="meta">Payment checkout coming next</div>
+          </div>
+        </div>
+
+        <aside class="price-card">
+          <small>Launch offer</small>
+          <div class="price">$1</div>
+          <p>Payment is not connected yet. This button is ready as a placeholder for Lemon Squeezy, Paddle, or another checkout later.</p>
+          <div class="price-actions">
+            <button class="btn btn-primary" type="button" id="paymentBtn">Continue to Payment</button>
+            <a class="btn btn-secondary" href="/create-tool/">Create Another Tool</a>
+          </div>
+        </aside>
+      </div>
+
+      <div class="preview-grid">
+        <div class="box">
+          <h2>Recommended sections</h2>
+          <ul class="list" id="sectionsList"></ul>
+        </div>
+
+        <div class="box">
+          <h2>Important fields</h2>
+          <ul class="list" id="fieldsList"></ul>
+        </div>
+      </div>
+
+      <div class="questions">
+        <h2>Questions / notes</h2>
+        <p id="questionsText">No extra questions needed. We can prepare the first version.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Built for startups, agencies, virtual assistants and growing businesses. Text2Tool AI © 2026.
+  </footer>
+
+  <script>
+    const SUPABASE_URL = "https://wldldtmtxmmlufcmubnr.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_R63WYwDu58UPHLJkb2eXPQ_4qUQS5PX";
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const menuBtn = document.getElementById("menuBtn");
+    const navLinks = document.getElementById("navLinks");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const loading = document.getElementById("loading");
+    const errorState = document.getElementById("errorState");
+    const previewContent = document.getElementById("previewContent");
+    const paymentBtn = document.getElementById("paymentBtn");
+
+    menuBtn?.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
     });
-    return;
-  }
 
-  currentUser = data.session.user;
+    function showError(title, message) {
+      loading.style.display = "none";
+      previewContent.style.display = "none";
+      errorState.style.display = "grid";
+      errorState.innerHTML = `
+        <div class="error-card">
+          <h1>${escapeHtml(title)}</h1>
+          <p>${escapeHtml(message)}</p>
+          <p><a class="btn btn-secondary" href="/create-tool/">Create a new tool request</a></p>
+        </div>
+      `;
+    }
 
-  document.getElementById("loading").style.display = "none";
-  document.getElementById("app").style.display = "block";
-  document.getElementById("userEmail").textContent = currentUser.email || "Signed in";
+    function escapeHtml(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
 
-  if (!previewId || !previewToken) {
-    showError("Preview link is missing. Please create a new tool request.");
-    return;
-  }
+    function normalizeArray(value) {
+      if (Array.isArray(value)) return value.filter(Boolean);
+      if (!value) return [];
+      if (typeof value === "string") {
+        try {
+          const parsed = JSON.parse(value);
+          if (Array.isArray(parsed)) return parsed.filter(Boolean);
+        } catch (error) {
+          return value.split(",").map(item => item.trim()).filter(Boolean);
+        }
+      }
+      return [];
+    }
 
-  const { data: preview, error: previewError } = await text2toolSupabase
-    .from("generated_tool_previews")
-    .select("id, preview_title, preview_summary, preview_sections, preview_fields, preview_questions, complexity, status, preview_token")
-    .eq("id", previewId)
-    .eq("preview_token", previewToken)
-    .single();
+    function titleCase(text) {
+      return String(text || "Tool")
+        .replace(/[_-]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
+        .replace(/\w\S*/g, word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+    }
 
-  if (previewError || !preview) {
-    console.error(previewError);
-    showError("Preview could not be found. Please create a new tool request.");
-    return;
-  }
+    function renderList(elementId, items, fallback) {
+      const element = document.getElementById(elementId);
+      const safeItems = items.length ? items : fallback;
+      element.innerHTML = safeItems.map(item => `<li>${escapeHtml(item)}</li>`).join("");
+    }
 
-  renderPreview(preview);
-}
+    async function ensureAuthAndLoadPreview() {
+      const params = new URLSearchParams(window.location.search);
+      const previewId = params.get("id");
+      const previewToken = params.get("token");
 
-document.getElementById("logoutBtn").addEventListener("click", async function() {
-  await text2toolSupabase.auth.signOut();
-  window.location.href = "https://text2tool.com";
-});
+      if (!previewId || !previewToken) {
+        showError("Preview link is missing.", "Please create a new tool request first.");
+        return;
+      }
 
-loadPreview();
-</script>
+      const { data, error } = await supabaseClient.auth.getSession();
+
+      if (error) {
+        showError("Login check failed.", "Please refresh the page and try again.");
+        return;
+      }
+
+      const session = data?.session;
+
+      if (!session) {
+        await supabaseClient.auth.signInWithOAuth({
+          provider: "google",
+          options: {
+            redirectTo: window.location.href
+          }
+        });
+        return;
+      }
+
+      logoutBtn.style.display = "inline-flex";
+
+      const { data: preview, error: previewError } = await supabaseClient
+        .from("generated_tool_previews")
+        .select("*")
+        .eq("id", previewId)
+        .eq("preview_token", previewToken)
+        .single();
+
+      if (previewError || !preview) {
+        console.error(previewError);
+        showError("Preview not found.", "This preview link may be expired, incorrect, or connected to a different account.");
+        return;
+      }
+
+      const title = preview.preview_title || "Your " + titleCase(preview.complexity || "tool") + " preview is ready.";
+      const summary = preview.preview_summary || "Your requested business tool preview is ready to review.";
+
+      document.getElementById("previewTitle").textContent = title;
+      document.getElementById("previewSummary").textContent = summary;
+      document.getElementById("complexityMeta").textContent = "Complexity: " + titleCase(preview.complexity || "simple");
+
+      const sections = normalizeArray(preview.preview_sections);
+      const fields = normalizeArray(preview.preview_fields);
+      const questions = normalizeArray(preview.preview_questions);
+
+      renderList("sectionsList", sections, ["Main workspace", "Input fields", "Summary area", "Export / review area"]);
+      renderList("fieldsList", fields, ["Name", "Date", "Status", "Amount", "Notes"]);
+
+      const questionsText = document.getElementById("questionsText");
+      if (questions.length) {
+        questionsText.innerHTML = questions.map(q => "• " + escapeHtml(q)).join("<br>");
+      } else {
+        questionsText.textContent = "No extra questions needed. We can prepare the first version.";
+      }
+
+      loading.style.display = "none";
+      previewContent.style.display = "block";
+    }
+
+    paymentBtn?.addEventListener("click", () => {
+      alert("Payment connection is the next step. For now, this preview flow is working.");
+    });
+
+    logoutBtn?.addEventListener("click", async () => {
+      await supabaseClient.auth.signOut();
+      window.location.href = "/";
+    });
+
+    ensureAuthAndLoadPreview();
+  </script>
 </body>
 </html>
