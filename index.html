@@ -1,622 +1,561 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Text2Tool AI</title>
-
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:#07070d;
-  color:#fff;
-  overflow-x:hidden;
-}
-body:before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:
-    radial-gradient(circle at 20% 20%,rgba(168,85,247,.22),transparent 28%),
-    radial-gradient(circle at 80% 10%,rgba(126,34,206,.18),transparent 25%),
-    radial-gradient(circle at 50% 80%,rgba(168,85,247,.12),transparent 35%);
-  z-index:-2;
-}
-.particles span{
-  position:fixed;
-  width:5px;height:5px;
-  background:#a855f7;
-  border-radius:50%;
-  box-shadow:0 0 18px #a855f7;
-  animation:float 9s infinite ease-in-out;
-  z-index:-1;
-}
-.particles span:nth-child(1){top:12%;left:15%;animation-delay:0s}
-.particles span:nth-child(2){top:30%;left:82%;animation-delay:1s}
-.particles span:nth-child(3){top:65%;left:12%;animation-delay:2s}
-.particles span:nth-child(4){top:78%;left:75%;animation-delay:3s}
-.particles span:nth-child(5){top:45%;left:50%;animation-delay:4s}
-@keyframes float{
-  0%,100%{transform:translateY(0);opacity:.3}
-  50%{transform:translateY(-30px);opacity:1}
-}
-
-.container{width:90%;max-width:1200px;margin:auto}
-
-.header{
-  padding:24px 35px;
-  position:absolute;
-  width:100%;
-  top:0;
-  left:0;
-}
-.small-logo{width:78px}
-
-.hero{
-  min-height:100vh;
-  text-align:center;
-  padding:120px 20px 80px;
-}
-.main-logo{
-  width:520px;
-  max-width:88%;
-  margin:80px auto 90px;
-  display:block;
-  filter:drop-shadow(0 0 25px rgba(168,85,247,.8));
-}
-h1{
-  font-size:66px;
-  line-height:1.08;
-  max-width:980px;
-  margin:0 auto 22px;
-}
-.flow{
-  color:#bfa7ff;
-  font-size:18px;
-  margin-top:40px;
-  margin-bottom:42px;
-}
-.btn{
-  display:inline-block;
-  background:linear-gradient(135deg,#9333ea,#c084fc);
-  color:#fff;
-  padding:18px 42px;
-  border-radius:16px;
-  text-decoration:none;
-  font-weight:800;
-  box-shadow:0 0 30px rgba(168,85,247,.55);
-  transition:.25s;
-  border:0;
-  cursor:pointer;
-  font-family:inherit;
-  font-size:16px;
-}
-.btn:hover{
-  transform:translateY(-3px);
-  box-shadow:0 0 45px rgba(168,85,247,.9);
-}
-.divider{
-  width:55%;
-  height:1px;
-  background:#7c3aed;
-  margin:70px auto;
-}
-
-.section{padding:60px 0}
-.section-title{
-  text-align:center;
-  font-size:38px;
-  margin-bottom:12px;
-}
-.section-subtitle{
-  text-align:center;
-  color:#d8c8ff;
-  margin-bottom:50px;
-  font-size:18px;
-}
-
-.grid-3{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:28px;
-}
-.grid-2{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:28px;
-}
-
-.flip-card{
-  width:100%;
-  height:360px;
-  perspective:1200px;
-  cursor:pointer;
-}
-.flip-card.tall{
-  height:380px;
-}
-.flip-card.large{
-  max-width:900px;
-  height:470px;
-  margin:auto;
-}
-.flip-inner{
-  position:relative;
-  width:100%;
-  height:100%;
-  display:block;
-  transform-style:preserve-3d;
-  transition:transform .75s ease;
-}
-.flip-card.is-flipped .flip-inner{
-  transform:rotateY(180deg);
-}
-.card-face{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  backface-visibility:hidden;
-  -webkit-backface-visibility:hidden;
-  background:rgba(18,18,25,.92);
-  border:1px solid #6d28d9;
-  border-radius:24px;
-  padding:34px;
-  box-shadow:0 0 30px rgba(124,58,237,.14);
-  display:flex;
-  flex-direction:column;
-  overflow:hidden;
-}
-.card-back{
-  transform:rotateY(180deg);
-  border-color:#a855f7;
-  box-shadow:0 0 45px rgba(168,85,247,.25);
-}
-.flip-card:hover .card-face{
-  border-color:#a855f7;
-  box-shadow:0 0 45px rgba(168,85,247,.22);
-}
-
-.icon{
-  width:54px;
-  min-width:54px;
-  height:54px;
-  min-height:54px;
-  border-radius:17px;
-  background:#252532;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:25px;
-  margin-bottom:28px;
-}
-.card-face h3{
-  color:#d8b4fe;
-  margin-bottom:16px;
-  font-size:22px;
-  line-height:1.25;
-}
-.card-face p{
-  color:#e8ddff;
-  font-size:16px;
-  line-height:1.65;
-}
-.flip-hint{
-  margin-top:auto;
-  color:#c084fc;
-  font-weight:800;
-  font-size:15px;
-  padding-top:22px;
-}
-.prompt-box{
-  background:rgba(168,85,247,.09);
-  border:1px solid rgba(168,85,247,.32);
-  border-radius:16px;
-  padding:16px;
-  color:#f1e8ff;
-  line-height:1.65;
-  font-size:15.5px;
-}
-.popular-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px 30px;
-  color:#e8ddff;
-  margin-top:8px;
-  font-size:16px;
-  line-height:1.6;
-}
-.popular-front-title{
-  font-size:36px!important;
-  color:#fff!important;
-}
-.popular-intro{
-  color:#e8ddff;
-  font-size:17px;
-  line-height:1.7;
-  max-width:680px;
-}
-.cta-box{
-  max-width:760px;
-  margin:40px auto 80px;
-  border:2px solid #a855f7;
-  border-radius:26px;
-  padding:58px 35px;
-  background:rgba(18,18,25,.95);
-  text-align:center;
-  box-shadow:0 0 45px rgba(168,85,247,.22);
-}
-.cta-box h2{
-  font-size:38px;
-  margin-bottom:16px;
-}
-.cta-box p{
-  color:#d8c8ff;
-  margin-bottom:30px;
-  font-size:18px;
-}
-footer{
-  text-align:center;
-  padding:55px 20px;
-  color:#d8c8ff;
-  border-top:1px solid #191925;
-}
-footer p{margin-bottom:10px}
-
-@media(max-width:900px){
-  .header{padding:18px}
-  .small-logo{width:62px}
-  .main-logo{
-    margin-top:60px;
-    margin-bottom:55px;
-  }
-  h1{font-size:42px}
-  .grid-3,.grid-2,.popular-grid{
-    grid-template-columns:1fr;
-  }
-  .divider{width:85%}
-  .flip-card,
-  .flip-card.tall{
-    height:410px;
-  }
-  .flip-card.large{
-    height:700px;
-  }
-}
-</style>
-</head>
-
-<body>
-
-<div class="particles">
-  <span></span><span></span><span></span><span></span><span></span>
-</div>
-
-<header class="header">
-  <img class="small-logo" src="ChatGPT Image Jun 2, 2026, 05_35_19 AM.png" alt="Text2Tool small logo">
-</header>
-
-<section class="hero">
-  <div class="container">
-    <img class="main-logo" src="ChatGPT Image Jun 2, 2026, 05_39_40 AM.png" alt="Text2Tool AI logo">
-
-    <h1>Describe Your Tool. Get a Working Version in Seconds.</h1>
-
-    <p class="flow">Prompt &gt; Wait 15 sec &gt; Tool Created &gt; Export</p>
-
-    <button class="btn" type="button" data-start-tool>Start Building My Tool</button>
-
-    <div class="divider"></div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <h2 class="section-title">How It Works</h2>
-    <p class="section-subtitle">Click each card to see more details.</p>
-
-    <div class="grid-3">
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="card-face">
-            <div class="icon">✍️</div>
-            <h3>1. Describe Your Tool</h3>
-            <p>Tell Text2Tool what you want to build in plain language.</p>
-            <div class="flip-hint">Click to flip 👆</div>
-          </div>
-          <div class="card-face card-back">
-            <div class="icon">💬</div>
-            <h3>Example Input</h3>
-            <p class="prompt-box">“Create an attendance tracker for my team with check-in, check-out, total hours and weekly payout.”</p>
-            <div class="flip-hint">Click to go back 👆</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="card-face">
-            <div class="icon">🤖</div>
-            <h3>2. AI Builds It</h3>
-            <p>Our AI creates a simple working business tool from your request.</p>
-            <div class="flip-hint">Click to flip 👆</div>
-          </div>
-          <div class="card-face card-back">
-            <div class="icon">⚙️</div>
-            <h3>What AI Does</h3>
-            <p class="prompt-box">It detects the tool type, chooses the best path, then builds the formulas, columns, dashboards, buttons and workflows needed to make the tool work.</p>
-            <div class="flip-hint">Click to go back 👆</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="card-face">
-            <div class="icon">⬇️</div>
-            <h3>3. Export & Own It</h3>
-            <p>You can export the tool and keep it. No monthly software lock-in.</p>
-            <div class="flip-hint">Click to flip 👆</div>
-          </div>
-          <div class="card-face card-back">
-            <div class="icon">🔓</div>
-            <h3>Ownership Promise</h3>
-            <p class="prompt-box">We build it, you own it. You are not trapped inside another software platform forever.</p>
-            <div class="flip-hint">Click to go back 👆</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <h2 class="section-title">Just Type What You Want To Build</h2>
-    <p class="section-subtitle">Simple, affordable for startups and VAs.</p>
-
-    <div class="grid-3">
-
-      <div class="flip-card tall">
-        <div class="flip-inner">
-          <div class="card-face">
-            <div class="icon">📋</div>
-            <h3>Attendance Tracker</h3>
-            <p>Track staff attendance, check-in times, hours and payout summaries.</p>
-            <div class="flip-hint">Click to see prompt 👆</div>
-          </div>
-          <div class="card-face card-back">
-            <div class="icon">💬</div>
-            <h3>Prompt Example</h3>
-            <p class="prompt-box">Build me a daily attendance tracker for my 12 staff with check-in times, weekly hourly summary and payout.</p>
-            <div class="flip-hint">Click to go back 👆</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-card tall">
-        <div class="flip-inner">
-          <div class="card-face">
-            <div class="icon">▦</div>
-            <h3>Notion-style Tool</h3>
-            <p>Create clean project boards with tasks, owners, due dates and statuses.</p>
-            <div class="flip-hint">Click to see prompt 👆</div>
-          </div>
-          <div class="card-face card-back">
-            <div class="icon">💬</div>
-            <h3>Prompt Example</h3>
-            <p class="prompt-box">Create a project tracker with tasks, owners, due dates and status columns. My theme is black and red.</p>
-            <div class="flip-hint">Click to go back 👆</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-card tall">
-        <div class="flip-inner">
-          <div class="card-face">
-            <div class="icon">🧮</div>
-            <h3>Billing Calculator</h3>
-            <p>Calculate invoices, pending balances, paid amounts and payment status.</p>
-            <div class="flip-hint">Click to see prompt 👆</div>
-          </div>
-          <div class="card-face card-back">
-            <div class="icon">💬</div>
-            <h3>Prompt Example</h3>
-            <p class="prompt-box">Make a billing calculator that highlights paid payments in green and pending payments in red.</p>
-            <div class="flip-hint">Click to go back 👆</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <h2 class="section-title">Why T2T AI?</h2>
-    <p class="section-subtitle">Click each benefit card to flip it.</p>
-
-    <div class="grid-2">
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="card-face">
-            <div class="icon">🔒</div>
-            <h3>No Monthly Software Lock-in</h3>
-            <p>Pay for the tool, not endless subscriptions.</p>
-            <div class="flip-hint">Click to flip 👆</div>
-          </div>
-          <div class="card-face card-back">
-            <div class="icon">✅</div>
-            <h3>Better For Small Teams</h3>
-            <p class="prompt-box">Instead of paying monthly for many apps, you get a useful business tool you can keep and control.</p>
-            <div class="flip-hint">Click to go back 👆</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="card-face">
-            <div class="icon">💼</div>
-            <h3>Startup Friendly</h3>
-            <p>Affordable tools for founders, virtual assistants and growing businesses.</p>
-            <div class="flip-hint">Click to flip 👆</div>
-          </div>
-          <div class="card-face card-back">
-            <div class="icon">🚀</div>
-            <h3>Built For Speed</h3>
-            <p class="prompt-box">Perfect when you need a business system quickly without hiring a developer or buying expensive software.</p>
-            <div class="flip-hint">Click to go back 👆</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="card-face">
-            <div class="icon">📦</div>
-            <h3>Exportable Tools You Own</h3>
-            <p>Export your tool and use it anywhere.</p>
-            <div class="flip-hint">Click to flip 👆</div>
-          </div>
-          <div class="card-face card-back">
-            <div class="icon">🧰</div>
-            <h3>We Build It, You Own It</h3>
-            <p class="prompt-box">Text2Tool gives you the tool, not a locked account where your work is trapped forever.</p>
-            <div class="flip-hint">Click to go back 👆</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="card-face">
-            <div class="icon">🛡️</div>
-            <h3>Your Data Stays Yours</h3>
-            <p>Your information stays under your control.</p>
-            <div class="flip-hint">Click to flip 👆</div>
-          </div>
-          <div class="card-face card-back">
-            <div class="icon">🔐</div>
-            <h3>No Data Lock-in</h3>
-            <p class="prompt-box">Your generated tool can be exported, copied and used by your own business without depending forever on us.</p>
-            <div class="flip-hint">Click to go back 👆</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-
-    <div class="flip-card large">
-      <div class="flip-inner">
-
-        <div class="card-face">
-          <div class="icon">👆</div>
-          <h3 class="popular-front-title">See Popular Requests</h3>
-          <p class="popular-intro">
-            Click this card to view common business tools people have requested via beta access.
-          </p>
-          <div class="flip-hint">Click to view requests 👆</div>
-        </div>
-
-        <div class="card-face card-back">
-          <div class="icon">✨</div>
-          <h3>Popular Tool Requests</h3>
-
-          <div class="popular-grid">
-            <div>• Billing Calculator</div>
-            <div>• Weekly Employee Payout Tracker</div>
-            <div>• Profit & Loss Tracker</div>
-            <div>• Profit Sharing & Commission Calculator</div>
-            <div>• Supply Tracker</div>
-            <div>• Attendance Tool</div>
-            <div>• Analytics & Advanced Reports</div>
-            <div>• CRM & Lead Management Tool</div>
-            <div>• Inventory Tracker</div>
-            <div>• Custom Internal Company Tools</div>
-          </div>
-
-          <div class="flip-hint">Click to go back 👆</div>
-        </div>
-
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="cta-box">
-      <h2>Join the First 100 Beta Users</h2>
-      <p>Help shape Text2Tool AI and get priority access when we launch.</p>
-      <button class="btn" type="button" data-start-tool>Start Building My Tool</button>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <p>Built for startups, agencies, virtual assistants and growing businesses.</p>
-  <p>Text2Tool AI © 2026. All rights reserved.</p>
-</footer>
-
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-const SUPABASE_URL = "https://wldldtmtxmmlufcmubnr.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_R63WYwDu58UPHLJkb2eXPQ_4qUQS5PX";
-const TEXT2TOOL_AFTER_LOGIN_URL = "https://text2tool.com/create-tool";
-
-const text2toolSupabase = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
-
-async function startText2ToolLogin() {
-  const { data: { session } } = await text2toolSupabase.auth.getSession();
-
-  if (session) {
-    window.location.href = TEXT2TOOL_AFTER_LOGIN_URL;
-    return;
-  }
-
-  const { error } = await text2toolSupabase.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      redirectTo: TEXT2TOOL_AFTER_LOGIN_URL
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Text2Tool AI | Turn Text Into Business Tools</title>
+  <meta name="description" content="Describe the business tool you need and get a clear AI-generated preview before launching it." />
+  <style>
+    :root {
+      --bg: #07050d;
+      --bg-soft: #100b1d;
+      --card: rgba(255, 255, 255, 0.075);
+      --card-strong: rgba(255, 255, 255, 0.11);
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.72);
+      --line: rgba(255, 255, 255, 0.14);
+      --purple: #8b5cf6;
+      --purple-2: #c084fc;
+      --pink: #ec4899;
+      --green: #22c55e;
+      --warning: #f59e0b;
+      --radius: 22px;
+      --max: 1120px;
+      --shadow: 0 24px 80px rgba(0,0,0,.45);
     }
-  });
 
-  if (error) {
-    alert("Google login could not start. Please try again.");
-    console.error(error);
-  }
-}
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 18% 0%, rgba(139, 92, 246, .32), transparent 36%),
+        radial-gradient(circle at 82% 12%, rgba(236, 72, 153, .22), transparent 34%),
+        linear-gradient(180deg, #07050d 0%, #0b0714 52%, #07050d 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
 
-document.querySelectorAll("[data-start-tool]").forEach(function(button) {
-  button.addEventListener("click", startText2ToolLogin);
-});
-</script>
+    a { color: inherit; text-decoration: none; }
+    button, textarea { font: inherit; }
 
-<script>
-document.querySelectorAll(".flip-card").forEach(function(card){
-  card.addEventListener("click", function(){
-    card.classList.toggle("is-flipped");
-  });
-});
-</script>
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: rgba(7, 5, 13, .78);
+      border-bottom: 1px solid var(--line);
+    }
 
+    .nav {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      box-shadow: 0 14px 40px rgba(139, 92, 246, .45);
+      font-weight: 950;
+    }
+
+    .brand small {
+      display: block;
+      font-weight: 700;
+      letter-spacing: .08em;
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .nav-links a {
+      padding: 10px 13px;
+      color: var(--muted);
+      border-radius: 999px;
+      font-weight: 750;
+      font-size: 14px;
+      transition: .2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #fff;
+      background: rgba(255,255,255,.09);
+    }
+
+    .nav-cta {
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      color: #fff !important;
+      font-weight: 900 !important;
+      box-shadow: 0 14px 34px rgba(139, 92, 246, .28);
+    }
+
+    .menu-btn {
+      display: none;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      border-radius: 12px;
+      padding: 10px 12px;
+      cursor: pointer;
+      font-weight: 900;
+    }
+
+    .hero {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      padding: 82px 0 44px;
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid rgba(192, 132, 252, .28);
+      border-radius: 999px;
+      background: rgba(139, 92, 246, .10);
+      color: #e9d5ff;
+      font-size: 13px;
+      font-weight: 850;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 7vw, 76px);
+      line-height: .95;
+      letter-spacing: -0.075em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #fff, #d8b4fe, #f9a8d4);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.75;
+      max-width: 650px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 20px;
+      min-height: 50px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      color: #fff;
+      box-shadow: 0 18px 44px rgba(139,92,246,.32);
+    }
+
+    .btn-secondary {
+      color: #fff;
+      background: rgba(255,255,255,.09);
+      border: 1px solid var(--line);
+    }
+
+    .hero-panel {
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+      box-shadow: var(--shadow);
+      padding: 22px;
+      overflow: hidden;
+    }
+
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      background: radial-gradient(circle at 30% 0%, rgba(139,92,246,.38), transparent 38%);
+      pointer-events: none;
+    }
+
+    .prompt-box {
+      position: relative;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.24);
+      border-radius: 24px;
+      padding: 18px;
+    }
+
+    .prompt-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .dots { display: flex; gap: 6px; }
+    .dots span {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: rgba(255,255,255,.25);
+    }
+
+    .fake-text {
+      border-radius: 18px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.10);
+      padding: 16px;
+      color: #fff;
+      line-height: 1.65;
+      min-height: 132px;
+    }
+
+    .build-steps {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .step-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      padding: 12px;
+      background: rgba(255,255,255,.055);
+      font-weight: 750;
+    }
+
+    .check {
+      width: 24px; height: 24px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: rgba(34,197,94,.16);
+      color: #86efac;
+      font-weight: 950;
+      flex: 0 0 auto;
+    }
+
+    section {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      padding: 52px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 46px);
+      letter-spacing: -0.05em;
+    }
+
+    .section-title p {
+      margin: 12px auto 0;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 660px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+      padding: 22px;
+      box-shadow: 0 16px 40px rgba(0,0,0,.20);
+      min-height: 196px;
+    }
+
+    .card .icon {
+      width: 46px; height: 46px; border-radius: 16px;
+      display: grid; place-items: center;
+      background: rgba(139,92,246,.16);
+      color: #d8b4fe;
+      font-size: 23px;
+      margin-bottom: 15px;
+    }
+
+    .card h3 {
+      margin: 0 0 9px;
+      font-size: 20px;
+      letter-spacing: -0.025em;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .tool-chip {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px;
+      background: rgba(255,255,255,.07);
+      color: rgba(255,255,255,.86);
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .cta-band {
+      border: 1px solid rgba(192, 132, 252, .22);
+      border-radius: 30px;
+      padding: 34px;
+      background:
+        radial-gradient(circle at 12% 0%, rgba(139,92,246,.26), transparent 38%),
+        linear-gradient(135deg, rgba(255,255,255,.11), rgba(255,255,255,.05));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      margin-bottom: 36px;
+    }
+
+    .cta-band h2 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 42px);
+      letter-spacing: -0.055em;
+    }
+
+    .cta-band p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 650px;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 28px 0;
+      color: var(--muted);
+      text-align: center;
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      font-size: 14px;
+    }
+
+    @media (max-width: 860px) {
+      .nav { height: auto; padding: 14px 0; align-items: flex-start; }
+      .menu-btn { display: block; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 16px;
+        right: 16px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: rgba(10, 6, 18, .96);
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { width: 100%; text-align: center; }
+      .hero { grid-template-columns: 1fr; padding-top: 48px; }
+      .cards { grid-template-columns: 1fr; }
+      .tool-grid { grid-template-columns: repeat(2, 1fr); }
+      .cta-band { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 520px) {
+      .tool-grid { grid-template-columns: 1fr; }
+      .hero-actions { flex-direction: column; }
+      .btn { width: 100%; }
+      .brand span { font-size: 15px; }
+      .brand small { font-size: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="/">
+        <span class="brand-mark">T2T</span>
+        <span>Text2Tool AI<small>We build it, you own it</small></span>
+      </a>
+
+      <button class="menu-btn" type="button" id="menuBtn">Menu</button>
+
+      <div class="nav-links" id="navLinks">
+        <a class="active" href="/">Home</a>
+        <a href="/create-tool/">Create Tool</a>
+        <a href="/pricing/">Pricing</a>
+        <a class="nav-cta" href="/create-tool/">Start Free Preview</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <div class="eyebrow">⚡ Turn your text into a working business tool</div>
+        <h1>Describe your tool. <span class="gradient-text">Get a clean preview.</span></h1>
+        <p>
+          Text2Tool AI helps small businesses, startups, agencies, freelancers and virtual assistants turn plain-English requests into useful business tools they can own.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/create-tool/">Start Building My Tool</a>
+          <a class="btn btn-secondary" href="/pricing/">View Pricing</a>
+        </div>
+      </div>
+
+      <div class="hero-panel" aria-label="Example tool request preview">
+        <div class="prompt-box">
+          <div class="prompt-top">
+            <span>Example request</span>
+            <span class="dots"><span></span><span></span><span></span></span>
+          </div>
+          <div class="fake-text">
+            Create an attendance tracker for my team with check-in, check-out, total hours, weekly payout, and simple monthly reports.
+          </div>
+
+          <div class="build-steps">
+            <div class="step-line"><span class="check">✓</span> Understands your tool request</div>
+            <div class="step-line"><span class="check">✓</span> Prepares the sections and fields</div>
+            <div class="step-line"><span class="check">✓</span> Shows a preview before payment</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section>
+      <div class="section-title">
+        <h2>How it works</h2>
+        <p>Simple flow: describe what you need, review the preview, then launch the tool when you are ready.</p>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <div class="icon">✍️</div>
+          <h3>1. Describe your tool</h3>
+          <p>Tell Text2Tool what tracker, calculator, dashboard, report, or workflow you want to build.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon">⚙️</div>
+          <h3>2. AI prepares the plan</h3>
+          <p>AI detects the tool type, required fields, sections, and any missing questions needed to prepare the first version.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon">⬇️</div>
+          <h3>3. Preview then launch</h3>
+          <p>You see a clean preview first. Payment can be connected later when the checkout is ready.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Popular tool requests</h2>
+        <p>These are the kinds of business tools Text2Tool AI is being designed to prepare.</p>
+      </div>
+
+      <div class="tool-grid">
+        <div class="tool-chip">Invoice Generator</div>
+        <div class="tool-chip">Attendance Tracker</div>
+        <div class="tool-chip">Inventory Tracker</div>
+        <div class="tool-chip">Profit & Loss Tracker</div>
+        <div class="tool-chip">CRM / Lead Tracker</div>
+        <div class="tool-chip">Commission Calculator</div>
+        <div class="tool-chip">Payroll Calculator</div>
+        <div class="tool-chip">KPI Dashboard</div>
+      </div>
+    </section>
+
+    <section>
+      <div class="cta-band">
+        <div>
+          <h2>Ready to create your first preview?</h2>
+          <p>No payment is required to generate the first preview. The payment button can be connected later when your checkout is ready.</p>
+        </div>
+        <a class="btn btn-primary" href="/create-tool/">Start Free Preview</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Built for startups, agencies, virtual assistants and growing businesses. Text2Tool AI © 2026.
+  </footer>
+
+  <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const navLinks = document.getElementById("navLinks");
+    menuBtn?.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
+    });
+  </script>
 </body>
 </html>
