@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Create Tool | Text2Tool AI</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  min-height:100vh;
+  background:#07070d;
+  color:#fff;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(168,85,247,.22),transparent 28%),
+    radial-gradient(circle at 80% 10%,rgba(126,34,206,.18),transparent 25%),
+    radial-gradient(circle at 50% 80%,rgba(168,85,247,.12),transparent 35%);
+  z-index:-1;
+}
+.container{
+  width:92%;
+  max-width:980px;
+  margin:auto;
+  padding:38px 0 70px;
+}
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:55px;
+}
+.logo{
+  font-size:26px;
+  font-weight:900;
+  letter-spacing:.5px;
+  color:#fff;
+}
+.logo span{color:#c084fc}
+.userbox{
+  color:#d8c8ff;
+  font-size:14px;
+  text-align:right;
+}
+.logout{
+  margin-top:8px;
+  background:transparent;
+  color:#c084fc;
+  border:1px solid #7c3aed;
+  padding:8px 13px;
+  border-radius:10px;
+  cursor:pointer;
+}
+.hero-card{
+  background:rgba(18,18,25,.94);
+  border:1px solid #6d28d9;
+  border-radius:28px;
+  padding:42px;
+  box-shadow:0 0 45px rgba(168,85,247,.18);
+}
+h1{
+  font-size:44px;
+  line-height:1.12;
+  margin-bottom:14px;
+}
+.subtitle{
+  color:#d8c8ff;
+  font-size:18px;
+  line-height:1.6;
+  margin-bottom:26px;
+}
+textarea{
+  width:100%;
+  min-height:210px;
+  resize:vertical;
+  border:1px solid rgba(168,85,247,.45);
+  background:#0f0f18;
+  color:#fff;
+  border-radius:18px;
+  padding:18px;
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:16px;
+  line-height:1.55;
+  outline:none;
+}
+textarea:focus{
+  border-color:#c084fc;
+  box-shadow:0 0 0 4px rgba(168,85,247,.14);
+}
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+  align-items:center;
+  margin-top:18px;
+}
+.btn{
+  display:inline-block;
+  background:linear-gradient(135deg,#9333ea,#c084fc);
+  color:#fff;
+  padding:15px 28px;
+  border-radius:14px;
+  border:0;
+  cursor:pointer;
+  font-weight:800;
+  font-size:16px;
+  box-shadow:0 0 30px rgba(168,85,247,.45);
+}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.secondary{
+  background:transparent;
+  border:1px solid #7c3aed;
+  color:#d8c8ff;
+  box-shadow:none;
+}
+.examples{
+  margin-top:26px;
+  padding:22px;
+  background:rgba(168,85,247,.08);
+  border:1px solid rgba(168,85,247,.24);
+  border-radius:20px;
+}
+.examples h3{
+  color:#d8b4fe;
+  margin-bottom:12px;
+}
+.examples ul{
+  padding-left:20px;
+  color:#eadfff;
+  line-height:1.75;
+}
+.notice{
+  margin-top:18px;
+  padding:15px 16px;
+  border-radius:14px;
+  display:none;
+  line-height:1.5;
+}
+.notice.success{
+  display:block;
+  background:rgba(34,197,94,.12);
+  border:1px solid rgba(34,197,94,.35);
+  color:#d8ffe5;
+}
+.notice.error{
+  display:block;
+  background:rgba(239,68,68,.12);
+  border:1px solid rgba(239,68,68,.35);
+  color:#ffe0e0;
+}
+.loading{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#d8c8ff;
+  font-size:18px;
+}
+@media(max-width:700px){
+  .topbar{align-items:flex-start;flex-direction:column}
+  .userbox{text-align:left}
+  h1{font-size:34px}
+  .hero-card{padding:28px 20px}
+}
+</style>
+</head>
+
+<body>
+<div id="loading" class="loading">Checking your login...</div>
+
+<div id="app" class="container" style="display:none">
+  <div class="topbar">
+    <div class="logo">TEXT<span>2</span>TOOL AI</div>
+    <div class="userbox">
+      <div id="userEmail">Signed in</div>
+      <button class="logout" type="button" id="logoutBtn">Logout</button>
+    </div>
+  </div>
+
+  <div class="hero-card">
+    <h1>Describe the tool you want AI to build.</h1>
+    <p class="subtitle">
+      Tell us what tracker, calculator, dashboard, or business tool you need.
+      The more details you provide, the better your tool will be.
+    </p>
+
+    <textarea id="promptInput" placeholder="Example: Create an invoice generator for my shop that can create PDF invoices and email them to customers."></textarea>
+
+    <div class="actions">
+      <button class="btn" type="button" id="submitBtn">Submit Tool Request</button>
+      <button class="btn secondary" type="button" id="exampleBtn">Use Example</button>
+    </div>
+
+    <div id="messageBox" class="notice"></div>
+
+    <div class="examples">
+      <h3>Examples</h3>
+      <ul>
+        <li>Create an attendance tracker for my employees with monthly reports.</li>
+        <li>Create a Profit & Loss Tracker for my small business.</li>
+        <li>Create a commission calculator for my sales team.</li>
+        <li>Create an invoice generator that can generate PDFs and email customers.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://wldldtmtxmmlufcmubnr.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_R63WYwDu58UPHLJkb2eXPQ_4qUQS5PX";
+const LOGIN_REDIRECT_URL = "https://text2tool.com/create-tool/";
+
+const text2toolSupabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+let currentUser = null;
+
+function showMessage(type, text) {
+  const box = document.getElementById("messageBox");
+  box.className = "notice " + type;
+  box.textContent = text;
+}
+
+async function loadApp() {
+  const { data, error } = await text2toolSupabase.auth.getSession();
+
+  if (error) {
+    console.error(error);
+  }
+
+  if (!data.session) {
+    await text2toolSupabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: LOGIN_REDIRECT_URL
+      }
+    });
+    return;
+  }
+
+  currentUser = data.session.user;
+
+  document.getElementById("loading").style.display = "none";
+  document.getElementById("app").style.display = "block";
+  document.getElementById("userEmail").textContent = currentUser.email || "Signed in";
+}
+
+document.getElementById("exampleBtn").addEventListener("click", function() {
+  document.getElementById("promptInput").value =
+    "Create an invoice generator for my shop that can create professional PDF invoices, print them, and email them to customers.";
+});
+
+document.getElementById("submitBtn").addEventListener("click", async function() {
+  const btn = document.getElementById("submitBtn");
+  const prompt = document.getElementById("promptInput").value.trim();
+
+  if (!prompt) {
+    showMessage("error", "Please describe the tool you want to build first.");
+    return;
+  }
+
+  if (!currentUser) {
+    showMessage("error", "Your login session was not found. Please refresh and login again.");
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "Saving request...";
+
+  const { error } = await text2toolSupabase
+    .from("tool_requests")
+    .insert({
+      user_id: currentUser.id,
+      email: currentUser.email,
+      prompt: prompt,
+      status: "submitted"
+    });
+
+  if (error) {
+    console.error(error);
+    showMessage("error", "Request could not be saved yet. Please send this screenshot/error to support.");
+    btn.disabled = false;
+    btn.textContent = "Submit Tool Request";
+    return;
+  }
+
+  showMessage("success", "Request saved successfully. Next we will connect AI generation and preview/payment flow.");
+  btn.textContent = "Request Saved";
+});
+
+document.getElementById("logoutBtn").addEventListener("click", async function() {
+  await text2toolSupabase.auth.signOut();
+  window.location.href = "https://text2tool.com";
+});
+
+loadApp();
+</script>
+</body>
+</html>
