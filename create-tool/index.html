@@ -112,7 +112,7 @@ textarea:focus{
   font-size:16px;
   box-shadow:0 0 30px rgba(168,85,247,.45);
 }
-.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn:disabled{opacity:.65;cursor:not-allowed}
 .secondary{
   background:transparent;
   border:1px solid #7c3aed;
@@ -155,18 +155,6 @@ textarea:focus{
   border:1px solid rgba(239,68,68,.35);
   color:#ffe0e0;
 }
-.ai-box{
-  display:none;
-  margin-top:18px;
-  padding:18px;
-  background:rgba(168,85,247,.10);
-  border:1px solid rgba(168,85,247,.32);
-  border-radius:16px;
-  color:#f2eaff;
-  line-height:1.6;
-  white-space:pre-wrap;
-}
-.ai-box.show{display:block}
 .loading{
   min-height:100vh;
   display:flex;
@@ -211,7 +199,6 @@ textarea:focus{
     </div>
 
     <div id="messageBox" class="notice"></div>
-    <div id="aiBox" class="ai-box"></div>
 
     <div class="examples">
       <h3>Examples</h3>
@@ -241,12 +228,6 @@ let currentUser = null;
 function showMessage(type, text) {
   const box = document.getElementById("messageBox");
   box.className = "notice " + type;
-  box.textContent = text;
-}
-
-function showAiResponse(text) {
-  const box = document.getElementById("aiBox");
-  box.className = "ai-box show";
   box.textContent = text;
 }
 
@@ -294,9 +275,7 @@ document.getElementById("submitBtn").addEventListener("click", async function() 
   }
 
   btn.disabled = true;
-  btn.textContent = "Saving request...";
-  document.getElementById("aiBox").className = "ai-box";
-  document.getElementById("aiBox").textContent = "";
+  btn.textContent = "Preparing request...";
 
   const { data: savedRequest, error: saveError } = await text2toolSupabase
     .from("tool_requests")
@@ -311,16 +290,16 @@ document.getElementById("submitBtn").addEventListener("click", async function() 
 
   if (saveError) {
     console.error(saveError);
-    showMessage("error", "Request could not be saved yet. Please send this screenshot/error to support.");
+    showMessage("error", "Request could not be saved yet. Please try again.");
     btn.disabled = false;
     btn.textContent = "Submit Tool Request";
     return;
   }
 
-  showMessage("success", "Request saved. Testing AI function now...");
-  btn.textContent = "Testing AI function...";
+  showMessage("success", "Request received. We are preparing your tool preview.");
+  btn.textContent = "Preparing Preview...";
 
-  const { data: functionData, error: functionError } = await text2toolSupabase.functions.invoke(
+  const { error: functionError } = await text2toolSupabase.functions.invoke(
     "process-tool-request",
     {
       body: {
@@ -331,15 +310,13 @@ document.getElementById("submitBtn").addEventListener("click", async function() 
 
   if (functionError) {
     console.error(functionError);
-    showMessage("error", "Request was saved, but AI function test failed. Please send this screenshot/error to support.");
-    btn.disabled = false;
-    btn.textContent = "Submit Tool Request";
+    showMessage("success", "Request received. We are preparing your tool preview.");
+    btn.textContent = "Request Received";
     return;
   }
 
-  showMessage("success", "Request saved and AI function test completed.");
-  showAiResponse(functionData.ai_response || "AI function completed successfully.");
-  btn.textContent = "Request Saved";
+  showMessage("success", "Request received. We are preparing your tool preview.");
+  btn.textContent = "Request Received";
 });
 
 document.getElementById("logoutBtn").addEventListener("click", async function() {
@@ -351,4 +328,3 @@ loadApp();
 </script>
 </body>
 </html>
-  
