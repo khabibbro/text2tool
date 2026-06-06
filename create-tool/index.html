@@ -298,11 +298,16 @@
     }
 
     .upload-panel {
+      display: none;
       margin-top: 16px;
       border: 1px solid rgba(255,255,255,.12);
       border-radius: 22px;
       background: rgba(255,255,255,.055);
       padding: 16px;
+    }
+
+    .upload-panel.open {
+      display: block;
     }
 
     .upload-panel.locked {
@@ -685,7 +690,7 @@
           <div
             class="upload-panel"
             id="uploadPanel"
-            title="Upload old sheets, CSV/XLSX files, or screenshots to update/fix errors or give examples. PDF, DOCX, ZIP and random links are blocked for safety."
+            title="Click to open upload options. Upload old sheets, CSV/XLSX files, or screenshots to update/fix errors or give examples."
           >
             <div class="upload-top">
               <div>
@@ -729,7 +734,7 @@
               class="btn btn-upload"
               id="uploadBtn"
               type="button"
-              title="Upload old sheets, CSV/XLSX files, or screenshots to update/fix errors or give examples. PDF, DOCX, ZIP and random links are blocked for safety."
+              title="Click to open upload options. Upload old sheets, CSV/XLSX files, or screenshots to update/fix errors or give examples."
             >
               Upload File
             </button>
@@ -806,6 +811,7 @@
     let toolCreditBalance = 0;
     let selectedFiles = [];
     let selectedLinks = [];
+    let uploadPanelOpen = false;
 
     menuBtn?.addEventListener("click", () => {
       navLinks.classList.toggle("open");
@@ -819,7 +825,7 @@
     function setBusy(isBusy) {
       submitBtn.disabled = isBusy;
       exampleBtn.disabled = isBusy;
-      uploadBtn.disabled = isBusy || toolCreditBalance <= 0;
+      uploadBtn.disabled = isBusy;
       addLinkBtn.disabled = isBusy || toolCreditBalance <= 0;
       linkInput.disabled = isBusy || toolCreditBalance <= 0;
       submitBtn.textContent = isBusy ? "Preparing Preview..." : "Submit Tool Request";
@@ -848,7 +854,7 @@
 
         uploadPanel.classList.add("locked");
         uploadLockPill.textContent = "Requires Tool Credits";
-        uploadBtn.disabled = true;
+        uploadBtn.disabled = false;
         addLinkBtn.disabled = true;
         linkInput.disabled = true;
       }
@@ -935,6 +941,18 @@
     });
 
     uploadBtn.addEventListener("click", () => {
+      if (!uploadPanelOpen) {
+        uploadPanelOpen = true;
+        uploadPanel.classList.add("open");
+        uploadBtn.textContent = "Choose File";
+
+        if (toolCreditBalance <= 0) {
+          showMessage("File upload is available when you have at least 1 Tool Credit.", "error");
+        }
+
+        return;
+      }
+
       if (toolCreditBalance <= 0) {
         showMessage("File upload is available when you have at least 1 Tool Credit.", "error");
         return;
@@ -974,6 +992,9 @@
       }
 
       fileInput.value = "";
+      uploadPanelOpen = true;
+      uploadPanel.classList.add("open");
+      uploadBtn.textContent = "Choose File";
       renderSelectedFiles();
     });
 
@@ -1019,6 +1040,9 @@
       });
 
       linkInput.value = "";
+      uploadPanelOpen = true;
+      uploadPanel.classList.add("open");
+      uploadBtn.textContent = "Choose File";
       renderSelectedLinks();
       showMessage("Safe Google link added.", "success");
     }
