@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tool Preview | Text2Tool AI</title>
-  <meta name="description" content="Review your Text2Tool AI tool preview before creating your Google Sheets tool." />
+  <meta name="description" content="Review your Text2Tool AI tool preview before creating your final tool." />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
@@ -599,12 +599,11 @@
 
     async function init() {
       try {
-        const { data: sessionData } = await supabase.auth.getSession();
-        const session = sessionData && sessionData.session ? sessionData.session : null;
-
-        if (session) {
-          logoutBtn.style.display = 'inline-flex';
-        }
+        // Do not let auth/session loading block the public preview page.
+        supabase.auth.getSession().then(({ data: sessionData }) => {
+          const session = sessionData && sessionData.session ? sessionData.session : null;
+          if (session) logoutBtn.style.display = 'inline-flex';
+        }).catch(() => {});
 
         logoutBtn.addEventListener('click', async () => {
           await supabase.auth.signOut();
@@ -623,12 +622,14 @@
     }
 
     async function loadPreview() {
-      const { data, error } = await supabase
+      const query = supabase
         .from('generated_tool_previews')
-        .select('*')
+        .select('id, preview_token, preview_title, preview_summary, preview_warning, preview_structure, preview_sections, preview_fields, preview_questions, complexity, status, created_at, expires_at')
         .eq('id', previewId)
         .eq('preview_token', token)
         .maybeSingle();
+
+      const { data, error } = await withTimeout(query, 15000, 'Preview is taking too long to load. Please refresh the page.');
 
       if (error) throw error;
       if (!data) throw new Error('Preview not found or expired.');
@@ -641,7 +642,7 @@
 
     async function renderPreview() {
       const title = preview.preview_title || 'Your tool preview is ready.';
-      const summary = preview.preview_summary || 'Review your tool preview before creating the final Google Sheets tool.';
+      const summary = preview.preview_summary || 'Review your tool preview before creating the final tool.';
       const complexity = preview.complexity || 'simple';
       const warning = preview.preview_warning || '';
 
@@ -668,7 +669,7 @@
 
           <section class="card">
             <h2>Next Step</h2>
-            <p>Review this preview first. When you are ready, choose Tool Credits to create your final Google Sheets tool.</p>
+            <p>Review this preview first. When you are ready, choose Tool Credits to create your final tool.</p>
             <div class="actions">
               <a class="btn btn-primary" href="/pricing/">View Tool Credits</a>
               <a class="btn" href="/create-tool/?v=structured2">Create Another Preview</a>
@@ -676,7 +677,7 @@
           </section>
 
           <section class="card structure-card">
-            <h2>Suggested Google Sheet Structure</h2>
+            <h2>Suggested Tool Structure</h2>
             ${renderStructure(preview.preview_structure)}
           </section>
 
@@ -706,7 +707,11 @@
       const box = document.getElementById('previewStatusCard');
 
       try {
-        const { data, error } = await supabase.rpc('get_my_preview_status');
+        const { data, error } = await withTimeout(
+          supabase.rpc('get_my_preview_status'),
+          10000,
+          'Preview balance check took too long.'
+        );
 
         if (error) throw error;
 
@@ -935,6 +940,13 @@
         const saved = document.getElementById('savedAnswers');
         if (saved) saved.style.display = 'block';
       }
+    }
+
+    function withTimeout(promise, ms, message) {
+      return Promise.race([
+        promise,
+        new Promise((_, reject) => setTimeout(() => reject(new Error(message || 'Request timed out.')), ms))
+      ]);
     }
 
     function renderError(message) {
