@@ -28,9 +28,7 @@
       --shadow: 0 24px 80px rgba(0,0,0,.45);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -43,16 +41,8 @@
       min-height: 100vh;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button,
-    textarea,
-    input {
-      font: inherit;
-    }
+    a { color: inherit; text-decoration: none; }
+    button, textarea, input { font: inherit; }
 
     .site-header {
       position: sticky;
@@ -165,6 +155,8 @@
       color: var(--muted);
       font-size: 14px;
       font-weight: 800;
+      flex-wrap: wrap;
+      padding: 6px 0;
     }
 
     .credit-pill {
@@ -176,6 +168,32 @@
       color: #e9d5ff;
       border-radius: 999px;
       padding: 8px 12px;
+      white-space: nowrap;
+    }
+
+    .credit-pill.good {
+      color: #bbf7d0;
+      border-color: rgba(34,197,94,.25);
+      background: rgba(34,197,94,.10);
+    }
+
+    .credit-pill.bad {
+      color: #fecaca;
+      border-color: rgba(239,68,68,.30);
+      background: rgba(239,68,68,.10);
+    }
+
+    .reset-preview-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(250,204,21,.32);
+      background: rgba(250,204,21,.12);
+      color: #fde68a;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-weight: 900;
+      cursor: pointer;
       white-space: nowrap;
     }
 
@@ -248,8 +266,7 @@
       margin-bottom: 10px;
     }
 
-    textarea,
-    .link-input {
+    textarea {
       width: 100%;
       border: 1px solid rgba(255,255,255,.15);
       background: rgba(0,0,0,.26);
@@ -259,15 +276,11 @@
       outline: none;
       line-height: 1.65;
       box-shadow: inset 0 0 0 1px transparent;
-    }
-
-    textarea {
       min-height: 220px;
       resize: vertical;
     }
 
-    textarea:focus,
-    .link-input:focus {
+    textarea:focus {
       border-color: rgba(192,132,252,.65);
       box-shadow: 0 0 0 4px rgba(139,92,246,.14);
     }
@@ -289,13 +302,8 @@
       white-space: nowrap;
     }
 
-    .char-counter.warning {
-      color: #fde68a;
-    }
-
-    .char-counter.danger {
-      color: #fecaca;
-    }
+    .char-counter.warning { color: #fde68a; }
+    .char-counter.danger { color: #fecaca; }
 
     .link-error {
       display: none;
@@ -310,9 +318,7 @@
       line-height: 1.45;
     }
 
-    .link-error.show {
-      display: block;
-    }
+    .link-error.show { display: block; }
 
     .upload-panel {
       display: none;
@@ -323,13 +329,8 @@
       padding: 16px;
     }
 
-    .upload-panel.open {
-      display: block;
-    }
-
-    .upload-panel.locked {
-      opacity: .76;
-    }
+    .upload-panel.open { display: block; }
+    .upload-panel.locked { opacity: .76; }
 
     .upload-top {
       display: flex;
@@ -365,14 +366,6 @@
       font-weight: 900;
       font-size: 12px;
       white-space: nowrap;
-    }
-
-    .link-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
-      align-items: center;
-      margin-top: 12px;
     }
 
     .tiny-note {
@@ -434,9 +427,7 @@
       transition: transform .2s ease, opacity .2s ease;
     }
 
-    .btn:hover {
-      transform: translateY(-2px);
-    }
+    .btn:hover { transform: translateY(-2px); }
 
     .btn:disabled {
       opacity: .58;
@@ -474,9 +465,7 @@
       white-space: pre-wrap;
     }
 
-    .message.show {
-      display: block;
-    }
+    .message.show { display: block; }
 
     .message.success {
       color: #bbf7d0;
@@ -530,11 +519,7 @@
       margin: 0 auto 14px;
     }
 
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     footer {
       border-top: 1px solid var(--line);
@@ -553,9 +538,7 @@
         align-items: flex-start;
       }
 
-      .menu-btn {
-        display: block;
-      }
+      .menu-btn { display: block; }
 
       .nav-links {
         display: none;
@@ -571,9 +554,7 @@
         align-items: stretch;
       }
 
-      .nav-links.open {
-        display: flex;
-      }
+      .nav-links.open { display: flex; }
 
       .nav-links a,
       .logout-btn {
@@ -587,35 +568,15 @@
         padding: 8px 0;
       }
 
-      .page-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .link-row {
-        grid-template-columns: 1fr;
-      }
+      .page-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 520px) {
-      .form-actions {
-        flex-direction: column;
-      }
-
-      .btn {
-        width: 100%;
-      }
-
-      .brand span {
-        font-size: 15px;
-      }
-
-      .brand small {
-        font-size: 10px;
-      }
-
-      .upload-top {
-        flex-direction: column;
-      }
+      .form-actions { flex-direction: column; }
+      .btn { width: 100%; }
+      .brand span { font-size: 15px; }
+      .brand small { font-size: 10px; }
+      .upload-top { flex-direction: column; }
     }
   </style>
 </head>
@@ -635,15 +596,16 @@
         <a href="/pricing/">Pricing</a>
         <a href="/faq/">FAQ</a>
         <button class="logout-btn" type="button" id="logoutBtn" style="display:none;">Logout</button>
-        <a class="nav-cta" href="/create-tool/">Create Tool</a>
+        <a class="nav-cta" href="/create-tool/?v=paidpool2">Create Tool</a>
       </div>
     </nav>
   </header>
 
   <div class="credit-strip">
     <div class="credit-inner">
-      <span class="credit-pill" id="previewDisplay">Free Previews: Checking...</span>
+      <span class="credit-pill" id="previewDisplay">Previews: Checking...</span>
       <span class="credit-pill" id="creditDisplay">Tool Credits: Checking...</span>
+      <button class="reset-preview-btn" id="resetPreviewBtn" type="button">Reset Previews - 1 Tool Credit</button>
     </div>
   </div>
 
@@ -714,7 +676,7 @@
               <div>
                 <p class="upload-title">Upload screenshots</p>
                 <p class="upload-help">
-                  Upload PNG, JPG, or JPEG screenshots only to show examples, old sheets, errors, layouts, or instructions visually. Links shown inside screenshots are treated as pixels only and will not be opened or followed.
+                  Upload PNG, JPG, or JPEG screenshots only to show examples, old screens, errors, layouts, or instructions visually. Links shown inside screenshots are treated as pixels only and will not be opened or followed.
                 </p>
               </div>
 
@@ -728,20 +690,16 @@
               style="display:none;"
               accept=".png,.jpg,.jpeg"
             />
-<p class="tiny-note">
-              Upload limit: maximum 5 screenshots per request and 2MB per screenshot. Only PNG, JPG, and JPEG screenshots are allowed. Typed links, Google Sheets links, Google Docs links, CSV, XLSX, PDF, DOCX, ZIP, scripts, and random websites are blocked.
+
+            <p class="tiny-note">
+              Upload limit: maximum 5 screenshots per request and 2MB per screenshot. Only PNG, JPG, and JPEG screenshots are allowed. Typed links, document links, CSV, XLSX, PDF, DOCX, ZIP, scripts, and random websites are blocked.
             </p>
 
             <div class="selected-files" id="selectedFiles"></div>
           </div>
 
           <div class="form-actions">
-            <button
-              class="btn btn-upload"
-              id="uploadBtn"
-              type="button"
-              title="Click to upload PNG/JPG/JPEG screenshots only. Typed links and document files are blocked for safety."
-            >
+            <button class="btn btn-upload" id="uploadBtn" type="button">
               Upload File
             </button>
 
@@ -772,13 +730,19 @@
 
     const FREE_PROMPT_CHARS = 2000;
     const PAID_PROMPT_CHARS = 150000;
-    let currentPromptLimit = FREE_PROMPT_CHARS;
     const MAX_FILES = 5;
     const MAX_FILE_SIZE = 2 * 1024 * 1024;
+    const MULTIPLE_TOOLS_MESSAGE = "Multiple tools detected, please try again with 1 tool request at a time.";
 
-    const allowedExtensions = [
-      "png", "jpg", "jpeg"
-    ];
+    let currentPromptLimit = FREE_PROMPT_CHARS;
+    let currentUser = null;
+    let toolCreditBalance = 0;
+    let previewStatus = null;
+    let canCreatePreview = false;
+    let selectedFiles = [];
+    let uploadPanelOpen = false;
+
+    const allowedExtensions = ["png", "jpg", "jpeg"];
 
     const allowedMimeByExtension = {
       png: ["image/png"],
@@ -794,6 +758,7 @@
     const signedInText = document.getElementById("signedInText");
     const previewDisplay = document.getElementById("previewDisplay");
     const creditDisplay = document.getElementById("creditDisplay");
+    const resetPreviewBtn = document.getElementById("resetPreviewBtn");
     const uploadPanel = document.getElementById("uploadPanel");
     const uploadLockPill = document.getElementById("uploadLockPill");
     const form = document.getElementById("toolForm");
@@ -808,14 +773,6 @@
     const selectedFilesBox = document.getElementById("selectedFiles");
     const message = document.getElementById("message");
 
-    let currentUser = null;
-    let toolCreditBalance = 0;
-    let freePreviewLimit = 3;
-    let freePreviewsUsed = 0;
-    let freePreviewsRemaining = 0;
-    let selectedFiles = [];
-    let uploadPanelOpen = false;
-
     menuBtn?.addEventListener("click", () => {
       navLinks.classList.toggle("open");
     });
@@ -825,98 +782,53 @@
       message.className = "message show" + (type ? " " + type : "");
     }
 
+    function clearMessage() {
+      message.textContent = "";
+      message.className = "message";
+    }
+
     function setBusy(isBusy) {
-      submitBtn.disabled = isBusy || freePreviewsRemaining <= 0;
+      submitBtn.disabled = isBusy || !canCreatePreview || promptHasDisallowedLink(promptInput.value);
       exampleBtn.disabled = isBusy;
       uploadBtn.disabled = isBusy;
+      resetPreviewBtn.disabled = isBusy;
       submitBtn.textContent = isBusy ? "Preparing Preview..." : "Submit Tool Request";
     }
 
-    function updateCreditUI() {
-      creditDisplay.textContent = "Tool Credits: " + toolCreditBalance;
-
-      if (toolCreditBalance > 0) {
-        currentPromptLimit = PAID_PROMPT_CHARS;
-        promptInput.setAttribute("maxlength", String(PAID_PROMPT_CHARS));
-        promptLimitHelp.textContent = "Tool Credits active: you can add up to 150,000 characters. Links are not allowed in prompts.";
-
-        uploadPanel.classList.remove("locked");
-        uploadLockPill.textContent = "Upload enabled";
-        uploadLockPill.style.color = "#bbf7d0";
-        uploadLockPill.style.borderColor = "rgba(34,197,94,.25)";
-        uploadLockPill.style.background = "rgba(34,197,94,.10)";
-        uploadBtn.disabled = false;
-      } else {
-        currentPromptLimit = FREE_PROMPT_CHARS;
-        promptInput.setAttribute("maxlength", String(FREE_PROMPT_CHARS));
-        promptLimitHelp.textContent = "Free preview limit: 2,000 characters. Buy Tool Credits to unlock longer prompts and screenshot uploads. Links are not allowed.";
-
-        uploadPanel.classList.add("locked");
-        uploadLockPill.textContent = "Requires Tool Credits";
-        uploadBtn.disabled = false;
-      }
-
-      updateCharCounter();
-    }
-
-    function updatePreviewUsageUI() {
-      previewDisplay.textContent = "Free Previews: " + freePreviewsRemaining + " / " + freePreviewLimit + " left";
-
-      if (freePreviewsRemaining <= 0) {
-        previewDisplay.textContent = "Free Previews: 0 / " + freePreviewLimit + " left";
-        previewDisplay.style.color = "#fecaca";
-        previewDisplay.style.borderColor = "rgba(239,68,68,.30)";
-        previewDisplay.style.background = "rgba(239,68,68,.10)";
-        submitBtn.disabled = true;
-        submitBtn.title = "Free preview limit reached.";
-      } else {
-        previewDisplay.style.color = "#e9d5ff";
-        previewDisplay.style.borderColor = "rgba(192,132,252,.28)";
-        previewDisplay.style.background = "rgba(139,92,246,.12)";
-        submitBtn.title = "";
-      }
-    }
-
-    async function loadFreePreviewUsage() {
-      const { data, error } = await supabaseClient.rpc("get_my_free_preview_usage");
-
-      if (error) {
-        console.error(error);
-        freePreviewLimit = 3;
-        freePreviewsUsed = 0;
-        freePreviewsRemaining = 3;
-      } else {
-        const usage = Array.isArray(data) ? data[0] : data;
-        freePreviewLimit = Number(usage?.limit || 3);
-        freePreviewsUsed = Number(usage?.used || 0);
-        freePreviewsRemaining = Number(usage?.remaining ?? Math.max(freePreviewLimit - freePreviewsUsed, 0));
-      }
-
-      updatePreviewUsageUI();
-    }
-
-    async function loadToolCredits() {
-      const { data, error } = await supabaseClient.rpc("get_my_tool_credit_balance");
-
-      if (error) {
-        console.error(error);
-        toolCreditBalance = 0;
-      } else {
-        toolCreditBalance = Number(data || 0);
-      }
-
-      updateCreditUI();
-    }
-
-
     function promptHasDisallowedLink(text) {
       const value = String(text || "");
-
       const explicitLink = /https?:\/\/|www\./i.test(value);
-
       const domainLike = /(^|[^A-Za-z0-9@._-])([A-Za-z0-9-]+\.)+[A-Za-z]{2,}([/?#:]|$|[^A-Za-z0-9._-])/i.test(value);
-
       return explicitLink || domainLike;
+    }
+
+    function detectMultipleTools(text) {
+      const value = " " + String(text || "").toLowerCase().replace(/[^a-z0-9]+/g, " ") + " ";
+
+      const categories = [
+        { key: "invoice", patterns: [" invoice ", " invoicing ", " billing ", " bill generator "] },
+        { key: "attendance", patterns: [" attendance ", " check in ", " check out ", " timesheet "] },
+        { key: "payroll", patterns: [" payroll ", " salary ", " salaries ", " payslip ", " wages "] },
+        { key: "inventory", patterns: [" inventory ", " stock ", " warehouse "] },
+        { key: "crm", patterns: [" crm ", " lead tracker ", " leads ", " sales pipeline "] },
+        { key: "project", patterns: [" project tracker ", " task tracker ", " tasks ", " kanban "] },
+        { key: "profit_loss", patterns: [" profit loss ", " p l ", " income expense ", " income expenses ", " accounting "] },
+        { key: "support", patterns: [" support ticket ", " tickets ", " helpdesk ", " customer support "] },
+        { key: "booking", patterns: [" booking ", " appointment ", " reservations "] },
+        { key: "maintenance", patterns: [" maintenance ", " repair tracker ", " service tracker "] },
+        { key: "school_fee", patterns: [" student fee ", " school fee ", " fee tracker "] },
+        { key: "route", patterns: [" route planner ", " delivery route ", " driver route "] }
+      ];
+
+      const hits = [];
+
+      for (const category of categories) {
+        if (category.patterns.some((pattern) => value.includes(pattern))) {
+          hits.push(category.key);
+        }
+      }
+
+      return [...new Set(hits)].length >= 2;
     }
 
     function updateCharCounter() {
@@ -933,16 +845,145 @@
 
       const hasLink = promptHasDisallowedLink(promptInput.value);
       linkError.classList.toggle("show", hasLink);
-      submitBtn.disabled = hasLink || freePreviewsRemaining <= 0;
+
+      submitBtn.disabled = hasLink || !canCreatePreview;
 
       if (hasLink) {
         submitBtn.title = "Links are not allowed in prompt.";
-      } else if (freePreviewsRemaining <= 0) {
-        submitBtn.title = "Free preview limit reached.";
+      } else if (!canCreatePreview) {
+        submitBtn.title = "Preview limit reached.";
       } else {
         submitBtn.title = "";
       }
     }
+
+    function updateCreditUI() {
+      creditDisplay.textContent = "Tool Credits: " + toolCreditBalance;
+
+      if (toolCreditBalance > 0) {
+        currentPromptLimit = PAID_PROMPT_CHARS;
+        promptInput.setAttribute("maxlength", String(PAID_PROMPT_CHARS));
+        promptLimitHelp.textContent = "Tool Credits active: you can add up to 150,000 characters. Links are not allowed in prompts.";
+
+        uploadPanel.classList.remove("locked");
+        uploadLockPill.textContent = "Upload enabled";
+        uploadLockPill.style.color = "#bbf7d0";
+        uploadLockPill.style.borderColor = "rgba(34,197,94,.25)";
+        uploadLockPill.style.background = "rgba(34,197,94,.10)";
+      } else {
+        currentPromptLimit = FREE_PROMPT_CHARS;
+        promptInput.setAttribute("maxlength", String(FREE_PROMPT_CHARS));
+        promptLimitHelp.textContent = "Free preview limit: 2,000 characters. Buy Tool Credits to unlock longer prompts and screenshot uploads. Links are not allowed.";
+
+        uploadPanel.classList.add("locked");
+        uploadLockPill.textContent = "Requires Tool Credits";
+        uploadLockPill.style.color = "#fde68a";
+        uploadLockPill.style.borderColor = "rgba(250,204,21,.26)";
+        uploadLockPill.style.background = "rgba(250,204,21,.10)";
+      }
+
+      updateCharCounter();
+    }
+
+    function updatePreviewStatusUI() {
+      if (!previewStatus) {
+        previewDisplay.textContent = "Previews: Checking...";
+        return;
+      }
+
+      toolCreditBalance = Number(previewStatus.tool_credits || 0);
+      canCreatePreview = Boolean(previewStatus.can_create_preview);
+
+      previewDisplay.classList.remove("good", "bad");
+      resetPreviewBtn.style.display = "none";
+
+      if (previewStatus.mode === "paid") {
+        const remaining = Number(previewStatus.paid_remaining || 0);
+        const limit = Number(previewStatus.paid_limit || 30);
+        previewDisplay.textContent = "Paid Previews: " + remaining + " / " + limit + " left";
+
+        if (remaining > 0) {
+          previewDisplay.classList.add("good");
+        } else {
+          previewDisplay.classList.add("bad");
+          if (toolCreditBalance > 0) {
+            resetPreviewBtn.style.display = "inline-flex";
+          }
+        }
+      } else {
+        const remaining = Number(previewStatus.free_remaining || 0);
+        const limit = Number(previewStatus.free_limit || 3);
+        previewDisplay.textContent = "Free Previews: " + remaining + " / " + limit + " left";
+
+        if (remaining > 0) {
+          previewDisplay.classList.remove("bad");
+        } else {
+          previewDisplay.classList.add("bad");
+        }
+      }
+
+      updateCreditUI();
+
+      if (!canCreatePreview) {
+        submitBtn.disabled = true;
+        submitBtn.title = toolCreditBalance > 0 ? "Reset previews to continue." : "Buy Tool Credits to continue.";
+      }
+    }
+
+    async function loadPreviewStatus() {
+      const { data, error } = await supabaseClient.rpc("get_my_preview_status");
+
+      if (error) {
+        console.error(error);
+        previewStatus = {
+          mode: "free",
+          tool_credits: toolCreditBalance,
+          free_remaining: 0,
+          free_limit: 3,
+          paid_remaining: 0,
+          paid_limit: 30,
+          can_create_preview: false
+        };
+      } else {
+        previewStatus = data || null;
+      }
+
+      updatePreviewStatusUI();
+    }
+
+    async function loadToolCredits() {
+      const { data, error } = await supabaseClient.rpc("get_my_tool_credit_balance");
+
+      if (error) {
+        console.error(error);
+        toolCreditBalance = 0;
+      } else {
+        toolCreditBalance = Number(data || 0);
+      }
+
+      updateCreditUI();
+    }
+
+    resetPreviewBtn?.addEventListener("click", async () => {
+      const ok = confirm("This will use 1 Tool Credit and reset your paid previews to 30. Continue?");
+      if (!ok) return;
+
+      resetPreviewBtn.disabled = true;
+      resetPreviewBtn.textContent = "Resetting...";
+
+      try {
+        const { error } = await supabaseClient.rpc("reset_my_paid_previews");
+        if (error) throw error;
+
+        showMessage("Paid previews reset to 30.", "success");
+        await loadPreviewStatus();
+      } catch (error) {
+        showMessage("Could not reset previews:\n" + (error.message || "Please try again."), "error");
+      } finally {
+        resetPreviewBtn.disabled = false;
+        resetPreviewBtn.textContent = "Reset Previews - 1 Tool Credit";
+      }
+    });
 
     promptInput.addEventListener("input", updateCharCounter);
     updateCharCounter();
@@ -977,8 +1018,8 @@
       signedInText.textContent = "Signed in as " + (currentUser.email || "your account");
       logoutBtn.style.display = "inline-flex";
 
-      await loadFreePreviewUsage();
       await loadToolCredits();
+      await loadPreviewStatus();
 
       authLoading.style.display = "none";
       pageContent.style.display = "grid";
@@ -1127,6 +1168,7 @@
           source_type: "file",
           file_name: file.name,
           file_path: filePath,
+          storage_bucket: "tool-request-uploads",
           file_type: file.type || getFileExtension(file.name),
           file_size_bytes: file.size,
           notes: "Screenshot-only MVP upload. Allowed types only: PNG/JPG/JPEG."
@@ -1146,16 +1188,28 @@
 
     form?.addEventListener("submit", async (event) => {
       event.preventDefault();
+      clearMessage();
+
+      await loadPreviewStatus();
 
       const prompt = promptInput.value.trim();
 
-      if (freePreviewsRemaining <= 0) {
-        showMessage("Free preview limit reached. You have used all 3 free previews.", "error");
+      if (!canCreatePreview) {
+        if (toolCreditBalance > 0) {
+          showMessage("Paid previews are finished. Click Reset Previews - 1 Tool Credit to continue.", "error");
+        } else {
+          showMessage("Buy Tool Credits to continue.", "error");
+        }
         return;
       }
 
       if (!prompt) {
         showMessage("Please describe the tool you want to create.", "error");
+        return;
+      }
+
+      if (detectMultipleTools(prompt)) {
+        showMessage(MULTIPLE_TOOLS_MESSAGE, "error");
         return;
       }
 
@@ -1165,7 +1219,7 @@
       }
 
       if (prompt.length > currentPromptLimit) {
-        showMessage("Your prompt is too long. Your current limit is " + currentPromptLimit.toLocaleString() + " characters. With Tool Credits, longer prompts are unlocked. Links are not allowed in prompts.", "error");
+        showMessage("Your prompt is too long. Your current limit is " + currentPromptLimit.toLocaleString() + " characters.", "error");
         return;
       }
 
@@ -1201,11 +1255,17 @@
           .single();
 
         if (insertError) {
-          if ((insertError.message || "").toLowerCase().includes("free preview limit")) {
-            throw new Error("Free preview limit reached. You have used all 3 free previews.");
+          const err = insertError.message || "Could not save your request.";
+
+          if (err.toLowerCase().includes("multiple tools")) {
+            throw new Error(MULTIPLE_TOOLS_MESSAGE);
           }
 
-          throw new Error(insertError.message || "Could not save your request.");
+          if (err.toLowerCase().includes("free preview") || err.toLowerCase().includes("preview limit")) {
+            throw new Error("Buy Tool Credits to continue.");
+          }
+
+          throw new Error(err);
         }
 
         if (selectedFiles.length) {
@@ -1222,21 +1282,34 @@
         });
 
         if (functionError) {
-          throw new Error(functionError.message || "Preview generation failed.");
+          const message = functionError.message || "Preview generation failed.";
+          if (message.toLowerCase().includes("multiple tools")) {
+            throw new Error(MULTIPLE_TOOLS_MESSAGE);
+          }
+          throw new Error(message);
         }
 
-        if (!functionData || !functionData.preview_id || !functionData.preview_token) {
+        if (!functionData || functionData.success === false) {
+          const message = functionData?.error || "Preview generation failed.";
+          if (message.toLowerCase().includes("multiple tools")) {
+            throw new Error(MULTIPLE_TOOLS_MESSAGE);
+          }
+          throw new Error(message);
+        }
+
+        if (!functionData.preview_id || !functionData.preview_token) {
           throw new Error("Preview overview was prepared, but the preview link was not returned. Please try again.");
         }
 
         showMessage("Preview overview ready. Redirecting...", "success");
 
-        const previewUrl = "/preview/?id=" + encodeURIComponent(functionData.preview_id) + "&token=" + encodeURIComponent(functionData.preview_token);
+        const previewUrl = "/preview/?id=" + encodeURIComponent(functionData.preview_id) + "&token=" + encodeURIComponent(functionData.preview_token) + "&v=created1";
         window.location.href = previewUrl;
       } catch (error) {
         console.error(error);
         showMessage("Something went wrong:\n" + (error.message || "Please try again."), "error");
         setBusy(false);
+        await loadPreviewStatus();
       }
     });
 
