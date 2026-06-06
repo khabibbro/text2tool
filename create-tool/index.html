@@ -803,21 +803,24 @@
     }
 
     function detectMultipleTools(text) {
-      const value = " " + String(text || "").toLowerCase().replace(/[^a-z0-9]+/g, " ") + " ";
+      const raw = String(text || "").toLowerCase();
+      const value = " " + raw.replace(/[^a-z0-9]+/g, " ") + " ";
 
       const categories = [
-        { key: "invoice", patterns: [" invoice ", " invoicing ", " billing ", " bill generator "] },
-        { key: "attendance", patterns: [" attendance ", " check in ", " check out ", " timesheet "] },
-        { key: "payroll", patterns: [" payroll ", " salary ", " salaries ", " payslip ", " wages "] },
-        { key: "inventory", patterns: [" inventory ", " stock ", " warehouse "] },
-        { key: "crm", patterns: [" crm ", " lead tracker ", " leads ", " sales pipeline "] },
-        { key: "project", patterns: [" project tracker ", " task tracker ", " tasks ", " kanban "] },
-        { key: "profit_loss", patterns: [" profit loss ", " p l ", " income expense ", " income expenses ", " accounting "] },
-        { key: "support", patterns: [" support ticket ", " tickets ", " helpdesk ", " customer support "] },
-        { key: "booking", patterns: [" booking ", " appointment ", " reservations "] },
-        { key: "maintenance", patterns: [" maintenance ", " repair tracker ", " service tracker "] },
-        { key: "school_fee", patterns: [" student fee ", " school fee ", " fee tracker "] },
-        { key: "route", patterns: [" route planner ", " delivery route ", " driver route "] }
+        { key: "invoice", patterns: [" invoice ", " invoices ", " invoicing ", " billing ", " bill generator ", " quotation ", " estimate generator "] },
+        { key: "attendance", patterns: [" attendance ", " check in ", " check out ", " timesheet ", " time sheet ", " employee hours "] },
+        { key: "payroll", patterns: [" payroll ", " salary ", " salaries ", " payslip ", " pay slip ", " wages ", " staff payment "] },
+        { key: "inventory", patterns: [" inventory ", " stock ", " warehouse ", " product stock ", " stock management "] },
+        { key: "crm", patterns: [" crm ", " lead tracker ", " leads ", " sales pipeline ", " customer pipeline ", " customer follow up ", " follow ups "] },
+        { key: "project", patterns: [" project tracker ", " task tracker ", " tasks ", " kanban ", " milestones ", " project management "] },
+        { key: "profit_loss", patterns: [" profit loss ", " profit and loss ", " p l ", " income expense ", " income expenses ", " income and expense ", " income and expenses ", " bookkeeping "] },
+        { key: "support", patterns: [" support ticket ", " support tickets ", " tickets ", " helpdesk ", " help desk ", " customer support "] },
+        { key: "booking", patterns: [" booking ", " bookings ", " appointment ", " appointments ", " reservation ", " reservations "] },
+        { key: "maintenance", patterns: [" maintenance ", " repair tracker ", " service tracker ", " equipment service "] },
+        { key: "school_fee", patterns: [" student fee ", " school fee ", " fees tracker ", " fee tracker "] },
+        { key: "route", patterns: [" route planner ", " delivery route ", " driver route ", " delivery planning "] },
+        { key: "hr", patterns: [" hr system ", " employee records ", " leave management ", " holiday tracker ", " vacation tracker "] },
+        { key: "purchase", patterns: [" purchase order ", " purchase orders ", " procurement ", " vendor management ", " supplier management "] }
       ];
 
       const hits = [];
@@ -828,7 +831,80 @@
         }
       }
 
-      return [...new Set(hits)].length >= 2;
+      const uniqueHits = [...new Set(hits)];
+
+      // A long detailed prompt is allowed when it is still one clear tool.
+      // Do not reject just because the prompt is long, detailed, or has many fields.
+      if (uniqueHits.length >= 2) return true;
+
+      const oneClearTool = uniqueHits.length === 1;
+
+      const highRiskPhrases = [
+        " complete business system ",
+        " complete company system ",
+        " complete management system ",
+        " full business system ",
+        " full company system ",
+        " business management system ",
+        " company management system ",
+        " manage my whole business ",
+        " manage entire business ",
+        " entire business operations ",
+        " whole business operations ",
+        " complete erp ",
+        " erp system ",
+        " mini erp ",
+        " full erp ",
+        " multiple modules ",
+        " many modules ",
+        " complete suite ",
+        " business suite ",
+        " operations suite ",
+        " end to end system ",
+        " end to end business ",
+        " all departments ",
+        " every department ",
+        " multiple departments ",
+        " one system for everything ",
+        " one tool for everything ",
+        " everything in one tool "
+      ];
+
+      const softPhrases = [
+        " all in one ",
+        " all-in-one ",
+        " from a to z ",
+        " from start to finish "
+      ];
+
+      const broadNouns = [
+        " staff ", " employees ", " customers ", " clients ", " products ", " stock ",
+        " invoices ", " payments ", " expenses ", " income ", " vendors ", " suppliers ",
+        " projects ", " tasks ", " leads ", " tickets ", " appointments ", " payroll ",
+        " attendance ", " warehouse ", " purchase orders ", " quotations "
+      ];
+
+      const broadHits = broadNouns.filter((word) => value.includes(word)).length;
+
+      if (highRiskPhrases.some((phrase) => value.includes(phrase))) {
+        if (!oneClearTool) return true;
+        if (broadHits >= 5) return true;
+      }
+
+      // Soft phrases are allowed for one clear tool:
+      // "all-in-one inventory tracker" should pass.
+      if (softPhrases.some((phrase) => value.includes(phrase))) {
+        if (!oneClearTool && broadHits >= 4) return true;
+      }
+
+      const connectorHeavy = [
+        " and also ", " also include ", " plus ", " as well as ", " together with ",
+        " combined with ", " combine ", " include everything ", " add everything "
+      ].some((phrase) => value.includes(phrase));
+
+      if (connectorHeavy && !oneClearTool && broadHits >= 5) return true;
+
+      return false;
     }
 
     function updateCharCounter() {
