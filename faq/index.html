@@ -7,6 +7,8 @@
   <title>FAQ | Text2Tool AI</title>
   <meta name="description" content="Frequently asked questions about Text2Tool AI, Tool Credits, Google Sheets delivery, ownership, privacy, and support." />
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     :root {
       --bg: #07050d;
@@ -106,17 +108,22 @@
       gap: 8px;
     }
 
-    .nav-links a {
+    .nav-links a,
+    .logout-btn {
       padding: 10px 13px;
       color: var(--muted);
       border-radius: 999px;
       font-weight: 750;
       font-size: 14px;
       transition: .2s ease;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
     }
 
     .nav-links a:hover,
-    .nav-links a.active {
+    .nav-links a.active,
+    .logout-btn:hover {
       color: #fff;
       background: rgba(255,255,255,.09);
     }
@@ -124,7 +131,7 @@
     .nav-cta {
       padding: 12px 16px !important;
       border-radius: 999px;
-      background: linear-gradient(135deg, var(--purple), var(--pink));
+      background: linear-gradient(135deg, var(--purple), var(--pink)) !important;
       color: #fff !important;
       font-weight: 900 !important;
       box-shadow: 0 14px 34px rgba(139, 92, 246, .28);
@@ -462,7 +469,8 @@
         display: flex;
       }
 
-      .nav-links a {
+      .nav-links a,
+      .logout-btn {
         width: 100%;
         text-align: center;
       }
@@ -502,6 +510,7 @@
         <a href="/">Home</a>
         <a href="/pricing/">Pricing</a>
         <a class="active" href="/faq/">FAQ</a>
+        <button class="logout-btn" type="button" id="logoutBtn" style="display:none;">Logout</button>
         <a class="nav-cta" href="/create-tool/">Create Tool</a>
       </div>
     </nav>
@@ -514,7 +523,7 @@
       <h1>Frequently asked questions.</h1>
 
       <p>
-        Search by topic or keyword to quickly understand how Text2Tool works, how Tool Credits work, and how your Google Sheets tool is delivered.
+        Search by topic or keyword to quickly understand how Text2Tool works, how Tool Credits work, and how your finished tool is exported to Google Sheets and sent to your email.
       </p>
     </section>
 
@@ -535,7 +544,7 @@
         <button class="topic-btn" type="button" data-topic="tool-credits">Tool Credits & Pricing</button>
         <button class="topic-btn" type="button" data-topic="google-sheets">Google Sheets Delivery</button>
         <button class="topic-btn" type="button" data-topic="ownership">Ownership & Access</button>
-        <button class="topic-btn" type="button" data-topic="security">Security & Privacy</button>
+        <button class="topic-btn" type="button" data-topic="security">Details & Accuracy</button>
         <button class="topic-btn" type="button" data-topic="support">Support</button>
       </div>
 
@@ -550,7 +559,7 @@
         <a class="category-link" href="#tool-credits">Tool Credits & Pricing</a>
         <a class="category-link" href="#google-sheets">Google Sheets Delivery</a>
         <a class="category-link" href="#ownership">Ownership & Access</a>
-        <a class="category-link" href="#security">Security & Privacy</a>
+        <a class="category-link" href="#security">Details & Accuracy</a>
         <a class="category-link" href="#support">Support</a>
       </aside>
 
@@ -569,19 +578,19 @@
                 <span>+</span>
               </button>
               <div class="faq-answer">
-                <p>Text2Tool AI helps you describe a business tool in plain English and review a clean preview before moving forward.</p>
-                <p>It is designed for tools like trackers, calculators, reports, generators, dashboards, and internal business workflows.</p>
+                <p>Text2Tool AI helps you describe a business tool in plain English and review a clear preview overview before moving forward.</p>
+                <p>It is designed for tools like trackers, calculators, reports, generators, dashboards, KPI systems, and internal business workflows that can be exported to Google Sheets.</p>
               </div>
             </article>
 
-            <article class="faq-item" data-category="getting-started" data-search="how do i start create preview request prompt">
+            <article class="faq-item" data-category="getting-started" data-search="how do i start create tool request prompt">
               <button class="faq-question" type="button">
                 <span>How do I start?</span>
                 <span>+</span>
               </button>
               <div class="faq-answer">
-                <p>Click <strong>Start Free Preview</strong>, sign in if required, and describe the tool you want to create.</p>
-                <p>You can write it normally, for example: “Create an invoice generator for my shop with customer details, items, tax, discount, and totals.”</p>
+                <p>Click <strong>Create Tool</strong>, sign in if required, and describe the tool you want to create.</p>
+                <p>You can write it normally, for example: “Create an invoice generator for my shop with customer details, items, tax, discount, totals, PDF, print, and email options.”</p>
               </div>
             </article>
 
@@ -608,27 +617,29 @@
               </button>
               <div class="faq-answer">
                 <p>Text2Tool prepares your requested tool and exports it into Google Sheets. Once ready, the tool link and instructions are sent to your email.</p>
-                <p>The public process is simple: describe your tool, review the preview, choose Tool Credits when available, and receive your Google Sheets tool by email.</p>
+                <p>The public process is simple: describe your tool, review the preview overview, choose Tool Credits when available, and receive your finished Google Sheets tool by email.</p>
               </div>
             </article>
 
-            <article class="faq-item" data-category="how-it-works" data-search="what types tools can generate trackers calculators dashboards reports generators">
+            <article class="faq-item" data-category="how-it-works" data-search="what types tools can generate trackers calculators dashboards reports generators formulas conditional formatting visuals kpis">
               <button class="faq-question" type="button">
                 <span>What kinds of tools can I request?</span>
                 <span>+</span>
               </button>
               <div class="faq-answer">
-                <p>You can request tools such as invoice generators, attendance trackers, inventory trackers, lead trackers, commission calculators, payroll calculators, KPI dashboards, profit and loss trackers, and financial statement generators.</p>
+                <p>You can request tools such as invoice generators, attendance trackers, inventory trackers, lead trackers, commission calculators, payroll calculators, KPI dashboards, profit and loss trackers, financial statement generators, and much more.</p>
+                <p>Whatever you can imagine that can be exported to Google Sheets, Text2Tool can help prepare it. Formulas, conditional formatting, visuals, dashboards, KPIs, summaries, and useful tabs can be created automatically.</p>
+                <p>The goal is to hand over a full, ready-to-use tool that you can use for your business or even sell to your own clients. The finished tool is sent to your email.</p>
               </div>
             </article>
 
-            <article class="faq-item" data-category="how-it-works" data-search="preview first free before payment launch">
+            <article class="faq-item" data-category="how-it-works" data-search="preview overview before paying payment launch">
               <button class="faq-question" type="button">
-                <span>Can I preview before paying?</span>
+                <span>Can I review a preview overview before paying?</span>
                 <span>+</span>
               </button>
               <div class="faq-answer">
-                <p>Yes. The goal is to let you review the tool preview first, so you can understand the planned sections, fields, and structure before moving forward.</p>
+                <p>Yes. The goal is to let you review a preview overview first, so you can understand the planned sections, fields, structure, and tool direction before moving forward.</p>
               </div>
             </article>
           </div>
@@ -665,7 +676,7 @@
                 <span>+</span>
               </button>
               <div class="faq-answer">
-                <p>Tool Credits purchase option is coming soon. For now, you can start with a free preview first.</p>
+                <p>Tool Credits purchase option is coming soon. For now, you can start by creating your tool preview overview first.</p>
               </div>
             </article>
 
@@ -691,27 +702,30 @@
                 <span>+</span>
               </button>
               <div class="faq-answer">
-                <p>Your tool is delivered as a Google Sheets link sent to your email, along with instructions.</p>
+                <p>Your finished tool is exported to Google Sheets. The Google Sheets tool link is sent to your email, along with clear instructions.</p>
               </div>
             </article>
 
-            <article class="faq-item" data-category="google-sheets" data-search="why google sheets spreadsheet tool">
+            <article class="faq-item" data-category="google-sheets" data-search="why google sheets spreadsheet tool storage costs monthly subscription sync real time team employees clients familiar reduce prices market rates transparency">
               <button class="faq-question" type="button">
                 <span>Why does Text2Tool use Google Sheets?</span>
                 <span>+</span>
               </button>
               <div class="faq-answer">
-                <p>Google Sheets is easy to open, copy, share, customize, and use from almost anywhere. It is also familiar for many small businesses, virtual assistants, agencies, and teams.</p>
+                <p>Google Sheets is easy to open, copy, share, customize, and use from almost anywhere. It is familiar for many small businesses, virtual assistants, agencies, teams, employees, and clients.</p>
+                <p>It also helps you avoid extra storage costs, avoid another monthly software subscription, own your copied tool, and sync updates in real time with your team.</p>
+                <p><strong>Full transparency:</strong> this is part of why Text2Tool can reduce prices by up to 90% compared to normal custom software or market rates.</p>
               </div>
             </article>
 
-            <article class="faq-item" data-category="google-sheets" data-search="email instructions sent make a copy">
+            <article class="faq-item" data-category="google-sheets" data-search="email instructions sent make a copy readme tab details">
               <button class="faq-question" type="button">
                 <span>Will instructions be included?</span>
                 <span>+</span>
               </button>
               <div class="faq-answer">
                 <p>Yes. Instructions are sent by email with your Google Sheets tool link.</p>
+                <p>The Google Sheet will also include a tab called <strong>ReadMe</strong> with clear details on how to use the tool.</p>
               </div>
             </article>
           </div>
@@ -761,16 +775,18 @@
         </section>
 
         <section class="category-section" id="security" data-category="security">
-          <h2>Security & Privacy</h2>
+          <h2>Details & Accuracy</h2>
 
           <div class="faq-items">
-            <article class="faq-item" data-category="security" data-search="privacy prompt data tool request">
+            <article class="faq-item" data-category="security" data-search="what information should include tool request details accurate prompt screenshots examples">
               <button class="faq-question" type="button">
                 <span>What information should I include in my tool request?</span>
                 <span>+</span>
               </button>
               <div class="faq-answer">
-                <p>Only include the information needed to describe your tool. Avoid adding passwords, private customer records, bank details, or sensitive personal data into your prompt.</p>
+                <p>The more useful details you provide, the more accurate your tool can be.</p>
+                <p>Share what the tool should do, who will use it, what fields are needed, what calculations are required, what reports or dashboards you want, and any workflow rules you already have.</p>
+                <p>You can also provide examples, screenshots, or instructions so the tool can follow your preferred structure more closely.</p>
               </div>
             </article>
 
@@ -810,24 +826,26 @@
               </div>
             </article>
 
-            <article class="faq-item" data-category="support" data-search="wrong tool request mistake edit change">
+            <article class="faq-item" data-category="support" data-search="wrong tool request mistake edit change prompt email improve full accurate info">
               <button class="faq-question" type="button">
                 <span>What if I describe the wrong tool?</span>
                 <span>+</span>
               </button>
               <div class="faq-answer">
-                <p>You can create another preview with a clearer request. Keep your prompt simple and specific for the best result.</p>
+                <p>You can create another preview overview with a clearer and more detailed request.</p>
+                <p>Your prompt is also sent to you by email, so you can review it, improve it, and add more complete details next time instead of reusing a very short prompt.</p>
+                <p>For best results, provide full and accurate information about the tool you want.</p>
               </div>
             </article>
 
-            <article class="faq-item" data-category="support" data-search="best prompt write good request">
+            <article class="faq-item" data-category="support" data-search="best prompt write good request detailed complete accurate">
               <button class="faq-question" type="button">
                 <span>How do I write a good request?</span>
                 <span>+</span>
               </button>
               <div class="faq-answer">
-                <p>Mention the tool type, who will use it, the main fields you need, and the result you want.</p>
-                <p>Example: “Create an inventory tracker for a small shop with product name, SKU, category, stock in, stock out, current stock, low stock alert, and monthly summary.”</p>
+                <p>Mention the tool type, who will use it, the main fields you need, required formulas, reports, dashboard views, conditional formatting, and the final result you want.</p>
+                <p>Example: “Create an inventory tracker for a small shop with product name, SKU, category, stock in, stock out, current stock, low stock alert, supplier name, purchase cost, selling price, profit, monthly summary, and dashboard.”</p>
               </div>
             </article>
           </div>
@@ -841,8 +859,14 @@
   </footer>
 
   <script>
+    const SUPABASE_URL = "https://wldldtmtxmmlufcmubnr.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_R63WYwDu58UPHLJkb2eXPQ_4qUQS5PX";
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
     const menuBtn = document.getElementById("menuBtn");
     const navLinks = document.getElementById("navLinks");
+    const logoutBtn = document.getElementById("logoutBtn");
     const searchInput = document.getElementById("faqSearch");
     const clearSearch = document.getElementById("clearSearch");
     const topicButtons = document.querySelectorAll(".topic-btn");
@@ -855,6 +879,19 @@
 
     menuBtn?.addEventListener("click", () => {
       navLinks.classList.toggle("open");
+    });
+
+    async function checkHeaderLogin() {
+      const { data } = await supabaseClient.auth.getSession();
+
+      if (data?.session) {
+        logoutBtn.style.display = "inline-flex";
+      }
+    }
+
+    logoutBtn?.addEventListener("click", async () => {
+      await supabaseClient.auth.signOut();
+      window.location.href = "/";
     });
 
     document.querySelectorAll(".faq-question").forEach((button) => {
@@ -943,6 +980,7 @@
       }
     }
 
+    checkHeaderLogin();
     applyFilters();
   </script>
 </body>
