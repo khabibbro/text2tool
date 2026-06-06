@@ -222,13 +222,13 @@
 
           <section class="card final-create-card">
             <h2>Create Final Tool</h2>
-            <p>Final tool delivery is being connected. For now, review the preview and request changes until the structure is approved.</p>
+            <p>When the preview looks good, request your finished working tool. No code is shown to customers.</p>
             <div class="actions">
-              <button class="btn btn-primary" type="button" disabled title="Final tool delivery is being connected">Create My Tool</button>
+              <button class="btn btn-primary" type="button" id="createFinalToolBtn">Create My Tool</button>
               <a class="btn" href="/pricing/">View Tool Credits</a>
             </div>
             <div class="change-message" id="finalToolMessage"></div>
-            <p class="change-note">Your finished tool will be delivered as a working tool, not as code.</p>
+            <p class="change-note">No Tool Credit is used yet. 1 Tool Credit is used only after the finished working tool is successfully delivered.</p>
           </section>
 
           <section class="card change-card structure-card">
@@ -267,6 +267,7 @@
 
       renderQuestions();
       setupChangeRequest();
+      setupCreateFinalTool();
     }
 
 
@@ -283,34 +284,53 @@
 
         if (!supabaseClient) {
           msg.className = 'change-message error';
-          msg.textContent = 'Could not load the final tool system. Please refresh the page and try again.';
+          msg.textContent = 'Could not load the delivery system. Please refresh the page and try again.';
           return;
         }
 
-        const confirmed = window.confirm('Create your final tool now? This will use 1 Tool Credit only after the final tool is successfully generated and saved.');
+        const confirmed = window.confirm('Request your finished working tool now? No source code will be shown. No Tool Credit is used until the finished tool is delivered.');
         if (!confirmed) return;
 
         btn.disabled = true;
-        btn.textContent = 'Creating final tool...';
+        btn.textContent = 'Saving request...';
         msg.className = 'change-message success';
-        msg.textContent = 'Creating your final tool. This can take 1-3 minutes for larger tools. Please keep this tab open.';
+        msg.textContent = 'Saving your final tool request. Please wait...';
 
         try {
-          const data = await callProcessToolRequest({
-            action: 'create_final_tool',
-            preview_id: previewId,
-            preview_token: token,
-            followup_answers: buildFollowupAnswersObject()
-          }, 240000, 'Final tool generation timed out. Please try again. Your Tool Credit should only be used after successful save.');
+          const sessionResult = await supabaseClient.auth.getSession().catch(() => ({ data: null }));
+          const session = sessionResult?.data?.session;
+          if (!session?.access_token) {
+            throw new Error('Please sign in first to create your final tool.');
+          }
 
-          if (!data || !data.success) throw new Error(data?.error || 'Could not create final tool.');
+          const rpcResult = await withTimeout(
+            supabaseClient.rpc('create_final_tool_delivery_request', {
+              p_preview_id: previewId,
+              p_preview_token: token,
+              p_followup_answers: buildFollowupAnswersObject()
+            }),
+            45000,
+            'Final tool request timed out. Please try again.'
+          );
+
+          if (rpcResult.error) {
+            throw new Error(rpcResult.error.message || 'Could not save final tool request.');
+          }
+
+          const data = rpcResult.data || {};
+          if (!data.success) {
+            throw new Error(data.message || 'Could not save final tool request.');
+          }
 
           msg.className = 'change-message success';
-          msg.textContent = 'Final tool ready. Opening it now...';
-          window.location.href = '/final/?id=' + encodeURIComponent(data.final_id) + '&token=' + encodeURIComponent(data.final_token) + '&v=final1';
+          msg.textContent = data.already_exists
+            ? 'Your final tool request is already in progress. Opening status page...'
+            : 'Final tool request saved. Opening status page...';
+
+          window.location.href = '/final/?id=' + encodeURIComponent(data.delivery_id) + '&token=' + encodeURIComponent(data.delivery_token) + '&v=delivery1';
         } catch (error) {
           msg.className = 'change-message error';
-          msg.textContent = error?.message || 'Could not create final tool. Please try again.';
+          msg.textContent = error?.message || 'Could not save final tool request. Please try again.';
           btn.disabled = false;
           btn.textContent = 'Create My Tool';
         }
