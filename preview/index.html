@@ -222,13 +222,13 @@
 
           <section class="card final-create-card">
             <h2>Create Final Tool</h2>
-            <p>When the preview looks good, use 1 Tool Credit to create your final copy-paste-ready tool.</p>
+            <p>Final tool delivery is being connected. For now, review the preview and request changes until the structure is approved.</p>
             <div class="actions">
-              <button class="btn btn-primary" type="button" id="createFinalToolBtn">Create My Tool</button>
-              <a class="btn" href="/pricing/">Buy Tool Credits</a>
+              <button class="btn btn-primary" type="button" disabled title="Final tool delivery is being connected">Create My Tool</button>
+              <a class="btn" href="/pricing/">View Tool Credits</a>
             </div>
             <div class="change-message" id="finalToolMessage"></div>
-            <p class="change-note">1 Tool Credit is used only after the final tool is successfully generated and saved.</p>
+            <p class="change-note">Your finished tool will be delivered as a working tool, not as code.</p>
           </section>
 
           <section class="card change-card structure-card">
@@ -267,7 +267,6 @@
 
       renderQuestions();
       setupChangeRequest();
-      setupCreateFinalTool();
     }
 
 
