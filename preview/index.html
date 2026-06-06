@@ -5,542 +5,71 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tool Preview | Text2Tool AI</title>
   <meta name="description" content="Review your Text2Tool AI tool preview before creating your final tool." />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
-      --bg:#05020a;
-      --panel:#14101d;
-      --panel2:#1d1728;
-      --card:#211b2d;
-      --line:rgba(255,255,255,.12);
-      --line2:rgba(255,255,255,.18);
-      --text:#f8f7ff;
-      --muted:#c9c2d8;
-      --soft:#a59ab8;
-      --purple:#b84dff;
-      --pink:#f15bd6;
-      --blue:#38bdf8;
-      --green:#22c55e;
-      --yellow:#facc15;
-      --danger:#fb7185;
-      --radius:18px;
-      --shadow:0 24px 70px rgba(0,0,0,.42);
-      --max:1180px;
+      --bg:#05020a; --panel:#14101d; --card:#211b2d; --line:rgba(255,255,255,.14);
+      --text:#f8f7ff; --muted:#c9c2d8; --soft:#a59ab8; --purple:#b84dff; --pink:#f15bd6;
+      --green:#22c55e; --yellow:#facc15; --danger:#fb7185; --max:1180px;
     }
-
     * { box-sizing:border-box; }
-
     body {
-      margin:0;
-      background:
-        radial-gradient(circle at 80% 12%, rgba(184,77,255,.22), transparent 34%),
-        radial-gradient(circle at 18% 25%, rgba(56,189,248,.12), transparent 32%),
-        linear-gradient(180deg,#090313 0%,#05020a 46%,#030106 100%);
-      color:var(--text);
+      margin:0; min-height:100vh; color:var(--text);
       font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      min-height:100vh;
+      background:radial-gradient(circle at 80% 12%, rgba(184,77,255,.22), transparent 34%),
+                 radial-gradient(circle at 18% 25%, rgba(56,189,248,.12), transparent 32%),
+                 linear-gradient(180deg,#090313 0%,#05020a 46%,#030106 100%);
     }
-
     a { color:inherit; text-decoration:none; }
-
-    .wrap {
-      width:min(var(--max), calc(100% - 32px));
-      margin:0 auto;
-    }
-
-    header {
-      position:sticky;
-      top:0;
-      z-index:20;
-      background:rgba(5,2,10,.78);
-      backdrop-filter:blur(16px);
-      border-bottom:1px solid var(--line);
-    }
-
-    .nav {
-      height:76px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:18px;
-    }
-
-    .brand {
-      display:flex;
-      align-items:center;
-      gap:12px;
-      min-width:220px;
-    }
-
-    .logo {
-      width:42px;
-      height:42px;
-      border-radius:14px;
-      background:linear-gradient(135deg,var(--purple),var(--pink));
-      display:grid;
-      place-items:center;
-      color:#fff;
-      font-weight:900;
-      letter-spacing:.4px;
-      box-shadow:0 12px 28px rgba(184,77,255,.35);
-    }
-
-    .brand-title {
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-      line-height:1;
-    }
-
-    .brand-title strong {
-      font-size:18px;
-      letter-spacing:-.02em;
-    }
-
-    .brand-title span {
-      color:var(--muted);
-      font-size:12px;
-      font-weight:700;
-    }
-
-    .links {
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-weight:800;
-      color:var(--muted);
-      font-size:14px;
-    }
-
-    .links a, .logout {
-      padding:10px 12px;
-      border-radius:999px;
-      border:0;
-      background:transparent;
-      color:var(--muted);
-      font:inherit;
-      cursor:pointer;
-    }
-
-    .links a:hover, .logout:hover {
-      color:#fff;
-      background:rgba(255,255,255,.07);
-    }
-
-    .cta {
-      background:linear-gradient(135deg,var(--purple),var(--pink)) !important;
-      color:#fff !important;
-      padding:13px 20px !important;
-      box-shadow:0 16px 42px rgba(184,77,255,.28);
-    }
-
-    main {
-      padding:34px 0 70px;
-    }
-
-    .shell {
-      background:rgba(20,16,29,.82);
-      border:1px solid var(--line2);
-      border-radius:26px;
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
-
-    .loading, .error-box {
-      padding:56px 32px;
-      text-align:center;
-    }
-
-    .spinner {
-      width:44px;
-      height:44px;
-      margin:0 auto 18px;
-      border:4px solid rgba(255,255,255,.16);
-      border-top-color:var(--purple);
-      border-radius:50%;
-      animation:spin 1s linear infinite;
-    }
-
+    .wrap { width:min(var(--max), calc(100% - 32px)); margin:0 auto; }
+    header { position:sticky; top:0; z-index:20; background:rgba(5,2,10,.82); backdrop-filter:blur(16px); border-bottom:1px solid var(--line); }
+    .nav { min-height:76px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .brand { display:flex; align-items:center; gap:12px; }
+    .logo { width:42px; height:42px; border-radius:14px; display:grid; place-items:center; font-weight:900; background:linear-gradient(135deg,var(--purple),var(--pink)); box-shadow:0 12px 28px rgba(184,77,255,.35); }
+    .brand strong { display:block; font-size:18px; line-height:1; }
+    .brand span { display:block; color:var(--muted); font-size:12px; font-weight:700; margin-top:4px; }
+    .links { display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-size:14px; font-weight:800; color:var(--muted); }
+    .links a { padding:10px 12px; border-radius:999px; }
+    .links a:hover { background:rgba(255,255,255,.07); color:#fff; }
+    .cta { background:linear-gradient(135deg,var(--purple),var(--pink)); color:#fff !important; padding:13px 20px !important; box-shadow:0 16px 42px rgba(184,77,255,.28); }
+    main { padding:34px 0 70px; }
+    .shell { background:rgba(20,16,29,.84); border:1px solid rgba(255,255,255,.18); border-radius:26px; box-shadow:0 24px 70px rgba(0,0,0,.42); overflow:hidden; }
+    .loading,.error-box { padding:56px 32px; text-align:center; }
+    .spinner { width:44px; height:44px; margin:0 auto 18px; border:4px solid rgba(255,255,255,.16); border-top-color:var(--purple); border-radius:50%; animation:spin 1s linear infinite; }
     @keyframes spin { to { transform:rotate(360deg); } }
-
-    .hero {
-      padding:34px;
-      border-bottom:1px solid var(--line);
-      background:
-        radial-gradient(circle at 100% 0%, rgba(184,77,255,.20), transparent 26%),
-        linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
-    }
-
-    .topline {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      flex-wrap:wrap;
-      margin-bottom:18px;
-    }
-
-    .badge {
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:9px 12px;
-      background:rgba(34,197,94,.12);
-      color:#bbf7d0;
-      border:1px solid rgba(34,197,94,.24);
-      border-radius:999px;
-      font-size:13px;
-      font-weight:900;
-    }
-
-    .badges {
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    .pill {
-      padding:9px 12px;
-      border-radius:999px;
-      background:rgba(255,255,255,.07);
-      border:1px solid var(--line);
-      color:var(--muted);
-      font-size:13px;
-      font-weight:800;
-    }
-
-    h1 {
-      margin:0;
-      font-size:clamp(30px,4vw,48px);
-      line-height:1.05;
-      letter-spacing:-.04em;
-    }
-
-    .summary {
-      margin:16px 0 0;
-      color:var(--muted);
-      font-size:17px;
-      line-height:1.7;
-      max-width:850px;
-    }
-
-    .warning {
-      margin-top:18px;
-      background:rgba(250,204,21,.12);
-      border:1px solid rgba(250,204,21,.28);
-      color:#fef3c7;
-      padding:14px 16px;
-      border-radius:16px;
-      font-weight:800;
-      line-height:1.5;
-    }
-
-    .grid {
-      display:grid;
-      grid-template-columns:1.4fr .8fr;
-      gap:20px;
-      padding:24px;
-    }
-
-    .card {
-      background:rgba(255,255,255,.045);
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:22px;
-    }
-
-    .card h2 {
-      margin:0 0 14px;
-      font-size:23px;
-      letter-spacing:-.02em;
-    }
-
-    .card p {
-      color:var(--muted);
-      line-height:1.6;
-    }
-
-    .structure-card {
-      grid-column:1 / -1;
-    }
-
-    .table-wrap {
-      overflow:auto;
-      border:1px solid var(--line);
-      border-radius:18px;
-      background:rgba(0,0,0,.15);
-    }
-
-    table {
-      width:100%;
-      border-collapse:collapse;
-      min-width:760px;
-    }
-
-    th {
-      background:rgba(184,77,255,.22);
-      color:#fff;
-      text-align:left;
-      padding:14px 16px;
-      font-size:13px;
-      text-transform:uppercase;
-      letter-spacing:.06em;
-    }
-
-    td {
-      padding:16px;
-      border-top:1px solid var(--line);
-      vertical-align:top;
-      color:var(--muted);
-      line-height:1.55;
-    }
-
-    td:first-child {
-      color:#fff;
-      font-weight:900;
-      width:190px;
-    }
-
-    .columns {
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-    }
-
-    .col-pill {
-      padding:8px 10px;
-      background:rgba(255,255,255,.07);
-      border:1px solid var(--line);
-      border-radius:999px;
-      color:#f2ecff;
-      font-size:13px;
-      font-weight:750;
-    }
-
-    .list {
-      display:grid;
-      gap:10px;
-      margin:0;
-      padding:0;
-      list-style:none;
-    }
-
-    .list li {
-      padding:13px 14px;
-      border-radius:14px;
-      background:rgba(255,255,255,.055);
-      border:1px solid var(--line);
-      color:#f2ecff;
-      line-height:1.45;
-    }
-
-    .status-card {
-      background:linear-gradient(180deg,rgba(184,77,255,.16),rgba(255,255,255,.045));
-    }
-
-    .status-number {
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      padding:16px;
-      border-radius:16px;
-      background:rgba(0,0,0,.18);
-      border:1px solid var(--line);
-      margin-bottom:12px;
-    }
-
-    .status-number span {
-      color:var(--soft);
-      font-size:13px;
-      font-weight:800;
-    }
-
-    .status-number strong {
-      font-size:28px;
-      letter-spacing:-.03em;
-    }
-
-    .actions {
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:18px;
-    }
-
-    .btn {
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      padding:12px 16px;
-      font-weight:900;
-      cursor:pointer;
-      background:rgba(255,255,255,.07);
-      color:#fff;
-      font-size:14px;
-    }
-
-    .btn:hover {
-      background:rgba(255,255,255,.12);
-    }
-
-    .btn-primary {
-      background:linear-gradient(135deg,var(--purple),var(--pink));
-      border-color:transparent;
-      box-shadow:0 14px 36px rgba(184,77,255,.25);
-    }
-
-    .btn-danger {
-      background:rgba(251,113,133,.14);
-      border-color:rgba(251,113,133,.35);
-      color:#fecdd3;
-    }
-
-    .btn:disabled {
-      opacity:.55;
-      cursor:not-allowed;
-    }
-
-    .questions-card {
-      grid-column:1 / -1;
-    }
-
-    .question-box {
-      border:1px solid rgba(184,77,255,.28);
-      background:rgba(184,77,255,.07);
-      border-radius:20px;
-      padding:18px;
-      margin-top:12px;
-    }
-
-    .progress-line {
-      height:8px;
-      background:rgba(255,255,255,.12);
-      border-radius:99px;
-      overflow:hidden;
-      margin:12px 0 18px;
-    }
-
-    .progress-fill {
-      height:100%;
-      width:0%;
-      border-radius:99px;
-      background:linear-gradient(90deg,var(--purple),var(--pink));
-      transition:.25s ease;
-    }
-
-    .q-label {
-      color:#e9d5ff;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      font-size:12px;
-      font-weight:900;
-      margin-bottom:8px;
-    }
-
-    .q-text {
-      font-size:17px;
-      line-height:1.55;
-      margin:0 0 14px;
-    }
-
-    textarea {
-      width:100%;
-      min-height:120px;
-      resize:vertical;
-      border-radius:16px;
-      border:1px solid var(--line2);
-      background:rgba(5,2,10,.68);
-      color:#fff;
-      padding:14px;
-      font:inherit;
-      outline:none;
-    }
-
-    textarea:focus {
-      border-color:rgba(184,77,255,.65);
-      box-shadow:0 0 0 4px rgba(184,77,255,.14);
-    }
-
-    .answer-count {
-      color:var(--soft);
-      font-size:13px;
-      margin-top:12px;
-      font-weight:800;
-    }
-
-    .saved-answers {
-      display:none;
-      margin-top:18px;
-      padding-top:18px;
-      border-top:1px solid var(--line);
-    }
-
-    .saved-answers pre {
-      white-space:pre-wrap;
-      word-break:break-word;
-      background:rgba(0,0,0,.2);
-      border:1px solid var(--line);
-      padding:14px;
-      border-radius:14px;
-      color:#eee;
-      line-height:1.55;
-    }
-
-    .empty {
-      color:var(--soft);
-      border:1px dashed var(--line2);
-      padding:18px;
-      border-radius:16px;
-      background:rgba(255,255,255,.03);
-    }
-
-    footer {
-      color:var(--soft);
-      text-align:center;
-      padding:24px 0 0;
-      font-size:13px;
-    }
-
-    @media (max-width:900px) {
-      .nav {
-        height:auto;
-        padding:14px 0;
-        align-items:flex-start;
-      }
-
-      .links {
-        justify-content:flex-end;
-        flex-wrap:wrap;
-      }
-
-      .grid {
-        grid-template-columns:1fr;
-        padding:16px;
-      }
-
-      .hero {
-        padding:24px 18px;
-      }
-
-      .brand {
-        min-width:auto;
-      }
-    }
-
-    @media (max-width:620px) {
-      .wrap { width:min(100% - 20px, var(--max)); }
-      .brand-title span { display:none; }
-      .links { gap:4px; font-size:12px; }
-      .links a, .logout { padding:8px 8px; }
-      .cta { padding:10px 12px !important; }
-      .card { padding:18px; }
-      .actions { flex-direction:column; }
-      .btn { width:100%; }
-    }
+    .hero { padding:34px; border-bottom:1px solid var(--line); background:radial-gradient(circle at 100% 0%, rgba(184,77,255,.20), transparent 26%), linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.02)); }
+    .topline { display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-bottom:18px; }
+    .badge,.pill { display:inline-flex; align-items:center; gap:8px; padding:9px 12px; border-radius:999px; font-size:13px; font-weight:900; }
+    .badge { background:rgba(34,197,94,.12); color:#bbf7d0; border:1px solid rgba(34,197,94,.24); }
+    .pill { background:rgba(255,255,255,.07); color:var(--muted); border:1px solid var(--line); }
+    h1 { margin:0; font-size:clamp(30px,4vw,48px); line-height:1.05; letter-spacing:-.04em; }
+    .summary { margin:16px 0 0; color:var(--muted); font-size:17px; line-height:1.7; max-width:850px; }
+    .warning { margin-top:18px; background:rgba(250,204,21,.12); border:1px solid rgba(250,204,21,.28); color:#fef3c7; padding:14px 16px; border-radius:16px; font-weight:800; line-height:1.5; }
+    .grid { display:grid; grid-template-columns:1.4fr .8fr; gap:20px; padding:24px; }
+    .card { background:rgba(255,255,255,.045); border:1px solid var(--line); border-radius:22px; padding:22px; }
+    .card h2 { margin:0 0 14px; font-size:23px; letter-spacing:-.02em; }
+    .card p { color:var(--muted); line-height:1.6; }
+    .structure-card,.questions-card { grid-column:1/-1; }
+    .table-wrap { overflow:auto; border:1px solid var(--line); border-radius:18px; background:rgba(0,0,0,.15); }
+    table { width:100%; border-collapse:collapse; min-width:760px; }
+    th { background:rgba(184,77,255,.22); color:#fff; text-align:left; padding:14px 16px; font-size:13px; text-transform:uppercase; letter-spacing:.06em; }
+    td { padding:16px; border-top:1px solid var(--line); vertical-align:top; color:var(--muted); line-height:1.55; }
+    td:first-child { color:#fff; font-weight:900; width:190px; }
+    .columns { display:flex; flex-wrap:wrap; gap:8px; }
+    .col-pill { padding:8px 10px; background:rgba(255,255,255,.07); border:1px solid var(--line); border-radius:999px; color:#f2ecff; font-size:13px; font-weight:750; }
+    .list { display:grid; gap:10px; margin:0; padding:0; list-style:none; }
+    .list li { padding:13px 14px; border-radius:14px; background:rgba(255,255,255,.055); border:1px solid var(--line); color:#f2ecff; line-height:1.45; }
+    .actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; border:1px solid var(--line); border-radius:999px; padding:12px 16px; font-weight:900; cursor:pointer; background:rgba(255,255,255,.07); color:#fff; font-size:14px; }
+    .btn-primary { background:linear-gradient(135deg,var(--purple),var(--pink)); border-color:transparent; box-shadow:0 14px 36px rgba(184,77,255,.25); }
+    textarea { width:100%; min-height:120px; resize:vertical; border-radius:16px; border:1px solid rgba(255,255,255,.18); background:rgba(5,2,10,.68); color:#fff; padding:14px; font:inherit; outline:none; }
+    .question-box { border:1px solid rgba(184,77,255,.28); background:rgba(184,77,255,.07); border-radius:20px; padding:18px; margin-top:12px; }
+    .progress-line { height:8px; background:rgba(255,255,255,.12); border-radius:99px; overflow:hidden; margin:12px 0 18px; }
+    .progress-fill { height:100%; width:0%; border-radius:99px; background:linear-gradient(90deg,var(--purple),var(--pink)); }
+    .q-label { color:#e9d5ff; text-transform:uppercase; letter-spacing:.08em; font-size:12px; font-weight:900; margin-bottom:8px; }
+    .q-text { font-size:17px; line-height:1.55; margin:0 0 14px; }
+    .empty { color:var(--soft); border:1px dashed rgba(255,255,255,.2); padding:18px; border-radius:16px; background:rgba(255,255,255,.03); }
+    footer { color:var(--soft); text-align:center; padding:24px 0 0; font-size:13px; }
+    @media (max-width:900px) { .grid { grid-template-columns:1fr; padding:16px; } .hero { padding:24px 18px; } }
   </style>
 </head>
 <body>
@@ -548,18 +77,13 @@
     <div class="wrap nav">
       <a class="brand" href="/">
         <div class="logo">T2T</div>
-        <div class="brand-title">
-          <strong>Text2Tool AI</strong>
-          <span>We build it, you own it</span>
-        </div>
+        <div><strong>Text2Tool AI</strong><span>We build it, you own it</span></div>
       </a>
-
       <nav class="links">
         <a href="/">Home</a>
         <a href="/pricing/">Pricing</a>
         <a href="/faq/">FAQ</a>
-        <button class="logout" id="logoutBtn" type="button" style="display:none;">Logout</button>
-        <a class="cta" href="/create-tool/?v=preview2">Create Tool</a>
+        <a class="cta" href="/create-tool/?v=preview-safe">Create Tool</a>
       </nav>
     </div>
   </header>
@@ -571,6 +95,7 @@
           <div class="spinner"></div>
           <h2>Loading your preview...</h2>
           <p>Please wait while we open your tool preview.</p>
+          <p id="loadingNote" style="color:#a59ab8;font-size:13px;margin-top:16px;"></p>
         </div>
       </section>
       <footer>Built for startups, agencies, virtual assistants and growing businesses. Text2Tool AI © 2026.</footer>
@@ -578,13 +103,20 @@
   </main>
 
   <script>
+    window.onerror = function(message, source, lineno, colno, error) {
+      showError('Page script error: ' + message + ' at line ' + lineno);
+      return true;
+    };
+
+    window.onunhandledrejection = function(event) {
+      const msg = event && event.reason && event.reason.message ? event.reason.message : 'Unknown loading error.';
+      showError('Preview loading error: ' + msg);
+    };
+
     const SUPABASE_URL = 'https://wldldtmtxmmlufcmubnr.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_R63WYwDu58UPHLJkb2eXPQ_4qUQS5PX';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     const app = document.getElementById('app');
-    const logoutBtn = document.getElementById('logoutBtn');
-
     const params = new URLSearchParams(window.location.search);
     const previewId = params.get('id') || '';
     const token = params.get('token') || '';
@@ -595,62 +127,72 @@
     let answers = {};
     let storageKey = '';
 
+    setTimeout(() => {
+      const note = document.getElementById('loadingNote');
+      if (note) note.textContent = 'Still loading. If this stays here, the page will show the exact error shortly.';
+    }, 4000);
+
     init();
 
     async function init() {
+      if (!previewId || !token) {
+        showError('Preview link is missing or incomplete.');
+        return;
+      }
+
       try {
-        // Do not let auth/session loading block the public preview page.
-        supabase.auth.getSession().then(({ data: sessionData }) => {
-          const session = sessionData && sessionData.session ? sessionData.session : null;
-          if (session) logoutBtn.style.display = 'inline-flex';
-        }).catch(() => {});
-
-        logoutBtn.addEventListener('click', async () => {
-          await supabase.auth.signOut();
-          window.location.href = '/';
-        });
-
-        if (!previewId || !token) {
-          throw new Error('Preview link is missing or incomplete.');
-        }
-
-        await loadPreview();
-        await renderPreview();
+        preview = await fetchPreview();
+        questions = toArray(preview.preview_questions);
+        storageKey = 't2t_preview_answers_' + previewId;
+        answers = readSavedAnswers();
+        renderPreview();
       } catch (error) {
-        renderError(error.message || 'Could not load preview.');
+        showError(error.message || 'Could not load preview.');
       }
     }
 
-    async function loadPreview() {
-      const query = supabase
-        .from('generated_tool_previews')
-        .select('id, preview_token, preview_title, preview_summary, preview_warning, preview_structure, preview_sections, preview_fields, preview_questions, complexity, status, created_at, expires_at')
-        .eq('id', previewId)
-        .eq('preview_token', token)
-        .maybeSingle();
+    async function fetchPreview() {
+      const endpoint =
+        SUPABASE_URL +
+        '/rest/v1/generated_tool_previews' +
+        '?id=eq.' + encodeURIComponent(previewId) +
+        '&preview_token=eq.' + encodeURIComponent(token) +
+        '&select=*';
 
-      const { data, error } = await withTimeout(query, 15000, 'Preview is taking too long to load. Please refresh the page.');
+      const response = await withTimeout(fetch(endpoint, {
+        method: 'GET',
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: 'Bearer ' + SUPABASE_KEY,
+          Accept: 'application/json'
+        }
+      }), 15000, 'Preview request timed out.');
 
-      if (error) throw error;
-      if (!data) throw new Error('Preview not found or expired.');
+      const text = await response.text();
 
-      preview = data;
-      questions = toArray(preview.preview_questions);
-      storageKey = 't2t_preview_answers_' + previewId;
-      answers = readSavedAnswers();
+      if (!response.ok) {
+        throw new Error('Preview could not be loaded. Details: ' + text.slice(0, 300));
+      }
+
+      const rows = JSON.parse(text);
+      if (!Array.isArray(rows) || !rows.length) {
+        throw new Error('Preview not found or expired.');
+      }
+
+      return rows[0];
     }
 
-    async function renderPreview() {
+    function renderPreview() {
       const title = preview.preview_title || 'Your tool preview is ready.';
       const summary = preview.preview_summary || 'Review your tool preview before creating the final tool.';
-      const complexity = preview.complexity || 'simple';
       const warning = preview.preview_warning || '';
+      const complexity = preview.complexity || 'simple';
 
       app.innerHTML = `
         <div class="hero">
           <div class="topline">
             <div class="badge">✅ Preview Ready</div>
-            <div class="badges">
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
               <div class="pill">Complexity: ${escapeHtml(capitalize(complexity))}</div>
               <div class="pill">Preview saved for 30 days</div>
               <div class="pill">1 Tool Credit = 1 tool</div>
@@ -662,18 +204,18 @@
         </div>
 
         <div class="grid">
-          <section class="card status-card" id="previewStatusCard">
+          <section class="card">
             <h2>Preview Status</h2>
-            <p>Checking your preview balance...</p>
+            <p>This is your tool preview. Review the structure and answer the questions before creating your final tool.</p>
+            <div class="actions">
+              <a class="btn btn-primary" href="/pricing/">View Tool Credits</a>
+              <a class="btn" href="/create-tool/?v=preview-safe">Create Another Preview</a>
+            </div>
           </section>
 
           <section class="card">
             <h2>Next Step</h2>
-            <p>Review this preview first. When you are ready, choose Tool Credits to create your final tool.</p>
-            <div class="actions">
-              <a class="btn btn-primary" href="/pricing/">View Tool Credits</a>
-              <a class="btn" href="/create-tool/?v=structured2">Create Another Preview</a>
-            </div>
+            <p>When you are ready, you can use Tool Credits to create your final tool.</p>
           </section>
 
           <section class="card structure-card">
@@ -693,92 +235,13 @@
 
           <section class="card questions-card">
             <h2>Follow-up Questions</h2>
-            <p>Answer one question at a time. Your answers are saved in this browser so you can review them without feeling overwhelmed.</p>
+            <p>Answer one question at a time. Your answers are saved in this browser.</p>
             <div id="questionsArea"></div>
           </section>
         </div>
       `;
 
-      await renderPreviewStatus();
       renderQuestions();
-    }
-
-    async function renderPreviewStatus() {
-      const box = document.getElementById('previewStatusCard');
-
-      try {
-        const { data, error } = await withTimeout(
-          supabase.rpc('get_my_preview_status'),
-          10000,
-          'Preview balance check took too long.'
-        );
-
-        if (error) throw error;
-
-        const status = data || {};
-        const mode = status.mode || 'free';
-        const credits = Number(status.tool_credits || 0);
-
-        let mainLabel = 'Free Previews';
-        let mainValue = `${Number(status.free_remaining || 0)} / ${Number(status.free_limit || 3)} left`;
-
-        if (mode === 'paid') {
-          mainLabel = 'Paid Previews';
-          mainValue = `${Number(status.paid_remaining || 0)} / ${Number(status.paid_limit || 30)} left`;
-        }
-
-        const canReset = mode === 'paid' && Number(status.paid_remaining || 0) <= 0 && credits > 0;
-
-        box.innerHTML = `
-          <h2>Preview Status</h2>
-          <div class="status-number">
-            <span>${escapeHtml(mainLabel)}</span>
-            <strong>${escapeHtml(mainValue)}</strong>
-          </div>
-          <div class="status-number">
-            <span>Tool Credits</span>
-            <strong>${credits}</strong>
-          </div>
-          <p>${escapeHtml(status.message || 'Preview status loaded.')}</p>
-          <div class="actions">
-            ${canReset ? '<button class="btn btn-primary" id="resetPreviewBtn" type="button">Reset Previews - 1 Tool Credit</button>' : ''}
-          </div>
-        `;
-
-        const resetBtn = document.getElementById('resetPreviewBtn');
-        if (resetBtn) {
-          resetBtn.addEventListener('click', resetPaidPreviews);
-        }
-      } catch (error) {
-        box.innerHTML = `
-          <h2>Preview Status</h2>
-          <p>Preview balance could not be checked right now.</p>
-          <div class="actions">
-            <a class="btn" href="/pricing/">View Tool Credits</a>
-          </div>
-        `;
-      }
-    }
-
-    async function resetPaidPreviews() {
-      const btn = document.getElementById('resetPreviewBtn');
-      if (!btn) return;
-
-      const ok = confirm('This will use 1 Tool Credit and reset your paid previews to 30. Continue?');
-      if (!ok) return;
-
-      btn.disabled = true;
-      btn.textContent = 'Resetting...';
-
-      try {
-        const { error } = await supabase.rpc('reset_my_paid_previews');
-        if (error) throw error;
-        await renderPreviewStatus();
-      } catch (error) {
-        alert(error.message || 'Could not reset previews.');
-        btn.disabled = false;
-        btn.textContent = 'Reset Previews - 1 Tool Credit';
-      }
     }
 
     function renderStructure(value) {
@@ -789,7 +252,7 @@
         const fields = toArray(preview.preview_fields);
 
         if (!sections.length && !fields.length) {
-          return '<div class="empty">The structured tab/column preview was not available for this older preview. Create another preview to see the full structure table.</div>';
+          return '<div class="empty">Create another preview to see the suggested tabs and columns.</div>';
         }
 
         const fallbackRows = sections.slice(0, 6).map((section, index) => ({
@@ -797,10 +260,6 @@
           purpose: 'Suggested section for this tool.',
           columns: fields.slice(index * 5, index * 5 + 5)
         }));
-
-        if (!fallbackRows.length) {
-          return '<div class="empty">Create another preview to see the suggested tabs and columns.</div>';
-        }
 
         return renderStructureTable(fallbackRows);
       }
@@ -824,11 +283,7 @@
                 <tr>
                   <td>${escapeHtml(row.tab_name)}</td>
                   <td>${escapeHtml(row.purpose || 'Used for this part of the tool.')}</td>
-                  <td>
-                    <div class="columns">
-                      ${toArray(row.columns).length ? toArray(row.columns).map(col => `<span class="col-pill">${escapeHtml(col)}</span>`).join('') : '<span class="col-pill">To be confirmed</span>'}
-                    </div>
-                  </td>
+                  <td><div class="columns">${toArray(row.columns).length ? toArray(row.columns).map(col => `<span class="col-pill">${escapeHtml(col)}</span>`).join('') : '<span class="col-pill">To be confirmed</span>'}</div></td>
                 </tr>
               `).join('')}
             </tbody>
@@ -839,17 +294,12 @@
 
     function renderList(value, emptyText) {
       const items = toArray(value);
-
-      if (!items.length) {
-        return `<div class="empty">${escapeHtml(emptyText)}</div>`;
-      }
-
+      if (!items.length) return `<div class="empty">${escapeHtml(emptyText)}</div>`;
       return `<ul class="list">${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`;
     }
 
     function renderQuestions() {
       const area = document.getElementById('questionsArea');
-
       if (!area) return;
 
       if (!questions.length) {
@@ -857,10 +307,7 @@
         return;
       }
 
-      if (qIndex < 0) qIndex = 0;
-      if (qIndex >= questions.length) qIndex = questions.length - 1;
-
-      const q = questions[qIndex];
+      const q = questions[qIndex] || questions[0];
       const answeredCount = Object.values(answers).filter(v => String(v || '').trim()).length;
       const progress = Math.round(((qIndex + 1) / questions.length) * 100);
       const savedAnswer = answers[qIndex] || '';
@@ -878,29 +325,14 @@
             <button class="btn btn-primary" type="button" id="nextQuestion">${qIndex === questions.length - 1 ? 'Save Answer' : 'Next Question'}</button>
             <button class="btn" type="button" id="copyAnswers">Copy answers</button>
           </div>
-          <div class="answer-count">${answeredCount} of ${questions.length} answered. Answers are saved in this browser.</div>
-          <div class="saved-answers" id="savedAnswers">
-            <h3>Your saved answers</h3>
-            <pre>${escapeHtml(formatAnswers())}</pre>
-          </div>
+          <p style="color:#a59ab8;font-size:13px;font-weight:800;">${answeredCount} of ${questions.length} answered. Answers are saved in this browser.</p>
         </div>
       `;
 
       document.getElementById('answerBox').addEventListener('input', saveCurrentAnswer);
-      document.getElementById('prevQuestion').addEventListener('click', () => {
-        saveCurrentAnswer();
-        qIndex = Math.max(0, qIndex - 1);
-        renderQuestions();
-      });
-      document.getElementById('skipQuestion').addEventListener('click', () => {
-        qIndex = Math.min(questions.length - 1, qIndex + 1);
-        renderQuestions();
-      });
-      document.getElementById('nextQuestion').addEventListener('click', () => {
-        saveCurrentAnswer();
-        if (qIndex < questions.length - 1) qIndex++;
-        renderQuestions();
-      });
+      document.getElementById('prevQuestion').addEventListener('click', () => { saveCurrentAnswer(); qIndex = Math.max(0, qIndex - 1); renderQuestions(); });
+      document.getElementById('skipQuestion').addEventListener('click', () => { qIndex = Math.min(questions.length - 1, qIndex + 1); renderQuestions(); });
+      document.getElementById('nextQuestion').addEventListener('click', () => { saveCurrentAnswer(); if (qIndex < questions.length - 1) qIndex++; renderQuestions(); });
       document.getElementById('copyAnswers').addEventListener('click', copyAnswers);
     }
 
@@ -912,17 +344,10 @@
     }
 
     function readSavedAnswers() {
-      try {
-        const raw = localStorage.getItem(storageKey);
-        return raw ? JSON.parse(raw) : {};
-      } catch (_) {
-        return {};
-      }
+      try { return JSON.parse(localStorage.getItem(storageKey) || '{}'); } catch (_) { return {}; }
     }
 
     function formatAnswers() {
-      if (!questions.length) return '';
-
       return questions.map((question, index) => {
         const answer = String(answers[index] || '').trim();
         return `Q${index + 1}: ${question}\nA${index + 1}: ${answer || '[Not answered yet]'}`;
@@ -931,15 +356,27 @@
 
     async function copyAnswers() {
       saveCurrentAnswer();
-      const text = formatAnswers();
-
       try {
-        await navigator.clipboard.writeText(text);
+        await navigator.clipboard.writeText(formatAnswers());
         alert('Answers copied.');
       } catch (_) {
-        const saved = document.getElementById('savedAnswers');
-        if (saved) saved.style.display = 'block';
+        alert(formatAnswers());
       }
+    }
+
+    function showError(message) {
+      const box = document.getElementById('app');
+      if (!box) return;
+      box.innerHTML = `
+        <div class="error-box">
+          <h2>Preview could not be opened</h2>
+          <p style="color:#c9c2d8;line-height:1.6;max-width:800px;margin:0 auto 18px;">${escapeHtml(message)}</p>
+          <div class="actions" style="justify-content:center;">
+            <a class="btn btn-primary" href="/create-tool/?v=preview-error">Create Tool</a>
+            <a class="btn" href="/">Go Home</a>
+          </div>
+        </div>
+      `;
     }
 
     function withTimeout(promise, ms, message) {
@@ -949,28 +386,12 @@
       ]);
     }
 
-    function renderError(message) {
-      app.innerHTML = `
-        <div class="error-box">
-          <h2>Preview could not be opened</h2>
-          <p>${escapeHtml(message)}</p>
-          <div class="actions" style="justify-content:center;">
-            <a class="btn btn-primary" href="/create-tool/?v=previewerror">Create Tool</a>
-            <a class="btn" href="/">Go Home</a>
-          </div>
-        </div>
-      `;
-    }
-
     function normalizeStructure(value) {
       let rows = value;
-
       if (typeof rows === 'string') {
         try { rows = JSON.parse(rows); } catch (_) { rows = []; }
       }
-
       if (!Array.isArray(rows)) return [];
-
       return rows.map(item => {
         if (!item || typeof item !== 'object') return null;
         return {
@@ -982,37 +403,29 @@
     }
 
     function toArray(value) {
-      if (Array.isArray(value)) {
-        return value.map(item => String(item || '').trim()).filter(Boolean);
-      }
-
+      if (Array.isArray(value)) return value.map(item => String(item || '').trim()).filter(Boolean);
       if (typeof value === 'string') {
         try {
           const parsed = JSON.parse(value);
-          if (Array.isArray(parsed)) {
-            return parsed.map(item => String(item || '').trim()).filter(Boolean);
-          }
+          if (Array.isArray(parsed)) return parsed.map(item => String(item || '').trim()).filter(Boolean);
         } catch (_) {}
-
         return value.split('\n').map(item => item.trim()).filter(Boolean);
       }
-
       return [];
     }
 
     function capitalize(value) {
       const clean = String(value || '').trim();
-      if (!clean) return '';
-      return clean.charAt(0).toUpperCase() + clean.slice(1);
+      return clean ? clean.charAt(0).toUpperCase() + clean.slice(1) : '';
     }
 
     function escapeHtml(value) {
       return String(value ?? '')
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#039;');
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;')
+        .replaceAll('"','&quot;')
+        .replaceAll("'","&#039;");
     }
   </script>
 </body>
