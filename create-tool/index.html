@@ -382,15 +382,13 @@
       font-size: 12px;
     }
 
-    .selected-files,
-    .selected-links {
+    .selected-files {
       display: grid;
       gap: 8px;
       margin-top: 12px;
     }
 
-    .file-chip,
-    .link-chip {
+    .file-chip {
       border: 1px solid rgba(255,255,255,.11);
       background: rgba(0,0,0,.18);
       border-radius: 14px;
@@ -787,12 +785,6 @@
       jpeg: ["image/jpeg"]
     };
 
-    const allowedMimeByExtension = {
-      png: ["image/png"],
-      jpg: ["image/jpeg"],
-      jpeg: ["image/jpeg"]
-    };
-
     const menuBtn = document.getElementById("menuBtn");
     const navLinks = document.getElementById("navLinks");
     const authLoading = document.getElementById("authLoading");
@@ -911,6 +903,12 @@
 
     promptInput.addEventListener("input", updateCharCounter);
     updateCharCounter();
+
+    setTimeout(() => {
+      if (authLoading && authLoading.style.display !== "none") {
+        authLoading.innerHTML = "<strong>Still checking login...</strong><p>Please refresh once. If it stays here, open the browser console and check for a red JavaScript error.</p>";
+      }
+    }, 12000);
 
     async function ensureAuth() {
       const { data, error } = await supabaseClient.auth.getSession();
@@ -1118,7 +1116,7 @@
       }
 
       if (prompt.length > currentPromptLimit) {
-        showMessage("Your prompt is too long. Your current limit is " + currentPromptLimit.toLocaleString() + " characters. With Tool Credits, longer prompts are unlocked. For large lists or old data, upload a CSV/XLSX file instead.", "error");
+        showMessage("Your prompt is too long. Your current limit is " + currentPromptLimit.toLocaleString() + " characters. With Tool Credits, longer prompts are unlocked. Links are not allowed in prompts.", "error");
         return;
       }
 
@@ -1130,7 +1128,7 @@
       const hasAttachments = selectedFiles.length > 0;
 
       if (hasAttachments && toolCreditBalance <= 0) {
-        showMessage("Uploads and links are available when you have at least 1 Tool Credit.", "error");
+        showMessage("Screenshot uploads are available when you have at least 1 Tool Credit.", "error");
         return;
       }
 
