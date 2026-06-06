@@ -220,9 +220,15 @@
             </div>
           </section>
 
-          <section class="card">
-            <h2>Next Step</h2>
-            <p>When you are ready, you can use Tool Credits to create your final tool.</p>
+          <section class="card final-create-card">
+            <h2>Create Final Tool</h2>
+            <p>When the preview looks good, use 1 Tool Credit to create your final copy-paste-ready tool.</p>
+            <div class="actions">
+              <button class="btn btn-primary" type="button" id="createFinalToolBtn">Create My Tool</button>
+              <a class="btn" href="/pricing/">Buy Tool Credits</a>
+            </div>
+            <div class="change-message" id="finalToolMessage"></div>
+            <p class="change-note">1 Tool Credit is used only after the final tool is successfully generated and saved.</p>
           </section>
 
           <section class="card change-card structure-card">
@@ -261,6 +267,66 @@
 
       renderQuestions();
       setupChangeRequest();
+      setupCreateFinalTool();
+    }
+
+
+    function setupCreateFinalTool() {
+      const btn = document.getElementById('createFinalToolBtn');
+      const msg = document.getElementById('finalToolMessage');
+      if (!btn || !msg) return;
+
+      btn.addEventListener('click', async () => {
+        saveCurrentAnswer();
+
+        msg.className = 'change-message';
+        msg.textContent = '';
+
+        if (!supabaseClient) {
+          msg.className = 'change-message error';
+          msg.textContent = 'Could not load the final tool system. Please refresh the page and try again.';
+          return;
+        }
+
+        const confirmed = window.confirm('Create your final tool now? This will use 1 Tool Credit only after the final tool is successfully generated and saved.');
+        if (!confirmed) return;
+
+        btn.disabled = true;
+        btn.textContent = 'Creating final tool...';
+        msg.className = 'change-message success';
+        msg.textContent = 'Creating your final tool. This can take 1-3 minutes for larger tools. Please keep this tab open.';
+
+        try {
+          const data = await callProcessToolRequest({
+            action: 'create_final_tool',
+            preview_id: previewId,
+            preview_token: token,
+            followup_answers: buildFollowupAnswersObject()
+          }, 240000, 'Final tool generation timed out. Please try again. Your Tool Credit should only be used after successful save.');
+
+          if (!data || !data.success) throw new Error(data?.error || 'Could not create final tool.');
+
+          msg.className = 'change-message success';
+          msg.textContent = 'Final tool ready. Opening it now...';
+          window.location.href = '/final/?id=' + encodeURIComponent(data.final_id) + '&token=' + encodeURIComponent(data.final_token) + '&v=final1';
+        } catch (error) {
+          msg.className = 'change-message error';
+          msg.textContent = error?.message || 'Could not create final tool. Please try again.';
+          btn.disabled = false;
+          btn.textContent = 'Create My Tool';
+        }
+      });
+    }
+
+    function buildFollowupAnswersObject() {
+      const result = {};
+      questions.forEach((question, index) => {
+        result[String(index + 1)] = {
+          question: String(question || ''),
+          answer: String(answers[index] || '').trim()
+        };
+      });
+      return result;
     }
 
     function setupChangeRequest() {
@@ -327,7 +393,7 @@
     }
 
 
-    async function callProcessToolRequest(payload) {
+    async function callProcessToolRequest(payload, timeoutMs = 45000, timeoutMessage = 'Preview update timed out. Please try again.') {
       const sessionResult = await supabaseClient.auth.getSession().catch(() => ({ data: null }));
       const accessToken = sessionResult?.data?.session?.access_token || SUPABASE_KEY;
 
@@ -339,7 +405,7 @@
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
-      }), 45000, 'Preview update timed out. Please try again.');
+      }), timeoutMs, timeoutMessage);
 
       const text = await response.text();
       let data = null;
