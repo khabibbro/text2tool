@@ -7,6 +7,8 @@
   <title>Text2Tool AI | Turn Text Into Business Tools</title>
   <meta name="description" content="Describe the business tool you need and get a clear AI-generated preview before launching it." />
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     :root {
       --bg: #07050d;
@@ -95,17 +97,22 @@
       gap: 8px;
     }
 
-    .nav-links a {
+    .nav-links a,
+    .logout-btn {
       padding: 10px 13px;
       color: var(--muted);
       border-radius: 999px;
       font-weight: 750;
       font-size: 14px;
       transition: .2s ease;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
     }
 
     .nav-links a:hover,
-    .nav-links a.active {
+    .nav-links a.active,
+    .logout-btn:hover {
       color: #fff;
       background: rgba(255,255,255,.09);
     }
@@ -490,7 +497,8 @@
 
       .nav-links.open { display: flex; }
 
-      .nav-links a {
+      .nav-links a,
+      .logout-btn {
         width: 100%;
         text-align: center;
       }
@@ -544,6 +552,7 @@
         <a class="active" href="/">Home</a>
         <a href="/pricing/">Pricing</a>
         <a href="/faq/">FAQ</a>
+        <button class="logout-btn" type="button" id="logoutBtn" style="display:none;">Logout</button>
         <a class="nav-cta" href="/create-tool/">Create Tool</a>
       </div>
     </nav>
@@ -692,13 +701,34 @@
   </footer>
 
   <script>
+    const SUPABASE_URL = "https://wldldtmtxmmlufcmubnr.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_R63WYwDu58UPHLJkb2eXPQ_4qUQS5PX";
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
     const menuBtn = document.getElementById("menuBtn");
     const navLinks = document.getElementById("navLinks");
+    const logoutBtn = document.getElementById("logoutBtn");
     const flipCards = document.querySelectorAll(".flip-card");
 
     menuBtn?.addEventListener("click", () => {
       navLinks.classList.toggle("open");
     });
+
+    async function checkHeaderLogin() {
+      const { data } = await supabaseClient.auth.getSession();
+
+      if (data?.session) {
+        logoutBtn.style.display = "inline-flex";
+      }
+    }
+
+    logoutBtn?.addEventListener("click", async () => {
+      await supabaseClient.auth.signOut();
+      window.location.href = "/";
+    });
+
+    checkHeaderLogin();
 
     flipCards.forEach((card) => {
       let clickedBack = false;
