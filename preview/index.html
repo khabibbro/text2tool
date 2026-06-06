@@ -3,9 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Tool Preview | Text2Tool AI</title>
-  <meta name="description" content="Review your Text2Tool AI preview before launch." />
+  <meta name="description" content="Review your Text2Tool AI preview before choosing a Tool Credits pack." />
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     :root {
       --bg: #07050d;
@@ -25,7 +28,10 @@
       --shadow: 0 24px 80px rgba(0,0,0,.45);
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -37,8 +43,14 @@
       min-height: 100vh;
     }
 
-    a { color: inherit; text-decoration: none; }
-    button { font: inherit; }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
 
     .site-header {
       position: sticky;
@@ -186,26 +198,27 @@
       max-width: 760px;
     }
 
-    .price-card {
+    .action-card {
       border: 1px solid rgba(192, 132, 252, .25);
       border-radius: 24px;
       background: rgba(139,92,246,.12);
       padding: 20px;
     }
 
-    .price-card small {
+    .action-card small {
       color: #e9d5ff;
       font-weight: 850;
     }
 
-    .price {
-      font-size: 54px;
+    .action-title {
+      font-size: 30px;
       font-weight: 950;
-      letter-spacing: -0.06em;
-      margin: 4px 0 4px;
+      letter-spacing: -0.04em;
+      line-height: 1.08;
+      margin: 8px 0 10px;
     }
 
-    .price-card p {
+    .action-card p {
       margin: 0 0 16px;
       color: var(--muted);
       line-height: 1.55;
@@ -300,9 +313,12 @@
       cursor: pointer;
       transition: transform .2s ease, opacity .2s ease;
       width: 100%;
+      text-align: center;
     }
 
-    .btn:hover { transform: translateY(-2px); }
+    .btn:hover {
+      transform: translateY(-2px);
+    }
 
     .btn-primary {
       background: linear-gradient(135deg, var(--purple), var(--pink));
@@ -316,7 +332,7 @@
       border: 1px solid var(--line);
     }
 
-    .price-actions {
+    .action-buttons {
       display: grid;
       gap: 10px;
     }
@@ -360,7 +376,11 @@
       margin: 0 auto 14px;
     }
 
-    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
 
     footer {
       border-top: 1px solid var(--line);
@@ -373,13 +393,26 @@
     }
 
     @media (max-width: 900px) {
-      .hero-row { grid-template-columns: 1fr; }
-      .preview-grid { grid-template-columns: 1fr; }
+      .hero-row {
+        grid-template-columns: 1fr;
+      }
+
+      .preview-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 860px) {
-      .nav { height: auto; padding: 14px 0; align-items: flex-start; }
-      .menu-btn { display: block; }
+      .nav {
+        height: auto;
+        padding: 14px 0;
+        align-items: flex-start;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+
       .nav-links {
         display: none;
         position: absolute;
@@ -393,17 +426,34 @@
         flex-direction: column;
         align-items: stretch;
       }
-      .nav-links.open { display: flex; }
-      .nav-links a, .logout-btn { width: 100%; text-align: center; }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a,
+      .logout-btn {
+        width: 100%;
+        text-align: center;
+      }
     }
 
     @media (max-width: 520px) {
-      .panel { padding: 20px; }
-      .brand span { font-size: 15px; }
-      .brand small { font-size: 10px; }
+      .panel {
+        padding: 20px;
+      }
+
+      .brand span {
+        font-size: 15px;
+      }
+
+      .brand small {
+        font-size: 10px;
+      }
     }
   </style>
 </head>
+
 <body>
   <header class="site-header">
     <nav class="nav" aria-label="Main navigation">
@@ -438,24 +488,27 @@
     <section id="previewContent" class="panel" style="display:none;">
       <div class="hero-row">
         <div>
-          <div class="badge">✅ Preview Ready • $1 launch offer</div>
+          <div class="badge">✅ Preview Ready</div>
           <h1 id="previewTitle">Your tool preview is ready.</h1>
           <p class="summary" id="previewSummary"></p>
 
           <div class="meta-row">
             <div class="meta" id="complexityMeta">Complexity: Simple</div>
             <div class="meta">Preview saved for 30 days</div>
-            <div class="meta">Payment checkout coming next</div>
+            <div class="meta">1 Tool Credit = 1 tool</div>
           </div>
         </div>
 
-        <aside class="price-card">
-          <small>Launch offer</small>
-          <div class="price">$1</div>
-          <p>Payment is not connected yet. This button is ready as a placeholder for Lemon Squeezy, Paddle, or another checkout later.</p>
-          <div class="price-actions">
-            <button class="btn btn-primary" type="button" id="paymentBtn">Continue to Payment</button>
-            <a class="btn btn-secondary" href="/create-tool/">Create Another Tool</a>
+        <aside class="action-card">
+          <small>Next step</small>
+          <div class="action-title">Choose Tool Credits</div>
+          <p>
+            Review this preview first. When you are ready, choose a Tool Credits pack to generate tools.
+          </p>
+
+          <div class="action-buttons">
+            <a class="btn btn-primary" href="/pricing/">View Tool Credits</a>
+            <a class="btn btn-secondary" href="/create-tool/">Create Another Preview</a>
           </div>
         </aside>
       </div>
@@ -474,7 +527,7 @@
 
       <div class="questions">
         <h2>Questions / notes</h2>
-        <p id="questionsText">No extra questions needed. We can prepare the first version.</p>
+        <p id="questionsText">No extra questions detected. This preview is ready to review.</p>
       </div>
     </section>
   </main>
@@ -495,7 +548,6 @@
     const loading = document.getElementById("loading");
     const errorState = document.getElementById("errorState");
     const previewContent = document.getElementById("previewContent");
-    const paymentBtn = document.getElementById("paymentBtn");
 
     menuBtn?.addEventListener("click", () => {
       navLinks.classList.toggle("open");
@@ -525,7 +577,9 @@
 
     function normalizeArray(value) {
       if (Array.isArray(value)) return value.filter(Boolean);
+
       if (!value) return [];
+
       if (typeof value === "string") {
         try {
           const parsed = JSON.parse(value);
@@ -534,6 +588,7 @@
           return value.split(",").map(item => item.trim()).filter(Boolean);
         }
       }
+
       return [];
     }
 
@@ -610,19 +665,16 @@
       renderList("fieldsList", fields, ["Name", "Date", "Status", "Amount", "Notes"]);
 
       const questionsText = document.getElementById("questionsText");
+
       if (questions.length) {
         questionsText.innerHTML = questions.map(q => "• " + escapeHtml(q)).join("<br>");
       } else {
-        questionsText.textContent = "No extra questions needed. We can prepare the first version.";
+        questionsText.textContent = "No extra questions detected. This preview is ready to review.";
       }
 
       loading.style.display = "none";
       previewContent.style.display = "block";
     }
-
-    paymentBtn?.addEventListener("click", () => {
-      alert("Payment connection is the next step. For now, this preview flow is working.");
-    });
 
     logoutBtn?.addEventListener("click", async () => {
       await supabaseClient.auth.signOut();
