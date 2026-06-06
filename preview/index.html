@@ -325,9 +325,22 @@
           msg.className = 'change-message success';
           msg.textContent = data.already_exists
             ? 'Your final tool request is already in progress. Opening status page...'
-            : 'Final tool request saved. Opening status page...';
+            : 'Final tool request saved. Starting private build...';
 
-          window.location.href = '/final/?id=' + encodeURIComponent(data.delivery_id) + '&token=' + encodeURIComponent(data.delivery_token) + '&v=delivery1';
+          if (!data.already_exists) {
+            try {
+              await callProcessToolRequest({
+                action: 'build_final_tool',
+                delivery_id: data.delivery_id,
+                delivery_token: data.delivery_token
+              }, 120000, 'Private build is taking longer than expected. Opening status page now.');
+            } catch (buildError) {
+              console.warn('Private build trigger failed:', buildError);
+              msg.textContent = 'Final tool request saved. Opening status page...';
+            }
+          }
+
+          window.location.href = '/final/?id=' + encodeURIComponent(data.delivery_id) + '&token=' + encodeURIComponent(data.delivery_token) + '&v=delivery2';
         } catch (error) {
           msg.className = 'change-message error';
           msg.textContent = error?.message || 'Could not save final tool request. Please try again.';
