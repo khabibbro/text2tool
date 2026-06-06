@@ -297,6 +297,23 @@
       color: #fecaca;
     }
 
+    .link-error {
+      display: none;
+      margin-top: 10px;
+      border: 1px solid rgba(239,68,68,.30);
+      background: rgba(239,68,68,.11);
+      color: #fecaca;
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-weight: 850;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .link-error.show {
+      display: block;
+    }
+
     .upload-panel {
       display: none;
       margin-top: 16px;
@@ -683,20 +700,22 @@
           ></textarea>
 
           <div class="prompt-meta">
-            <span id="promptLimitHelp">Free preview limit: 2,000 characters. With Tool Credits: up to 150,000 characters. For very large lists, upload CSV/XLSX.</span>
+            <span id="promptLimitHelp">Free preview limit: 2,000 characters. With Tool Credits: up to 150,000 characters. Links are not allowed in prompts.</span>
             <span class="char-counter" id="charCounter">0 / 2,000</span>
           </div>
+
+          <div class="link-error" id="linkError">Links are not allowed in prompt. Please remove website links/domains or upload a screenshot instead.</div>
 
           <div
             class="upload-panel"
             id="uploadPanel"
-            title="Click to open upload options. Upload old sheets, CSV/XLSX files, or screenshots to update/fix errors or give examples."
+            title="Click to upload PNG/JPG/JPEG screenshots only. Typed links and document files are blocked for safety."
           >
             <div class="upload-top">
               <div>
-                <p class="upload-title">Upload files or paste safe links</p>
+                <p class="upload-title">Upload screenshots</p>
                 <p class="upload-help">
-                  Upload screenshots, CSV files, XLSX files, or paste Google Sheets / Google Docs links to improve your request.
+                  Upload PNG, JPG, or JPEG screenshots only to show examples, old sheets, errors, layouts, or instructions visually. Links shown inside screenshots are treated as pixels only and will not be opened or followed.
                 </p>
               </div>
 
@@ -708,25 +727,13 @@
               id="fileInput"
               multiple
               style="display:none;"
-              accept=".png,.jpg,.jpeg,.webp,.csv,.xlsx"
+              accept=".png,.jpg,.jpeg"
             />
-
-            <div class="link-row">
-              <input
-                class="link-input"
-                id="linkInput"
-                type="url"
-                placeholder="Paste Google Sheets or Google Docs link only"
-              />
-              <button class="btn btn-secondary" id="addLinkBtn" type="button">Add Link</button>
-            </div>
-
-            <p class="tiny-note">
-              Upload limit: maximum 5 files per request and 2MB per file. For safety, only PNG, JPG, JPEG, WEBP, CSV, and XLSX files are allowed. PDF, DOC/DOCX, old XLS, ZIP, EXE, scripts, Google Drive links, and random website links are blocked.
+<p class="tiny-note">
+              Upload limit: maximum 5 screenshots per request and 2MB per screenshot. Only PNG, JPG, and JPEG screenshots are allowed. Typed links, Google Sheets links, Google Docs links, CSV, XLSX, PDF, DOCX, ZIP, scripts, and random websites are blocked.
             </p>
 
             <div class="selected-files" id="selectedFiles"></div>
-            <div class="selected-links" id="selectedLinks"></div>
           </div>
 
           <div class="form-actions">
@@ -734,7 +741,7 @@
               class="btn btn-upload"
               id="uploadBtn"
               type="button"
-              title="Click to open upload options. Upload old sheets, CSV/XLSX files, or screenshots to update/fix errors or give examples."
+              title="Click to upload PNG/JPG/JPEG screenshots only. Typed links and document files are blocked for safety."
             >
               Upload File
             </button>
@@ -771,17 +778,19 @@
     const MAX_FILE_SIZE = 2 * 1024 * 1024;
 
     const allowedExtensions = [
-      "png", "jpg", "jpeg", "webp",
-      "csv", "xlsx"
+      "png", "jpg", "jpeg"
     ];
 
     const allowedMimeByExtension = {
       png: ["image/png"],
       jpg: ["image/jpeg"],
-      jpeg: ["image/jpeg"],
-      webp: ["image/webp"],
-      csv: ["text/csv", "application/csv"],
-      xlsx: ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]
+      jpeg: ["image/jpeg"]
+    };
+
+    const allowedMimeByExtension = {
+      png: ["image/png"],
+      jpg: ["image/jpeg"],
+      jpeg: ["image/jpeg"]
     };
 
     const menuBtn = document.getElementById("menuBtn");
@@ -796,21 +805,18 @@
     const form = document.getElementById("toolForm");
     const promptInput = document.getElementById("prompt");
     const charCounter = document.getElementById("charCounter");
+    const linkError = document.getElementById("linkError");
     const promptLimitHelp = document.getElementById("promptLimitHelp");
     const submitBtn = document.getElementById("submitBtn");
     const exampleBtn = document.getElementById("exampleBtn");
     const uploadBtn = document.getElementById("uploadBtn");
     const fileInput = document.getElementById("fileInput");
     const selectedFilesBox = document.getElementById("selectedFiles");
-    const linkInput = document.getElementById("linkInput");
-    const addLinkBtn = document.getElementById("addLinkBtn");
-    const selectedLinksBox = document.getElementById("selectedLinks");
     const message = document.getElementById("message");
 
     let currentUser = null;
     let toolCreditBalance = 0;
     let selectedFiles = [];
-    let selectedLinks = [];
     let uploadPanelOpen = false;
 
     menuBtn?.addEventListener("click", () => {
@@ -826,8 +832,6 @@
       submitBtn.disabled = isBusy;
       exampleBtn.disabled = isBusy;
       uploadBtn.disabled = isBusy;
-      addLinkBtn.disabled = isBusy || toolCreditBalance <= 0;
-      linkInput.disabled = isBusy || toolCreditBalance <= 0;
       submitBtn.textContent = isBusy ? "Preparing Preview..." : "Submit Tool Request";
     }
 
@@ -837,7 +841,7 @@
       if (toolCreditBalance > 0) {
         currentPromptLimit = PAID_PROMPT_CHARS;
         promptInput.setAttribute("maxlength", String(PAID_PROMPT_CHARS));
-        promptLimitHelp.textContent = "Tool Credits active: you can add up to 150,000 characters. For very large lists, CSV/XLSX upload is still better.";
+        promptLimitHelp.textContent = "Tool Credits active: you can add up to 150,000 characters. Links are not allowed in prompts.";
 
         uploadPanel.classList.remove("locked");
         uploadLockPill.textContent = "Upload enabled";
@@ -845,18 +849,14 @@
         uploadLockPill.style.borderColor = "rgba(34,197,94,.25)";
         uploadLockPill.style.background = "rgba(34,197,94,.10)";
         uploadBtn.disabled = false;
-        addLinkBtn.disabled = false;
-        linkInput.disabled = false;
       } else {
         currentPromptLimit = FREE_PROMPT_CHARS;
         promptInput.setAttribute("maxlength", String(FREE_PROMPT_CHARS));
-        promptLimitHelp.textContent = "Free preview limit: 2,000 characters. Buy Tool Credits to unlock longer prompts and uploads.";
+        promptLimitHelp.textContent = "Free preview limit: 2,000 characters. Buy Tool Credits to unlock longer prompts and screenshot uploads. Links are not allowed.";
 
         uploadPanel.classList.add("locked");
         uploadLockPill.textContent = "Requires Tool Credits";
         uploadBtn.disabled = false;
-        addLinkBtn.disabled = true;
-        linkInput.disabled = true;
       }
 
       updateCharCounter();
@@ -875,6 +875,17 @@
       updateCreditUI();
     }
 
+
+    function promptHasDisallowedLink(text) {
+      const value = String(text || "");
+
+      const explicitLink = /https?:\/\/|www\./i.test(value);
+
+      const domainLike = /(^|[^A-Za-z0-9@._-])([A-Za-z0-9-]+\.)+[A-Za-z]{2,}([/?#:]|$|[^A-Za-z0-9._-])/i.test(value);
+
+      return explicitLink || domainLike;
+    }
+
     function updateCharCounter() {
       const length = promptInput.value.length;
       charCounter.textContent = length.toLocaleString() + " / " + currentPromptLimit.toLocaleString();
@@ -885,6 +896,16 @@
         charCounter.classList.add("danger");
       } else if (length >= Math.floor(currentPromptLimit * 0.85)) {
         charCounter.classList.add("warning");
+      }
+
+      const hasLink = promptHasDisallowedLink(promptInput.value);
+      linkError.classList.toggle("show", hasLink);
+      submitBtn.disabled = hasLink;
+
+      if (hasLink) {
+        submitBtn.title = "Links are not allowed in prompt.";
+      } else {
+        submitBtn.title = "";
       }
     }
 
@@ -973,13 +994,13 @@
         const ext = getFileExtension(file.name);
 
         if (!allowedExtensions.includes(ext)) {
-          showMessage("Unsupported file type: " + file.name + "\nAllowed: PNG, JPG, JPEG, WEBP, CSV, XLSX only.", "error");
+          showMessage("Unsupported file type: " + file.name + "\nAllowed: PNG, JPG, JPEG screenshots only.", "error");
           continue;
         }
 
         const allowedMimes = allowedMimeByExtension[ext] || [];
         if (file.type && !allowedMimes.includes(file.type)) {
-          showMessage("Blocked for safety: " + file.name + "\nThe file type does not match the allowed safe format.", "error");
+          showMessage("Blocked for safety: " + file.name + "\nOnly real PNG, JPG, and JPEG screenshots are allowed.", "error");
           continue;
         }
 
@@ -997,106 +1018,6 @@
       uploadBtn.textContent = "Choose File";
       renderSelectedFiles();
     });
-
-    addLinkBtn.addEventListener("click", () => {
-      addLinkFromInput();
-    });
-
-    linkInput.addEventListener("keydown", (event) => {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        addLinkFromInput();
-      }
-    });
-
-    function addLinkFromInput() {
-      if (toolCreditBalance <= 0) {
-        showMessage("Link attachment is available when you have at least 1 Tool Credit.", "error");
-        return;
-      }
-
-      const value = linkInput.value.trim();
-
-      if (!value) {
-        showMessage("Please paste a Google Sheets or Google Docs link first.", "error");
-        return;
-      }
-
-      const validation = validateSafeGoogleLink(value);
-
-      if (!validation.valid) {
-        showMessage(validation.message, "error");
-        return;
-      }
-
-      if (selectedLinks.some(item => item.url === validation.url)) {
-        showMessage("This link is already added.", "error");
-        return;
-      }
-
-      selectedLinks.push({
-        url: validation.url,
-        type: validation.type
-      });
-
-      linkInput.value = "";
-      uploadPanelOpen = true;
-      uploadPanel.classList.add("open");
-      uploadBtn.textContent = "Choose File";
-      renderSelectedLinks();
-      showMessage("Safe Google link added.", "success");
-    }
-
-    function validateSafeGoogleLink(value) {
-      let parsed;
-
-      try {
-        parsed = new URL(value);
-      } catch (error) {
-        return {
-          valid: false,
-          message: "Please paste a correct Google Sheets or Google Docs link that starts with https://."
-        };
-      }
-
-      if (parsed.protocol !== "https:") {
-        return {
-          valid: false,
-          message: "Only secure https:// Google Sheets or Google Docs links are allowed."
-        };
-      }
-
-      const host = parsed.hostname.toLowerCase();
-      const fullUrl = parsed.href;
-
-      if (host !== "docs.google.com") {
-        return {
-          valid: false,
-          message: "For safety, only Google Sheets and Google Docs links are allowed. Google Drive, random websites, short links, and direct download links are blocked."
-        };
-      }
-
-      if (fullUrl.includes("/spreadsheets/")) {
-        return {
-          valid: true,
-          url: fullUrl,
-          type: "google_sheet"
-        };
-      }
-
-      if (fullUrl.includes("/document/")) {
-        return {
-          valid: true,
-          url: fullUrl,
-          type: "google_doc"
-        };
-      }
-
-      return {
-        valid: false,
-        message: "This Google link is not allowed. Please paste a Google Sheets link or Google Docs link only."
-      };
-    }
 
     function getFileExtension(name) {
       return String(name || "").split(".").pop().toLowerCase();
@@ -1125,23 +1046,9 @@
       `).join("");
     }
 
-    function renderSelectedLinks() {
-      selectedLinksBox.innerHTML = selectedLinks.map((item, index) => `
-        <div class="link-chip">
-          <span>🔗 ${escapeHtml(item.type.replaceAll("_", " "))}: ${escapeHtml(item.url)}</span>
-          <button class="remove-mini" type="button" onclick="removeSelectedLink(${index})">Remove</button>
-        </div>
-      `).join("");
-    }
-
     window.removeSelectedFile = function(index) {
       selectedFiles.splice(index, 1);
       renderSelectedFiles();
-    };
-
-    window.removeSelectedLink = function(index) {
-      selectedLinks.splice(index, 1);
-      renderSelectedLinks();
     };
 
     function escapeHtml(value) {
@@ -1180,7 +1087,7 @@
           file_path: filePath,
           file_type: file.type || getFileExtension(file.name),
           file_size_bytes: file.size,
-          notes: "Safer MVP upload with tool request. Allowed types only: PNG/JPG/JPEG/WEBP/CSV/XLSX."
+          notes: "Screenshot-only MVP upload. Allowed types only: PNG/JPG/JPEG."
         });
       }
 
@@ -1195,27 +1102,6 @@
       }
     }
 
-    async function saveSelectedLinksForRequest(requestId) {
-      if (!selectedLinks.length) return;
-
-      const rows = selectedLinks.map((item) => ({
-        tool_request_id: requestId,
-        user_id: currentUser.id,
-        source_type: "link",
-        link_url: item.url,
-        link_type: item.type,
-        notes: "Safe Google link pasted with tool request"
-      }));
-
-      const { error } = await supabaseClient
-        .from("tool_request_files")
-        .insert(rows);
-
-      if (error) {
-        throw new Error("Link details could not be saved: " + error.message);
-      }
-    }
-
     form?.addEventListener("submit", async (event) => {
       event.preventDefault();
 
@@ -1223,6 +1109,11 @@
 
       if (!prompt) {
         showMessage("Please describe the tool you want to create.", "error");
+        return;
+      }
+
+      if (promptHasDisallowedLink(prompt)) {
+        showMessage("Links are not allowed in prompt. Please remove website links/domains or upload a screenshot instead.", "error");
         return;
       }
 
@@ -1236,7 +1127,7 @@
         return;
       }
 
-      const hasAttachments = selectedFiles.length > 0 || selectedLinks.length > 0;
+      const hasAttachments = selectedFiles.length > 0;
 
       if (hasAttachments && toolCreditBalance <= 0) {
         showMessage("Uploads and links are available when you have at least 1 Tool Credit.", "error");
@@ -1254,9 +1145,9 @@
             email: currentUser.email,
             prompt: prompt,
             status: "submitted",
-            source_links: selectedLinks,
+            source_links: [],
             upload_context: hasAttachments
-              ? "User added " + selectedFiles.length + " file(s) and " + selectedLinks.length + " safe Google link(s) for reference."
+              ? "User added " + selectedFiles.length + " screenshot(s) for visual reference."
               : null
           })
           .select("id")
@@ -1267,16 +1158,11 @@
         }
 
         if (selectedFiles.length) {
-          showMessage("Uploading files...", "success");
+          showMessage("Uploading screenshots...", "success");
           await uploadSelectedFilesForRequest(requestRow.id);
         }
 
-        if (selectedLinks.length) {
-          showMessage("Saving safe Google links...", "success");
-          await saveSelectedLinksForRequest(requestRow.id);
-        }
-
-        showMessage("Files and request saved. Preparing preview overview...", "success");
+        showMessage("Screenshots and request saved. Preparing preview overview...", "success");
 
         const { data: functionData, error: functionError } = await supabaseClient.functions.invoke("process-tool-request", {
           body: {
