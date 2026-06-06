@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Text2Tool AI | Turn Text Into Business Tools</title>
   <meta name="description" content="Describe the business tool you need and get a clear AI-generated preview before launching it." />
+
   <style>
     :root {
       --bg: #07050d;
@@ -18,14 +20,19 @@
       --purple-2: #c084fc;
       --pink: #ec4899;
       --green: #22c55e;
-      --warning: #f59e0b;
       --radius: 22px;
       --max: 1120px;
       --shadow: 0 24px 80px rgba(0,0,0,.45);
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -37,8 +44,15 @@
       min-height: 100vh;
     }
 
-    a { color: inherit; text-decoration: none; }
-    button, textarea { font: inherit; }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    textarea {
+      font: inherit;
+    }
 
     .site-header {
       position: sticky;
@@ -111,7 +125,7 @@
     }
 
     .nav-cta {
-      padding: 12px 16px;
+      padding: 12px 16px !important;
       border-radius: 999px;
       background: linear-gradient(135deg, var(--purple), var(--pink));
       color: #fff !important;
@@ -197,7 +211,9 @@
       transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
     }
 
-    .btn:hover { transform: translateY(-2px); }
+    .btn:hover {
+      transform: translateY(-2px);
+    }
 
     .btn-primary {
       background: linear-gradient(135deg, var(--purple), var(--pink));
@@ -248,9 +264,15 @@
       margin-bottom: 12px;
     }
 
-    .dots { display: flex; gap: 6px; }
+    .dots {
+      display: flex;
+      gap: 6px;
+    }
+
     .dots span {
-      width: 10px; height: 10px; border-radius: 50%;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
       background: rgba(255,255,255,.25);
     }
 
@@ -283,8 +305,11 @@
     }
 
     .check {
-      width: 24px; height: 24px; border-radius: 50%;
-      display: grid; place-items: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
       background: rgba(34,197,94,.16);
       color: #86efac;
       font-weight: 950;
@@ -315,45 +340,103 @@
       max-width: 660px;
     }
 
-    .cards {
+    .flip-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 16px;
+      perspective: 1200px;
     }
 
-    .card {
+    .flip-card {
+      min-height: 260px;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+      color: inherit;
+      text-align: left;
+      perspective: 1200px;
+    }
+
+    .flip-inner {
+      position: relative;
+      width: 100%;
+      min-height: 260px;
+      transform-style: preserve-3d;
+      transition: transform .55s ease;
+    }
+
+    .flip-card:hover .flip-inner,
+    .flip-card.is-flipped .flip-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: var(--card);
-      padding: 22px;
+      padding: 26px;
       box-shadow: 0 16px 40px rgba(0,0,0,.20);
-      min-height: 196px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
-    .card .icon {
-      width: 46px; height: 46px; border-radius: 16px;
-      display: grid; place-items: center;
+    .flip-back {
+      transform: rotateY(180deg);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(139,92,246,.22), transparent 38%),
+        rgba(255,255,255,.085);
+      border-color: rgba(192,132,252,.28);
+    }
+
+    .flip-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
       background: rgba(139,92,246,.16);
       color: #d8b4fe;
-      font-size: 23px;
-      margin-bottom: 15px;
+      font-size: 26px;
+      margin-bottom: 18px;
     }
 
-    .card h3 {
-      margin: 0 0 9px;
-      font-size: 20px;
-      letter-spacing: -0.025em;
-    }
-
-    .card p {
+    .flip-face h3 {
       margin: 0;
+      font-size: 24px;
+      letter-spacing: -0.035em;
+      line-height: 1.2;
+    }
+
+    .flip-face p {
+      margin: 14px 0 0;
       color: var(--muted);
       line-height: 1.65;
+      font-size: 16px;
+    }
+
+    .flip-hint {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      color: #e9d5ff;
+      font-size: 13px;
+      font-weight: 900;
+      margin-top: 18px;
     }
 
     .tool-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 12px;
       margin-top: 26px;
     }
@@ -361,11 +444,15 @@
     .tool-chip {
       border: 1px solid var(--line);
       border-radius: 18px;
-      padding: 14px;
+      padding: 16px 14px;
       background: rgba(255,255,255,.07);
-      color: rgba(255,255,255,.86);
-      font-weight: 800;
+      color: rgba(255,255,255,.88);
+      font-weight: 900;
       text-align: center;
+      min-height: 58px;
+      display: grid;
+      place-items: center;
+      line-height: 1.35;
     }
 
     .cta-band {
@@ -406,8 +493,16 @@
     }
 
     @media (max-width: 860px) {
-      .nav { height: auto; padding: 14px 0; align-items: flex-start; }
-      .menu-btn { display: block; }
+      .nav {
+        height: auto;
+        padding: 14px 0;
+        align-items: flex-start;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+
       .nav-links {
         display: none;
         position: absolute;
@@ -421,23 +516,64 @@
         flex-direction: column;
         align-items: stretch;
       }
-      .nav-links.open { display: flex; }
-      .nav-links a { width: 100%; text-align: center; }
-      .hero { grid-template-columns: 1fr; padding-top: 48px; }
-      .cards { grid-template-columns: 1fr; }
-      .tool-grid { grid-template-columns: repeat(2, 1fr); }
-      .cta-band { flex-direction: column; align-items: flex-start; }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        width: 100%;
+        text-align: center;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 48px;
+      }
+
+      .flip-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tool-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .cta-band {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
 
     @media (max-width: 520px) {
-      .tool-grid { grid-template-columns: 1fr; }
-      .hero-actions { flex-direction: column; }
-      .btn { width: 100%; }
-      .brand span { font-size: 15px; }
-      .brand small { font-size: 10px; }
+      .tool-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .brand span {
+        font-size: 15px;
+      }
+
+      .brand small {
+        font-size: 10px;
+      }
+
+      .flip-card,
+      .flip-inner {
+        min-height: 285px;
+      }
     }
   </style>
 </head>
+
 <body>
   <header class="site-header">
     <nav class="nav" aria-label="Main navigation">
@@ -461,10 +597,13 @@
     <div class="hero">
       <div>
         <div class="eyebrow">⚡ Turn your text into a working business tool</div>
+
         <h1>Describe your tool. <span class="gradient-text">Get a clean preview.</span></h1>
+
         <p>
           Text2Tool AI helps small businesses, startups, agencies, freelancers and virtual assistants turn plain-English requests into useful business tools they can own.
         </p>
+
         <div class="hero-actions">
           <a class="btn btn-primary" href="/create-tool/">Start Building My Tool</a>
           <a class="btn btn-secondary" href="/pricing/">View Pricing</a>
@@ -477,6 +616,7 @@
             <span>Example request</span>
             <span class="dots"><span></span><span></span><span></span></span>
           </div>
+
           <div class="fake-text">
             Create an attendance tracker for my team with check-in, check-out, total hours, weekly payout, and simple monthly reports.
           </div>
@@ -484,7 +624,7 @@
           <div class="build-steps">
             <div class="step-line"><span class="check">✓</span> Understands your tool request</div>
             <div class="step-line"><span class="check">✓</span> Prepares the sections and fields</div>
-            <div class="step-line"><span class="check">✓</span> Shows a preview before payment</div>
+            <div class="step-line"><span class="check">✓</span> Shows a preview before launch</div>
           </div>
         </div>
       </div>
@@ -493,34 +633,77 @@
     <section>
       <div class="section-title">
         <h2>How it works</h2>
-        <p>Simple flow: describe what you need, review the preview, then launch the tool when you are ready.</p>
       </div>
 
-      <div class="cards">
-        <article class="card">
-          <div class="icon">✍️</div>
-          <h3>1. Describe your tool</h3>
-          <p>Tell Text2Tool what tracker, calculator, dashboard, report, or workflow you want to build.</p>
-        </article>
+      <div class="flip-grid">
+        <button class="flip-card" type="button" aria-label="Flip describe your tool card">
+          <span class="flip-inner">
+            <span class="flip-face flip-front">
+              <span>
+                <span class="flip-icon">✍️</span>
+                <h3>1. Describe your tool</h3>
+                <p>Tell us what you want to create.</p>
+              </span>
+              <span class="flip-hint">👆 Click me</span>
+            </span>
 
-        <article class="card">
-          <div class="icon">⚙️</div>
-          <h3>2. AI prepares the plan</h3>
-          <p>AI detects the tool type, required fields, sections, and any missing questions needed to prepare the first version.</p>
-        </article>
+            <span class="flip-face flip-back">
+              <span>
+                <h3>Give your plain-English request</h3>
+                <p>Ask for a tracker, calculator, dashboard, report, generator, or internal workflow tool. You do not need to explain it technically.</p>
+              </span>
+              <span class="flip-hint">Click again</span>
+            </span>
+          </span>
+        </button>
 
-        <article class="card">
-          <div class="icon">⬇️</div>
-          <h3>3. Preview then launch</h3>
-          <p>You see a clean preview first. Payment can be connected later when the checkout is ready.</p>
-        </article>
+        <button class="flip-card" type="button" aria-label="Flip AI prepares the plan card">
+          <span class="flip-inner">
+            <span class="flip-face flip-front">
+              <span>
+                <span class="flip-icon">⚙️</span>
+                <h3>2. AI prepares the plan</h3>
+                <p>AI reviews your request.</p>
+              </span>
+              <span class="flip-hint">👆 Click me</span>
+            </span>
+
+            <span class="flip-face flip-back">
+              <span>
+                <h3>Tool structure is prepared</h3>
+                <p>Text2Tool identifies the tool type, important fields, recommended sections, and any questions needed before launch.</p>
+              </span>
+              <span class="flip-hint">Click again</span>
+            </span>
+          </span>
+        </button>
+
+        <button class="flip-card" type="button" aria-label="Flip preview then launch card">
+          <span class="flip-inner">
+            <span class="flip-face flip-front">
+              <span>
+                <span class="flip-icon">⬇️</span>
+                <h3>3. Preview then launch</h3>
+                <p>Review before moving forward.</p>
+              </span>
+              <span class="flip-hint">👆 Click me</span>
+            </span>
+
+            <span class="flip-face flip-back">
+              <span>
+                <h3>See the preview first</h3>
+                <p>You get a clean preview showing what the tool will include. Then you can decide when to launch it using Tool Credits.</p>
+              </span>
+              <span class="flip-hint">Click again</span>
+            </span>
+          </span>
+        </button>
       </div>
     </section>
 
     <section>
       <div class="section-title">
-        <h2>Popular tool requests</h2>
-        <p>These are the kinds of business tools Text2Tool AI is being designed to prepare.</p>
+        <h2>Most popular requests</h2>
       </div>
 
       <div class="tool-grid">
@@ -528,10 +711,11 @@
         <div class="tool-chip">Attendance Tracker</div>
         <div class="tool-chip">Inventory Tracker</div>
         <div class="tool-chip">Profit & Loss Tracker</div>
-        <div class="tool-chip">CRM / Lead Tracker</div>
+        <div class="tool-chip">Lead Tracker</div>
         <div class="tool-chip">Commission Calculator</div>
         <div class="tool-chip">Payroll Calculator</div>
         <div class="tool-chip">KPI Dashboard</div>
+        <div class="tool-chip">Financial Statement Generator</div>
       </div>
     </section>
 
@@ -539,8 +723,9 @@
       <div class="cta-band">
         <div>
           <h2>Ready to create your first preview?</h2>
-          <p>No payment is required to generate the first preview. The payment button can be connected later when your checkout is ready.</p>
+          <p>No payment is required to generate the first preview. You can review your tool idea before choosing a Tool Credits pack.</p>
         </div>
+
         <a class="btn btn-primary" href="/create-tool/">Start Free Preview</a>
       </div>
     </section>
@@ -553,8 +738,16 @@
   <script>
     const menuBtn = document.getElementById("menuBtn");
     const navLinks = document.getElementById("navLinks");
+    const flipCards = document.querySelectorAll(".flip-card");
+
     menuBtn?.addEventListener("click", () => {
       navLinks.classList.toggle("open");
+    });
+
+    flipCards.forEach((card) => {
+      card.addEventListener("click", () => {
+        card.classList.toggle("is-flipped");
+      });
     });
   </script>
 </body>
