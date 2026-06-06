@@ -339,9 +339,7 @@
       transition: transform .55s ease;
     }
 
-    .flip-card:hover .flip-inner,
-    .flip-card.is-flipped .flip-inner,
-    .flip-card:focus .flip-inner {
+    .flip-card.is-flipped .flip-inner {
       transform: rotateY(180deg);
     }
 
@@ -602,7 +600,7 @@
                 <h3>1. Describe your tool</h3>
                 <p>Tell us what you want to create.</p>
               </div>
-              <div class="flip-hint">👆 Click me</div>
+              <div class="flip-hint">👆 Hover or click</div>
             </div>
 
             <div class="flip-face flip-back">
@@ -610,7 +608,7 @@
                 <h3>Give your plain-English request</h3>
                 <p>Ask for a tracker, calculator, dashboard, report, generator, or internal workflow tool. No technical explanation needed.</p>
               </div>
-              <div class="flip-hint">Click again</div>
+              <div class="flip-hint">Click or move away</div>
             </div>
           </div>
         </div>
@@ -623,7 +621,7 @@
                 <h3>2. AI prepares the plan</h3>
                 <p>AI reviews your request.</p>
               </div>
-              <div class="flip-hint">👆 Click me</div>
+              <div class="flip-hint">👆 Hover or click</div>
             </div>
 
             <div class="flip-face flip-back">
@@ -631,7 +629,7 @@
                 <h3>Tool structure is prepared</h3>
                 <p>Text2Tool identifies the tool type, important fields, recommended sections, and any missing questions.</p>
               </div>
-              <div class="flip-hint">Click again</div>
+              <div class="flip-hint">Click or move away</div>
             </div>
           </div>
         </div>
@@ -644,7 +642,7 @@
                 <h3>3. Preview then launch</h3>
                 <p>Review before moving forward.</p>
               </div>
-              <div class="flip-hint">👆 Click me</div>
+              <div class="flip-hint">👆 Hover or click</div>
             </div>
 
             <div class="flip-face flip-back">
@@ -652,7 +650,7 @@
                 <h3>See the preview first</h3>
                 <p>You get a clean preview showing what the tool will include. Then you can decide when to launch it using Tool Credits.</p>
               </div>
-              <div class="flip-hint">Click again</div>
+              <div class="flip-hint">Click or move away</div>
             </div>
           </div>
         </div>
@@ -703,14 +701,40 @@
     });
 
     flipCards.forEach((card) => {
+      let clickedBack = false;
+
+      card.addEventListener("mouseenter", () => {
+        if (!clickedBack) {
+          card.classList.add("is-flipped");
+        }
+      });
+
+      card.addEventListener("mouseleave", () => {
+        card.classList.remove("is-flipped");
+        clickedBack = false;
+      });
+
       card.addEventListener("click", () => {
-        card.classList.toggle("is-flipped");
+        if (card.classList.contains("is-flipped")) {
+          card.classList.remove("is-flipped");
+          clickedBack = true;
+        } else {
+          card.classList.add("is-flipped");
+          clickedBack = false;
+        }
       });
 
       card.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
-          card.classList.toggle("is-flipped");
+
+          if (card.classList.contains("is-flipped")) {
+            card.classList.remove("is-flipped");
+            clickedBack = true;
+          } else {
+            card.classList.add("is-flipped");
+            clickedBack = false;
+          }
         }
       });
     });
