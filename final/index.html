@@ -7,7 +7,7 @@
   <meta name="description" content="Track your Text2Tool AI final tool delivery status." />
   <style>
     :root {
-      --bg:#05020a; --panel:#14101d; --card:#211b2d; --line:rgba(255,255,255,.14);
+      --bg:#05020a; --panel:#14101d; --line:rgba(255,255,255,.14);
       --text:#f8f7ff; --muted:#c9c2d8; --soft:#a59ab8; --purple:#b84dff; --pink:#f15bd6;
       --green:#22c55e; --blue:#38bdf8; --yellow:#facc15; --danger:#fb7185; --max:1120px;
     }
@@ -68,6 +68,8 @@
     .success { background:rgba(34,197,94,.12); border-color:rgba(34,197,94,.35); color:#bbf7d0; }
     .info { background:rgba(56,189,248,.10); border-color:rgba(56,189,248,.28); color:#bae6fd; }
     .mini { font-size:13px; color:var(--soft); margin-top:10px; }
+    .progress-wrap { height:10px; border-radius:999px; background:rgba(255,255,255,.08); border:1px solid var(--line); overflow:hidden; margin:10px 0 12px; }
+    .progress-bar { height:100%; width:0%; background:linear-gradient(135deg,var(--purple),var(--pink)); border-radius:999px; transition:.2s; }
     footer { padding:24px 0 38px; color:var(--muted); text-align:center; font-size:13px; }
     @media (max-width:800px) {
       nav { gap:12px; font-size:13px; }
@@ -154,23 +156,27 @@
     function renderStatus(item) {
       const status = String(item.status || 'queued').toLowerCase();
       const qaStatus = String(item.qa_status || 'not_started').toLowerCase();
+      const buildStatus = String(item.build_status || 'not_started').toLowerCase();
+      const scanStatus = String(item.error_scan_status || 'not_started').toLowerCase();
+      const autoFixStatus = String(item.auto_fix_status || 'not_started').toLowerCase();
+      const readinessScore = Math.max(0, Math.min(100, Number(item.readiness_score || 0)));
       const qaPassed = item.qa_passed === true || item.qa_passed === 'true';
       const qaAttempts = Number(item.qa_attempts || 0);
       const title = item.tool_title || 'Your final tool';
       const summary = item.tool_summary || 'Your final tool request has been received.';
-      const message = item.status_message || getDefaultMessage(status, qaStatus);
+      const message = item.status_message || getDefaultMessage(status, qaStatus, buildStatus, scanStatus, autoFixStatus);
       const finalUrl = item.final_tool_url || '';
       const creditUsed = item.credit_deducted === true || item.credit_deducted === 'true';
       const delivered = status === 'delivered' || !!finalUrl;
-      const failed = status === 'failed' || status === 'cancelled' || status === 'qa_failed' || qaStatus === 'failed';
-      const badge = getBadge(delivered, failed, qaStatus);
+      const failed = status === 'failed' || status === 'cancelled' || status === 'qa_failed' || status === 'build_failed' || qaStatus === 'failed' || buildStatus === 'failed' || scanStatus === 'failed' || autoFixStatus === 'failed';
+      const badge = getBadge(delivered, failed, qaStatus, buildStatus, scanStatus, autoFixStatus);
 
       app.innerHTML = `
         <section class="hero">
           <div class="badge ${badge.className}">${escapeHtml(badge.text)}</div>
           <h1>${escapeHtml(title)}</h1>
           <p class="summary">${escapeHtml(summary)}</p>
-          <div class="message ${delivered ? 'success' : failed ? 'error' : qaStatus === 'fixing' || qaStatus === 'checking' ? 'info' : ''}">${escapeHtml(message)}</div>
+          <div class="message ${delivered ? 'success' : failed ? 'error' : isActiveChecking(qaStatus, buildStatus, scanStatus, autoFixStatus) ? 'info' : ''}">${escapeHtml(message)}</div>
           <div class="actions">
             ${finalUrl ? `<a class="btn btn-green" href="${escapeAttr(finalUrl)}" target="_blank" rel="noopener">Open Finished Tool</a>` : ''}
             <button class="btn btn-primary" type="button" id="refreshBtn">Refresh Status</button>
@@ -183,17 +189,21 @@
             <h2>Delivery Progress</h2>
             <ul class="timeline">
               <li class="done"><span class="dot"></span><div><strong>Preview approved</strong><span>Your tool structure was approved for final delivery.</span></div></li>
-              <li class="${timelineClass(status, qaStatus, delivered, failed, 'building')}"><span class="dot"></span><div><strong>Building working tool</strong><span>Your working tool is being prepared privately. No source code is shown to customers.</span></div></li>
-              <li class="${timelineClass(status, qaStatus, delivered, failed, 'checking')}"><span class="dot"></span><div><strong>Checking for errors</strong><span>The tool will be scanned for formula errors, broken tabs, missing dropdowns, dashboard issues and visible error cells.</span></div></li>
-              <li class="${timelineClass(status, qaStatus, delivered, failed, 'fixing')}"><span class="dot"></span><div><strong>Auto Bots fixing issues</strong><span>If problems are found, Auto Bots can repair default formulas and re-check the tool before delivery.</span></div></li>
-              <li class="${qaPassed || delivered ? 'done' : failed ? 'bad' : ''}"><span class="dot"></span><div><strong>Quality check passed</strong><span>${qaPassed || delivered ? 'The finished tool passed quality checks.' : 'The tool must pass QA before it can be delivered.'}</span></div></li>
-              <li class="${delivered ? 'done' : ''}"><span class="dot"></span><div><strong>Finished tool delivered</strong><span>${delivered ? 'Your working tool is ready to open.' : 'Once QA passes and delivery is complete, the finished working tool link will appear here.'}</span></div></li>
+              <li class="${timelineClass('building', {status, qaStatus, buildStatus, scanStatus, autoFixStatus, qaPassed, delivered, failed})}"><span class="dot"></span><div><strong>Building working tool</strong><span>Your working tool is being prepared privately. No source code is shown to customers.</span></div></li>
+              <li class="${timelineClass('checking', {status, qaStatus, buildStatus, scanStatus, autoFixStatus, qaPassed, delivered, failed})}"><span class="dot"></span><div><strong>Checking for common errors</strong><span>The tool is checked for #ERROR!, #REF!, #VALUE!, #N/A, broken formulas, missing tabs, dropdown issues and dashboard calculation issues.</span></div></li>
+              <li class="${timelineClass('fixing', {status, qaStatus, buildStatus, scanStatus, autoFixStatus, qaPassed, delivered, failed})}"><span class="dot"></span><div><strong>Auto Bots fixing issues</strong><span>If problems are found, Auto Bots can repair default formulas and re-check the tool before delivery.</span></div></li>
+              <li class="${timelineClass('qa', {status, qaStatus, buildStatus, scanStatus, autoFixStatus, qaPassed, delivered, failed})}"><span class="dot"></span><div><strong>Quality check passed</strong><span>${qaPassed || delivered ? 'The finished tool passed quality checks.' : 'The tool must pass QA before it can be delivered.'}</span></div></li>
+              <li class="${delivered ? 'done' : failed ? 'bad' : ''}"><span class="dot"></span><div><strong>Finished tool delivered</strong><span>${delivered ? 'Your working tool is ready to open.' : 'Once QA passes and delivery is complete, the finished working tool link will appear here.'}</span></div></li>
             </ul>
           </section>
 
           <section class="card">
             <h2>Quality Check</h2>
-            <p>${escapeHtml(getQaText(qaStatus, qaPassed, qaAttempts))}</p>
+            <p>${escapeHtml(getQaText(qaStatus, buildStatus, scanStatus, autoFixStatus, qaPassed, qaAttempts, readinessScore))}</p>
+            <div class="progress-wrap" aria-label="Readiness score">
+              <div class="progress-bar" style="width:${readinessScore}%;"></div>
+            </div>
+            <div class="mini">Readiness: ${readinessScore}/100</div>
             <div class="message">We check for common errors like #ERROR!, #REF!, #VALUE!, #N/A, broken formulas, missing tabs, missing dropdowns and dashboard calculation issues before delivery.</div>
             <h2 style="margin-top:22px;">Tool Credit Status</h2>
             <p>${creditUsed ? '1 Tool Credit has been used because the finished working tool was delivered.' : 'No Tool Credit has been used yet. Credit is used only after the finished working tool is successfully delivered.'}</p>
@@ -206,52 +216,70 @@
       if (refreshBtn) refreshBtn.addEventListener('click', () => window.location.reload());
     }
 
-    function getBadge(delivered, failed, qaStatus) {
+    function getBadge(delivered, failed, qaStatus, buildStatus, scanStatus, autoFixStatus) {
       if (delivered) return { text: '✅ Tool Ready', className: 'status-badge' };
       if (failed) return { text: 'Needs Attention', className: 'error-badge' };
-      if (qaStatus === 'checking') return { text: 'Checking for Errors', className: 'fixing-badge' };
-      if (qaStatus === 'fixing') return { text: 'Auto Bots Fixing Issues', className: 'fixing-badge' };
       if (qaStatus === 'passed') return { text: 'QA Passed', className: 'status-badge' };
+      if (autoFixStatus === 'fixing' || buildStatus === 'fixing' || qaStatus === 'fixing') return { text: 'Auto Bots Fixing Issues', className: 'fixing-badge' };
+      if (scanStatus === 'scanning' || buildStatus === 'scanning' || qaStatus === 'checking') return { text: 'Checking for Common Errors', className: 'fixing-badge' };
       return { text: 'Building Your Tool', className: 'waiting-badge' };
     }
 
-    function getDefaultMessage(status, qaStatus) {
+    function getDefaultMessage(status, qaStatus, buildStatus, scanStatus, autoFixStatus) {
       if (status === 'delivered') return 'Your finished working tool is ready.';
-      if (qaStatus === 'checking') return 'Your working tool is being checked for errors before delivery.';
-      if (qaStatus === 'fixing') return 'Auto Bots are fixing issues found during quality checks.';
       if (qaStatus === 'passed') return 'Your finished tool passed quality checks and is being prepared for delivery.';
-      if (qaStatus === 'failed') return 'Your tool needs additional fixes before it can be delivered.';
+      if (autoFixStatus === 'fixing' || buildStatus === 'fixing' || qaStatus === 'fixing') return 'Auto Bots are fixing issues found before delivery.';
+      if (scanStatus === 'scanning' || buildStatus === 'scanning' || qaStatus === 'checking') return 'Your working tool is being checked for common errors before delivery.';
+      if (buildStatus === 'created_private_file') return 'Your working tool has been created privately and is being checked.';
+      if (buildStatus === 'building' || status === 'building') return 'Your working tool is being built.';
+      if (qaStatus === 'failed' || buildStatus === 'failed' || scanStatus === 'failed' || autoFixStatus === 'failed') return 'Your tool needs additional fixes before it can be delivered.';
       return 'Your final tool request has been received. We are preparing your working tool.';
     }
 
-    function getQaText(qaStatus, qaPassed, qaAttempts) {
+    function getQaText(qaStatus, buildStatus, scanStatus, autoFixStatus, qaPassed, qaAttempts, readinessScore) {
       if (qaPassed) return 'QA passed. The tool is ready for delivery or has already been delivered.';
-      if (qaStatus === 'checking') return 'QA is checking the working tool for spreadsheet errors and broken logic.';
-      if (qaStatus === 'fixing') return 'Auto Bots are repairing issues found during quality checks, then the tool will be checked again.';
-      if (qaStatus === 'failed') return 'QA found issues that need additional repair before delivery.';
-      if (qaStatus === 'building') return 'The tool is being built. QA will start after the working tool is created.';
+      if (autoFixStatus === 'fixing' || buildStatus === 'fixing' || qaStatus === 'fixing') return 'Auto Bots are repairing issues found during checks, then the tool will be checked again.';
+      if (scanStatus === 'scanning' || buildStatus === 'scanning' || qaStatus === 'checking') return 'The working tool is being checked for common errors and broken logic.';
+      if (scanStatus === 'passed' || buildStatus === 'qa_ready') return 'Common error checks passed. The tool is waiting for final quality approval.';
+      if (scanStatus === 'failed' || buildStatus === 'failed' || qaStatus === 'failed') return 'Issues were found that need repair before delivery.';
+      if (buildStatus === 'building' || buildStatus === 'created_private_file') return 'The tool is being built. Checks will start after the working tool is created.';
+      if (readinessScore > 0) return 'The tool is progressing through checks before delivery.';
       return qaAttempts > 0 ? 'QA is waiting for the next check.' : 'QA has not started yet. The tool is waiting to be built.';
     }
 
-    function timelineClass(status, qaStatus, delivered, failed, step) {
+    function isActiveChecking(qaStatus, buildStatus, scanStatus, autoFixStatus) {
+      return ['checking','fixing'].includes(qaStatus) || ['scanning','fixing'].includes(buildStatus) || scanStatus === 'scanning' || autoFixStatus === 'fixing';
+    }
+
+    function timelineClass(step, state) {
+      const { status, qaStatus, buildStatus, scanStatus, autoFixStatus, qaPassed, delivered, failed } = state;
       if (failed) return 'bad';
       if (delivered) return 'done';
 
+      const buildingStarted = status === 'building' || ['building','created_private_file','scanning','fixing','qa_ready','completed'].includes(buildStatus) || ['scanning','passed'].includes(scanStatus) || qaPassed || qaStatus === 'passed';
+      const checkingStarted = ['scanning','fixing','qa_ready','completed'].includes(buildStatus) || ['scanning','passed'].includes(scanStatus) || qaPassed || qaStatus === 'checking' || qaStatus === 'passed';
+      const fixingStarted = autoFixStatus === 'fixing' || autoFixStatus === 'fixed' || buildStatus === 'fixing' || qaStatus === 'fixing';
+      const fixingDone = ['not_needed','fixed'].includes(autoFixStatus) || qaPassed || qaStatus === 'passed';
+
       if (step === 'building') {
-        if (['building','checking','fixing','passed'].includes(qaStatus) || ['building','ready_for_delivery'].includes(status)) return 'done';
-        return 'active';
+        if (checkingStarted || qaPassed) return 'done';
+        return buildingStarted ? 'active' : 'active';
       }
 
       if (step === 'checking') {
-        if (['passed'].includes(qaStatus)) return 'done';
-        if (qaStatus === 'checking') return 'active blue';
-        if (qaStatus === 'fixing') return 'done';
+        if (scanStatus === 'passed' || qaPassed || qaStatus === 'passed' || fixingStarted) return 'done';
+        if (checkingStarted) return 'active blue';
         return '';
       }
 
       if (step === 'fixing') {
-        if (qaStatus === 'passed') return 'done';
-        if (qaStatus === 'fixing') return 'active blue';
+        if (fixingDone) return 'done';
+        if (fixingStarted) return 'active blue';
+        return '';
+      }
+
+      if (step === 'qa') {
+        if (qaPassed || qaStatus === 'passed') return 'done';
         return '';
       }
 
