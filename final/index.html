@@ -194,7 +194,7 @@
           <section class="card">
             <h2>Quality Check</h2>
             <p>${escapeHtml(getQaText(qaStatus, qaPassed, qaAttempts))}</p>
-            <div class="message">We check for common spreadsheet errors like #ERROR!, #REF!, #VALUE!, #N/A, broken formulas, missing tabs, missing dropdowns and dashboard calculation issues before delivery.</div>
+            <div class="message">We check for common errors like #ERROR!, #REF!, #VALUE!, #N/A, broken formulas, missing tabs, missing dropdowns and dashboard calculation issues before delivery.</div>
             <h2 style="margin-top:22px;">Tool Credit Status</h2>
             <p>${creditUsed ? '1 Tool Credit has been used because the finished working tool was delivered.' : 'No Tool Credit has been used yet. Credit is used only after the finished working tool is successfully delivered.'}</p>
             <div class="mini">Status page ID: ${escapeHtml(String(item.id || '').slice(0, 8))}</div>
