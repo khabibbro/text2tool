@@ -281,7 +281,7 @@
     }
 
     .upload-panel.locked {
-      opacity: .74;
+      opacity: .76;
     }
 
     .upload-top {
@@ -658,7 +658,7 @@
           >
             <div class="upload-top">
               <div>
-                <p class="upload-title">Upload files or paste links</p>
+                <p class="upload-title">Upload files or paste safe links</p>
                 <p class="upload-help">
                   Upload screenshots, PDFs, Excel/CSV files, documents, or paste Google Sheets / Google Docs links to improve your request.
                 </p>
@@ -680,13 +680,13 @@
                 class="link-input"
                 id="linkInput"
                 type="url"
-                placeholder="Paste Google Sheet, Google Doc, or useful reference link"
+                placeholder="Paste Google Sheets or Google Docs link only"
               />
               <button class="btn btn-secondary" id="addLinkBtn" type="button">Add Link</button>
             </div>
 
             <p class="tiny-note">
-              Upload limit: maximum 5 files per request and 2MB per file. Links must start with http:// or https://.
+              Upload limit: maximum 5 files per request and 2MB per file. For safety, pasted links must be Google Sheets or Google Docs links only. Google Drive and random website links are blocked.
             </p>
 
             <div class="selected-files" id="selectedFiles"></div>
@@ -919,11 +919,11 @@
       const value = linkInput.value.trim();
 
       if (!value) {
-        showMessage("Please paste a link first.", "error");
+        showMessage("Please paste a Google Sheets or Google Docs link first.", "error");
         return;
       }
 
-      const validation = validateUsefulLink(value);
+      const validation = validateSafeGoogleLink(value);
 
       if (!validation.valid) {
         showMessage(validation.message, "error");
@@ -942,10 +942,10 @@
 
       linkInput.value = "";
       renderSelectedLinks();
-      showMessage("Link added.", "success");
+      showMessage("Safe Google link added.", "success");
     }
 
-    function validateUsefulLink(value) {
+    function validateSafeGoogleLink(value) {
       let parsed;
 
       try {
@@ -953,34 +953,46 @@
       } catch (error) {
         return {
           valid: false,
-          message: "Please paste a correct link that starts with http:// or https://."
+          message: "Please paste a correct Google Sheets or Google Docs link that starts with https://."
         };
       }
 
-      if (!["http:", "https:"].includes(parsed.protocol)) {
+      if (parsed.protocol !== "https:") {
         return {
           valid: false,
-          message: "Only http:// and https:// links are allowed."
+          message: "Only secure https:// Google Sheets or Google Docs links are allowed."
         };
       }
 
       const host = parsed.hostname.toLowerCase();
       const fullUrl = parsed.href;
 
-      let type = "reference_link";
+      if (host !== "docs.google.com") {
+        return {
+          valid: false,
+          message: "For safety, only Google Sheets and Google Docs links are allowed. Google Drive, random websites, short links, and direct download links are blocked."
+        };
+      }
 
-      if (host.includes("docs.google.com") && fullUrl.includes("/spreadsheets/")) {
-        type = "google_sheet";
-      } else if (host.includes("docs.google.com") && fullUrl.includes("/document/")) {
-        type = "google_doc";
-      } else if (host.includes("drive.google.com")) {
-        type = "google_drive";
+      if (fullUrl.includes("/spreadsheets/")) {
+        return {
+          valid: true,
+          url: fullUrl,
+          type: "google_sheet"
+        };
+      }
+
+      if (fullUrl.includes("/document/")) {
+        return {
+          valid: true,
+          url: fullUrl,
+          type: "google_doc"
+        };
       }
 
       return {
-        valid: true,
-        url: fullUrl,
-        type
+        valid: false,
+        message: "This Google link is not allowed. Please paste a Google Sheets link or Google Docs link only."
       };
     }
 
@@ -1090,7 +1102,7 @@
         source_type: "link",
         link_url: item.url,
         link_type: item.type,
-        notes: "Pasted with tool request"
+        notes: "Safe Google link pasted with tool request"
       }));
 
       const { error } = await supabaseClient
@@ -1137,7 +1149,7 @@
             status: "submitted",
             source_links: selectedLinks,
             upload_context: hasAttachments
-              ? "User added " + selectedFiles.length + " file(s) and " + selectedLinks.length + " link(s) for reference."
+              ? "User added " + selectedFiles.length + " file(s) and " + selectedLinks.length + " safe Google link(s) for reference."
               : null
           })
           .select("id")
@@ -1153,7 +1165,7 @@
         }
 
         if (selectedLinks.length) {
-          showMessage("Saving links...", "success");
+          showMessage("Saving safe Google links...", "success");
           await saveSelectedLinksForRequest(requestRow.id);
         }
 
