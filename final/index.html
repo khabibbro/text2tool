@@ -3,19 +3,72 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Final Tool | Text2Tool AI</title>
+  <title>Final Tool Status | Text2Tool AI</title>
+  <meta name="description" content="Track your Text2Tool AI final tool delivery status." />
   <style>
-    :root{--bg:#05020a;--panel:#14101d;--line:rgba(255,255,255,.14);--text:#f8f7ff;--muted:#c9c2d8;--purple:#b84dff;--pink:#f15bd6}
-    *{box-sizing:border-box}body{margin:0;min-height:100vh;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:radial-gradient(circle at 80% 12%,rgba(184,77,255,.22),transparent 34%),linear-gradient(180deg,#090313 0%,#05020a 55%,#030106 100%)}
-    a{color:inherit;text-decoration:none}.wrap{width:min(1120px,calc(100% - 32px));margin:0 auto}
-    header{position:sticky;top:0;background:rgba(5,2,10,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
-    .nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--pink))}
-    .brand strong{display:block;font-size:18px;line-height:1}.brand span{display:block;color:var(--muted);font-size:12px;font-weight:700;margin-top:4px}
-    nav{display:flex;align-items:center;gap:24px;font-size:14px;font-weight:800}.btn{border:1px solid var(--line);background:rgba(255,255,255,.08);color:var(--text);border-radius:999px;padding:12px 18px;font-weight:900;display:inline-flex}.btn-primary{border:0;background:linear-gradient(135deg,var(--purple),var(--pink))}
-    main{padding:48px 0 56px}.hero{border:1px solid var(--line);background:rgba(20,16,29,.82);border-radius:24px;padding:30px;box-shadow:0 20px 80px rgba(0,0,0,.22)}
-    .badge{display:inline-flex;color:#d8b4fe;background:rgba(184,77,255,.13);border:1px solid rgba(184,77,255,.28);padding:8px 12px;border-radius:999px;font-weight:900;font-size:13px}
-    h1{font-size:clamp(34px,4vw,58px);line-height:1.02;margin:18px 0 12px;letter-spacing:-.05em}p{color:var(--muted);line-height:1.6;font-size:17px;max-width:780px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.card{margin-top:20px;border:1px solid var(--line);background:rgba(255,255,255,.05);border-radius:20px;padding:20px}
-    footer{padding:24px 0 38px;color:var(--muted);text-align:center;font-size:13px}
+    :root {
+      --bg:#05020a; --panel:#14101d; --card:#211b2d; --line:rgba(255,255,255,.14);
+      --text:#f8f7ff; --muted:#c9c2d8; --soft:#a59ab8; --purple:#b84dff; --pink:#f15bd6;
+      --green:#22c55e; --blue:#38bdf8; --yellow:#facc15; --danger:#fb7185; --max:1120px;
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin:0; min-height:100vh; color:var(--text);
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background:radial-gradient(circle at 80% 12%, rgba(184,77,255,.22), transparent 34%),
+                 radial-gradient(circle at 18% 25%, rgba(56,189,248,.12), transparent 32%),
+                 linear-gradient(180deg,#090313 0%,#05020a 50%,#030106 100%);
+    }
+    a { color:inherit; text-decoration:none; }
+    .wrap { width:min(var(--max), calc(100% - 32px)); margin:0 auto; }
+    header { position:sticky; top:0; z-index:20; background:rgba(5,2,10,.82); backdrop-filter:blur(16px); border-bottom:1px solid var(--line); }
+    .nav { min-height:76px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .brand { display:flex; align-items:center; gap:12px; }
+    .logo { width:42px; height:42px; border-radius:14px; display:grid; place-items:center; font-weight:900; background:linear-gradient(135deg,var(--purple),var(--pink)); box-shadow:0 12px 28px rgba(184,77,255,.35); }
+    .brand strong { display:block; font-size:18px; line-height:1; }
+    .brand span { display:block; color:var(--muted); font-size:12px; font-weight:700; margin-top:4px; }
+    nav { display:flex; align-items:center; gap:24px; font-size:14px; font-weight:800; color:#efe8ff; }
+    .btn {
+      border:1px solid var(--line); background:rgba(255,255,255,.08); color:var(--text);
+      border-radius:999px; padding:12px 18px; font-weight:900; cursor:pointer; display:inline-flex;
+      align-items:center; justify-content:center; gap:8px; transition:.2s; text-decoration:none;
+    }
+    .btn:hover { transform:translateY(-1px); border-color:rgba(255,255,255,.28); }
+    .btn-primary { border:0; background:linear-gradient(135deg,var(--purple),var(--pink)); box-shadow:0 18px 46px rgba(184,77,255,.32); }
+    .btn-green { border:0; background:linear-gradient(135deg,#16a34a,#22c55e); box-shadow:0 18px 46px rgba(34,197,94,.20); }
+    .btn:disabled { opacity:.55; cursor:not-allowed; transform:none; }
+    main { padding:38px 0 56px; }
+    .hero, .card {
+      border:1px solid var(--line); background:rgba(20,16,29,.82); border-radius:24px;
+      box-shadow:0 20px 80px rgba(0,0,0,.22);
+    }
+    .hero { padding:30px; margin-bottom:20px; }
+    .badge { display:inline-flex; align-items:center; gap:8px; color:#d8b4fe; background:rgba(184,77,255,.13); border:1px solid rgba(184,77,255,.28); padding:8px 12px; border-radius:999px; font-weight:900; font-size:13px; }
+    .status-badge { color:#bbf7d0; background:rgba(34,197,94,.13); border-color:rgba(34,197,94,.28); }
+    .waiting-badge { color:#fde68a; background:rgba(250,204,21,.13); border-color:rgba(250,204,21,.28); }
+    h1 { font-size:clamp(32px,4vw,56px); line-height:1.02; margin:18px 0 12px; letter-spacing:-.05em; }
+    h2 { font-size:22px; margin:0 0 14px; letter-spacing:-.03em; }
+    p { color:var(--muted); line-height:1.58; }
+    .summary { max-width:860px; font-size:17px; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    .card { padding:22px; }
+    .actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+    .timeline { display:grid; gap:12px; margin:0; padding:0; list-style:none; }
+    .timeline li { display:flex; gap:12px; align-items:flex-start; padding:14px; border:1px solid var(--line); border-radius:16px; background:rgba(255,255,255,.06); }
+    .dot { width:12px; height:12px; border-radius:999px; margin-top:5px; background:var(--soft); box-shadow:0 0 0 5px rgba(255,255,255,.06); flex:0 0 auto; }
+    .active .dot { background:var(--yellow); box-shadow:0 0 0 5px rgba(250,204,21,.12); }
+    .done .dot { background:var(--green); box-shadow:0 0 0 5px rgba(34,197,94,.12); }
+    .timeline strong { display:block; margin-bottom:4px; }
+    .timeline span { color:var(--muted); line-height:1.45; }
+    .message { margin-top:14px; padding:14px 16px; border-radius:16px; background:rgba(255,255,255,.07); border:1px solid var(--line); color:var(--muted); }
+    .error { background:rgba(251,113,133,.12); border-color:rgba(251,113,133,.35); color:#fecdd3; }
+    .success { background:rgba(34,197,94,.12); border-color:rgba(34,197,94,.35); color:#bbf7d0; }
+    footer { padding:24px 0 38px; color:var(--muted); text-align:center; font-size:13px; }
+    @media (max-width:800px) {
+      nav { gap:12px; font-size:13px; }
+      .grid { grid-template-columns:1fr; }
+      .hero,.card { padding:18px; border-radius:20px; }
+    }
   </style>
 </head>
 <body>
@@ -33,20 +86,143 @@
       </nav>
     </div>
   </header>
-  <main class="wrap">
+
+  <main class="wrap" id="app">
     <section class="hero">
-      <div class="badge">Final Tool Delivery</div>
-      <h1>Your finished tool will be delivered as a working tool.</h1>
-      <p>We are connecting final tool delivery. Customers will not see source code, technical setup code, or backend details.</p>
-      <div class="card">
-        <p>The final customer flow will be: approve preview, use 1 Tool Credit, then receive/open the finished working tool.</p>
-      </div>
-      <div class="actions">
-        <a class="btn btn-primary" href="/create-tool/">Create Another Preview</a>
-        <a class="btn" href="/pricing/">View Tool Credits</a>
-      </div>
+      <div class="badge waiting-badge">Loading status...</div>
+      <h1>Please wait</h1>
+      <p class="summary">Checking your final tool delivery status.</p>
     </section>
   </main>
-  <footer>Built for startups, agencies, virtual assistants and growing businesses. Text2Tool AI © 2026.</footer>
+
+  <footer>
+    Built for startups, agencies, virtual assistants and growing businesses. Text2Tool AI © 2026.
+  </footer>
+
+  <script>
+    const SUPABASE_URL = 'https://wldldtmtxmmlufcmubnr.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_R63WYwDu58UPHLJkb2eXPQ_4qUQS5PX';
+
+    const params = new URLSearchParams(window.location.search);
+    const deliveryId = params.get('id') || '';
+    const deliveryToken = params.get('token') || '';
+    const app = document.getElementById('app');
+
+    init();
+
+    async function init() {
+      if (!deliveryId || !deliveryToken) {
+        showError('Final tool status link is missing or incomplete.');
+        return;
+      }
+
+      try {
+        const item = await fetchDeliveryStatus();
+        renderStatus(item);
+      } catch (error) {
+        showError(error.message || 'Could not load final tool status.');
+      }
+    }
+
+    async function fetchDeliveryStatus() {
+      const response = await withTimeout(fetch(SUPABASE_URL + '/rest/v1/rpc/get_final_tool_delivery_status', {
+        method: 'POST',
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: 'Bearer ' + SUPABASE_KEY,
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          p_delivery_id: deliveryId,
+          p_delivery_token: deliveryToken
+        })
+      }), 20000, 'Status request timed out.');
+
+      const text = await response.text();
+      if (!response.ok) throw new Error('Final tool status could not be loaded. Please refresh.');
+      const rows = JSON.parse(text);
+      if (!Array.isArray(rows) || !rows.length) throw new Error('Final tool request not found.');
+      return rows[0];
+    }
+
+    function renderStatus(item) {
+      const status = String(item.status || 'queued').toLowerCase();
+      const title = item.tool_title || 'Your final tool';
+      const summary = item.tool_summary || 'Your final tool request has been received.';
+      const message = item.status_message || 'Your final tool request has been received. We are preparing your working tool.';
+      const finalUrl = item.final_tool_url || '';
+      const creditUsed = item.credit_deducted === true || item.credit_deducted === 'true';
+      const delivered = status === 'delivered' || !!finalUrl;
+      const building = status === 'building' || status === 'processing';
+      const failed = status === 'failed' || status === 'cancelled';
+
+      app.innerHTML = `
+        <section class="hero">
+          <div class="badge ${delivered ? 'status-badge' : 'waiting-badge'}">${delivered ? '✅ Tool Ready' : failed ? 'Needs Attention' : 'Building Your Tool'}</div>
+          <h1>${escapeHtml(title)}</h1>
+          <p class="summary">${escapeHtml(summary)}</p>
+          <div class="message ${delivered ? 'success' : failed ? 'error' : ''}">${escapeHtml(message)}</div>
+          <div class="actions">
+            ${finalUrl ? `<a class="btn btn-green" href="${escapeAttr(finalUrl)}" target="_blank" rel="noopener">Open Finished Tool</a>` : ''}
+            <button class="btn btn-primary" type="button" id="refreshBtn">Refresh Status</button>
+            <a class="btn" href="/create-tool/">Create Another Tool</a>
+          </div>
+        </section>
+
+        <div class="grid">
+          <section class="card">
+            <h2>Delivery Progress</h2>
+            <ul class="timeline">
+              <li class="done"><span class="dot"></span><div><strong>Preview approved</strong><span>Your tool structure was approved for final delivery.</span></div></li>
+              <li class="${delivered ? 'done' : 'active'}"><span class="dot"></span><div><strong>${building ? 'Building in progress' : 'Waiting to build'}</strong><span>Your finished working tool is being prepared. No source code is shown to customers.</span></div></li>
+              <li class="${delivered ? 'done' : ''}"><span class="dot"></span><div><strong>Finished tool delivered</strong><span>${delivered ? 'Your working tool is ready to open.' : 'Once ready, the finished working tool link will appear here.'}</span></div></li>
+            </ul>
+          </section>
+
+          <section class="card">
+            <h2>Tool Credit Status</h2>
+            <p>${creditUsed ? '1 Tool Credit has been used because the finished tool was delivered.' : 'No Tool Credit has been used yet. Credit is used only after the finished working tool is successfully delivered.'}</p>
+            <div class="message">Keep this page link safe. It is your delivery status page for this final tool request.</div>
+          </section>
+        </div>
+      `;
+
+      const refreshBtn = document.getElementById('refreshBtn');
+      if (refreshBtn) refreshBtn.addEventListener('click', () => window.location.reload());
+    }
+
+    function showError(message) {
+      app.innerHTML = `
+        <section class="hero">
+          <div class="badge">Could not load status</div>
+          <h1>Something went wrong</h1>
+          <p class="summary">${escapeHtml(message)}</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="/create-tool/">Create New Tool</a>
+            <a class="btn" href="/pricing/">View Tool Credits</a>
+          </div>
+        </section>
+      `;
+    }
+
+    function withTimeout(promise, ms, message) {
+      let timer;
+      const timeout = new Promise((_, reject) => {
+        timer = setTimeout(() => reject(new Error(message)), ms);
+      });
+      return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, ch => ({
+        '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+      }[ch]));
+    }
+
+    function escapeAttr(value) {
+      return escapeHtml(value).replace(/`/g, '&#96;');
+    }
+  </script>
 </body>
 </html>
