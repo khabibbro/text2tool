@@ -459,6 +459,14 @@
       transform: translateY(-2px);
     }
 
+    .btn.disabled,
+    .btn[aria-disabled="true"] {
+      opacity: .55;
+      cursor: not-allowed;
+      pointer-events: none;
+      transform: none;
+    }
+
     .btn-small {
       width: auto;
       min-height: 42px;
@@ -660,9 +668,11 @@
             Review this preview first. When you are ready, choose a Tool Credits pack to generate tools.
           </p>
 
+          <div class="meta" id="previewRemainingBox" style="margin-bottom:12px;">Free Previews: Checking...</div>
+
           <div class="action-buttons">
             <a class="btn btn-primary" href="/pricing/">View Tool Credits</a>
-            <a class="btn btn-secondary" href="/create-tool/?v=final1">Create Another Preview</a>
+            <a class="btn btn-secondary" id="createAnotherPreviewBtn" href="/create-tool/?v=final1">Create Another Preview</a>
           </div>
         </aside>
       </div>
@@ -714,6 +724,9 @@
 
     let currentPreviewId = "";
     let currentPreviewToken = "";
+    let freePreviewLimit = 3;
+    let freePreviewsUsed = 0;
+    let freePreviewsRemaining = 0;
     let previewQuestions = [];
     let currentQuestionIndex = 0;
     let questionAnswers = {};
@@ -913,6 +926,39 @@
       }
     }
 
+    async function loadFreePreviewUsage() {
+      const box = document.getElementById("previewRemainingBox");
+      const createBtn = document.getElementById("createAnotherPreviewBtn");
+
+      const { data, error } = await supabaseClient.rpc("get_my_free_preview_usage");
+
+      if (error) {
+        console.error(error);
+        freePreviewLimit = 3;
+        freePreviewsUsed = 0;
+        freePreviewsRemaining = 3;
+      } else {
+        const usage = Array.isArray(data) ? data[0] : data;
+        freePreviewLimit = Number(usage?.limit || 3);
+        freePreviewsUsed = Number(usage?.used || 0);
+        freePreviewsRemaining = Number(usage?.remaining ?? Math.max(freePreviewLimit - freePreviewsUsed, 0));
+      }
+
+      box.textContent = "Free Previews Remaining: " + freePreviewsRemaining + " / " + freePreviewLimit;
+
+      if (freePreviewsRemaining <= 0) {
+        box.textContent = "Free Previews Remaining: 0 / " + freePreviewLimit;
+        box.style.color = "#fecaca";
+        box.style.borderColor = "rgba(239,68,68,.30)";
+        box.style.background = "rgba(239,68,68,.10)";
+
+        createBtn.textContent = "Preview Limit Reached";
+        createBtn.classList.add("disabled");
+        createBtn.setAttribute("aria-disabled", "true");
+        createBtn.removeAttribute("href");
+      }
+    }
+
     async function ensureAuthAndLoadPreview() {
       const params = new URLSearchParams(window.location.search);
       const previewId = params.get("id");
@@ -946,6 +992,8 @@
       }
 
       logoutBtn.style.display = "inline-flex";
+
+      await loadFreePreviewUsage();
 
       const { data: preview, error: previewError } = await supabaseClient
         .from("generated_tool_previews")
