@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Pricing | Text2Tool AI</title>
-  <meta name="description" content="Text2Tool AI pricing plans with T2T Bucks for generating business tools." />
+  <meta name="description" content="Text2Tool AI pricing plans with Tool Credits for generating business tools." />
 
   <style>
     :root {
@@ -175,7 +175,7 @@
       max-width: 820px;
     }
 
-    .buck-note {
+    .credit-note {
       margin: 28px auto 0;
       max-width: 900px;
       border: 1px solid rgba(34,197,94,.24);
@@ -187,7 +187,7 @@
       text-align: center;
     }
 
-    .buck-note strong {
+    .credit-note strong {
       color: #fff;
     }
 
@@ -257,7 +257,7 @@
       margin: 12px 0 3px;
     }
 
-    .bucks {
+    .tool-credits {
       font-size: 26px;
       font-weight: 950;
       color: #e9d5ff;
@@ -272,15 +272,27 @@
       min-height: 72px;
     }
 
-    .savings {
+    .value-box {
+      display: grid;
+      gap: 8px;
+      margin: 0 0 16px;
+    }
+
+    .savings,
+    .hours {
       border: 1px solid rgba(34,197,94,.22);
       background: rgba(34,197,94,.08);
       border-radius: 16px;
       padding: 11px 12px;
-      margin: 0 0 16px;
       color: #bbf7d0;
       font-weight: 850;
       line-height: 1.45;
+    }
+
+    .hours {
+      color: #e9d5ff;
+      border-color: rgba(192,132,252,.22);
+      background: rgba(139,92,246,.10);
     }
 
     ul {
@@ -458,16 +470,16 @@
 
   <main>
     <section class="hero">
-      <div class="eyebrow">T2T Bucks pricing</div>
+      <div class="eyebrow">Tool Credits pricing</div>
 
-      <h1>Buy T2T Bucks. Generate the tools you need.</h1>
+      <h1>Buy Tool Credits. Generate the tools you need.</h1>
 
       <p>
-        Every paid pack includes the same Text2Tool features. Higher packs simply give you more T2T Bucks and better savings.
+        Every paid pack includes the same Text2Tool features. Higher packs simply give you more Tool Credits, better savings, and more time saved.
       </p>
 
-      <div class="buck-note">
-        <strong>Simple rule:</strong> 1 T2T Buck can generate 1 tool. Bigger T2T Buck packs give better value.
+      <div class="credit-note">
+        <strong>Simple rule:</strong> 1 Tool Credit can generate 1 tool and save around 3 hours of manual work. Bigger Tool Credit packs give better value.
       </div>
     </section>
 
@@ -476,13 +488,16 @@
         <div class="tag green">Free</div>
         <h2>Free Preview</h2>
         <div class="price">$0</div>
-        <div class="bucks">0 T2T Bucks</div>
+        <div class="tool-credits">0 Tool Credits</div>
 
         <p class="desc">
-          Test your tool idea and see a preview before buying T2T Bucks.
+          Test your tool idea and see a preview before buying Tool Credits.
         </p>
 
-        <div class="savings">Free preview only</div>
+        <div class="value-box">
+          <div class="savings">Free preview only</div>
+          <div class="hours">Estimated time saved: Preview only</div>
+        </div>
 
         <ul>
           <li>Create a tool preview</li>
@@ -495,20 +510,23 @@
       </article>
 
       <article class="price-card">
-        <div class="tag">Starter</div>
-        <h2>Starter Pack</h2>
+        <div class="tag">Tester</div>
+        <h2>Tester Pack</h2>
         <div class="price">$1</div>
-        <div class="bucks">1 T2T Buck</div>
+        <div class="tool-credits">1 Tool Credit</div>
 
         <p class="desc">
-          Best for generating one small tool after preview.
+          Best for testing one small tool after preview.
         </p>
 
-        <div class="savings">Save $0 · 0%</div>
+        <div class="value-box">
+          <div class="savings">Save $0 · 0%</div>
+          <div class="hours">Estimated time saved: 3 hours</div>
+        </div>
 
         <ul>
           <li>Same core features</li>
-          <li>1 T2T Buck included</li>
+          <li>1 Tool Credit included</li>
           <li>Good for first test</li>
           <li>Preview saved for 30 days</li>
         </ul>
@@ -518,20 +536,23 @@
 
       <article class="price-card popular">
         <div class="tag">Most popular</div>
-        <h2>Basic Pack</h2>
+        <h2>Freelancer Pack</h2>
         <div class="price">$10</div>
-        <div class="bucks">12 T2T Bucks</div>
+        <div class="tool-credits">12 Tool Credits</div>
 
         <p class="desc">
-          Best for most users starting with multiple small tools.
+          Best for freelancers creating multiple simple tools for themselves or clients.
         </p>
 
-        <div class="savings">Save $2 · 17%</div>
+        <div class="value-box">
+          <div class="savings">Save $2 · 17%</div>
+          <div class="hours">Estimated time saved: 36 hours</div>
+        </div>
 
         <ul>
           <li>Same core features</li>
-          <li>12 T2T Bucks included</li>
-          <li>2 bonus T2T Bucks</li>
+          <li>12 Tool Credits included</li>
+          <li>2 bonus Tool Credits</li>
           <li>Better than pay-as-you-go</li>
         </ul>
 
@@ -539,22 +560,25 @@
       </article>
 
       <article class="price-card">
-        <div class="tag">Growth</div>
-        <h2>Growth Pack</h2>
+        <div class="tag">Virtual Assistant</div>
+        <h2>Virtual Assistant Pack</h2>
         <div class="price">$50</div>
-        <div class="bucks">70 T2T Bucks</div>
+        <div class="tool-credits">70 Tool Credits</div>
 
         <p class="desc">
-          Best for businesses generating regular tools and workflows.
+          Best for virtual assistants managing repeat admin, tracking, reporting, and client workflows.
         </p>
 
-        <div class="savings">Save $20 · 29%</div>
+        <div class="value-box">
+          <div class="savings">Save $20 · 29%</div>
+          <div class="hours">Estimated time saved: 210 hours</div>
+        </div>
 
         <ul>
           <li>Same core features</li>
-          <li>70 T2T Bucks included</li>
-          <li>20 bonus T2T Bucks</li>
-          <li>Good monthly starting pack</li>
+          <li>70 Tool Credits included</li>
+          <li>20 bonus Tool Credits</li>
+          <li>Great for ongoing client tasks</li>
         </ul>
 
         <a class="btn btn-secondary" href="/create-tool/">Start Free Preview</a>
@@ -564,19 +588,22 @@
         <div class="tag">Business</div>
         <h2>Business Pack</h2>
         <div class="price">$100</div>
-        <div class="bucks">160 T2T Bucks</div>
+        <div class="tool-credits">160 Tool Credits</div>
 
         <p class="desc">
-          Best for small teams and businesses generating more tools.
+          Best for small businesses building useful internal tools across departments and daily operations.
         </p>
 
-        <div class="savings">Save $60 · 38%</div>
+        <div class="value-box">
+          <div class="savings">Save $60 · 38%</div>
+          <div class="hours">Estimated time saved: 480 hours</div>
+        </div>
 
         <ul>
           <li>Same core features</li>
-          <li>160 T2T Bucks included</li>
-          <li>60 bonus T2T Bucks</li>
-          <li>Stronger T2T Buck value</li>
+          <li>160 Tool Credits included</li>
+          <li>60 bonus Tool Credits</li>
+          <li>Stronger Tool Credit value</li>
         </ul>
 
         <a class="btn btn-secondary" href="/create-tool/">Start Free Preview</a>
@@ -586,18 +613,21 @@
         <div class="tag">Agency</div>
         <h2>Agency Pack</h2>
         <div class="price">$150</div>
-        <div class="bucks">270 T2T Bucks</div>
+        <div class="tool-credits">270 Tool Credits</div>
 
         <p class="desc">
-          Best for freelancers and agencies generating tools for clients.
+          Best for freelancers and agencies creating tools for multiple clients and projects.
         </p>
 
-        <div class="savings">Save $120 · 44%</div>
+        <div class="value-box">
+          <div class="savings">Save $120 · 44%</div>
+          <div class="hours">Estimated time saved: 810 hours</div>
+        </div>
 
         <ul>
           <li>Same core features</li>
-          <li>270 T2T Bucks included</li>
-          <li>120 bonus T2T Bucks</li>
+          <li>270 Tool Credits included</li>
+          <li>120 bonus Tool Credits</li>
           <li>High-volume agency value</li>
         </ul>
 
@@ -608,18 +638,21 @@
         <div class="tag green">Best savings</div>
         <h2>Enterprise Pack</h2>
         <div class="price">$200</div>
-        <div class="bucks">400 T2T Bucks</div>
+        <div class="tool-credits">400 Tool Credits</div>
 
         <p class="desc">
           Best for serious teams, businesses, and high-volume tool generation.
         </p>
 
-        <div class="savings">Save $200 · 50%</div>
+        <div class="value-box">
+          <div class="savings">Save $200 · 50%</div>
+          <div class="hours">Estimated time saved: 1,200 hours</div>
+        </div>
 
         <ul>
           <li>Same core features</li>
-          <li>400 T2T Bucks included</li>
-          <li>200 bonus T2T Bucks</li>
+          <li>400 Tool Credits included</li>
+          <li>200 bonus Tool Credits</li>
           <li>Highest savings pack</li>
         </ul>
 
@@ -630,17 +663,17 @@
     <section class="faq" aria-label="Pricing notes">
       <article class="faq-card">
         <h3>Do higher packs unlock extra features?</h3>
-        <p>No. All paid packs include the same core features. Higher packs only give more T2T Bucks and better savings.</p>
+        <p>No. All paid packs include the same core features. Higher packs only give more Tool Credits, better savings, and more total time saved.</p>
       </article>
 
       <article class="faq-card">
-        <h3>What are T2T Bucks used for?</h3>
-        <p>T2T Bucks are used to generate tools through Text2Tool.</p>
+        <h3>What are Tool Credits used for?</h3>
+        <p>Tool Credits are used to generate tools through Text2Tool. The simple rule is 1 Tool Credit can generate 1 tool.</p>
       </article>
 
       <article class="faq-card">
-        <h3>Can I preview first?</h3>
-        <p>Yes. Start with a free preview, then choose a T2T Buck pack when you are ready.</p>
+        <h3>How is time saved calculated?</h3>
+        <p>We estimate each Tool Credit saves around 3 hours of manual planning, setup, and tool-building work.</p>
       </article>
     </section>
   </main>
