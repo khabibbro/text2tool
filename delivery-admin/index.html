@@ -98,7 +98,7 @@
   <main class="wrap">
     <section class="panel">
       <h1>Delivery Admin</h1>
-      <p>Manage final tool delivery requests, QA status, and final working tool links. Customers never see source code.</p>
+      <p>Manage final tool delivery requests, private build status, QA status, and final working tool links. Customers never see source code.</p>
       <div class="message" id="mainMessage">Loading...</div>
     </section>
 
@@ -134,6 +134,11 @@
             <option value="qa_failed">QA Failed</option>
             <option value="ready_for_delivery">Ready for delivery</option>
             <option value="delivered">Delivered</option>
+            <option value="not_started">Build not started</option>
+            <option value="created_private_file">Private file created</option>
+            <option value="scanning">Scanning</option>
+            <option value="completed">Build completed</option>
+            <option value="build_failed">Build failed</option>
           </select>
           <button class="btn btn-primary" id="loadBtn" type="button">Load Requests</button>
         </div>
@@ -266,6 +271,20 @@
 
           <p>${escapeHtml(item.tool_summary || 'No summary')}</p>
 
+          <div class="message">
+            <strong>Private Build Details</strong><br>
+            Build: ${escapeHtml(item.build_status || 'not_started')}
+            · Attempts: ${escapeHtml(String(item.build_attempts || 0))}
+            · Error Scan: ${escapeHtml(item.error_scan_status || 'not_started')}
+            · Auto Fix: ${escapeHtml(item.auto_fix_status || 'not_started')}
+            · Formula Errors: ${escapeHtml(String(item.formula_error_count || 0))}
+            · Visible Errors: ${escapeHtml(String(item.visible_error_count || 0))}
+            · Readiness: ${escapeHtml(String(item.readiness_score || 0))}/100
+            ${item.builder_model ? `<br>Builder model: ${escapeHtml(item.builder_model)}` : ''}
+            ${item.internal_working_file_url ? `<br>Internal working file: <a href="${escapeAttr(item.internal_working_file_url)}" target="_blank" rel="noopener">Open internal working file</a>` : ''}
+            ${item.internal_finished_file_url ? `<br>Internal finished file: <a href="${escapeAttr(item.internal_finished_file_url)}" target="_blank" rel="noopener">Open internal finished file</a>` : ''}
+          </div>
+
           <div class="grid">
             <div>
               <label>Customer status page</label>
@@ -273,7 +292,7 @@
             </div>
             <div>
               <label>Private tool URL / working file URL</label>
-              <input id="private-${escapeAttr(id)}" value="${escapeAttr(item.private_tool_url || '')}" placeholder="Private internal working tool URL" />
+              <input id="private-${escapeAttr(id)}" value="${escapeAttr(item.private_tool_url || item.internal_working_file_url || '')}" placeholder="Private internal working tool URL" />
             </div>
           </div>
 
