@@ -21,6 +21,7 @@
       --purple-2: #c084fc;
       --pink: #ec4899;
       --green: #22c55e;
+      --yellow: #facc15;
       --red: #ef4444;
       --radius: 22px;
       --max: 1120px;
@@ -48,7 +49,8 @@
     }
 
     button,
-    textarea {
+    textarea,
+    input {
       font: inherit;
     }
 
@@ -147,6 +149,36 @@
       font-weight: 900;
     }
 
+    .credit-strip {
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.035);
+    }
+
+    .credit-inner {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      min-height: 44px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .credit-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(192,132,252,.28);
+      background: rgba(139,92,246,.12);
+      color: #e9d5ff;
+      border-radius: 999px;
+      padding: 8px 12px;
+      white-space: nowrap;
+    }
+
     main {
       width: min(var(--max), calc(100% - 32px));
       margin: 0 auto;
@@ -216,10 +248,9 @@
       margin-bottom: 10px;
     }
 
-    textarea {
+    textarea,
+    .link-input {
       width: 100%;
-      min-height: 220px;
-      resize: vertical;
       border: 1px solid rgba(255,255,255,.15);
       background: rgba(0,0,0,.26);
       color: #fff;
@@ -230,9 +261,111 @@
       box-shadow: inset 0 0 0 1px transparent;
     }
 
-    textarea:focus {
+    textarea {
+      min-height: 220px;
+      resize: vertical;
+    }
+
+    textarea:focus,
+    .link-input:focus {
       border-color: rgba(192,132,252,.65);
       box-shadow: 0 0 0 4px rgba(139,92,246,.14);
+    }
+
+    .upload-panel {
+      margin-top: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 22px;
+      background: rgba(255,255,255,.055);
+      padding: 16px;
+    }
+
+    .upload-panel.locked {
+      opacity: .74;
+    }
+
+    .upload-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .upload-title {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+    }
+
+    .upload-help {
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .lock-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid rgba(250,204,21,.26);
+      background: rgba(250,204,21,.10);
+      color: #fde68a;
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-weight: 900;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .link-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+    }
+
+    .tiny-note {
+      margin: 10px 0 0;
+      color: rgba(255,255,255,.58);
+      line-height: 1.5;
+      font-size: 12px;
+    }
+
+    .selected-files,
+    .selected-links {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .file-chip,
+    .link-chip {
+      border: 1px solid rgba(255,255,255,.11);
+      background: rgba(0,0,0,.18);
+      border-radius: 14px;
+      padding: 10px 12px;
+      color: rgba(255,255,255,.84);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      line-height: 1.45;
+      font-size: 13px;
+    }
+
+    .remove-mini {
+      border: 0;
+      border-radius: 999px;
+      color: #fecaca;
+      background: rgba(239,68,68,.12);
+      cursor: pointer;
+      font-weight: 950;
+      padding: 6px 9px;
+      flex: 0 0 auto;
     }
 
     .form-actions {
@@ -276,6 +409,12 @@
       color: #fff;
       background: rgba(255,255,255,.09);
       border: 1px solid var(--line);
+    }
+
+    .btn-upload {
+      color: #fff;
+      background: rgba(139,92,246,.14);
+      border: 1px solid rgba(192,132,252,.28);
     }
 
     .message {
@@ -397,7 +536,17 @@
         text-align: center;
       }
 
+      .credit-inner {
+        justify-content: center;
+        flex-wrap: wrap;
+        padding: 8px 0;
+      }
+
       .page-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .link-row {
         grid-template-columns: 1fr;
       }
     }
@@ -417,6 +566,10 @@
 
       .brand small {
         font-size: 10px;
+      }
+
+      .upload-top {
+        flex-direction: column;
       }
     }
   </style>
@@ -442,6 +595,12 @@
     </nav>
   </header>
 
+  <div class="credit-strip">
+    <div class="credit-inner">
+      <span class="credit-pill" id="creditDisplay">Tool Credits: Checking...</span>
+    </div>
+  </div>
+
   <main>
     <div id="authLoading" class="loading-full">
       <div>
@@ -453,12 +612,12 @@
 
     <div id="pageContent" class="page-grid" style="display:none;">
       <section class="panel">
-        <div class="eyebrow">✨ Free preview first</div>
+        <div class="eyebrow">✨ Create your tool</div>
         <h1>Describe the tool you want AI to prepare.</h1>
 
         <p class="lead">
           Tell us what tracker, calculator, dashboard, report, or internal business tool you need.
-          The more details you provide, the better your preview will be.
+          The more details you provide, the better your preview overview will be.
         </p>
 
         <div class="status-pill" id="signedInText">Signed in</div>
@@ -492,13 +651,64 @@
             required
           ></textarea>
 
+          <div
+            class="upload-panel"
+            id="uploadPanel"
+            title="Upload old sheets to update or fix errors, or give examples of what you need."
+          >
+            <div class="upload-top">
+              <div>
+                <p class="upload-title">Upload files or paste links</p>
+                <p class="upload-help">
+                  Upload screenshots, PDFs, Excel/CSV files, documents, or paste Google Sheets / Google Docs links to improve your request.
+                </p>
+              </div>
+
+              <span class="lock-pill" id="uploadLockPill">Requires Tool Credits</span>
+            </div>
+
+            <input
+              type="file"
+              id="fileInput"
+              multiple
+              style="display:none;"
+              accept=".png,.jpg,.jpeg,.webp,.gif,.pdf,.csv,.xls,.xlsx,.doc,.docx,.txt"
+            />
+
+            <div class="link-row">
+              <input
+                class="link-input"
+                id="linkInput"
+                type="url"
+                placeholder="Paste Google Sheet, Google Doc, or useful reference link"
+              />
+              <button class="btn btn-secondary" id="addLinkBtn" type="button">Add Link</button>
+            </div>
+
+            <p class="tiny-note">
+              Upload limit: maximum 5 files per request and 2MB per file. Links must start with http:// or https://.
+            </p>
+
+            <div class="selected-files" id="selectedFiles"></div>
+            <div class="selected-links" id="selectedLinks"></div>
+          </div>
+
           <div class="form-actions">
-            <button class="btn btn-primary" id="submitBtn" type="submit">
-              Submit Tool Request
+            <button
+              class="btn btn-upload"
+              id="uploadBtn"
+              type="button"
+              title="Upload old sheets to update or fix errors, or give examples of what you need."
+            >
+              Upload File
             </button>
 
             <button class="btn btn-secondary" id="exampleBtn" type="button">
               Use Example
+            </button>
+
+            <button class="btn btn-primary" id="submitBtn" type="submit">
+              Submit Tool Request
             </button>
           </div>
 
@@ -518,19 +728,40 @@
 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    const MAX_FILES = 5;
+    const MAX_FILE_SIZE = 2 * 1024 * 1024;
+
+    const allowedExtensions = [
+      "png", "jpg", "jpeg", "webp", "gif",
+      "pdf", "csv", "xls", "xlsx",
+      "doc", "docx", "txt"
+    ];
+
     const menuBtn = document.getElementById("menuBtn");
     const navLinks = document.getElementById("navLinks");
     const authLoading = document.getElementById("authLoading");
     const pageContent = document.getElementById("pageContent");
     const logoutBtn = document.getElementById("logoutBtn");
     const signedInText = document.getElementById("signedInText");
+    const creditDisplay = document.getElementById("creditDisplay");
+    const uploadPanel = document.getElementById("uploadPanel");
+    const uploadLockPill = document.getElementById("uploadLockPill");
     const form = document.getElementById("toolForm");
     const promptInput = document.getElementById("prompt");
     const submitBtn = document.getElementById("submitBtn");
     const exampleBtn = document.getElementById("exampleBtn");
+    const uploadBtn = document.getElementById("uploadBtn");
+    const fileInput = document.getElementById("fileInput");
+    const selectedFilesBox = document.getElementById("selectedFiles");
+    const linkInput = document.getElementById("linkInput");
+    const addLinkBtn = document.getElementById("addLinkBtn");
+    const selectedLinksBox = document.getElementById("selectedLinks");
     const message = document.getElementById("message");
 
     let currentUser = null;
+    let toolCreditBalance = 0;
+    let selectedFiles = [];
+    let selectedLinks = [];
 
     menuBtn?.addEventListener("click", () => {
       navLinks.classList.toggle("open");
@@ -544,7 +775,44 @@
     function setBusy(isBusy) {
       submitBtn.disabled = isBusy;
       exampleBtn.disabled = isBusy;
+      uploadBtn.disabled = isBusy || toolCreditBalance <= 0;
+      addLinkBtn.disabled = isBusy || toolCreditBalance <= 0;
+      linkInput.disabled = isBusy || toolCreditBalance <= 0;
       submitBtn.textContent = isBusy ? "Preparing Preview..." : "Submit Tool Request";
+    }
+
+    function updateCreditUI() {
+      creditDisplay.textContent = "Tool Credits: " + toolCreditBalance;
+
+      if (toolCreditBalance > 0) {
+        uploadPanel.classList.remove("locked");
+        uploadLockPill.textContent = "Upload enabled";
+        uploadLockPill.style.color = "#bbf7d0";
+        uploadLockPill.style.borderColor = "rgba(34,197,94,.25)";
+        uploadLockPill.style.background = "rgba(34,197,94,.10)";
+        uploadBtn.disabled = false;
+        addLinkBtn.disabled = false;
+        linkInput.disabled = false;
+      } else {
+        uploadPanel.classList.add("locked");
+        uploadLockPill.textContent = "Requires Tool Credits";
+        uploadBtn.disabled = true;
+        addLinkBtn.disabled = true;
+        linkInput.disabled = true;
+      }
+    }
+
+    async function loadToolCredits() {
+      const { data, error } = await supabaseClient.rpc("get_my_tool_credit_balance");
+
+      if (error) {
+        console.error(error);
+        toolCreditBalance = 0;
+      } else {
+        toolCreditBalance = Number(data || 0);
+      }
+
+      updateCreditUI();
     }
 
     async function ensureAuth() {
@@ -570,6 +838,9 @@
       currentUser = session.user;
       signedInText.textContent = "Signed in as " + (currentUser.email || "your account");
       logoutBtn.style.display = "inline-flex";
+
+      await loadToolCredits();
+
       authLoading.style.display = "none";
       pageContent.style.display = "grid";
     }
@@ -591,6 +862,246 @@
       });
     });
 
+    uploadBtn.addEventListener("click", () => {
+      if (toolCreditBalance <= 0) {
+        showMessage("File upload is available when you have at least 1 Tool Credit.", "error");
+        return;
+      }
+
+      fileInput.click();
+    });
+
+    fileInput.addEventListener("change", () => {
+      const incomingFiles = Array.from(fileInput.files || []);
+
+      for (const file of incomingFiles) {
+        if (selectedFiles.length >= MAX_FILES) {
+          showMessage("Maximum 5 files are allowed per request.", "error");
+          break;
+        }
+
+        const ext = getFileExtension(file.name);
+
+        if (!allowedExtensions.includes(ext)) {
+          showMessage("Unsupported file type: " + file.name + "\nAllowed: PNG, JPG, JPEG, WEBP, GIF, PDF, CSV, XLS, XLSX, DOC, DOCX, TXT.", "error");
+          continue;
+        }
+
+        if (file.size > MAX_FILE_SIZE) {
+          showMessage("File is too large: " + file.name + "\nMaximum size is 2MB per file.", "error");
+          continue;
+        }
+
+        selectedFiles.push(file);
+      }
+
+      fileInput.value = "";
+      renderSelectedFiles();
+    });
+
+    addLinkBtn.addEventListener("click", () => {
+      addLinkFromInput();
+    });
+
+    linkInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        addLinkFromInput();
+      }
+    });
+
+    function addLinkFromInput() {
+      if (toolCreditBalance <= 0) {
+        showMessage("Link attachment is available when you have at least 1 Tool Credit.", "error");
+        return;
+      }
+
+      const value = linkInput.value.trim();
+
+      if (!value) {
+        showMessage("Please paste a link first.", "error");
+        return;
+      }
+
+      const validation = validateUsefulLink(value);
+
+      if (!validation.valid) {
+        showMessage(validation.message, "error");
+        return;
+      }
+
+      if (selectedLinks.some(item => item.url === validation.url)) {
+        showMessage("This link is already added.", "error");
+        return;
+      }
+
+      selectedLinks.push({
+        url: validation.url,
+        type: validation.type
+      });
+
+      linkInput.value = "";
+      renderSelectedLinks();
+      showMessage("Link added.", "success");
+    }
+
+    function validateUsefulLink(value) {
+      let parsed;
+
+      try {
+        parsed = new URL(value);
+      } catch (error) {
+        return {
+          valid: false,
+          message: "Please paste a correct link that starts with http:// or https://."
+        };
+      }
+
+      if (!["http:", "https:"].includes(parsed.protocol)) {
+        return {
+          valid: false,
+          message: "Only http:// and https:// links are allowed."
+        };
+      }
+
+      const host = parsed.hostname.toLowerCase();
+      const fullUrl = parsed.href;
+
+      let type = "reference_link";
+
+      if (host.includes("docs.google.com") && fullUrl.includes("/spreadsheets/")) {
+        type = "google_sheet";
+      } else if (host.includes("docs.google.com") && fullUrl.includes("/document/")) {
+        type = "google_doc";
+      } else if (host.includes("drive.google.com")) {
+        type = "google_drive";
+      }
+
+      return {
+        valid: true,
+        url: fullUrl,
+        type
+      };
+    }
+
+    function getFileExtension(name) {
+      return String(name || "").split(".").pop().toLowerCase();
+    }
+
+    function safeFileName(name) {
+      return String(name || "file")
+        .replace(/[^a-zA-Z0-9._-]/g, "_")
+        .replace(/_+/g, "_")
+        .slice(0, 120);
+    }
+
+    function formatBytes(bytes) {
+      if (!bytes) return "0 KB";
+      const kb = bytes / 1024;
+      if (kb < 1024) return kb.toFixed(1) + " KB";
+      return (kb / 1024).toFixed(2) + " MB";
+    }
+
+    function renderSelectedFiles() {
+      selectedFilesBox.innerHTML = selectedFiles.map((file, index) => `
+        <div class="file-chip">
+          <span>📎 ${escapeHtml(file.name)} · ${formatBytes(file.size)}</span>
+          <button class="remove-mini" type="button" onclick="removeSelectedFile(${index})">Remove</button>
+        </div>
+      `).join("");
+    }
+
+    function renderSelectedLinks() {
+      selectedLinksBox.innerHTML = selectedLinks.map((item, index) => `
+        <div class="link-chip">
+          <span>🔗 ${escapeHtml(item.type.replaceAll("_", " "))}: ${escapeHtml(item.url)}</span>
+          <button class="remove-mini" type="button" onclick="removeSelectedLink(${index})">Remove</button>
+        </div>
+      `).join("");
+    }
+
+    window.removeSelectedFile = function(index) {
+      selectedFiles.splice(index, 1);
+      renderSelectedFiles();
+    };
+
+    window.removeSelectedLink = function(index) {
+      selectedLinks.splice(index, 1);
+      renderSelectedLinks();
+    };
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    async function uploadSelectedFilesForRequest(requestId) {
+      const uploadedRows = [];
+
+      for (const file of selectedFiles) {
+        const fileName = Date.now() + "_" + safeFileName(file.name);
+        const filePath = currentUser.id + "/" + requestId + "/" + fileName;
+
+        const { error: uploadError } = await supabaseClient.storage
+          .from("tool-request-uploads")
+          .upload(filePath, file, {
+            cacheControl: "3600",
+            upsert: false,
+            contentType: file.type || "application/octet-stream"
+          });
+
+        if (uploadError) {
+          throw new Error("Could not upload " + file.name + ": " + uploadError.message);
+        }
+
+        uploadedRows.push({
+          tool_request_id: requestId,
+          user_id: currentUser.id,
+          source_type: "file",
+          file_name: file.name,
+          file_path: filePath,
+          file_type: file.type || getFileExtension(file.name),
+          file_size_bytes: file.size,
+          notes: "Uploaded with tool request"
+        });
+      }
+
+      if (uploadedRows.length) {
+        const { error: fileMetaError } = await supabaseClient
+          .from("tool_request_files")
+          .insert(uploadedRows);
+
+        if (fileMetaError) {
+          throw new Error("Files uploaded, but file details could not be saved: " + fileMetaError.message);
+        }
+      }
+    }
+
+    async function saveSelectedLinksForRequest(requestId) {
+      if (!selectedLinks.length) return;
+
+      const rows = selectedLinks.map((item) => ({
+        tool_request_id: requestId,
+        user_id: currentUser.id,
+        source_type: "link",
+        link_url: item.url,
+        link_type: item.type,
+        notes: "Pasted with tool request"
+      }));
+
+      const { error } = await supabaseClient
+        .from("tool_request_files")
+        .insert(rows);
+
+      if (error) {
+        throw new Error("Link details could not be saved: " + error.message);
+      }
+    }
+
     form?.addEventListener("submit", async (event) => {
       event.preventDefault();
 
@@ -606,8 +1117,15 @@
         return;
       }
 
+      const hasAttachments = selectedFiles.length > 0 || selectedLinks.length > 0;
+
+      if (hasAttachments && toolCreditBalance <= 0) {
+        showMessage("Uploads and links are available when you have at least 1 Tool Credit.", "error");
+        return;
+      }
+
       setBusy(true);
-      showMessage("Request received. We are preparing your tool preview.", "success");
+      showMessage("Request received. We are preparing your tool preview overview.", "success");
 
       try {
         const { data: requestRow, error: insertError } = await supabaseClient
@@ -616,7 +1134,11 @@
             user_id: currentUser.id,
             email: currentUser.email,
             prompt: prompt,
-            status: "submitted"
+            status: "submitted",
+            source_links: selectedLinks,
+            upload_context: hasAttachments
+              ? "User added " + selectedFiles.length + " file(s) and " + selectedLinks.length + " link(s) for reference."
+              : null
           })
           .select("id")
           .single();
@@ -624,6 +1146,18 @@
         if (insertError) {
           throw new Error(insertError.message || "Could not save your request.");
         }
+
+        if (selectedFiles.length) {
+          showMessage("Uploading files...", "success");
+          await uploadSelectedFilesForRequest(requestRow.id);
+        }
+
+        if (selectedLinks.length) {
+          showMessage("Saving links...", "success");
+          await saveSelectedLinksForRequest(requestRow.id);
+        }
+
+        showMessage("Files and request saved. Preparing preview overview...", "success");
 
         const { data: functionData, error: functionError } = await supabaseClient.functions.invoke("process-tool-request", {
           body: {
@@ -636,10 +1170,10 @@
         }
 
         if (!functionData || !functionData.preview_id || !functionData.preview_token) {
-          throw new Error("Preview was prepared, but the preview link was not returned. Please try again.");
+          throw new Error("Preview overview was prepared, but the preview link was not returned. Please try again.");
         }
 
-        showMessage("Preview ready. Redirecting...", "success");
+        showMessage("Preview overview ready. Redirecting...", "success");
 
         const previewUrl = "/preview/?id=" + encodeURIComponent(functionData.preview_id) + "&token=" + encodeURIComponent(functionData.preview_token);
         window.location.href = previewUrl;
