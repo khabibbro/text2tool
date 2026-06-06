@@ -4,70 +4,18 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Final Tool | Text2Tool AI</title>
-  <meta name="description" content="Your final Text2Tool AI business tool is ready." />
   <style>
-    :root {
-      --bg:#05020a; --panel:#14101d; --card:#211b2d; --line:rgba(255,255,255,.14);
-      --text:#f8f7ff; --muted:#c9c2d8; --soft:#a59ab8; --purple:#b84dff; --pink:#f15bd6;
-      --green:#22c55e; --danger:#fb7185; --max:1180px;
-    }
-    * { box-sizing:border-box; }
-    body {
-      margin:0; min-height:100vh; color:var(--text);
-      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      background:radial-gradient(circle at 80% 12%, rgba(184,77,255,.22), transparent 34%),
-                 radial-gradient(circle at 18% 25%, rgba(56,189,248,.12), transparent 32%),
-                 linear-gradient(180deg,#090313 0%,#05020a 46%,#030106 100%);
-    }
-    a { color:inherit; text-decoration:none; }
-    .wrap { width:min(var(--max), calc(100% - 32px)); margin:0 auto; }
-    header { position:sticky; top:0; z-index:20; background:rgba(5,2,10,.82); backdrop-filter:blur(16px); border-bottom:1px solid var(--line); }
-    .nav { min-height:76px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
-    .brand { display:flex; align-items:center; gap:12px; }
-    .logo { width:42px; height:42px; border-radius:14px; display:grid; place-items:center; font-weight:900; background:linear-gradient(135deg,var(--purple),var(--pink)); box-shadow:0 12px 28px rgba(184,77,255,.35); }
-    .brand strong { display:block; font-size:18px; line-height:1; }
-    .brand span { display:block; color:var(--muted); font-size:12px; font-weight:700; margin-top:4px; }
-    nav { display:flex; align-items:center; gap:24px; font-size:14px; font-weight:800; color:#efe8ff; }
-    .btn {
-      border:1px solid var(--line); background:rgba(255,255,255,.08); color:var(--text);
-      border-radius:999px; padding:12px 18px; font-weight:900; cursor:pointer; display:inline-flex;
-      align-items:center; justify-content:center; gap:8px; transition:.2s; text-decoration:none;
-    }
-    .btn:hover { transform:translateY(-1px); border-color:rgba(255,255,255,.28); }
-    .btn-primary { border:0; background:linear-gradient(135deg,var(--purple),var(--pink)); box-shadow:0 18px 46px rgba(184,77,255,.32); }
-    .btn-green { border:0; background:linear-gradient(135deg,#16a34a,#22c55e); box-shadow:0 18px 46px rgba(34,197,94,.20); }
-    .btn:disabled { opacity:.55; cursor:not-allowed; transform:none; }
-    main { padding:32px 0 56px; }
-    .hero, .card {
-      border:1px solid var(--line); background:rgba(20,16,29,.82); border-radius:24px;
-      box-shadow:0 20px 80px rgba(0,0,0,.22);
-    }
-    .hero { padding:28px; margin-bottom:20px; }
-    .badge { display:inline-flex; align-items:center; gap:8px; color:#d8b4fe; background:rgba(184,77,255,.13); border:1px solid rgba(184,77,255,.28); padding:8px 12px; border-radius:999px; font-weight:900; font-size:13px; }
-    h1 { font-size:clamp(32px,4vw,56px); line-height:1.02; margin:18px 0 12px; letter-spacing:-.05em; }
-    h2 { font-size:22px; margin:0 0 14px; letter-spacing:-.03em; }
-    p { color:var(--muted); line-height:1.55; }
-    .summary { max-width:850px; font-size:17px; }
-    .grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-    .card { padding:22px; }
-    .actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
-    .list { display:grid; gap:10px; margin:0; padding:0; list-style:none; }
-    .list li { background:rgba(255,255,255,.06); border:1px solid var(--line); border-radius:14px; padding:12px 14px; color:#fff; line-height:1.45; }
-    textarea {
-      width:100%; min-height:430px; resize:vertical; border-radius:18px; border:1px solid var(--line);
-      background:rgba(5,2,10,.68); color:var(--text); padding:18px; font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
-      outline:none;
-    }
-    .code-card { grid-column:1 / -1; }
-    .message { margin-top:14px; padding:14px 16px; border-radius:16px; background:rgba(255,255,255,.07); border:1px solid var(--line); color:var(--muted); }
-    .error { background:rgba(251,113,133,.12); border-color:rgba(251,113,133,.35); color:#fecdd3; }
-    footer { padding:24px 0 38px; color:var(--muted); text-align:center; font-size:13px; }
-    @media (max-width:800px) {
-      nav { gap:12px; font-size:13px; }
-      .grid { grid-template-columns:1fr; }
-      .hero,.card { padding:18px; border-radius:20px; }
-      textarea { min-height:340px; }
-    }
+    :root{--bg:#05020a;--panel:#14101d;--line:rgba(255,255,255,.14);--text:#f8f7ff;--muted:#c9c2d8;--purple:#b84dff;--pink:#f15bd6}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:radial-gradient(circle at 80% 12%,rgba(184,77,255,.22),transparent 34%),linear-gradient(180deg,#090313 0%,#05020a 55%,#030106 100%)}
+    a{color:inherit;text-decoration:none}.wrap{width:min(1120px,calc(100% - 32px));margin:0 auto}
+    header{position:sticky;top:0;background:rgba(5,2,10,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+    .nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--pink))}
+    .brand strong{display:block;font-size:18px;line-height:1}.brand span{display:block;color:var(--muted);font-size:12px;font-weight:700;margin-top:4px}
+    nav{display:flex;align-items:center;gap:24px;font-size:14px;font-weight:800}.btn{border:1px solid var(--line);background:rgba(255,255,255,.08);color:var(--text);border-radius:999px;padding:12px 18px;font-weight:900;display:inline-flex}.btn-primary{border:0;background:linear-gradient(135deg,var(--purple),var(--pink))}
+    main{padding:48px 0 56px}.hero{border:1px solid var(--line);background:rgba(20,16,29,.82);border-radius:24px;padding:30px;box-shadow:0 20px 80px rgba(0,0,0,.22)}
+    .badge{display:inline-flex;color:#d8b4fe;background:rgba(184,77,255,.13);border:1px solid rgba(184,77,255,.28);padding:8px 12px;border-radius:999px;font-weight:900;font-size:13px}
+    h1{font-size:clamp(34px,4vw,58px);line-height:1.02;margin:18px 0 12px;letter-spacing:-.05em}p{color:var(--muted);line-height:1.6;font-size:17px;max-width:780px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.card{margin-top:20px;border:1px solid var(--line);background:rgba(255,255,255,.05);border-radius:20px;padding:20px}
+    footer{padding:24px 0 38px;color:var(--muted);text-align:center;font-size:13px}
   </style>
 </head>
 <body>
@@ -85,193 +33,20 @@
       </nav>
     </div>
   </header>
-
-  <main class="wrap" id="app">
+  <main class="wrap">
     <section class="hero">
-      <div class="badge">Loading final tool...</div>
-      <h1>Please wait</h1>
-      <p class="summary">Your final tool is loading.</p>
+      <div class="badge">Final Tool Delivery</div>
+      <h1>Your finished tool will be delivered as a working tool.</h1>
+      <p>We are connecting final tool delivery. Customers will not see source code, technical setup code, or backend details.</p>
+      <div class="card">
+        <p>The final customer flow will be: approve preview, use 1 Tool Credit, then receive/open the finished working tool.</p>
+      </div>
+      <div class="actions">
+        <a class="btn btn-primary" href="/create-tool/">Create Another Preview</a>
+        <a class="btn" href="/pricing/">View Tool Credits</a>
+      </div>
     </section>
   </main>
-
-  <footer>
-    Built for startups, agencies, virtual assistants and growing businesses. Text2Tool AI © 2026.
-  </footer>
-
-  <script>
-    const SUPABASE_URL = 'https://wldldtmtxmmlufcmubnr.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_R63WYwDu58UPHLJkb2eXPQ_4qUQS5PX';
-
-    const params = new URLSearchParams(window.location.search);
-    const finalId = params.get('id') || '';
-    const finalToken = params.get('token') || '';
-    const app = document.getElementById('app');
-
-    init();
-
-    async function init() {
-      if (!finalId || !finalToken) {
-        showError('Final tool link is missing or incomplete.');
-        return;
-      }
-
-      try {
-        const tool = await fetchFinalTool();
-        renderFinalTool(tool);
-      } catch (error) {
-        showError(error.message || 'Could not load final tool.');
-      }
-    }
-
-    async function fetchFinalTool() {
-      const response = await withTimeout(fetch(SUPABASE_URL + '/rest/v1/rpc/get_public_final_tool', {
-        method: 'POST',
-        headers: {
-          apikey: SUPABASE_KEY,
-          Authorization: 'Bearer ' + SUPABASE_KEY,
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          p_final_id: finalId,
-          p_final_token: finalToken
-        })
-      }), 20000, 'Final tool request timed out.');
-
-      const text = await response.text();
-      if (!response.ok) throw new Error('Final tool could not be loaded. Please refresh.');
-      const rows = JSON.parse(text);
-      if (!Array.isArray(rows) || !rows.length) throw new Error('Final tool not found or expired.');
-      return rows[0];
-    }
-
-    function renderFinalTool(tool) {
-      const title = tool.tool_title || 'Your final tool is ready';
-      const summary = tool.tool_summary || 'Your final business tool is ready.';
-      const code = tool.generated_code || '';
-      const setup = toArray(tool.setup_instructions);
-      const features = toArray(tool.included_features);
-
-      app.innerHTML = `
-        <section class="hero">
-          <div class="badge">✅ Final Tool Ready</div>
-          <h1>${escapeHtml(title)}</h1>
-          <p class="summary">${escapeHtml(summary)}</p>
-          <div class="actions">
-            <button class="btn btn-primary" id="copyCodeBtn" type="button">Copy Tool Setup Code</button>
-            <button class="btn btn-green" id="downloadCodeBtn" type="button">Download TXT Backup</button>
-            <a class="btn" href="/create-tool/">Create Another Tool</a>
-          </div>
-          <div class="message">
-            Keep this page link safe. Your final tool code is saved here so you can copy it whenever needed.
-          </div>
-        </section>
-
-        <div class="grid">
-          <section class="card">
-            <h2>Included Features</h2>
-            ${renderList(features, 'Included features will appear here.')}
-          </section>
-
-          <section class="card">
-            <h2>Setup Steps</h2>
-            ${renderList(setup, 'Setup steps will appear here.')}
-          </section>
-
-          <section class="card code-card">
-            <h2>Your Tool Setup Code</h2>
-            <p>Copy this full code into your Google Sheets Apps Script editor to create the tool.</p>
-            <textarea id="finalCode" spellcheck="false">${escapeHtml(code)}</textarea>
-            <div class="actions">
-              <button class="btn btn-primary" id="copyCodeBtn2" type="button">Copy Full Code</button>
-              <button class="btn btn-green" id="downloadCodeBtn2" type="button">Download TXT Backup</button>
-            </div>
-            <div class="message" id="toolMessage">This is the final generated tool code.</div>
-          </section>
-        </div>
-      `;
-
-      const copyButtons = [document.getElementById('copyCodeBtn'), document.getElementById('copyCodeBtn2')].filter(Boolean);
-      const downloadButtons = [document.getElementById('downloadCodeBtn'), document.getElementById('downloadCodeBtn2')].filter(Boolean);
-
-      copyButtons.forEach(btn => btn.addEventListener('click', () => copyCode(code)));
-      downloadButtons.forEach(btn => btn.addEventListener('click', () => downloadCode(title, code)));
-    }
-
-    async function copyCode(code) {
-      const msg = document.getElementById('toolMessage');
-      try {
-        await navigator.clipboard.writeText(code);
-        if (msg) msg.textContent = 'Copied. Now paste it into your Google Sheets Apps Script editor.';
-      } catch (_) {
-        const box = document.getElementById('finalCode');
-        if (box) {
-          box.focus();
-          box.select();
-          document.execCommand('copy');
-          if (msg) msg.textContent = 'Copied. Now paste it into your Google Sheets Apps Script editor.';
-        }
-      }
-    }
-
-    function downloadCode(title, code) {
-      const safeTitle = String(title || 'text2tool-final-tool').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'text2tool-final-tool';
-      const blob = new Blob([code], { type:'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = safeTitle + '.txt';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-    }
-
-    function renderList(items, emptyText) {
-      const arr = toArray(items).filter(Boolean);
-      if (!arr.length) return `<p>${escapeHtml(emptyText)}</p>`;
-      return `<ul class="list">${arr.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`;
-    }
-
-    function showError(message) {
-      app.innerHTML = `
-        <section class="hero">
-          <div class="badge">Could not load final tool</div>
-          <h1>Something went wrong</h1>
-          <p class="summary">${escapeHtml(message)}</p>
-          <div class="actions">
-            <a class="btn btn-primary" href="/create-tool/">Create New Tool</a>
-            <a class="btn" href="/pricing/">View Tool Credits</a>
-          </div>
-        </section>
-      `;
-    }
-
-    function toArray(value) {
-      if (Array.isArray(value)) return value.map(item => String(item || '').trim()).filter(Boolean);
-      if (typeof value === 'string') {
-        try {
-          const parsed = JSON.parse(value);
-          if (Array.isArray(parsed)) return parsed.map(item => String(item || '').trim()).filter(Boolean);
-        } catch (_) {}
-        return value.split(/\n|,/).map(item => item.trim()).filter(Boolean);
-      }
-      return [];
-    }
-
-    function withTimeout(promise, ms, message) {
-      let timer;
-      const timeout = new Promise((_, reject) => {
-        timer = setTimeout(() => reject(new Error(message)), ms);
-      });
-      return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
-    }
-
-    function escapeHtml(value) {
-      return String(value ?? '').replace(/[&<>"']/g, ch => ({
-        '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
-      }[ch]));
-    }
-  </script>
+  <footer>Built for startups, agencies, virtual assistants and growing businesses. Text2Tool AI © 2026.</footer>
 </body>
 </html>
