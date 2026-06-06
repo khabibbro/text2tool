@@ -98,7 +98,7 @@
   <main class="wrap">
     <section class="panel">
       <h1>Delivery Admin</h1>
-      <p>Manage final tool delivery requests, private build status, QA status, and final working tool links. Customers never see source code.</p>
+      <p>Manage final tool delivery requests, private build status, error scans, Auto Bots fixes, QA status, and final working tool links. Customers never see source code.</p>
       <div class="message" id="mainMessage">Loading...</div>
     </section>
 
@@ -312,12 +312,55 @@
             <textarea id="error-${escapeAttr(id)}" placeholder="Example: Fixed #REF! in dashboard monthly total">${escapeHtml(item.last_error || '')}</textarea>
           </div>
 
+          <div class="grid" style="margin-top:12px;">
+            <div>
+              <label>Builder model / method</label>
+              <input id="builder-${escapeAttr(id)}" value="${escapeAttr(item.builder_model || '')}" placeholder="Example: GPT-5.4 mini + private builder" />
+            </div>
+            <div>
+              <label>Internal finished file URL</label>
+              <input id="internalFinished-${escapeAttr(id)}" value="${escapeAttr(item.internal_finished_file_url || '')}" placeholder="Private finished file URL before customer delivery" />
+            </div>
+          </div>
+
+          <div class="grid" style="margin-top:12px;">
+            <div>
+              <label>Formula errors</label>
+              <input id="formulaErrors-${escapeAttr(id)}" type="number" min="0" value="${escapeAttr(String(item.formula_error_count || 0))}" />
+            </div>
+            <div>
+              <label>Visible errors</label>
+              <input id="visibleErrors-${escapeAttr(id)}" type="number" min="0" value="${escapeAttr(String(item.visible_error_count || 0))}" />
+            </div>
+          </div>
+
+          <div class="field" style="margin-top:12px;">
+            <label>Readiness score 0 to 100</label>
+            <input id="readiness-${escapeAttr(id)}" type="number" min="0" max="100" value="${escapeAttr(String(item.readiness_score || 0))}" />
+          </div>
+
           <div class="actions">
-            <button class="btn btn-yellow" data-action="qa" data-status="building" data-id="${escapeAttr(id)}">Mark Building</button>
-            <button class="btn btn-blue" data-action="qa" data-status="checking" data-id="${escapeAttr(id)}">Mark Checking</button>
-            <button class="btn btn-blue" data-action="qa" data-status="fixing" data-id="${escapeAttr(id)}">Mark Fixing</button>
+            <button class="btn btn-yellow" data-action="build" data-status="building" data-id="${escapeAttr(id)}">Build Started</button>
+            <button class="btn btn-blue" data-action="build" data-status="created_private_file" data-id="${escapeAttr(id)}">Private File Created</button>
+            <button class="btn btn-blue" data-action="build" data-status="scanning" data-id="${escapeAttr(id)}">Scanning for Errors</button>
+            <button class="btn btn-blue" data-action="build" data-status="fixing" data-id="${escapeAttr(id)}">Auto Bots Fixing</button>
+            <button class="btn btn-green" data-action="build" data-status="qa_ready" data-id="${escapeAttr(id)}">Build Ready for QA</button>
+            <button class="btn btn-danger" data-action="build" data-status="failed" data-id="${escapeAttr(id)}">Build Failed</button>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-blue" data-action="scan" data-status="scanning" data-autofix="not_started" data-id="${escapeAttr(id)}">Start Error Scan</button>
+            <button class="btn btn-green" data-action="scan" data-status="passed" data-autofix="not_needed" data-id="${escapeAttr(id)}">Error Scan Passed</button>
+            <button class="btn btn-blue" data-action="scan" data-status="passed" data-autofix="fixed" data-id="${escapeAttr(id)}">Auto Fix Completed</button>
+            <button class="btn btn-danger" data-action="scan" data-status="failed" data-autofix="failed" data-id="${escapeAttr(id)}">Error Scan Failed</button>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-yellow" data-action="qa" data-status="building" data-id="${escapeAttr(id)}">QA Building</button>
+            <button class="btn btn-blue" data-action="qa" data-status="checking" data-id="${escapeAttr(id)}">QA Checking</button>
+            <button class="btn btn-blue" data-action="qa" data-status="fixing" data-id="${escapeAttr(id)}">QA Fixing</button>
             <button class="btn btn-green" data-action="qa" data-status="passed" data-id="${escapeAttr(id)}">Mark QA Passed</button>
-            <button class="btn btn-danger" data-action="qa" data-status="failed" data-id="${escapeAttr(id)}">Mark Failed</button>
+            <button class="btn btn-danger" data-action="qa" data-status="failed" data-id="${escapeAttr(id)}">QA Failed</button>
             <button class="btn btn-green" data-action="deliver" data-id="${escapeAttr(id)}">Deliver Tool</button>
           </div>
 
@@ -328,12 +371,97 @@
 
     function attachRequestEvents(item) {
       const id = item.id;
+      document.querySelectorAll(`[data-action="build"][data-id="${cssEscape(id)}"]`).forEach(btn => {
+        btn.addEventListener('click', () => updateBuildStatus(id, btn.dataset.status));
+      });
+
+      document.querySelectorAll(`[data-action="scan"][data-id="${cssEscape(id)}"]`).forEach(btn => {
+        btn.addEventListener('click', () => updateErrorScan(id, btn.dataset.status, btn.dataset.autofix));
+      });
+
       document.querySelectorAll(`[data-action="qa"][data-id="${cssEscape(id)}"]`).forEach(btn => {
         btn.addEventListener('click', () => updateQa(id, btn.dataset.status));
       });
 
       const deliverBtn = document.querySelector(`[data-action="deliver"][data-id="${cssEscape(id)}"]`);
       if (deliverBtn) deliverBtn.addEventListener('click', () => deliverTool(id));
+    }
+
+    async function updateBuildStatus(id, buildStatus) {
+      const msg = document.getElementById('msg-' + id);
+      const privateUrl = document.getElementById('private-' + id).value.trim();
+      const internalFinishedUrl = document.getElementById('internalFinished-' + id).value.trim();
+      const builderModel = document.getElementById('builder-' + id).value.trim();
+      const lastError = document.getElementById('error-' + id).value.trim();
+
+      msg.className = 'message';
+      msg.textContent = 'Updating private build status...';
+
+      const report = {
+        admin_note: lastError || '',
+        updated_at: new Date().toISOString()
+      };
+
+      const { data, error } = await client.rpc('admin_update_final_tool_build_status', {
+        p_delivery_id: id,
+        p_build_status: buildStatus,
+        p_builder_model: builderModel || null,
+        p_internal_working_file_url: privateUrl || null,
+        p_internal_finished_file_url: internalFinishedUrl || null,
+        p_build_report: report,
+        p_last_error: lastError || null
+      });
+
+      if (error) {
+        msg.className = 'message error';
+        msg.textContent = error.message || 'Could not update build status.';
+        return;
+      }
+
+      msg.className = 'message success';
+      msg.textContent = 'Build status updated: ' + buildStatus;
+      setTimeout(loadRequests, 800);
+    }
+
+    async function updateErrorScan(id, scanStatus, autoFixStatus) {
+      const msg = document.getElementById('msg-' + id);
+      const formulaErrors = Number(document.getElementById('formulaErrors-' + id).value || 0);
+      const visibleErrors = Number(document.getElementById('visibleErrors-' + id).value || 0);
+      const readiness = Number(document.getElementById('readiness-' + id).value || 0);
+      const lastError = document.getElementById('error-' + id).value.trim();
+
+      msg.className = 'message';
+      msg.textContent = 'Updating error scan status...';
+
+      const report = {
+        admin_note: lastError || '',
+        formula_error_count: Math.max(0, formulaErrors),
+        visible_error_count: Math.max(0, visibleErrors),
+        checked_at: new Date().toISOString()
+      };
+
+      const { data, error } = await client.rpc('admin_update_final_tool_error_scan', {
+        p_delivery_id: id,
+        p_error_scan_status: scanStatus,
+        p_error_scan_report: report,
+        p_formula_error_count: Math.max(0, formulaErrors),
+        p_visible_error_count: Math.max(0, visibleErrors),
+        p_missing_required_items: [],
+        p_auto_fix_status: autoFixStatus || 'not_started',
+        p_auto_fix_attempts: autoFixStatus === 'fixed' ? 1 : 0,
+        p_readiness_score: Math.max(0, Math.min(100, readiness)),
+        p_last_error: lastError || null
+      });
+
+      if (error) {
+        msg.className = 'message error';
+        msg.textContent = error.message || 'Could not update error scan.';
+        return;
+      }
+
+      msg.className = 'message success';
+      msg.textContent = 'Error scan updated: ' + scanStatus + ' / ' + (autoFixStatus || 'not_started');
+      setTimeout(loadRequests, 800);
     }
 
     async function updateQa(id, qaStatus) {
