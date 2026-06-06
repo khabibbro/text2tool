@@ -48,7 +48,8 @@
       text-decoration: none;
     }
 
-    button {
+    button,
+    textarea {
       font: inherit;
     }
 
@@ -290,14 +291,152 @@
     }
 
     .questions h2 {
-      margin: 0 0 10px;
+      margin: 0 0 8px;
       font-size: 20px;
     }
 
-    .questions p {
-      margin: 0;
+    .question-intro {
+      margin: 0 0 16px;
       color: var(--muted);
-      line-height: 1.65;
+      line-height: 1.6;
+    }
+
+    .chat-card {
+      border: 1px solid rgba(192,132,252,.24);
+      background:
+        radial-gradient(circle at 16% 0%, rgba(139,92,246,.18), transparent 34%),
+        rgba(0,0,0,.18);
+      border-radius: 22px;
+      padding: 18px;
+    }
+
+    .chat-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .progress-pill {
+      display: inline-flex;
+      border: 1px solid rgba(192,132,252,.26);
+      background: rgba(139,92,246,.14);
+      color: #e9d5ff;
+      border-radius: 999px;
+      padding: 8px 11px;
+      font-weight: 900;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 9px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.10);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      transition: width .2s ease;
+    }
+
+    .bot-bubble,
+    .user-bubble {
+      border-radius: 18px;
+      padding: 14px 16px;
+      line-height: 1.6;
+    }
+
+    .bot-bubble {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.90);
+      margin-bottom: 12px;
+    }
+
+    .bot-label {
+      display: block;
+      color: #e9d5ff;
+      font-weight: 950;
+      font-size: 12px;
+      margin-bottom: 6px;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+    }
+
+    .answer-box {
+      width: 100%;
+      min-height: 120px;
+      border: 1px solid rgba(255,255,255,.15);
+      background: rgba(0,0,0,.24);
+      color: #fff;
+      border-radius: 18px;
+      padding: 14px 16px;
+      outline: none;
+      resize: vertical;
+      line-height: 1.55;
+      margin-top: 12px;
+    }
+
+    .answer-box:focus {
+      border-color: rgba(192,132,252,.65);
+      box-shadow: 0 0 0 4px rgba(139,92,246,.14);
+    }
+
+    .chat-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .answer-status {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .answers-summary {
+      display: none;
+      margin-top: 16px;
+      border: 1px solid rgba(34,197,94,.22);
+      background: rgba(34,197,94,.08);
+      border-radius: 18px;
+      padding: 14px;
+    }
+
+    .answers-summary.show {
+      display: block;
+    }
+
+    .answers-summary h3 {
+      margin: 0 0 10px;
+      font-size: 17px;
+    }
+
+    .answers-summary pre {
+      margin: 0;
+      white-space: pre-wrap;
+      color: rgba(255,255,255,.86);
+      line-height: 1.6;
+      font-family: inherit;
+      font-size: 14px;
+    }
+
+    .no-questions {
+      border: 1px solid rgba(34,197,94,.22);
+      background: rgba(34,197,94,.08);
+      border-radius: 18px;
+      padding: 14px 16px;
+      color: #bbf7d0;
+      line-height: 1.6;
     }
 
     .btn {
@@ -320,6 +459,13 @@
       transform: translateY(-2px);
     }
 
+    .btn-small {
+      width: auto;
+      min-height: 42px;
+      padding: 11px 15px;
+      font-size: 14px;
+    }
+
     .btn-primary {
       background: linear-gradient(135deg, var(--purple), var(--pink));
       color: #fff;
@@ -330,11 +476,6 @@
       color: #fff;
       background: rgba(255,255,255,.09);
       border: 1px solid var(--line);
-    }
-
-    .action-buttons {
-      display: grid;
-      gap: 10px;
     }
 
     .loading-full,
@@ -443,6 +584,19 @@
         padding: 20px;
       }
 
+      .chat-top {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .progress-track {
+        width: 100%;
+      }
+
+      .btn-small {
+        width: 100%;
+      }
+
       .brand span {
         font-size: 15px;
       }
@@ -469,7 +623,7 @@
         <a href="/pricing/">Pricing</a>
         <a href="/faq/">FAQ</a>
         <button class="logout-btn" type="button" id="logoutBtn" style="display:none;">Logout</button>
-        <a class="nav-cta" href="/create-tool/">Create Tool</a>
+        <a class="nav-cta" href="/create-tool/?v=final1">Create Tool</a>
       </div>
     </nav>
   </header>
@@ -508,7 +662,7 @@
 
           <div class="action-buttons">
             <a class="btn btn-primary" href="/pricing/">View Tool Credits</a>
-            <a class="btn btn-secondary" href="/create-tool/">Create Another Preview</a>
+            <a class="btn btn-secondary" href="/create-tool/?v=final1">Create Another Preview</a>
           </div>
         </aside>
       </div>
@@ -526,8 +680,17 @@
       </div>
 
       <div class="questions">
-        <h2>Questions / notes</h2>
-        <p id="questionsText">No extra questions detected. This preview is ready to review.</p>
+        <h2>Follow-up questions</h2>
+        <p class="question-intro" id="questionIntro">
+          Answer one question at a time. Your answers are saved in this browser so you can review them without feeling overwhelmed.
+        </p>
+
+        <div id="questionChat"></div>
+
+        <div class="answers-summary" id="answersSummary">
+          <h3>Your saved answers</h3>
+          <pre id="answersText"></pre>
+        </div>
       </div>
     </section>
   </main>
@@ -549,6 +712,12 @@
     const errorState = document.getElementById("errorState");
     const previewContent = document.getElementById("previewContent");
 
+    let currentPreviewId = "";
+    let currentPreviewToken = "";
+    let previewQuestions = [];
+    let currentQuestionIndex = 0;
+    let questionAnswers = {};
+
     menuBtn?.addEventListener("click", () => {
       navLinks.classList.toggle("open");
     });
@@ -561,7 +730,7 @@
         <div class="error-card">
           <h1>${escapeHtml(title)}</h1>
           <p>${escapeHtml(message)}</p>
-          <p><a class="btn btn-secondary" href="/create-tool/">Create a new tool request</a></p>
+          <p><a class="btn btn-secondary" href="/create-tool/?v=final1">Create a new tool request</a></p>
         </div>
       `;
     }
@@ -606,10 +775,151 @@
       element.innerHTML = safeItems.map(item => `<li>${escapeHtml(item)}</li>`).join("");
     }
 
+    function storageKey() {
+      return "text2tool_preview_answers_" + currentPreviewId;
+    }
+
+    function loadSavedAnswers() {
+      try {
+        const raw = localStorage.getItem(storageKey());
+        questionAnswers = raw ? JSON.parse(raw) : {};
+      } catch (error) {
+        questionAnswers = {};
+      }
+    }
+
+    function saveAnswers() {
+      localStorage.setItem(storageKey(), JSON.stringify(questionAnswers));
+    }
+
+    function renderQuestionChat() {
+      const container = document.getElementById("questionChat");
+
+      if (!previewQuestions.length) {
+        container.innerHTML = `
+          <div class="no-questions">
+            No extra questions detected. This preview is ready to review.
+          </div>
+        `;
+        document.getElementById("questionIntro").textContent = "This preview does not need extra answers right now.";
+        return;
+      }
+
+      const question = previewQuestions[currentQuestionIndex];
+      const answer = questionAnswers[currentQuestionIndex] || "";
+      const answeredCount = Object.values(questionAnswers).filter(value => String(value || "").trim()).length;
+      const percent = Math.round(((currentQuestionIndex + 1) / previewQuestions.length) * 100);
+
+      container.innerHTML = `
+        <div class="chat-card">
+          <div class="chat-top">
+            <span class="progress-pill">Question ${currentQuestionIndex + 1} of ${previewQuestions.length}</span>
+            <div class="progress-track" aria-label="Question progress">
+              <div class="progress-fill" style="width:${percent}%"></div>
+            </div>
+          </div>
+
+          <div class="bot-bubble">
+            <span class="bot-label">Text2Tool question</span>
+            ${escapeHtml(question)}
+          </div>
+
+          <textarea class="answer-box" id="answerBox" placeholder="Type your answer here...">${escapeHtml(answer)}</textarea>
+
+          <div class="chat-actions">
+            <button class="btn btn-secondary btn-small" type="button" id="prevQuestionBtn">Previous</button>
+            <button class="btn btn-secondary btn-small" type="button" id="skipQuestionBtn">Skip for now</button>
+            <button class="btn btn-primary btn-small" type="button" id="nextQuestionBtn">${currentQuestionIndex === previewQuestions.length - 1 ? "Finish" : "Next question"}</button>
+            <button class="btn btn-secondary btn-small" type="button" id="copyAnswersBtn">Copy answers</button>
+          </div>
+
+          <div class="answer-status">${answeredCount} of ${previewQuestions.length} answered. Answers are saved in this browser.</div>
+        </div>
+      `;
+
+      document.getElementById("answerBox").addEventListener("input", (event) => {
+        questionAnswers[currentQuestionIndex] = event.target.value;
+        saveAnswers();
+        renderAnswersSummary(false);
+      });
+
+      document.getElementById("prevQuestionBtn").addEventListener("click", () => {
+        if (currentQuestionIndex > 0) {
+          currentQuestionIndex--;
+          renderQuestionChat();
+          renderAnswersSummary(false);
+        }
+      });
+
+      document.getElementById("skipQuestionBtn").addEventListener("click", () => {
+        if (currentQuestionIndex < previewQuestions.length - 1) {
+          currentQuestionIndex++;
+          renderQuestionChat();
+        } else {
+          renderAnswersSummary(true);
+        }
+      });
+
+      document.getElementById("nextQuestionBtn").addEventListener("click", () => {
+        const answerBox = document.getElementById("answerBox");
+        questionAnswers[currentQuestionIndex] = answerBox.value;
+        saveAnswers();
+
+        if (currentQuestionIndex < previewQuestions.length - 1) {
+          currentQuestionIndex++;
+          renderQuestionChat();
+          renderAnswersSummary(false);
+        } else {
+          renderAnswersSummary(true);
+        }
+      });
+
+      document.getElementById("copyAnswersBtn").addEventListener("click", async () => {
+        const text = buildAnswersText();
+
+        try {
+          await navigator.clipboard.writeText(text);
+          document.querySelector(".answer-status").textContent = "Answers copied. You can paste them into your next request or keep them for later.";
+        } catch (error) {
+          renderAnswersSummary(true);
+        }
+      });
+
+      renderAnswersSummary(false);
+    }
+
+    function buildAnswersText() {
+      if (!previewQuestions.length) return "";
+
+      return previewQuestions.map((question, index) => {
+        const answer = String(questionAnswers[index] || "").trim() || "[Not answered yet]";
+        return "Q" + (index + 1) + ": " + question + "\nA" + (index + 1) + ": " + answer;
+      }).join("\n\n");
+    }
+
+    function renderAnswersSummary(show) {
+      const summary = document.getElementById("answersSummary");
+      const answersText = document.getElementById("answersText");
+
+      if (!previewQuestions.length) {
+        summary.classList.remove("show");
+        return;
+      }
+
+      answersText.textContent = buildAnswersText();
+
+      if (show) {
+        summary.classList.add("show");
+      }
+    }
+
     async function ensureAuthAndLoadPreview() {
       const params = new URLSearchParams(window.location.search);
       const previewId = params.get("id");
       const previewToken = params.get("token");
+
+      currentPreviewId = previewId || "";
+      currentPreviewToken = previewToken || "";
 
       if (!previewId || !previewToken) {
         showError("Preview link is missing.", "Please create a new tool request first.");
@@ -659,18 +969,13 @@
 
       const sections = normalizeArray(preview.preview_sections);
       const fields = normalizeArray(preview.preview_fields);
-      const questions = normalizeArray(preview.preview_questions);
+      previewQuestions = normalizeArray(preview.preview_questions);
 
       renderList("sectionsList", sections, ["Main workspace", "Input fields", "Summary area", "Export / review area"]);
       renderList("fieldsList", fields, ["Name", "Date", "Status", "Amount", "Notes"]);
 
-      const questionsText = document.getElementById("questionsText");
-
-      if (questions.length) {
-        questionsText.innerHTML = questions.map(q => "• " + escapeHtml(q)).join("<br>");
-      } else {
-        questionsText.textContent = "No extra questions detected. This preview is ready to review.";
-      }
+      loadSavedAnswers();
+      renderQuestionChat();
 
       loading.style.display = "none";
       previewContent.style.display = "block";
