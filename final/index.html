@@ -36,7 +36,6 @@
     .btn:hover { transform:translateY(-1px); border-color:rgba(255,255,255,.28); }
     .btn-primary { border:0; background:linear-gradient(135deg,var(--purple),var(--pink)); box-shadow:0 18px 46px rgba(184,77,255,.32); }
     .btn-green { border:0; background:linear-gradient(135deg,#16a34a,#22c55e); box-shadow:0 18px 46px rgba(34,197,94,.20); }
-    .btn:disabled { opacity:.55; cursor:not-allowed; transform:none; }
     main { padding:38px 0 56px; }
     .hero, .card {
       border:1px solid var(--line); background:rgba(20,16,29,.82); border-radius:24px;
@@ -46,6 +45,8 @@
     .badge { display:inline-flex; align-items:center; gap:8px; color:#d8b4fe; background:rgba(184,77,255,.13); border:1px solid rgba(184,77,255,.28); padding:8px 12px; border-radius:999px; font-weight:900; font-size:13px; }
     .status-badge { color:#bbf7d0; background:rgba(34,197,94,.13); border-color:rgba(34,197,94,.28); }
     .waiting-badge { color:#fde68a; background:rgba(250,204,21,.13); border-color:rgba(250,204,21,.28); }
+    .fixing-badge { color:#bae6fd; background:rgba(56,189,248,.13); border-color:rgba(56,189,248,.28); }
+    .error-badge { color:#fecdd3; background:rgba(251,113,133,.13); border-color:rgba(251,113,133,.28); }
     h1 { font-size:clamp(32px,4vw,56px); line-height:1.02; margin:18px 0 12px; letter-spacing:-.05em; }
     h2 { font-size:22px; margin:0 0 14px; letter-spacing:-.03em; }
     p { color:var(--muted); line-height:1.58; }
@@ -57,12 +58,16 @@
     .timeline li { display:flex; gap:12px; align-items:flex-start; padding:14px; border:1px solid var(--line); border-radius:16px; background:rgba(255,255,255,.06); }
     .dot { width:12px; height:12px; border-radius:999px; margin-top:5px; background:var(--soft); box-shadow:0 0 0 5px rgba(255,255,255,.06); flex:0 0 auto; }
     .active .dot { background:var(--yellow); box-shadow:0 0 0 5px rgba(250,204,21,.12); }
+    .blue .dot { background:var(--blue); box-shadow:0 0 0 5px rgba(56,189,248,.12); }
     .done .dot { background:var(--green); box-shadow:0 0 0 5px rgba(34,197,94,.12); }
+    .bad .dot { background:var(--danger); box-shadow:0 0 0 5px rgba(251,113,133,.12); }
     .timeline strong { display:block; margin-bottom:4px; }
     .timeline span { color:var(--muted); line-height:1.45; }
     .message { margin-top:14px; padding:14px 16px; border-radius:16px; background:rgba(255,255,255,.07); border:1px solid var(--line); color:var(--muted); }
     .error { background:rgba(251,113,133,.12); border-color:rgba(251,113,133,.35); color:#fecdd3; }
     .success { background:rgba(34,197,94,.12); border-color:rgba(34,197,94,.35); color:#bbf7d0; }
+    .info { background:rgba(56,189,248,.10); border-color:rgba(56,189,248,.28); color:#bae6fd; }
+    .mini { font-size:13px; color:var(--soft); margin-top:10px; }
     footer { padding:24px 0 38px; color:var(--muted); text-align:center; font-size:13px; }
     @media (max-width:800px) {
       nav { gap:12px; font-size:13px; }
@@ -148,21 +153,24 @@
 
     function renderStatus(item) {
       const status = String(item.status || 'queued').toLowerCase();
+      const qaStatus = String(item.qa_status || 'not_started').toLowerCase();
+      const qaPassed = item.qa_passed === true || item.qa_passed === 'true';
+      const qaAttempts = Number(item.qa_attempts || 0);
       const title = item.tool_title || 'Your final tool';
       const summary = item.tool_summary || 'Your final tool request has been received.';
-      const message = item.status_message || 'Your final tool request has been received. We are preparing your working tool.';
+      const message = item.status_message || getDefaultMessage(status, qaStatus);
       const finalUrl = item.final_tool_url || '';
       const creditUsed = item.credit_deducted === true || item.credit_deducted === 'true';
       const delivered = status === 'delivered' || !!finalUrl;
-      const building = status === 'building' || status === 'processing';
-      const failed = status === 'failed' || status === 'cancelled';
+      const failed = status === 'failed' || status === 'cancelled' || status === 'qa_failed' || qaStatus === 'failed';
+      const badge = getBadge(delivered, failed, qaStatus);
 
       app.innerHTML = `
         <section class="hero">
-          <div class="badge ${delivered ? 'status-badge' : 'waiting-badge'}">${delivered ? '✅ Tool Ready' : failed ? 'Needs Attention' : 'Building Your Tool'}</div>
+          <div class="badge ${badge.className}">${escapeHtml(badge.text)}</div>
           <h1>${escapeHtml(title)}</h1>
           <p class="summary">${escapeHtml(summary)}</p>
-          <div class="message ${delivered ? 'success' : failed ? 'error' : ''}">${escapeHtml(message)}</div>
+          <div class="message ${delivered ? 'success' : failed ? 'error' : qaStatus === 'fixing' || qaStatus === 'checking' ? 'info' : ''}">${escapeHtml(message)}</div>
           <div class="actions">
             ${finalUrl ? `<a class="btn btn-green" href="${escapeAttr(finalUrl)}" target="_blank" rel="noopener">Open Finished Tool</a>` : ''}
             <button class="btn btn-primary" type="button" id="refreshBtn">Refresh Status</button>
@@ -175,15 +183,21 @@
             <h2>Delivery Progress</h2>
             <ul class="timeline">
               <li class="done"><span class="dot"></span><div><strong>Preview approved</strong><span>Your tool structure was approved for final delivery.</span></div></li>
-              <li class="${delivered ? 'done' : 'active'}"><span class="dot"></span><div><strong>${building ? 'Building in progress' : 'Waiting to build'}</strong><span>Your finished working tool is being prepared. No source code is shown to customers.</span></div></li>
-              <li class="${delivered ? 'done' : ''}"><span class="dot"></span><div><strong>Finished tool delivered</strong><span>${delivered ? 'Your working tool is ready to open.' : 'Once ready, the finished working tool link will appear here.'}</span></div></li>
+              <li class="${timelineClass(status, qaStatus, delivered, failed, 'building')}"><span class="dot"></span><div><strong>Building working tool</strong><span>Your working tool is being prepared privately. No source code is shown to customers.</span></div></li>
+              <li class="${timelineClass(status, qaStatus, delivered, failed, 'checking')}"><span class="dot"></span><div><strong>Checking for errors</strong><span>The tool will be scanned for formula errors, broken tabs, missing dropdowns, dashboard issues and visible error cells.</span></div></li>
+              <li class="${timelineClass(status, qaStatus, delivered, failed, 'fixing')}"><span class="dot"></span><div><strong>Auto Bots fixing issues</strong><span>If problems are found, Auto Bots can repair default formulas and re-check the tool before delivery.</span></div></li>
+              <li class="${qaPassed || delivered ? 'done' : failed ? 'bad' : ''}"><span class="dot"></span><div><strong>Quality check passed</strong><span>${qaPassed || delivered ? 'The finished tool passed quality checks.' : 'The tool must pass QA before it can be delivered.'}</span></div></li>
+              <li class="${delivered ? 'done' : ''}"><span class="dot"></span><div><strong>Finished tool delivered</strong><span>${delivered ? 'Your working tool is ready to open.' : 'Once QA passes and delivery is complete, the finished working tool link will appear here.'}</span></div></li>
             </ul>
           </section>
 
           <section class="card">
-            <h2>Tool Credit Status</h2>
-            <p>${creditUsed ? '1 Tool Credit has been used because the finished tool was delivered.' : 'No Tool Credit has been used yet. Credit is used only after the finished working tool is successfully delivered.'}</p>
-            <div class="message">Keep this page link safe. It is your delivery status page for this final tool request.</div>
+            <h2>Quality Check</h2>
+            <p>${escapeHtml(getQaText(qaStatus, qaPassed, qaAttempts))}</p>
+            <div class="message">We check for common spreadsheet errors like #ERROR!, #REF!, #VALUE!, #N/A, broken formulas, missing tabs, missing dropdowns and dashboard calculation issues before delivery.</div>
+            <h2 style="margin-top:22px;">Tool Credit Status</h2>
+            <p>${creditUsed ? '1 Tool Credit has been used because the finished working tool was delivered.' : 'No Tool Credit has been used yet. Credit is used only after the finished working tool is successfully delivered.'}</p>
+            <div class="mini">Status page ID: ${escapeHtml(String(item.id || '').slice(0, 8))}</div>
           </section>
         </div>
       `;
@@ -192,10 +206,62 @@
       if (refreshBtn) refreshBtn.addEventListener('click', () => window.location.reload());
     }
 
+    function getBadge(delivered, failed, qaStatus) {
+      if (delivered) return { text: '✅ Tool Ready', className: 'status-badge' };
+      if (failed) return { text: 'Needs Attention', className: 'error-badge' };
+      if (qaStatus === 'checking') return { text: 'Checking for Errors', className: 'fixing-badge' };
+      if (qaStatus === 'fixing') return { text: 'Auto Bots Fixing Issues', className: 'fixing-badge' };
+      if (qaStatus === 'passed') return { text: 'QA Passed', className: 'status-badge' };
+      return { text: 'Building Your Tool', className: 'waiting-badge' };
+    }
+
+    function getDefaultMessage(status, qaStatus) {
+      if (status === 'delivered') return 'Your finished working tool is ready.';
+      if (qaStatus === 'checking') return 'Your working tool is being checked for errors before delivery.';
+      if (qaStatus === 'fixing') return 'Auto Bots are fixing issues found during quality checks.';
+      if (qaStatus === 'passed') return 'Your finished tool passed quality checks and is being prepared for delivery.';
+      if (qaStatus === 'failed') return 'Your tool needs additional fixes before it can be delivered.';
+      return 'Your final tool request has been received. We are preparing your working tool.';
+    }
+
+    function getQaText(qaStatus, qaPassed, qaAttempts) {
+      if (qaPassed) return 'QA passed. The tool is ready for delivery or has already been delivered.';
+      if (qaStatus === 'checking') return 'QA is checking the working tool for spreadsheet errors and broken logic.';
+      if (qaStatus === 'fixing') return 'Auto Bots are repairing issues found during quality checks, then the tool will be checked again.';
+      if (qaStatus === 'failed') return 'QA found issues that need additional repair before delivery.';
+      if (qaStatus === 'building') return 'The tool is being built. QA will start after the working tool is created.';
+      return qaAttempts > 0 ? 'QA is waiting for the next check.' : 'QA has not started yet. The tool is waiting to be built.';
+    }
+
+    function timelineClass(status, qaStatus, delivered, failed, step) {
+      if (failed) return 'bad';
+      if (delivered) return 'done';
+
+      if (step === 'building') {
+        if (['building','checking','fixing','passed'].includes(qaStatus) || ['building','ready_for_delivery'].includes(status)) return 'done';
+        return 'active';
+      }
+
+      if (step === 'checking') {
+        if (['passed'].includes(qaStatus)) return 'done';
+        if (qaStatus === 'checking') return 'active blue';
+        if (qaStatus === 'fixing') return 'done';
+        return '';
+      }
+
+      if (step === 'fixing') {
+        if (qaStatus === 'passed') return 'done';
+        if (qaStatus === 'fixing') return 'active blue';
+        return '';
+      }
+
+      return '';
+    }
+
     function showError(message) {
       app.innerHTML = `
         <section class="hero">
-          <div class="badge">Could not load status</div>
+          <div class="badge error-badge">Could not load status</div>
           <h1>Something went wrong</h1>
           <p class="summary">${escapeHtml(message)}</p>
           <div class="actions">
