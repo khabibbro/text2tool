@@ -654,13 +654,13 @@
           <div
             class="upload-panel"
             id="uploadPanel"
-            title="Upload old sheets to update or fix errors, or give examples of what you need."
+            title="Upload old sheets, CSV/XLSX files, or screenshots to update/fix errors or give examples. PDF, DOCX, ZIP and random links are blocked for safety."
           >
             <div class="upload-top">
               <div>
                 <p class="upload-title">Upload files or paste safe links</p>
                 <p class="upload-help">
-                  Upload screenshots, PDFs, Excel/CSV files, documents, or paste Google Sheets / Google Docs links to improve your request.
+                  Upload screenshots, CSV files, XLSX files, or paste Google Sheets / Google Docs links to improve your request.
                 </p>
               </div>
 
@@ -672,7 +672,7 @@
               id="fileInput"
               multiple
               style="display:none;"
-              accept=".png,.jpg,.jpeg,.webp,.gif,.pdf,.csv,.xls,.xlsx,.doc,.docx,.txt"
+              accept=".png,.jpg,.jpeg,.webp,.csv,.xlsx"
             />
 
             <div class="link-row">
@@ -686,7 +686,7 @@
             </div>
 
             <p class="tiny-note">
-              Upload limit: maximum 5 files per request and 2MB per file. For safety, pasted links must be Google Sheets or Google Docs links only. Google Drive and random website links are blocked.
+              Upload limit: maximum 5 files per request and 2MB per file. For safety, only PNG, JPG, JPEG, WEBP, CSV, and XLSX files are allowed. PDF, DOC/DOCX, old XLS, ZIP, EXE, scripts, Google Drive links, and random website links are blocked.
             </p>
 
             <div class="selected-files" id="selectedFiles"></div>
@@ -698,7 +698,7 @@
               class="btn btn-upload"
               id="uploadBtn"
               type="button"
-              title="Upload old sheets to update or fix errors, or give examples of what you need."
+              title="Upload old sheets, CSV/XLSX files, or screenshots to update/fix errors or give examples. PDF, DOCX, ZIP and random links are blocked for safety."
             >
               Upload File
             </button>
@@ -732,10 +732,18 @@
     const MAX_FILE_SIZE = 2 * 1024 * 1024;
 
     const allowedExtensions = [
-      "png", "jpg", "jpeg", "webp", "gif",
-      "pdf", "csv", "xls", "xlsx",
-      "doc", "docx", "txt"
+      "png", "jpg", "jpeg", "webp",
+      "csv", "xlsx"
     ];
+
+    const allowedMimeByExtension = {
+      png: ["image/png"],
+      jpg: ["image/jpeg"],
+      jpeg: ["image/jpeg"],
+      webp: ["image/webp"],
+      csv: ["text/csv", "application/csv"],
+      xlsx: ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]
+    };
 
     const menuBtn = document.getElementById("menuBtn");
     const navLinks = document.getElementById("navLinks");
@@ -883,7 +891,13 @@
         const ext = getFileExtension(file.name);
 
         if (!allowedExtensions.includes(ext)) {
-          showMessage("Unsupported file type: " + file.name + "\nAllowed: PNG, JPG, JPEG, WEBP, GIF, PDF, CSV, XLS, XLSX, DOC, DOCX, TXT.", "error");
+          showMessage("Unsupported file type: " + file.name + "\nAllowed: PNG, JPG, JPEG, WEBP, CSV, XLSX only.", "error");
+          continue;
+        }
+
+        const allowedMimes = allowedMimeByExtension[ext] || [];
+        if (file.type && !allowedMimes.includes(file.type)) {
+          showMessage("Blocked for safety: " + file.name + "\nThe file type does not match the allowed safe format.", "error");
           continue;
         }
 
@@ -1078,7 +1092,7 @@
           file_path: filePath,
           file_type: file.type || getFileExtension(file.name),
           file_size_bytes: file.size,
-          notes: "Uploaded with tool request"
+          notes: "Safer MVP upload with tool request. Allowed types only: PNG/JPG/JPEG/WEBP/CSV/XLSX."
         });
       }
 
