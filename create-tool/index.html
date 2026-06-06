@@ -642,6 +642,7 @@
 
   <div class="credit-strip">
     <div class="credit-inner">
+      <span class="credit-pill" id="previewDisplay">Free Previews: Checking...</span>
       <span class="credit-pill" id="creditDisplay">Tool Credits: Checking...</span>
     </div>
   </div>
@@ -791,6 +792,7 @@
     const pageContent = document.getElementById("pageContent");
     const logoutBtn = document.getElementById("logoutBtn");
     const signedInText = document.getElementById("signedInText");
+    const previewDisplay = document.getElementById("previewDisplay");
     const creditDisplay = document.getElementById("creditDisplay");
     const uploadPanel = document.getElementById("uploadPanel");
     const uploadLockPill = document.getElementById("uploadLockPill");
@@ -808,6 +810,9 @@
 
     let currentUser = null;
     let toolCreditBalance = 0;
+    let freePreviewLimit = 3;
+    let freePreviewsUsed = 0;
+    let freePreviewsRemaining = 0;
     let selectedFiles = [];
     let uploadPanelOpen = false;
 
@@ -821,7 +826,7 @@
     }
 
     function setBusy(isBusy) {
-      submitBtn.disabled = isBusy;
+      submitBtn.disabled = isBusy || freePreviewsRemaining <= 0;
       exampleBtn.disabled = isBusy;
       uploadBtn.disabled = isBusy;
       submitBtn.textContent = isBusy ? "Preparing Preview..." : "Submit Tool Request";
@@ -852,6 +857,42 @@
       }
 
       updateCharCounter();
+    }
+
+    function updatePreviewUsageUI() {
+      previewDisplay.textContent = "Free Previews: " + freePreviewsRemaining + " / " + freePreviewLimit + " left";
+
+      if (freePreviewsRemaining <= 0) {
+        previewDisplay.textContent = "Free Previews: 0 / " + freePreviewLimit + " left";
+        previewDisplay.style.color = "#fecaca";
+        previewDisplay.style.borderColor = "rgba(239,68,68,.30)";
+        previewDisplay.style.background = "rgba(239,68,68,.10)";
+        submitBtn.disabled = true;
+        submitBtn.title = "Free preview limit reached.";
+      } else {
+        previewDisplay.style.color = "#e9d5ff";
+        previewDisplay.style.borderColor = "rgba(192,132,252,.28)";
+        previewDisplay.style.background = "rgba(139,92,246,.12)";
+        submitBtn.title = "";
+      }
+    }
+
+    async function loadFreePreviewUsage() {
+      const { data, error } = await supabaseClient.rpc("get_my_free_preview_usage");
+
+      if (error) {
+        console.error(error);
+        freePreviewLimit = 3;
+        freePreviewsUsed = 0;
+        freePreviewsRemaining = 3;
+      } else {
+        const usage = Array.isArray(data) ? data[0] : data;
+        freePreviewLimit = Number(usage?.limit || 3);
+        freePreviewsUsed = Number(usage?.used || 0);
+        freePreviewsRemaining = Number(usage?.remaining ?? Math.max(freePreviewLimit - freePreviewsUsed, 0));
+      }
+
+      updatePreviewUsageUI();
     }
 
     async function loadToolCredits() {
@@ -892,10 +933,12 @@
 
       const hasLink = promptHasDisallowedLink(promptInput.value);
       linkError.classList.toggle("show", hasLink);
-      submitBtn.disabled = hasLink;
+      submitBtn.disabled = hasLink || freePreviewsRemaining <= 0;
 
       if (hasLink) {
         submitBtn.title = "Links are not allowed in prompt.";
+      } else if (freePreviewsRemaining <= 0) {
+        submitBtn.title = "Free preview limit reached.";
       } else {
         submitBtn.title = "";
       }
@@ -934,6 +977,7 @@
       signedInText.textContent = "Signed in as " + (currentUser.email || "your account");
       logoutBtn.style.display = "inline-flex";
 
+      await loadFreePreviewUsage();
       await loadToolCredits();
 
       authLoading.style.display = "none";
@@ -1105,6 +1149,11 @@
 
       const prompt = promptInput.value.trim();
 
+      if (freePreviewsRemaining <= 0) {
+        showMessage("Free preview limit reached. You have used all 3 free previews.", "error");
+        return;
+      }
+
       if (!prompt) {
         showMessage("Please describe the tool you want to create.", "error");
         return;
@@ -1152,6 +1201,10 @@
           .single();
 
         if (insertError) {
+          if ((insertError.message || "").toLowerCase().includes("free preview limit")) {
+            throw new Error("Free preview limit reached. You have used all 3 free previews.");
+          }
+
           throw new Error(insertError.message || "Could not save your request.");
         }
 
