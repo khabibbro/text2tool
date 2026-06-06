@@ -272,6 +272,31 @@
       box-shadow: 0 0 0 4px rgba(139,92,246,.14);
     }
 
+    .prompt-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 9px;
+      color: rgba(255,255,255,.58);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .char-counter {
+      font-weight: 900;
+      color: #e9d5ff;
+      white-space: nowrap;
+    }
+
+    .char-counter.warning {
+      color: #fde68a;
+    }
+
+    .char-counter.danger {
+      color: #fecaca;
+    }
+
     .upload-panel {
       margin-top: 16px;
       border: 1px solid rgba(255,255,255,.12);
@@ -617,7 +642,7 @@
 
         <p class="lead">
           Tell us what tracker, calculator, dashboard, report, or internal business tool you need.
-          The more details you provide, the better your preview overview will be.
+          The more details you provide, the better your preview overview will be. Longer prompts and uploads are unlocked with Tool Credits.
         </p>
 
         <div class="status-pill" id="signedInText">Signed in</div>
@@ -647,9 +672,15 @@
 
           <textarea
             id="prompt"
+            maxlength="2000"
             placeholder="Example: Create a simple inventory tracker for a small shop with product name, stock in, stock out, current stock, low stock alert, and monthly summary."
             required
           ></textarea>
+
+          <div class="prompt-meta">
+            <span id="promptLimitHelp">Free preview limit: 2,000 characters. With Tool Credits: up to 150,000 characters. For very large lists, upload CSV/XLSX.</span>
+            <span class="char-counter" id="charCounter">0 / 2,000</span>
+          </div>
 
           <div
             class="upload-panel"
@@ -728,6 +759,9 @@
 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    const FREE_PROMPT_CHARS = 2000;
+    const PAID_PROMPT_CHARS = 150000;
+    let currentPromptLimit = FREE_PROMPT_CHARS;
     const MAX_FILES = 5;
     const MAX_FILE_SIZE = 2 * 1024 * 1024;
 
@@ -756,6 +790,8 @@
     const uploadLockPill = document.getElementById("uploadLockPill");
     const form = document.getElementById("toolForm");
     const promptInput = document.getElementById("prompt");
+    const charCounter = document.getElementById("charCounter");
+    const promptLimitHelp = document.getElementById("promptLimitHelp");
     const submitBtn = document.getElementById("submitBtn");
     const exampleBtn = document.getElementById("exampleBtn");
     const uploadBtn = document.getElementById("uploadBtn");
@@ -793,6 +829,10 @@
       creditDisplay.textContent = "Tool Credits: " + toolCreditBalance;
 
       if (toolCreditBalance > 0) {
+        currentPromptLimit = PAID_PROMPT_CHARS;
+        promptInput.setAttribute("maxlength", String(PAID_PROMPT_CHARS));
+        promptLimitHelp.textContent = "Tool Credits active: you can add up to 150,000 characters. For very large lists, CSV/XLSX upload is still better.";
+
         uploadPanel.classList.remove("locked");
         uploadLockPill.textContent = "Upload enabled";
         uploadLockPill.style.color = "#bbf7d0";
@@ -802,12 +842,18 @@
         addLinkBtn.disabled = false;
         linkInput.disabled = false;
       } else {
+        currentPromptLimit = FREE_PROMPT_CHARS;
+        promptInput.setAttribute("maxlength", String(FREE_PROMPT_CHARS));
+        promptLimitHelp.textContent = "Free preview limit: 2,000 characters. Buy Tool Credits to unlock longer prompts and uploads.";
+
         uploadPanel.classList.add("locked");
         uploadLockPill.textContent = "Requires Tool Credits";
         uploadBtn.disabled = true;
         addLinkBtn.disabled = true;
         linkInput.disabled = true;
       }
+
+      updateCharCounter();
     }
 
     async function loadToolCredits() {
@@ -822,6 +868,22 @@
 
       updateCreditUI();
     }
+
+    function updateCharCounter() {
+      const length = promptInput.value.length;
+      charCounter.textContent = length.toLocaleString() + " / " + currentPromptLimit.toLocaleString();
+
+      charCounter.classList.remove("warning", "danger");
+
+      if (length >= currentPromptLimit) {
+        charCounter.classList.add("danger");
+      } else if (length >= Math.floor(currentPromptLimit * 0.85)) {
+        charCounter.classList.add("warning");
+      }
+    }
+
+    promptInput.addEventListener("input", updateCharCounter);
+    updateCharCounter();
 
     async function ensureAuth() {
       const { data, error } = await supabaseClient.auth.getSession();
@@ -860,12 +922,14 @@
 
     exampleBtn?.addEventListener("click", () => {
       promptInput.value = "Create a simple inventory tracker for a small shop with product name, category, stock in, stock out, current stock, low stock alert, supplier name, and monthly summary.";
+      updateCharCounter();
       promptInput.focus();
     });
 
     document.querySelectorAll("[data-example]").forEach((card) => {
       card.addEventListener("click", () => {
         promptInput.value = card.getAttribute("data-example");
+        updateCharCounter();
         promptInput.focus();
       });
     });
@@ -1135,6 +1199,11 @@
 
       if (!prompt) {
         showMessage("Please describe the tool you want to create.", "error");
+        return;
+      }
+
+      if (prompt.length > currentPromptLimit) {
+        showMessage("Your prompt is too long. Your current limit is " + currentPromptLimit.toLocaleString() + " characters. With Tool Credits, longer prompts are unlocked. For large lists or old data, upload a CSV/XLSX file instead.", "error");
         return;
       }
 
