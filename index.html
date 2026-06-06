@@ -10,14 +10,11 @@
   <style>
     :root {
       --bg: #07050d;
-      --bg-soft: #100b1d;
       --card: rgba(255, 255, 255, 0.075);
-      --card-strong: rgba(255, 255, 255, 0.11);
       --text: #ffffff;
       --muted: rgba(255, 255, 255, 0.72);
       --line: rgba(255, 255, 255, 0.14);
       --purple: #8b5cf6;
-      --purple-2: #c084fc;
       --pink: #ec4899;
       --green: #22c55e;
       --radius: 22px;
@@ -25,13 +22,9 @@
       --shadow: 0 24px 80px rgba(0,0,0,.45);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -44,15 +37,8 @@
       min-height: 100vh;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button,
-    textarea {
-      font: inherit;
-    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
 
     .site-header {
       position: sticky;
@@ -211,9 +197,7 @@
       transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
     }
 
-    .btn:hover {
-      transform: translateY(-2px);
-    }
+    .btn:hover { transform: translateY(-2px); }
 
     .btn-primary {
       background: linear-gradient(135deg, var(--purple), var(--pink));
@@ -264,10 +248,7 @@
       margin-bottom: 12px;
     }
 
-    .dots {
-      display: flex;
-      gap: 6px;
-    }
+    .dots { display: flex; gap: 6px; }
 
     .dots span {
       width: 10px;
@@ -333,41 +314,34 @@
       letter-spacing: -0.05em;
     }
 
-    .section-title p {
-      margin: 12px auto 0;
-      color: var(--muted);
-      line-height: 1.65;
-      max-width: 660px;
-    }
-
     .flip-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 16px;
       perspective: 1200px;
     }
 
     .flip-card {
-      min-height: 260px;
-      border: 0;
-      background: transparent;
-      padding: 0;
+      width: 100%;
+      height: 270px;
+      display: block;
+      position: relative;
       cursor: pointer;
-      color: inherit;
-      text-align: left;
       perspective: 1200px;
+      outline: none;
     }
 
     .flip-inner {
       position: relative;
       width: 100%;
-      min-height: 260px;
+      height: 100%;
       transform-style: preserve-3d;
       transition: transform .55s ease;
     }
 
     .flip-card:hover .flip-inner,
-    .flip-card.is-flipped .flip-inner {
+    .flip-card.is-flipped .flip-inner,
+    .flip-card:focus .flip-inner {
       transform: rotateY(180deg);
     }
 
@@ -378,11 +352,12 @@
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: var(--card);
-      padding: 26px;
+      padding: 24px;
       box-shadow: 0 16px 40px rgba(0,0,0,.20);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      overflow: hidden;
     }
 
     .flip-back {
@@ -394,28 +369,28 @@
     }
 
     .flip-icon {
-      width: 56px;
-      height: 56px;
+      width: 54px;
+      height: 54px;
       border-radius: 18px;
       display: grid;
       place-items: center;
       background: rgba(139,92,246,.16);
       color: #d8b4fe;
-      font-size: 26px;
-      margin-bottom: 18px;
+      font-size: 25px;
+      margin-bottom: 16px;
     }
 
     .flip-face h3 {
       margin: 0;
       font-size: 24px;
       letter-spacing: -0.035em;
-      line-height: 1.2;
+      line-height: 1.22;
     }
 
     .flip-face p {
-      margin: 14px 0 0;
+      margin: 12px 0 0;
       color: var(--muted);
-      line-height: 1.65;
+      line-height: 1.62;
       font-size: 16px;
     }
 
@@ -436,7 +411,7 @@
 
     .tool-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
       margin-top: 26px;
     }
@@ -499,9 +474,7 @@
         align-items: flex-start;
       }
 
-      .menu-btn {
-        display: block;
-      }
+      .menu-btn { display: block; }
 
       .nav-links {
         display: none;
@@ -517,9 +490,7 @@
         align-items: stretch;
       }
 
-      .nav-links.open {
-        display: flex;
-      }
+      .nav-links.open { display: flex; }
 
       .nav-links a {
         width: 100%;
@@ -536,7 +507,7 @@
       }
 
       .tool-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .cta-band {
@@ -546,30 +517,17 @@
     }
 
     @media (max-width: 520px) {
-      .tool-grid {
-        grid-template-columns: 1fr;
-      }
+      .tool-grid { grid-template-columns: 1fr; }
 
-      .hero-actions {
-        flex-direction: column;
-      }
+      .hero-actions { flex-direction: column; }
 
-      .btn {
-        width: 100%;
-      }
+      .btn { width: 100%; }
 
-      .brand span {
-        font-size: 15px;
-      }
+      .brand span { font-size: 15px; }
 
-      .brand small {
-        font-size: 10px;
-      }
+      .brand small { font-size: 10px; }
 
-      .flip-card,
-      .flip-inner {
-        min-height: 285px;
-      }
+      .flip-card { height: 290px; }
     }
   </style>
 </head>
@@ -636,68 +594,68 @@
       </div>
 
       <div class="flip-grid">
-        <button class="flip-card" type="button" aria-label="Flip describe your tool card">
-          <span class="flip-inner">
-            <span class="flip-face flip-front">
-              <span>
-                <span class="flip-icon">✍️</span>
+        <div class="flip-card" role="button" tabindex="0">
+          <div class="flip-inner">
+            <div class="flip-face flip-front">
+              <div>
+                <div class="flip-icon">✍️</div>
                 <h3>1. Describe your tool</h3>
                 <p>Tell us what you want to create.</p>
-              </span>
-              <span class="flip-hint">👆 Click me</span>
-            </span>
+              </div>
+              <div class="flip-hint">👆 Click me</div>
+            </div>
 
-            <span class="flip-face flip-back">
-              <span>
+            <div class="flip-face flip-back">
+              <div>
                 <h3>Give your plain-English request</h3>
-                <p>Ask for a tracker, calculator, dashboard, report, generator, or internal workflow tool. You do not need to explain it technically.</p>
-              </span>
-              <span class="flip-hint">Click again</span>
-            </span>
-          </span>
-        </button>
+                <p>Ask for a tracker, calculator, dashboard, report, generator, or internal workflow tool. No technical explanation needed.</p>
+              </div>
+              <div class="flip-hint">Click again</div>
+            </div>
+          </div>
+        </div>
 
-        <button class="flip-card" type="button" aria-label="Flip AI prepares the plan card">
-          <span class="flip-inner">
-            <span class="flip-face flip-front">
-              <span>
-                <span class="flip-icon">⚙️</span>
+        <div class="flip-card" role="button" tabindex="0">
+          <div class="flip-inner">
+            <div class="flip-face flip-front">
+              <div>
+                <div class="flip-icon">⚙️</div>
                 <h3>2. AI prepares the plan</h3>
                 <p>AI reviews your request.</p>
-              </span>
-              <span class="flip-hint">👆 Click me</span>
-            </span>
+              </div>
+              <div class="flip-hint">👆 Click me</div>
+            </div>
 
-            <span class="flip-face flip-back">
-              <span>
+            <div class="flip-face flip-back">
+              <div>
                 <h3>Tool structure is prepared</h3>
-                <p>Text2Tool identifies the tool type, important fields, recommended sections, and any questions needed before launch.</p>
-              </span>
-              <span class="flip-hint">Click again</span>
-            </span>
-          </span>
-        </button>
+                <p>Text2Tool identifies the tool type, important fields, recommended sections, and any missing questions.</p>
+              </div>
+              <div class="flip-hint">Click again</div>
+            </div>
+          </div>
+        </div>
 
-        <button class="flip-card" type="button" aria-label="Flip preview then launch card">
-          <span class="flip-inner">
-            <span class="flip-face flip-front">
-              <span>
-                <span class="flip-icon">⬇️</span>
+        <div class="flip-card" role="button" tabindex="0">
+          <div class="flip-inner">
+            <div class="flip-face flip-front">
+              <div>
+                <div class="flip-icon">⬇️</div>
                 <h3>3. Preview then launch</h3>
                 <p>Review before moving forward.</p>
-              </span>
-              <span class="flip-hint">👆 Click me</span>
-            </span>
+              </div>
+              <div class="flip-hint">👆 Click me</div>
+            </div>
 
-            <span class="flip-face flip-back">
-              <span>
+            <div class="flip-face flip-back">
+              <div>
                 <h3>See the preview first</h3>
                 <p>You get a clean preview showing what the tool will include. Then you can decide when to launch it using Tool Credits.</p>
-              </span>
-              <span class="flip-hint">Click again</span>
-            </span>
-          </span>
-        </button>
+              </div>
+              <div class="flip-hint">Click again</div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -747,6 +705,13 @@
     flipCards.forEach((card) => {
       card.addEventListener("click", () => {
         card.classList.toggle("is-flipped");
+      });
+
+      card.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          card.classList.toggle("is-flipped");
+        }
       });
     });
   </script>
