@@ -661,7 +661,7 @@
           ></textarea>
 
           <div class="prompt-meta">
-            <span id="promptLimitHelp">Free preview limit: 2,000 characters. With Tool Credits: up to 150,000 characters. Links are not allowed in prompts.</span>
+            <span id="promptLimitHelp">Free preview limit: 2,000 characters. With Tool Credits: up to 50,000 characters. Links are not allowed in prompts.</span>
             <span class="char-counter" id="charCounter">0 / 2,000</span>
           </div>
 
@@ -676,7 +676,7 @@
               <div>
                 <p class="upload-title">Upload screenshots</p>
                 <p class="upload-help">
-                  Upload PNG, JPG, or JPEG screenshots only to show examples, old screens, errors, layouts, or instructions visually. Links shown inside screenshots are treated as pixels only and will not be opened or followed.
+                  Upload PNG, JPG, or JPEG screenshots to show examples, old screens, errors, layouts, or instructions visually.
                 </p>
               </div>
 
@@ -692,7 +692,7 @@
             />
 
             <p class="tiny-note">
-              Upload limit: maximum 5 screenshots per request and 2MB per screenshot. Only PNG, JPG, and JPEG screenshots are allowed. Typed links, document links, CSV, XLSX, PDF, DOCX, ZIP, scripts, and random websites are blocked.
+              Upload limit: maximum 5 screenshots per request and 2MB per screenshot. Only PNG, JPG, and JPEG screenshots are allowed.
             </p>
 
             <div class="selected-files" id="selectedFiles"></div>
@@ -729,7 +729,7 @@
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const FREE_PROMPT_CHARS = 2000;
-    const PAID_PROMPT_CHARS = 150000;
+    const PAID_PROMPT_CHARS = 50000;
     const MAX_FILES = 5;
     const MAX_FILE_SIZE = 2 * 1024 * 1024;
     const MULTIPLE_TOOLS_MESSAGE = "Multiple tools detected, please try again with 1 tool request at a time.";
@@ -939,7 +939,7 @@
       if (toolCreditBalance > 0) {
         currentPromptLimit = PAID_PROMPT_CHARS;
         promptInput.setAttribute("maxlength", String(PAID_PROMPT_CHARS));
-        promptLimitHelp.textContent = "Tool Credits active: you can add up to 150,000 characters. Links are not allowed in prompts.";
+        promptLimitHelp.textContent = "Tool Credits active: you can add up to 50,000 characters. Links are not allowed in prompts.";
 
         uploadPanel.classList.remove("locked");
         uploadLockPill.textContent = "Upload enabled";
