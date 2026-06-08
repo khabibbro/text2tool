@@ -783,6 +783,330 @@
       color: transparent;
     }
 
+
+
+    .secret-section {
+      padding-top: 58px;
+      padding-bottom: 58px;
+    }
+
+    .secret-shell {
+      position: relative;
+      border: 1px solid rgba(139, 92, 246, .32);
+      border-radius: 34px;
+      padding: clamp(24px, 4vw, 42px);
+      background:
+        radial-gradient(circle at 0% 28%, rgba(139,92,246,.22), transparent 34%),
+        radial-gradient(circle at 100% 22%, rgba(236,72,153,.18), transparent 32%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
+      box-shadow: 0 24px 80px rgba(0,0,0,.32);
+      overflow: hidden;
+    }
+
+    .secret-shell::before,
+    .secret-shell::after {
+      content: "";
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+      background: rgba(139,92,246,.18);
+      filter: blur(70px);
+      pointer-events: none;
+    }
+
+    .secret-shell::before {
+      left: -80px;
+      top: 120px;
+    }
+
+    .secret-shell::after {
+      right: -80px;
+      top: 120px;
+      background: rgba(236,72,153,.14);
+    }
+
+    .secret-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .secret-title {
+      text-align: center;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    .secret-title h2 {
+      margin: 0;
+      font-size: clamp(34px, 5vw, 62px);
+      line-height: 1.04;
+      letter-spacing: -0.07em;
+    }
+
+    .secret-title h2 span {
+      display: block;
+      background: linear-gradient(90deg, #d8b4fe, #a855f7, #ec4899);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .secret-title p {
+      margin: 14px auto 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 17px;
+      max-width: 660px;
+      font-weight: 700;
+    }
+
+    .secret-compare-grid {
+      display: grid;
+      grid-template-columns: .88fr 1fr 1.12fr;
+      gap: 18px;
+      align-items: end;
+      margin-top: 36px;
+    }
+
+    .secret-tier {
+      position: relative;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 26px;
+      padding: 22px;
+      background: rgba(255,255,255,.06);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .secret-tier.freelancer {
+      min-height: 300px;
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.045));
+    }
+
+    .secret-tier.ai {
+      min-height: 380px;
+      border-color: rgba(139,92,246,.34);
+      background:
+        radial-gradient(circle at 60% 0%, rgba(139,92,246,.30), transparent 34%),
+        rgba(139,92,246,.095);
+    }
+
+    .secret-tier.t2t {
+      min-height: 500px;
+      border-color: rgba(192,132,252,.62);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(236,72,153,.28), transparent 34%),
+        radial-gradient(circle at 70% 20%, rgba(139,92,246,.38), transparent 42%),
+        rgba(139,92,246,.13);
+      box-shadow: 0 0 44px rgba(139,92,246,.28);
+    }
+
+    .secret-tier.t2t::before {
+      content: "T2T";
+      position: absolute;
+      top: -1px;
+      right: 22px;
+      width: 68px;
+      height: 68px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      border: 1px solid rgba(255,255,255,.32);
+      box-shadow: 0 0 32px rgba(168,85,247,.62);
+      font-weight: 950;
+    }
+
+    .secret-tier h3 {
+      margin: 0 0 18px;
+      font-size: clamp(20px, 2vw, 26px);
+      letter-spacing: -0.04em;
+      line-height: 1.15;
+    }
+
+    .secret-tier .secret-label {
+      width: fit-content;
+      margin-bottom: 12px;
+      border: 1px solid rgba(192,132,252,.24);
+      border-radius: 999px;
+      padding: 7px 10px;
+      color: #e9d5ff;
+      background: rgba(139,92,246,.12);
+      font-size: 12px;
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .secret-row {
+      border-top: 1px solid rgba(255,255,255,.10);
+      padding: 13px 0;
+    }
+
+    .secret-row:first-of-type {
+      border-top: 0;
+    }
+
+    .secret-row strong {
+      display: block;
+      font-size: 16px;
+      line-height: 1.25;
+    }
+
+    .secret-bar {
+      height: 8px;
+      width: 100%;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .secret-bar span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--purple), var(--pink));
+      box-shadow: 0 0 16px rgba(168,85,247,.44);
+    }
+
+    .secret-tier.freelancer .secret-bar span { width: 34%; opacity: .55; }
+    .secret-tier.ai .secret-bar span { width: 68%; }
+    .secret-tier.t2t .secret-bar span { width: 100%; }
+
+    .secret-benefits {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+      border: 1px solid rgba(192,132,252,.20);
+      border-radius: 24px;
+      padding: 14px;
+      background: rgba(255,255,255,.055);
+    }
+
+    .secret-benefit {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 10px;
+      border-right: 1px solid rgba(255,255,255,.10);
+    }
+
+    .secret-benefit:last-child {
+      border-right: 0;
+    }
+
+    .secret-benefit-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      background: rgba(139,92,246,.20);
+      color: #e9d5ff;
+      flex: 0 0 auto;
+      font-size: 20px;
+    }
+
+    .secret-benefit strong {
+      display: block;
+      line-height: 1.22;
+      letter-spacing: -0.02em;
+    }
+
+    .secret-benefit span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+      font-weight: 650;
+    }
+
+    .top-users-box {
+      margin-top: 22px;
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 26px;
+      padding: clamp(20px, 3vw, 28px);
+      background: rgba(255,255,255,.065);
+    }
+
+    .top-users-head {
+      text-align: center;
+      max-width: 780px;
+      margin: 0 auto 20px;
+    }
+
+    .top-users-head h3 {
+      margin: 0;
+      font-size: clamp(25px, 3vw, 38px);
+      letter-spacing: -0.055em;
+    }
+
+    .top-users-head p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 700;
+    }
+
+    .top-users-steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .top-users-step {
+      border: 1px solid rgba(255,255,255,.11);
+      border-radius: 20px;
+      padding: 17px;
+      background: rgba(255,255,255,.065);
+      min-height: 170px;
+    }
+
+    .top-users-step b {
+      display: inline-flex;
+      width: fit-content;
+      border-radius: 999px;
+      padding: 7px 10px;
+      background: rgba(139,92,246,.16);
+      color: #e9d5ff;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .top-users-step strong {
+      display: block;
+      font-size: 18px;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    .top-users-step span {
+      color: var(--muted);
+      line-height: 1.5;
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    .top-users-result {
+      margin: 16px auto 0;
+      max-width: 760px;
+      text-align: center;
+      border-radius: 18px;
+      padding: 14px 16px;
+      background: rgba(34,197,94,.10);
+      border: 1px solid rgba(34,197,94,.24);
+      color: #bbf7d0;
+      font-weight: 900;
+      line-height: 1.45;
+    }
+
+
     .tool-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -932,6 +1256,26 @@
         flex-direction: column;
         align-items: flex-start;
       }
+
+      .secret-compare-grid,
+      .top-users-steps {
+        grid-template-columns: 1fr;
+      }
+
+      .secret-tier.freelancer,
+      .secret-tier.ai,
+      .secret-tier.t2t {
+        min-height: auto;
+      }
+
+      .secret-benefits {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .secret-benefit {
+        border-right: 0;
+      }
+
     }
 
     @media (max-width: 520px) {
@@ -965,6 +1309,20 @@
 
       .t2t-demo-prev { left: 10px; }
       .t2t-demo-next { right: 10px; }
+
+      .secret-benefits {
+        grid-template-columns: 1fr;
+      }
+
+      .secret-shell {
+        padding: 20px;
+        border-radius: 26px;
+      }
+
+      .secret-tier {
+        padding: 18px;
+      }
+
     }
   </style>
 </head>
@@ -1149,11 +1507,6 @@
         <p>Keep the profit.</p>
       </div>
 
-      <div class="t2t-final-cta">
-        <h2>Stop wasting hours on spreadsheet jobs.</h2>
-        <strong>You can do 100s a day.</strong>
-        <a class="btn btn-primary" href="/create-tool/?v=final1">Build My First Tool</a>
-      </div>
     </section>
 
     <section>
@@ -1174,11 +1527,139 @@
       </div>
     </section>
 
+    <section class="secret-section">
+      <div class="secret-shell">
+        <div class="secret-content">
+          <div class="secret-title">
+            <div class="eyebrow">✦ Built for top performers</div>
+            <h2>The Secret Tool of <span>Top Rated Plus Freelancers</span></h2>
+            <p>Work faster. Deliver more. Earn higher. See how top freelancers stay miles ahead.</p>
+          </div>
+
+          <div class="secret-compare-grid" aria-label="Freelancer performance comparison">
+            <article class="secret-tier freelancer">
+              <div class="secret-label">Base level</div>
+              <h3>Freelancers</h3>
+
+              <div class="secret-row">
+                <strong>Standard Speed</strong>
+                <div class="secret-bar"><span></span></div>
+              </div>
+              <div class="secret-row">
+                <strong>1X Output</strong>
+                <div class="secret-bar"><span></span></div>
+              </div>
+              <div class="secret-row">
+                <strong>Good Quality</strong>
+                <div class="secret-bar"><span></span></div>
+              </div>
+              <div class="secret-row">
+                <strong>Limited Earning Boost</strong>
+                <div class="secret-bar"><span></span></div>
+              </div>
+            </article>
+
+            <article class="secret-tier ai">
+              <div class="secret-label">AI assisted</div>
+              <h3>AI-Powered Freelancers</h3>
+
+              <div class="secret-row">
+                <strong>2–3X Faster</strong>
+                <div class="secret-bar"><span></span></div>
+              </div>
+              <div class="secret-row">
+                <strong>2–3X Output</strong>
+                <div class="secret-bar"><span></span></div>
+              </div>
+              <div class="secret-row">
+                <strong>High Accuracy</strong>
+                <div class="secret-bar"><span></span></div>
+              </div>
+              <div class="secret-row">
+                <strong>2–3X Earning Boost</strong>
+                <div class="secret-bar"><span></span></div>
+              </div>
+            </article>
+
+            <article class="secret-tier t2t">
+              <div class="secret-label">Leagues ahead</div>
+              <h3>T2T-Powered Freelancers</h3>
+
+              <div class="secret-row">
+                <strong>100X Faster</strong>
+                <div class="secret-bar"><span></span></div>
+              </div>
+              <div class="secret-row">
+                <strong>100X Output</strong>
+                <div class="secret-bar"><span></span></div>
+              </div>
+              <div class="secret-row">
+                <strong>Exceptional Quality</strong>
+                <div class="secret-bar"><span></span></div>
+              </div>
+              <div class="secret-row">
+                <strong>100X Earning Boost</strong>
+                <div class="secret-bar"><span></span></div>
+              </div>
+            </article>
+          </div>
+
+          <div class="secret-benefits" aria-label="T2T benefits">
+            <div class="secret-benefit">
+              <div class="secret-benefit-icon">⚡</div>
+              <div><strong>Deliver Projects 100X Faster</strong><span>Beat deadlines. Impress clients.</span></div>
+            </div>
+            <div class="secret-benefit">
+              <div class="secret-benefit-icon">📈</div>
+              <div><strong>Handle More. Earn More.</strong><span>Scale output without burnout.</span></div>
+            </div>
+            <div class="secret-benefit">
+              <div class="secret-benefit-icon">🏆</div>
+              <div><strong>Stand Out. Win More Clients.</strong><span>Show proof before hiring.</span></div>
+            </div>
+            <div class="secret-benefit">
+              <div class="secret-benefit-icon">💰</div>
+              <div><strong>Boost Your Value.</strong><span>Charge better rates with faster delivery.</span></div>
+            </div>
+          </div>
+
+          <div class="top-users-box">
+            <div class="top-users-head">
+              <h3>How Top Users Use It</h3>
+              <p>They do not just apply. They send a quick demo so clients can see proof before hiring.</p>
+            </div>
+
+            <div class="top-users-steps">
+              <div class="top-users-step">
+                <b>Step 1</b>
+                <strong>Client posts a job</strong>
+                <span>Example: “I need a Google Sheet with profit and loss tracking, formulas, auto-highlights, and a clean layout for my company.”</span>
+              </div>
+
+              <div class="top-users-step">
+                <b>Step 2</b>
+                <strong>Generate a demo with T2T</strong>
+                <span>Paste the job description into Text2Tool, create a demo sheet, and capture clean screenshots.</span>
+              </div>
+
+              <div class="top-users-step">
+                <b>Step 3</b>
+                <strong>Send proof with your proposal</strong>
+                <span>Share the demo screenshots so the client knows you understand the job and can actually build it.</span>
+              </div>
+            </div>
+
+            <div class="top-users-result">Result: stronger proposals, more trust, and a better chance of getting hired.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section>
       <div class="cta-band">
         <div>
           <h2>Ready to create your first tool?</h2>
-          <p>No payment is required to generate the first preview. You can review your tool idea before choosing a Tool Kits pack.</p>
+          <p>No payment is required to generate your first preview. Review your idea first, then choose a Tool Kit pack when you are ready.</p>
         </div>
 
         <a class="btn btn-primary" href="/create-tool/?v=final1">Create Your First Tool</a>
