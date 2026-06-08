@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Text2Tool AI | Turn Text Into Business Tools</title>
-  <meta name="description" content="Describe the business tool you need and get a clear AI-generated preview before launching it." />
+  <title>Text2Tool AI | AI Google Sheet Tools for Freelancers & VAs</title>
+  <meta name="description" content="Freelancers and VAs can turn client tracker and Google Sheet requests into ready-to-use tools in seconds. Auto formulas. Auto built. Auto setup." />
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -137,28 +137,28 @@
       font-weight: 900;
     }
 
-    .hero {
+    section {
       width: min(var(--max), calc(100% - 32px));
       margin: 0 auto;
-      padding: 82px 0 44px;
-      display: grid;
-      grid-template-columns: 1.08fr .92fr;
-      gap: 34px;
-      align-items: center;
+      padding: 52px 0;
     }
 
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border: 1px solid rgba(192, 132, 252, .28);
-      border-radius: 999px;
-      background: rgba(139, 92, 246, .10);
-      color: #e9d5ff;
-      font-size: 13px;
-      font-weight: 850;
-      margin-bottom: 18px;
+    .section-title {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 46px);
+      letter-spacing: -0.05em;
+    }
+
+    .section-title p {
+      margin: 10px auto 0;
+      color: var(--muted);
+      max-width: 700px;
+      line-height: 1.65;
     }
 
     h1 {
@@ -175,19 +175,18 @@
       color: transparent;
     }
 
-    .hero p {
-      margin: 22px 0 0;
-      color: var(--muted);
-      font-size: 18px;
-      line-height: 1.75;
-      max-width: 650px;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 30px;
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid rgba(192, 132, 252, .28);
+      border-radius: 999px;
+      background: rgba(139, 92, 246, .10);
+      color: #e9d5ff;
+      font-size: 13px;
+      font-weight: 850;
+      margin-bottom: 18px;
     }
 
     .btn {
@@ -218,119 +217,176 @@
       border: 1px solid var(--line);
     }
 
-    .hero-panel {
-      position: relative;
-      border: 1px solid var(--line);
-      border-radius: 30px;
-      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
-      box-shadow: var(--shadow);
-      padding: 22px;
-      overflow: hidden;
-    }
-
-    .hero-panel::before {
-      content: "";
-      position: absolute;
-      inset: -1px;
-      background: radial-gradient(circle at 30% 0%, rgba(139,92,246,.38), transparent 38%);
-      pointer-events: none;
-    }
-
-    .prompt-box {
-      position: relative;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(0,0,0,.24);
-      border-radius: 24px;
-      padding: 18px;
-    }
-
-    .prompt-top {
+    .hero-actions {
       display: flex;
-      justify-content: space-between;
       gap: 12px;
-      align-items: center;
-      color: var(--muted);
-      font-weight: 800;
-      font-size: 13px;
-      margin-bottom: 12px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+      justify-content: center;
     }
 
-    .dots { display: flex; gap: 6px; }
-
-    .dots span {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.25);
+    .t2t-freelancer-landing {
+      padding-top: 56px;
     }
 
-    .fake-text {
-      border-radius: 18px;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.10);
-      padding: 16px;
-      color: #fff;
-      line-height: 1.65;
-      min-height: 132px;
-    }
-
-    .build-steps {
+    .t2t-stats-row {
       display: grid;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .step-line {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--muted);
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 16px;
-      padding: 12px;
-      background: rgba(255,255,255,.055);
-      font-weight: 750;
-    }
-
-    .check {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: rgba(34,197,94,.16);
-      color: #86efac;
-      font-weight: 950;
-      flex: 0 0 auto;
-    }
-
-    section {
-      width: min(var(--max), calc(100% - 32px));
-      margin: 0 auto;
-      padding: 52px 0;
-    }
-
-    .section-title {
-      text-align: center;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
       margin-bottom: 24px;
     }
 
-    .section-title h2 {
-      margin: 0;
-      font-size: clamp(30px, 4vw, 46px);
-      letter-spacing: -0.05em;
+    .t2t-stat-card {
+      border: 1px solid rgba(192, 132, 252, .28);
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(139,92,246,.32), transparent 45%),
+        rgba(255,255,255,.08);
+      padding: 22px;
+      min-height: 118px;
+      box-shadow: 0 18px 50px rgba(0,0,0,.24);
     }
 
-    .flip-grid {
+    .t2t-stat-card span {
+      display: block;
+      color: var(--muted);
+      font-weight: 850;
+      margin-bottom: 8px;
+    }
+
+    .t2t-stat-card strong {
+      display: block;
+      font-size: clamp(44px, 7vw, 82px);
+      line-height: .88;
+      letter-spacing: -0.07em;
+      background: linear-gradient(90deg, #fff, #d8b4fe, #f9a8d4);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .t2t-main-hero {
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 34px;
+      padding: clamp(30px, 5vw, 60px);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(139,92,246,.28), transparent 42%),
+        radial-gradient(circle at 88% 0%, rgba(236,72,153,.22), transparent 38%),
+        rgba(255,255,255,.065);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .t2t-main-hero .eyebrow {
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 22px;
+    }
+
+    .t2t-hero-title {
+      max-width: 1060px;
+      margin: 0 auto;
+      text-align: center;
+      font-size: clamp(42px, 6.2vw, 82px);
+      line-height: 1.04;
+      letter-spacing: -0.065em;
+    }
+
+    .t2t-hero-title span {
+      display: block;
+    }
+
+    .t2t-hero-title .t2t-hero-small {
+      font-size: .9em;
+    }
+
+    .t2t-main-hero p {
+      margin: 28px auto 0;
+      color: rgba(255,255,255,.88);
+      font-size: clamp(20px, 2vw, 27px);
+      line-height: 1.45;
+      max-width: 920px;
+      font-weight: 850;
+    }
+
+    .t2t-main-hero .t2t-subline {
+      margin: 16px auto 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 780px;
+      font-weight: 650;
+    }
+
+    .t2t-auto-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 26px;
+      justify-content: center;
+    }
+
+    .t2t-auto-tags span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(34,197,94,.34);
+      background: rgba(34,197,94,.12);
+      color: #bbf7d0;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 950;
+    }
+
+    .t2t-story-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 16px;
-      perspective: 1200px;
+      margin-top: 22px;
+    }
+
+    .t2t-story-card {
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background: rgba(255,255,255,.075);
+      padding: 22px;
+      box-shadow: 0 16px 45px rgba(0,0,0,.18);
+    }
+
+    .t2t-avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      box-shadow: 0 14px 34px rgba(139,92,246,.28);
+      font-weight: 950;
+      margin-bottom: 14px;
+    }
+
+    .t2t-story-card p {
+      margin: 0 0 16px;
+      color: rgba(255,255,255,.86);
+      line-height: 1.65;
+      font-size: 16px;
+      font-weight: 650;
+    }
+
+    .t2t-story-card strong {
+      display: block;
+      font-weight: 950;
+      margin-bottom: 4px;
+    }
+
+    .t2t-story-card span {
+      color: var(--muted);
+      font-weight: 750;
     }
 
     .flip-card {
       width: 100%;
-      height: 270px;
       display: block;
       position: relative;
       cursor: pointer;
@@ -387,16 +443,17 @@
 
     .flip-face h3 {
       margin: 0;
-      font-size: 24px;
-      letter-spacing: -0.035em;
-      line-height: 1.22;
+      font-size: clamp(25px, 4vw, 46px);
+      letter-spacing: -0.055em;
+      line-height: 1.08;
     }
 
     .flip-face p {
-      margin: 12px 0 0;
+      margin: 14px 0 0;
       color: var(--muted);
       line-height: 1.62;
-      font-size: 16px;
+      font-size: 18px;
+      max-width: 760px;
     }
 
     .flip-hint {
@@ -412,6 +469,253 @@
       font-size: 13px;
       font-weight: 900;
       margin-top: 18px;
+    }
+
+    .t2t-demo-title {
+      margin-top: 46px;
+    }
+
+    .t2t-demo-flip-card {
+      height: 560px;
+      margin-top: 18px;
+    }
+
+    .t2t-demo-front {
+      background:
+        radial-gradient(circle at 10% 0%, rgba(34,197,94,.18), transparent 35%),
+        radial-gradient(circle at 95% 0%, rgba(236,72,153,.16), transparent 40%),
+        rgba(255,255,255,.08);
+    }
+
+    .t2t-mini-flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+      align-items: center;
+    }
+
+    .t2t-mini-flow span {
+      color: rgba(255,255,255,.88);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.08);
+      border-radius: 999px;
+      padding: 10px 13px;
+      font-weight: 900;
+    }
+
+    .t2t-demo-back {
+      padding: 16px;
+    }
+
+    .t2t-carousel {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+    }
+
+    .t2t-demo-screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 18px;
+      overflow: hidden;
+      background: rgba(0,0,0,.3);
+      border: 1px solid rgba(255,255,255,.14);
+      display: grid;
+      place-items: center;
+    }
+
+    .t2t-demo-slide {
+      grid-area: 1 / 1;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #fff;
+      opacity: 0;
+      transform: scale(.985);
+      transition: opacity .35s ease, transform .35s ease;
+    }
+
+    .t2t-demo-slide.is-active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .t2t-demo-nav {
+      position: absolute;
+      z-index: 3;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.22);
+      background: rgba(7,5,13,.76);
+      color: #fff;
+      cursor: pointer;
+      font-size: 30px;
+      display: grid;
+      place-items: center;
+      line-height: 1;
+      transition: .2s ease;
+    }
+
+    .t2t-demo-nav:hover {
+      background: rgba(139,92,246,.95);
+    }
+
+    .t2t-demo-prev { left: 16px; }
+    .t2t-demo-next { right: 16px; }
+
+    .t2t-demo-dots {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 4;
+      display: flex;
+      gap: 8px;
+      padding: 8px 10px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(7,5,13,.72);
+      border-radius: 999px;
+    }
+
+    .t2t-demo-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      border: 0;
+      background: rgba(255,255,255,.35);
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .t2t-demo-dot.is-active {
+      width: 26px;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+    }
+
+    .t2t-old-new-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .t2t-compare-card {
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      padding: 24px;
+      background: rgba(255,255,255,.075);
+      box-shadow: 0 16px 45px rgba(0,0,0,.18);
+    }
+
+    .t2t-compare-card small {
+      display: inline-flex;
+      width: fit-content;
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-weight: 950;
+      margin-bottom: 14px;
+      letter-spacing: .02em;
+    }
+
+    .t2t-compare-card.bad small {
+      color: #fecaca;
+      background: rgba(239,68,68,.13);
+      border: 1px solid rgba(239,68,68,.25);
+    }
+
+    .t2t-compare-card.good small {
+      color: #bbf7d0;
+      background: rgba(34,197,94,.13);
+      border: 1px solid rgba(34,197,94,.25);
+    }
+
+    .t2t-compare-card h3 {
+      margin: 0;
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.1;
+      letter-spacing: -0.05em;
+    }
+
+    .t2t-compare-card p {
+      margin: 14px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .t2t-ai-box,
+    .t2t-money-box,
+    .t2t-final-cta {
+      margin-top: 24px;
+      border: 1px solid rgba(192,132,252,.22);
+      border-radius: 30px;
+      padding: clamp(24px, 4vw, 36px);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(139,92,246,.25), transparent 38%),
+        linear-gradient(135deg, rgba(255,255,255,.105), rgba(255,255,255,.045));
+    }
+
+    .t2t-ai-box h2,
+    .t2t-money-box h2,
+    .t2t-final-cta h2 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 44px);
+      letter-spacing: -0.055em;
+      line-height: 1.05;
+    }
+
+    .t2t-ai-box p,
+    .t2t-money-box p,
+    .t2t-final-cta p {
+      margin: 14px 0 0;
+      color: rgba(255,255,255,.84);
+      font-size: 19px;
+      line-height: 1.55;
+      font-weight: 750;
+    }
+
+    .t2t-ai-list {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .t2t-ai-list span {
+      padding: 10px 13px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.88);
+      font-weight: 900;
+    }
+
+    .t2t-money-box strong {
+      color: #bbf7d0;
+    }
+
+    .t2t-final-cta {
+      text-align: center;
+      display: grid;
+      place-items: center;
+    }
+
+    .t2t-final-cta strong {
+      display: block;
+      margin: 16px 0 22px;
+      font-size: clamp(24px, 4vw, 42px);
+      letter-spacing: -0.055em;
+      background: linear-gradient(90deg, #fff, #d8b4fe, #f9a8d4);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
 
     .tool-grid {
@@ -503,13 +807,14 @@
         text-align: center;
       }
 
-      .hero {
+      .t2t-stats-row,
+      .t2t-story-grid,
+      .t2t-old-new-grid {
         grid-template-columns: 1fr;
-        padding-top: 48px;
       }
 
-      .flip-grid {
-        grid-template-columns: 1fr;
+      .t2t-demo-flip-card {
+        height: 430px;
       }
 
       .tool-grid {
@@ -533,7 +838,22 @@
 
       .brand small { font-size: 10px; }
 
-      .flip-card { height: 290px; }
+      .t2t-main-hero {
+        padding: 24px;
+      }
+
+      .t2t-demo-flip-card {
+        height: 360px;
+      }
+
+      .t2t-demo-nav {
+        width: 38px;
+        height: 38px;
+        font-size: 26px;
+      }
+
+      .t2t-demo-prev { left: 10px; }
+      .t2t-demo-next { right: 10px; }
     }
   </style>
 </head>
@@ -559,110 +879,153 @@
   </header>
 
   <main>
-    <div class="hero">
-      <div>
-        <div class="eyebrow">⚡ Turn your text into a working business tool</div>
+    <section class="t2t-freelancer-landing">
+      <div class="t2t-stats-row" aria-label="Text2Tool speed and earnings stats">
+        <div class="t2t-stat-card">
+          <span>Earnings Potential</span>
+          <strong>↑ 55x</strong>
+        </div>
+        <div class="t2t-stat-card">
+          <span>Time Saving</span>
+          <strong>↑ 100x</strong>
+        </div>
+      </div>
 
-        <h1>Describe your tool. <span class="gradient-text">Get a clean preview.</span></h1>
+      <div class="t2t-main-hero">
+        <div class="eyebrow">⚡ Built for freelancers, VAs, agencies & sheet sellers</div>
 
-        <p>
-          Text2Tool AI helps small businesses, startups, agencies, freelancers and virtual assistants turn plain-English requests into useful business tools they can own.
-        </p>
+        <h1 class="t2t-hero-title">
+          <span>Your Client Wants a</span>
+          <span class="t2t-hero-small">Tracker / Google Sheet.</span>
+          <span class="gradient-text">Let AI Build It.</span>
+          <span class="gradient-text">You Get Paid.</span>
+        </h1>
+
+        <p>Use the hours you save to build more, deliver more, and earn more.</p>
+
+        <div class="t2t-subline">
+          Text2Tool turns client requests into ready-to-use Google Sheet tools in seconds.
+        </div>
+
+        <div class="t2t-auto-tags">
+          <span>Auto formulas</span>
+          <span>Auto built</span>
+          <span>Auto setup</span>
+        </div>
 
         <div class="hero-actions">
-          <a class="btn btn-primary" href="/create-tool/?v=final1">Create Tool</a>
+          <a class="btn btn-primary" href="/create-tool/?v=final1">Create My First Tool</a>
           <a class="btn btn-secondary" href="/pricing/">View Pricing</a>
         </div>
       </div>
 
-      <div class="hero-panel" aria-label="Example tool request preview">
-        <div class="prompt-box">
-          <div class="prompt-top">
-            <span>Example request</span>
-            <span class="dots"><span></span><span></span><span></span></span>
-          </div>
+      <div class="t2t-story-grid">
+        <article class="t2t-story-card">
+          <div class="t2t-avatar">SM</div>
+          <p>“I used to create Google Sheet trackers for clients and charge $20 per tracker. Each one took me 3 hours. Now I can create up to 20 trackers a day with Text2Tool and can earn $200+ a day.”</p>
+          <strong>Sarah M.</strong>
+          <span>Freelance VA</span>
+        </article>
 
-          <div class="fake-text">
-            Create an attendance tracker for my team with check-in, check-out, total hours, weekly payout, and simple monthly reports.
-          </div>
-
-          <div class="build-steps">
-            <div class="step-line"><span class="check">✓</span> Understands your tool request</div>
-            <div class="step-line"><span class="check">✓</span> Prepares the sections and fields</div>
-            <div class="step-line"><span class="check">✓</span> Shows a preview before launch</div>
-          </div>
-        </div>
+        <article class="t2t-story-card">
+          <div class="t2t-avatar">DR</div>
+          <p>“When I apply for Google Sheet jobs, I make a quick demo with Text2Tool and send screenshots. Clients are shocked by my fast response and professional trackers.”</p>
+          <strong>Daniel R.</strong>
+          <span>Freelancer</span>
+        </article>
       </div>
-    </div>
 
-    <section>
-      <div class="section-title">
+      <div class="section-title t2t-demo-title">
         <h2>How it works</h2>
+        <p>One big card. Flip it to see the finished Google Sheet result.</p>
       </div>
 
-      <div class="flip-grid">
-        <div class="flip-card" role="button" tabindex="0">
-          <div class="flip-inner">
-            <div class="flip-face flip-front">
-              <div>
-                <div class="flip-icon">✍️</div>
-                <h3>1. Describe your tool</h3>
-                <p>Tell us what you want to create.</p>
-              </div>
-              <div class="flip-hint">👆 Hover or click</div>
+      <div class="flip-card t2t-demo-flip-card" role="button" tabindex="0" aria-label="Flip to see finished Google Sheet screenshots">
+        <div class="flip-inner">
+          <div class="flip-face flip-front t2t-demo-front">
+            <div>
+              <div class="flip-icon">🚀</div>
+              <h3>Client asks. You type. AI builds. You deliver.</h3>
+              <p>Turn tracker / Google Sheet requests into ready-to-use tools in seconds.</p>
             </div>
 
-            <div class="flip-face flip-back">
-              <div>
-                <h3>Give your plain-English request</h3>
-                <p>Ask for a tracker, calculator, dashboard, report, generator, or internal workflow tool. No technical explanation needed.</p>
+            <div>
+              <div class="t2t-mini-flow">
+                <span>Client request</span>
+                <span>→</span>
+                <span>Text2Tool</span>
+                <span>→</span>
+                <span>Finished Sheet</span>
               </div>
-              <div class="flip-hint">Click or move away</div>
+              <div class="flip-hint">Hover or click to see the result</div>
+            </div>
+          </div>
+
+          <div class="flip-face flip-back t2t-demo-back">
+            <div class="t2t-carousel" aria-label="Finished Google Sheet screenshots">
+              <button class="t2t-demo-nav t2t-demo-prev" type="button" aria-label="Previous screenshot">‹</button>
+
+              <div class="t2t-demo-screen">
+                <img class="t2t-demo-slide is-active" src="/assets/tool-demo/demo-1.jpg" alt="Google Sheet attendance tracker main tab screenshot">
+                <img class="t2t-demo-slide" src="/assets/tool-demo/demo-2.jpg" alt="Google Sheet dashboard summary screenshot">
+                <img class="t2t-demo-slide" src="/assets/tool-demo/demo-3.jpg" alt="Google Sheet dashboard charts screenshot">
+                <img class="t2t-demo-slide" src="/assets/tool-demo/demo-4.jpg" alt="Google Sheet advanced analytics screenshot">
+                <img class="t2t-demo-slide" src="/assets/tool-demo/demo-5.jpg" alt="Google Sheet auto bot repair popup screenshot">
+                <img class="t2t-demo-slide" src="/assets/tool-demo/demo-6.jpg" alt="Google Sheet settings and auto bots menu screenshot">
+              </div>
+
+              <button class="t2t-demo-nav t2t-demo-next" type="button" aria-label="Next screenshot">›</button>
+
+              <div class="t2t-demo-dots" aria-label="Screenshot controls">
+                <button class="t2t-demo-dot is-active" type="button" aria-label="Show screenshot 1"></button>
+                <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 2"></button>
+                <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 3"></button>
+                <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 4"></button>
+                <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 5"></button>
+                <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 6"></button>
+              </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="flip-card" role="button" tabindex="0">
-          <div class="flip-inner">
-            <div class="flip-face flip-front">
-              <div>
-                <div class="flip-icon">⚙️</div>
-                <h3>2. AI prepares the plan</h3>
-                <p>AI reviews your request.</p>
-              </div>
-              <div class="flip-hint">👆 Hover or click</div>
-            </div>
+      <div class="t2t-old-new-grid">
+        <article class="t2t-compare-card bad">
+          <small>The Old Way</small>
+          <h3>Hours lost. Low payment. Slow delivery.</h3>
+          <p>Manual setup. Repeated edits. Too much work. Too little money.</p>
+        </article>
 
-            <div class="flip-face flip-back">
-              <div>
-                <h3>Tool structure is prepared</h3>
-                <p>Text2Tool identifies the tool type, important fields, recommended sections, and any missing questions.</p>
-              </div>
-              <div class="flip-hint">Click or move away</div>
-            </div>
-          </div>
+        <article class="t2t-compare-card good">
+          <small>The AI Way</small>
+          <h3>Client asks. You type. AI builds. You deliver.</h3>
+          <p>I basically do no work and earn way more.</p>
+        </article>
+      </div>
+
+      <div class="t2t-ai-box">
+        <h2>AI is killing slow freelance work.</h2>
+        <p>Text2Tool is the AI built to save freelancers and VAs.</p>
+        <div class="t2t-ai-list">
+          <span>Cheap clients</span>
+          <span>Urgent deadlines</span>
+          <span>Manual sheets</span>
+          <span>Endless revisions</span>
+          <span>Not anymore</span>
         </div>
+      </div>
 
-        <div class="flip-card" role="button" tabindex="0">
-          <div class="flip-inner">
-            <div class="flip-face flip-front">
-              <div>
-                <div class="flip-icon">⬇️</div>
-                <h3>3. Preview then launch</h3>
-                <p>Review before moving forward.</p>
-              </div>
-              <div class="flip-hint">👆 Hover or click</div>
-            </div>
+      <div class="t2t-money-box">
+        <h2>Sell trackers / Google Sheets for $10–$100.</h2>
+        <p>Create them here for <strong>$1 or less.</strong> Yes, you heard it right.</p>
+        <p>Spend $10/day. You can earn $100–$500/day from client requests.</p>
+      </div>
 
-            <div class="flip-face flip-back">
-              <div>
-                <h3>See the preview first</h3>
-                <p>You get a clean preview showing what the tool will include. Then you can decide when to launch it using Tool Credits.</p>
-              </div>
-              <div class="flip-hint">Click or move away</div>
-            </div>
-          </div>
-        </div>
+      <div class="t2t-final-cta">
+        <h2>Stop wasting hours on spreadsheet jobs.</h2>
+        <p>Type the client request. Get the finished tool. Send it. Get paid. Work on the next one.</p>
+        <strong>You can do 100s a day.</strong>
+        <a class="btn btn-primary" href="/create-tool/?v=final1">Build My First Tool</a>
       </div>
     </section>
 
@@ -697,7 +1060,7 @@
   </main>
 
   <footer>
-    Built for startups, agencies, virtual assistants and growing businesses. Text2Tool AI © 2026.
+    Built for freelancers, VAs, agencies and growing businesses. Text2Tool AI © 2026.
   </footer>
 
   <script>
@@ -768,6 +1131,61 @@
         }
       });
     });
+
+    const demoSlides = Array.from(document.querySelectorAll(".t2t-demo-slide"));
+    const demoDots = Array.from(document.querySelectorAll(".t2t-demo-dot"));
+    const demoPrev = document.querySelector(".t2t-demo-prev");
+    const demoNext = document.querySelector(".t2t-demo-next");
+    let demoIndex = 0;
+    let demoTimer = null;
+
+    function showDemoSlide(index) {
+      if (!demoSlides.length) return;
+
+      demoIndex = (index + demoSlides.length) % demoSlides.length;
+
+      demoSlides.forEach((slide, i) => {
+        slide.classList.toggle("is-active", i === demoIndex);
+      });
+
+      demoDots.forEach((dot, i) => {
+        dot.classList.toggle("is-active", i === demoIndex);
+      });
+    }
+
+    function nextDemoSlide() {
+      showDemoSlide(demoIndex + 1);
+    }
+
+    function restartDemoTimer() {
+      if (demoTimer) {
+        clearInterval(demoTimer);
+      }
+
+      demoTimer = setInterval(nextDemoSlide, 2600);
+    }
+
+    demoPrev?.addEventListener("click", (event) => {
+      event.stopPropagation();
+      showDemoSlide(demoIndex - 1);
+      restartDemoTimer();
+    });
+
+    demoNext?.addEventListener("click", (event) => {
+      event.stopPropagation();
+      showDemoSlide(demoIndex + 1);
+      restartDemoTimer();
+    });
+
+    demoDots.forEach((dot, index) => {
+      dot.addEventListener("click", (event) => {
+        event.stopPropagation();
+        showDemoSlide(index);
+        restartDemoTimer();
+      });
+    });
+
+    restartDemoTimer();
   </script>
 </body>
 </html>
