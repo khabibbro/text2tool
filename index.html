@@ -601,53 +601,118 @@
     .t2t-old-new-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
+      gap: 18px;
       margin-top: 24px;
     }
 
     .t2t-compare-card {
+      position: relative;
       border: 1px solid var(--line);
-      border-radius: 26px;
-      padding: 24px;
-      background: rgba(255,255,255,.075);
-      box-shadow: 0 16px 45px rgba(0,0,0,.18);
+      border-radius: 28px;
+      padding: clamp(24px, 3.5vw, 34px);
+      box-shadow: 0 18px 48px rgba(0,0,0,.20);
+      overflow: hidden;
+      min-height: 360px;
     }
 
-    .t2t-compare-card small {
-      display: inline-flex;
-      width: fit-content;
-      border-radius: 999px;
-      padding: 7px 10px;
-      font-weight: 950;
-      margin-bottom: 14px;
-      letter-spacing: .02em;
+    .t2t-compare-card.bad {
+      background:
+        radial-gradient(circle at 12% 0%, rgba(239,68,68,.16), transparent 32%),
+        linear-gradient(180deg, rgba(255,255,255,.085), rgba(255,255,255,.045));
     }
 
-    .t2t-compare-card.bad small {
-      color: #fecaca;
+    .t2t-compare-card.good {
+      border-color: rgba(139,92,246,.38);
+      background:
+        radial-gradient(circle at 90% 0%, rgba(139,92,246,.28), transparent 35%),
+        radial-gradient(circle at 18% 6%, rgba(34,197,94,.16), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+    }
+
+    .t2t-compare-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .t2t-compare-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 20px;
+      display: grid;
+      place-items: center;
+      font-size: 27px;
+      flex: 0 0 auto;
+    }
+
+    .t2t-compare-card.bad .t2t-compare-icon {
       background: rgba(239,68,68,.13);
-      border: 1px solid rgba(239,68,68,.25);
+      color: #fecaca;
     }
 
-    .t2t-compare-card.good small {
-      color: #bbf7d0;
-      background: rgba(34,197,94,.13);
-      border: 1px solid rgba(34,197,94,.25);
+    .t2t-compare-card.good .t2t-compare-icon {
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      color: #fff;
+      box-shadow: 0 14px 32px rgba(139,92,246,.32);
     }
 
     .t2t-compare-card h3 {
       margin: 0;
-      font-size: clamp(24px, 3vw, 34px);
-      line-height: 1.1;
-      letter-spacing: -0.05em;
+      font-size: clamp(25px, 3vw, 34px);
+      line-height: 1.12;
+      letter-spacing: -0.045em;
     }
 
-    .t2t-compare-card p {
-      margin: 14px 0 0;
-      color: var(--muted);
-      line-height: 1.6;
+    .t2t-compare-list {
+      display: grid;
+      gap: 13px;
+      margin-top: 12px;
+    }
+
+    .t2t-compare-item {
+      border: 1px solid rgba(255,255,255,.11);
+      border-radius: 18px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,.07);
+    }
+
+    .t2t-compare-item strong {
+      display: block;
       font-size: 17px;
-      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+    }
+
+    .t2t-compare-item span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    .t2t-compare-quote {
+      margin-top: 16px;
+      border-radius: 18px;
+      padding: 15px 16px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 950;
+      line-height: 1.35;
+    }
+
+    .t2t-compare-card.bad .t2t-compare-quote {
+      color: #fecaca;
+      background: rgba(239,68,68,.13);
+      border: 1px solid rgba(239,68,68,.22);
+    }
+
+    .t2t-compare-card.good .t2t-compare-quote {
+      color: #e9d5ff;
+      background: rgba(139,92,246,.18);
+      border: 1px solid rgba(192,132,252,.26);
     }
 
     .t2t-ai-box,
@@ -991,15 +1056,51 @@
 
       <div class="t2t-old-new-grid">
         <article class="t2t-compare-card bad">
-          <small>The Old Way</small>
-          <h3>Hours lost. Low payment. Slow delivery.</h3>
-          <p>Manual setup. Repeated edits. Too much work. Too little money.</p>
+          <div class="t2t-compare-top">
+            <div class="t2t-compare-icon">⏳</div>
+            <h3>The Old Way</h3>
+          </div>
+
+          <div class="t2t-compare-list">
+            <div class="t2t-compare-item">
+              <strong>Hours per tracker</strong>
+              <span>Building every sheet manually</span>
+            </div>
+            <div class="t2t-compare-item">
+              <strong>Low client budgets</strong>
+              <span>Too much work for small jobs</span>
+            </div>
+            <div class="t2t-compare-item">
+              <strong>Slow delivery</strong>
+              <span>Repeated edits and setup time</span>
+            </div>
+          </div>
+
+          <div class="t2t-compare-quote">“I am working too much and earning too little.”</div>
         </article>
 
         <article class="t2t-compare-card good">
-          <small>The AI Way</small>
-          <h3>Client asks. You type. AI builds. You deliver.</h3>
-          <p>I basically do no work and earn way more.</p>
+          <div class="t2t-compare-top">
+            <div class="t2t-compare-icon">👑</div>
+            <h3>The T2T AI Way</h3>
+          </div>
+
+          <div class="t2t-compare-list">
+            <div class="t2t-compare-item">
+              <strong>Launch in seconds</strong>
+              <span>AI builds the tracker for you</span>
+            </div>
+            <div class="t2t-compare-item">
+              <strong>$1 or less to create</strong>
+              <span>Sell client requests for $10–$100</span>
+            </div>
+            <div class="t2t-compare-item">
+              <strong>More output daily</strong>
+              <span>Work on the next request faster</span>
+            </div>
+          </div>
+
+          <div class="t2t-compare-quote">“I basically do no work and earn way more.”</div>
         </article>
       </div>
 
