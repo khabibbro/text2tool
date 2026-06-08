@@ -989,10 +989,12 @@
     }
 
     .secret-benefit {
-      display: flex;
+      display: grid;
+      grid-template-columns: 42px 1fr;
       gap: 12px;
-      align-items: flex-start;
-      padding: 10px;
+      align-items: center;
+      padding: 12px;
+      min-height: 92px;
       border-right: 1px solid rgba(255,255,255,.10);
     }
 
@@ -1014,16 +1016,17 @@
 
     .secret-benefit strong {
       display: block;
-      line-height: 1.22;
+      line-height: 1.18;
       letter-spacing: -0.02em;
+      font-size: 15px;
     }
 
     .secret-benefit span {
       display: block;
-      margin-top: 4px;
+      margin-top: 5px;
       color: var(--muted);
       font-size: 13px;
-      line-height: 1.4;
+      line-height: 1.3;
       font-weight: 650;
     }
 
@@ -1108,16 +1111,37 @@
 
 
     .tool-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      display: flex;
+      flex-wrap: nowrap;
       gap: 12px;
       margin-top: 26px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 6px 4px 16px;
+      scroll-snap-type: x proximity;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .tool-grid::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .tool-grid::-webkit-scrollbar-track {
+      background: rgba(255,255,255,.07);
+      border-radius: 999px;
+    }
+
+    .tool-grid::-webkit-scrollbar-thumb {
+      background: rgba(168,85,247,.65);
+      border-radius: 999px;
     }
 
     .tool-chip {
+      flex: 0 0 auto;
+      min-width: 250px;
       border: 1px solid var(--line);
       border-radius: 18px;
-      padding: 16px 14px;
+      padding: 16px 18px;
       background: rgba(255,255,255,.07);
       color: rgba(255,255,255,.88);
       font-weight: 900;
@@ -1125,7 +1149,9 @@
       min-height: 58px;
       display: grid;
       place-items: center;
-      line-height: 1.35;
+      line-height: 1.2;
+      white-space: nowrap;
+      scroll-snap-align: start;
     }
 
     .cta-band {
@@ -1392,7 +1418,7 @@
       </div>
 
       <div class="section-title t2t-demo-title">
-        <h2>How it works</h2>
+        <h2>Check End Results</h2>
         <p>Flip the card to see the finished Google Sheet result.</p>
       </div>
 
@@ -1607,19 +1633,19 @@
           <div class="secret-benefits" aria-label="T2T benefits">
             <div class="secret-benefit">
               <div class="secret-benefit-icon">⚡</div>
-              <div><strong>Deliver Projects 100X Faster</strong><span>Beat deadlines. Impress clients.</span></div>
+              <div><strong>Deliver 100X Faster</strong><span>Beat deadlines.</span></div>
             </div>
             <div class="secret-benefit">
               <div class="secret-benefit-icon">📈</div>
-              <div><strong>Handle More. Earn More.</strong><span>Scale output without burnout.</span></div>
+              <div><strong>Earn More</strong><span>More output.</span></div>
             </div>
             <div class="secret-benefit">
               <div class="secret-benefit-icon">🏆</div>
-              <div><strong>Stand Out. Win More Clients.</strong><span>Show proof before hiring.</span></div>
+              <div><strong>Win More Clients</strong><span>Show proof first.</span></div>
             </div>
             <div class="secret-benefit">
               <div class="secret-benefit-icon">💰</div>
-              <div><strong>Boost Your Value.</strong><span>Charge better rates with faster delivery.</span></div>
+              <div><strong>Charge More</strong><span>Deliver faster.</span></div>
             </div>
           </div>
 
@@ -1649,7 +1675,7 @@
               </div>
             </div>
 
-            <div class="top-users-result">Result: stronger proposals, more trust, and a better chance of getting hired.</div>
+            <div class="top-users-result">Result: stronger proposals, faster trust, and higher hiring chances.</div>
           </div>
         </div>
       </div>
