@@ -202,7 +202,7 @@
             <div style="display:flex;gap:10px;flex-wrap:wrap;">
               <div class="pill">Complexity: ${escapeHtml(capitalize(complexity))}</div>
               <div class="pill">Preview saved for 30 days</div>
-              <div class="pill">1 Tool Credit = 1 tool</div>
+              <div class="pill">1 Tool Kit = 1 tool</div>
             </div>
           </div>
           <h1>${escapeHtml(title)}</h1>
@@ -215,7 +215,7 @@
             <h2>Preview Status</h2>
             <p>This is your tool preview. Review the structure and answer the questions before creating your final tool.</p>
             <div class="actions">
-              <a class="btn btn-primary" href="/pricing/">View Tool Credits</a>
+              <a class="btn btn-primary" href="/pricing/">View Tool Kits</a>
               <a class="btn" href="/create-tool/?v=preview-safe">Create Another Preview</a>
             </div>
           </section>
@@ -225,10 +225,10 @@
             <p>When the preview looks good, request your finished working tool. No code is shown to customers.</p>
             <div class="actions">
               <button class="btn btn-primary" type="button" id="createFinalToolBtn">Create My Tool</button>
-              <a class="btn" href="/pricing/">View Tool Credits</a>
+              <a class="btn" href="/pricing/">View Tool Kits</a>
             </div>
             <div class="change-message" id="finalToolMessage"></div>
-            <p class="change-note">No Tool Credit is used yet. 1 Tool Credit is used only after the finished working tool is successfully delivered.</p>
+            <p class="change-note">No Tool Kit is used yet. 1 Tool Kit is used only after the finished working tool is successfully delivered.</p>
           </section>
 
           <section class="card change-card structure-card">
@@ -288,7 +288,7 @@
           return;
         }
 
-        const confirmed = window.confirm('Request your finished working tool now? No source code will be shown. No Tool Credit is used until the finished tool is delivered.');
+        const confirmed = window.confirm('Request your finished working tool now? No source code will be shown. No Tool Kit is used until the finished tool is delivered.');
         if (!confirmed) return;
 
         btn.disabled = true;
