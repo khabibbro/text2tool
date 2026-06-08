@@ -604,8 +604,8 @@
   <div class="credit-strip">
     <div class="credit-inner">
       <span class="credit-pill" id="previewDisplay">Previews: Checking...</span>
-      <span class="credit-pill" id="creditDisplay">Tool Credits: Checking...</span>
-      <button class="reset-preview-btn" id="resetPreviewBtn" type="button">Reset Previews - 1 Tool Credit</button>
+      <span class="credit-pill" id="creditDisplay">Tool Kits: Checking...</span>
+      <button class="reset-preview-btn" id="resetPreviewBtn" type="button">Reset Previews - 1 Tool Kit</button>
     </div>
   </div>
 
@@ -625,7 +625,7 @@
 
         <p class="lead">
           Tell us what tracker, calculator, dashboard, report, or internal business tool you need.
-          The more details you provide, the better your preview overview will be. Longer prompts and uploads are unlocked with Tool Credits.
+          The more details you provide, the better your preview overview will be. Longer prompts and uploads are unlocked with Tool Kits.
         </p>
 
         <div class="status-pill" id="signedInText">Signed in</div>
@@ -661,7 +661,7 @@
           ></textarea>
 
           <div class="prompt-meta">
-            <span id="promptLimitHelp">Free preview limit: 2,000 characters. With Tool Credits: up to 50,000 characters. Links are not allowed in prompts.</span>
+            <span id="promptLimitHelp">Free preview limit: 2,000 characters. With Tool Kits: up to 50,000 characters. Links are not allowed in prompts.</span>
             <span class="char-counter" id="charCounter">0 / 2,000</span>
           </div>
 
@@ -680,7 +680,7 @@
                 </p>
               </div>
 
-              <span class="lock-pill" id="uploadLockPill">Requires Tool Credits</span>
+              <span class="lock-pill" id="uploadLockPill">Requires Tool Kits</span>
             </div>
 
             <input
@@ -934,12 +934,12 @@
     }
 
     function updateCreditUI() {
-      creditDisplay.textContent = "Tool Credits: " + toolCreditBalance;
+      creditDisplay.textContent = "Tool Kits: " + toolCreditBalance;
 
       if (toolCreditBalance > 0) {
         currentPromptLimit = PAID_PROMPT_CHARS;
         promptInput.setAttribute("maxlength", String(PAID_PROMPT_CHARS));
-        promptLimitHelp.textContent = "Tool Credits active: you can add up to 50,000 characters. Links are not allowed in prompts.";
+        promptLimitHelp.textContent = "Tool Kits active: you can add up to 50,000 characters. Links are not allowed in prompts.";
 
         uploadPanel.classList.remove("locked");
         uploadLockPill.textContent = "Upload enabled";
@@ -949,10 +949,10 @@
       } else {
         currentPromptLimit = FREE_PROMPT_CHARS;
         promptInput.setAttribute("maxlength", String(FREE_PROMPT_CHARS));
-        promptLimitHelp.textContent = "Free preview limit: 2,000 characters. Buy Tool Credits to unlock longer prompts and screenshot uploads. Links are not allowed.";
+        promptLimitHelp.textContent = "Free preview limit: 2,000 characters. Buy Tool Kits to unlock longer prompts and screenshot uploads. Links are not allowed.";
 
         uploadPanel.classList.add("locked");
-        uploadLockPill.textContent = "Requires Tool Credits";
+        uploadLockPill.textContent = "Requires Tool Kits";
         uploadLockPill.style.color = "#fde68a";
         uploadLockPill.style.borderColor = "rgba(250,204,21,.26)";
         uploadLockPill.style.background = "rgba(250,204,21,.10)";
@@ -1002,7 +1002,7 @@
 
       if (!canCreatePreview) {
         submitBtn.disabled = true;
-        submitBtn.title = toolCreditBalance > 0 ? "Reset previews to continue." : "Buy Tool Credits to continue.";
+        submitBtn.title = toolCreditBalance > 0 ? "Reset previews to continue." : "Buy Tool Kits to continue.";
       }
     }
 
@@ -1041,7 +1041,7 @@
     }
 
     resetPreviewBtn?.addEventListener("click", async () => {
-      const ok = confirm("This will use 1 Tool Credit and reset your paid previews to 30. Continue?");
+      const ok = confirm("This will use 1 Tool Kit and reset your paid previews to 30. Continue?");
       if (!ok) return;
 
       resetPreviewBtn.disabled = true;
@@ -1057,7 +1057,7 @@
         showMessage("Could not reset previews:\n" + (error.message || "Please try again."), "error");
       } finally {
         resetPreviewBtn.disabled = false;
-        resetPreviewBtn.textContent = "Reset Previews - 1 Tool Credit";
+        resetPreviewBtn.textContent = "Reset Previews - 1 Tool Kit";
       }
     });
 
@@ -1127,14 +1127,14 @@
         uploadBtn.textContent = "Choose File";
 
         if (toolCreditBalance <= 0) {
-          showMessage("File upload is available when you have at least 1 Tool Credit.", "error");
+          showMessage("File upload is available when you have at least 1 Tool Kit.", "error");
         }
 
         return;
       }
 
       if (toolCreditBalance <= 0) {
-        showMessage("File upload is available when you have at least 1 Tool Credit.", "error");
+        showMessage("File upload is available when you have at least 1 Tool Kit.", "error");
         return;
       }
 
@@ -1272,9 +1272,9 @@
 
       if (!canCreatePreview) {
         if (toolCreditBalance > 0) {
-          showMessage("Paid previews are finished. Click Reset Previews - 1 Tool Credit to continue.", "error");
+          showMessage("Paid previews are finished. Click Reset Previews - 1 Tool Kit to continue.", "error");
         } else {
-          showMessage("Buy Tool Credits to continue.", "error");
+          showMessage("Buy Tool Kits to continue.", "error");
         }
         return;
       }
@@ -1307,7 +1307,7 @@
       const hasAttachments = selectedFiles.length > 0;
 
       if (hasAttachments && toolCreditBalance <= 0) {
-        showMessage("Screenshot uploads are available when you have at least 1 Tool Credit.", "error");
+        showMessage("Screenshot uploads are available when you have at least 1 Tool Kit.", "error");
         return;
       }
 
@@ -1338,7 +1338,7 @@
           }
 
           if (err.toLowerCase().includes("free preview") || err.toLowerCase().includes("preview limit")) {
-            throw new Error("Buy Tool Credits to continue.");
+            throw new Error("Buy Tool Kits to continue.");
           }
 
           throw new Error(err);
