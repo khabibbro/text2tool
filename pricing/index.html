@@ -16,7 +16,7 @@
       --purple: #8b5cf6;
       --pink: #ec4899;
       --green: #22c55e;
-      --max: 1180px;
+      --max: 1380px;
       --shadow: 0 24px 80px rgba(0,0,0,.45);
     }
 
@@ -193,19 +193,19 @@
 
     .pricing-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 16px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 20px;
       margin-top: 34px;
     }
 
     .price-card {
       position: relative;
       border: 1px solid var(--line);
-      border-radius: 26px;
+      border-radius: 28px;
       background: rgba(255,255,255,.075);
-      padding: 22px;
+      padding: 26px;
       box-shadow: 0 16px 40px rgba(0,0,0,.20);
-      min-height: 500px;
+      min-height: 510px;
       display: flex;
       flex-direction: column;
     }
@@ -246,7 +246,7 @@
 
     .price-card h2 {
       margin: 0;
-      font-size: 22px;
+      font-size: 23px;
       letter-spacing: -0.03em;
     }
 
@@ -269,7 +269,7 @@
       color: var(--muted);
       line-height: 1.62;
       margin: 0 0 16px;
-      min-height: 72px;
+      min-height: 88px;
     }
 
     .value-box {
@@ -382,7 +382,7 @@
 
     @media (max-width: 1120px) {
       .pricing-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .price-card.popular {
@@ -422,10 +422,6 @@
       .nav-links a {
         width: 100%;
         text-align: center;
-      }
-
-      .pricing-grid {
-        grid-template-columns: repeat(2, 1fr);
       }
 
       .faq {
@@ -541,7 +537,7 @@
         <div class="tool-credits">12 Tool Credits</div>
 
         <p class="desc">
-          Best for freelancers and virtual assistants creating multiple simple tools for themselves or clients.
+          Best for freelancers and virtual assistants creating multiple tools for themselves or clients.
         </p>
 
         <div class="value-box">
@@ -559,14 +555,14 @@
         <a class="btn btn-primary" href="/create-tool/">Create Tool</a>
       </article>
 
-      <article class="price-card">
-        <div class="tag">Agency</div>
+      <article class="price-card best">
+        <div class="tag green">Agency</div>
         <h2>Agency Pack</h2>
         <div class="price">$50</div>
         <div class="tool-credits">70 Tool Credits</div>
 
         <p class="desc">
-          Best for agencies managing repeat admin, tracking, reporting, and client workflows.
+          Best for agencies with multiple freelancers managing repeat admin, tracking, reporting, and client workflows.
         </p>
 
         <div class="value-box">
@@ -578,13 +574,11 @@
           <li>Same core features</li>
           <li>70 Tool Credits included</li>
           <li>20 bonus Tool Credits</li>
-          <li>Great for agency client tasks</li>
+          <li>Great for ongoing client tasks</li>
         </ul>
 
-        <a class="btn btn-secondary" href="/create-tool/">Create Tool</a>
+        <a class="btn btn-primary" href="/create-tool/">Create Tool</a>
       </article>
-
-
     </section>
 
     <section class="faq" aria-label="Pricing notes">
