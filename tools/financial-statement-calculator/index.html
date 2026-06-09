@@ -474,8 +474,7 @@
         <div class="hero-actions no-print">
           <button class="btn btn-primary" onclick="scrollToId('ledger')">Start with Trial Balance</button>
           <button class="btn btn-secondary" onclick="addAccountRow()">Add Account Row</button>
-          <button class="btn btn-secondary" onclick="exportReportCSV()">Export CSV</button>
-          <button class="btn btn-secondary" onclick="exportJSON()">Backup JSON</button>
+          <button class="btn btn-secondary" onclick="exportReportCSV()">Download Data CSV</button>
         </div>
         <div class="mobile-nav no-print">
           <label class="field">Jump to section
@@ -598,7 +597,7 @@
             <h2>Tax Summary & Financial Ratios</h2>
             <p>Supports tax return preparation review, management analysis, lender packs, and internal audit ratio checks.</p>
           </div>
-          <button class="btn btn-secondary no-print" onclick="exportReportCSV()">Export Report CSV</button>
+          <button class="btn btn-secondary no-print" onclick="exportReportCSV()">Download Data CSV</button>
         </div>
         <div class="section-body">
           <div class="report-grid">
@@ -630,27 +629,26 @@
       <section class="section" id="tools">
         <div class="section-head">
           <div>
-            <h2>Backup, Restore & Export</h2>
-            <p>Keep client files portable. Export JSON for backup or CSV for spreadsheets and working papers.</p>
+            <h2>Print & Download Data</h2>
+            <p>Users can print the report or download the financial data as CSV. No code, backup file, or raw configuration download is shown.</p>
           </div>
         </div>
         <div class="section-body">
           <div class="grid grid-3">
             <div class="card">
               <h3>Save in Browser</h3>
-              <p>Saves this file locally in the current browser using local storage.</p>
+              <p>Saves this working file locally in the current browser only, without exposing any download file.</p>
               <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;" class="no-print">
                 <button class="btn btn-primary" onclick="saveLocal()">Save</button>
                 <button class="btn btn-secondary" onclick="loadLocal(true)">Load</button>
               </div>
             </div>
             <div class="card">
-              <h3>JSON Backup</h3>
-              <p>Download or restore a complete client working file.</p>
+              <h3>Download Data CSV</h3>
+              <p>Downloads the generated financial statement data and trial balance in spreadsheet-friendly CSV format.</p>
               <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;" class="no-print">
-                <button class="btn btn-primary" onclick="exportJSON()">Export JSON</button>
-                <button class="btn btn-secondary" onclick="document.getElementById('jsonImport').click()">Import JSON</button>
-                <input class="hidden" type="file" id="jsonImport" accept="application/json" onchange="importJSON(event)" />
+                <button class="btn btn-primary" onclick="exportReportCSV()">Download CSV</button>
+                <button class="btn btn-secondary" onclick="window.print()">Print Report</button>
               </div>
             </div>
             <div class="card">
@@ -1257,28 +1255,6 @@
       return clean;
     }
 
-    function exportJSON() {
-      const fileName = safeFileName(`${state.setup.companyName || 'financial-statement'}-backup.json`);
-      download(fileName, JSON.stringify(state, null, 2), "application/json");
-      toast("JSON backup downloaded.");
-    }
-
-    function importJSON(event) {
-      const file = event.target.files && event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        try {
-          state = normalizeImportedState(JSON.parse(reader.result));
-          render();
-          toast("JSON backup imported.");
-        } catch (e) {
-          toast("Invalid JSON file.");
-        }
-      };
-      reader.readAsText(file);
-      event.target.value = "";
-    }
 
     function exportReportCSV() {
       const c = calc();
