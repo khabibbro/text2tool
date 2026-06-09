@@ -53,7 +53,7 @@
     .table-wrap { overflow:auto; border:1px solid var(--line); border-radius:18px; background:rgba(0,0,0,.15); }
     table { width:100%; border-collapse:collapse; min-width:760px; }
     th { background:rgba(184,77,255,.22); color:#fff; text-align:left; padding:14px 16px; font-size:13px; text-transform:uppercase; letter-spacing:.06em; }
-    td { padding:16px; border-top:1px solid var(--line); vertical-align:top; color:var(--muted); line-height:1.55; }
+    td { padding:14px 16px; border-top:1px solid var(--line); vertical-align:top; color:var(--muted); line-height:1.5; }
     td:first-child { color:#fff; font-weight:900; width:190px; }
     .columns { display:flex; flex-wrap:wrap; gap:8px; }
     .col-pill { padding:8px 10px; background:rgba(255,255,255,.07); border:1px solid var(--line); border-radius:999px; color:#f2ecff; font-size:13px; font-weight:750; }
@@ -84,6 +84,13 @@
     .bottom-actions-card { background:rgba(184,77,255,.08); border-color:rgba(184,77,255,.28); }
     .bottom-actions-card .actions { justify-content:flex-end; }
     .compact-note { margin:0; color:var(--soft); font-size:13px; font-weight:800; line-height:1.5; }
+    .info-icon {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:18px; height:18px; margin-left:7px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.22); color:#d8b4fe;
+      font-size:11px; font-weight:900; cursor:help; vertical-align:middle;
+      background:rgba(255,255,255,.06);
+    }
     footer { color:var(--soft); text-align:center; padding:24px 0 0; font-size:13px; }
     @media (max-width:900px) { .grid { grid-template-columns:1fr; padding:16px; } .hero { padding:24px 18px; } .steps { grid-template-columns:1fr; } .bottom-actions-card .actions { justify-content:stretch; } .btn { flex:1; min-width:140px; } }
   </style>
@@ -99,7 +106,7 @@
         <a href="/">Home</a>
         <a href="/pricing/">Pricing</a>
         <a href="/faq/">FAQ</a>
-        <a class="cta" href="/create-tool/?v=preview-ui-v3">Create Tool</a>
+        <a class="cta" href="/create-tool/?v=preview-ui-v5">Create Tool</a>
       </nav>
     </div>
   </header>
@@ -212,7 +219,6 @@
             <div class="badge">✅ Preview Ready</div>
             <div style="display:flex;gap:10px;flex-wrap:wrap;">
               <div class="pill">Complexity: ${escapeHtml(capitalize(complexity))}</div>
-              <div class="pill">Preview saved for 30 days</div>
               <div class="pill">1 Tool Kit = 1 tool</div>
             </div>
           </div>
@@ -223,35 +229,30 @@
 
         <div class="grid">
           <section class="card full">
-            <h2>Preview Status</h2>
+            <h2>Preview Status <span class="info-icon" title="This is only a simple plan of what your finished Google Sheet will include.">i</span></h2>
             <div class="steps">
-              <div class="step"><strong>1. Review</strong><span>Check the tabs, columns, formulas, smart features, and top menu buttons below.</span></div>
-              <div class="step"><strong>2. Questions</strong><span>Answer or skip follow-up questions. Saved answers show a green tick.</span></div>
-              <div class="step"><strong>3. Changes</strong><span>Use Update Preview only if this preview needs edits. Viewing old previews does not use a preview.</span></div>
-              <div class="step"><strong>4. Create</strong><span>Click Create My Tool only when you are happy with the preview.</span></div>
+              <div class="step"><strong>1. Review</strong><span>Look at the tabs, dashboard, smart features, and optional helper buttons below.</span></div>
+              <div class="step"><strong>2. Questions</strong><span>Answer or skip. A green tick means your answer is saved.</span></div>
+              <div class="step"><strong>3. Changes</strong><span>Use Update Preview only if you want a different version.</span></div>
+              <div class="step"><strong>4. Create</strong><span>When ready, click the final create button at the bottom.</span></div>
             </div>
-            <p class="compact-note" style="margin-top:14px;">No Tool Kit is used on this page. 1 Tool Kit is used only after the finished working tool is successfully delivered.</p>
+            <p class="compact-note" style="margin-top:14px;">No Tool Kit is used on this preview page. 1 Tool Kit is used only after the finished working tool is successfully delivered.</p>
           </section>
 
           <section class="card full">
-            <h2>Suggested Tool Structure</h2>
+            <h2>Suggested Tool Structure <span class="info-icon" title="This shows the tabs and columns planned for the finished Google Sheet.">i</span></h2>
             ${renderStructure(preview.preview_structure)}
           </section>
 
           <section class="card full">
-            <h2>Top Menu Buttons</h2>
-            <p class="compact-note">These optional buttons can appear in the finished Google Sheet top menu. Normal daily use should still work inside the sheet with formulas, dropdowns, dashboards, settings, and reports.</p>
+            <h2>Optional Top Menu Buttons <span class="info-icon" title="These are helper buttons inside the finished Google Sheet. Users do not need them for normal daily work.">i</span></h2>
+            <p class="compact-note">These are safety/helper buttons inside Google Sheets. Daily use should stay simple inside the sheet with dropdowns, dashboards, settings, and automatic totals.</p>
             ${renderButtonsTable()}
           </section>
 
-          <section class="card">
-            <h2>Recommended Sections</h2>
-            ${renderList(preview.preview_sections, 'No recommended sections were returned.')}
-          </section>
-
-          <section class="card">
-            <h2>Built-in Formulas, Smart Features and Auto Bots</h2>
-            ${renderList(preview.preview_fields, 'No important fields were returned.')}
+          <section class="card full">
+            <h2>Built-in Smart Features <span class="info-icon" title="These are the helpful parts Text2Tool plans to include automatically in the finished tool.">i</span></h2>
+            ${renderList(preview.preview_fields, 'No extra smart features were returned.')}
           </section>
 
           <section class="card full questions-card" id="questionsCard">
@@ -261,22 +262,21 @@
           </section>
 
           <section class="card change-card full" id="changeCard">
-            <h2>Request Changes</h2>
-            <p>Need edits? Tell Text2Tool what to add, remove, or change. This creates a fresh updated preview plan.</p>
-            <textarea id="changeRequestBox" placeholder="Example: Add a Suppliers tab, include payment status, make the dashboard simpler, and add Auto Bots formula repair notes."></textarea>
+            <h2>Request Changes <span class="info-icon" title="Use this only if you want a different preview before creating the final tool.">i</span></h2>
+            <p>Need edits? Tell Text2Tool what to add, remove, or change before the final tool is created.</p>
+            <textarea id="changeRequestBox" placeholder="Example: Add supplier tracking, include payment status, simplify the dashboard, or change the monthly summary."></textarea>
             <div class="change-message" id="changeMessage"></div>
             <p class="change-note">This uses one preview from your available preview allowance only when the updated preview is successfully created.</p>
           </section>
 
           <section class="card full bottom-actions-card" id="finishCard">
-            <h2>Final Actions</h2>
-            <p>Use the buttons below when you are done reviewing this preview.</p>
+            <h2>Final Actions <span class="info-icon" title="Create the finished tool only when this preview looks right.">i</span></h2>
+            <p>Use these buttons after reviewing the preview.</p>
             <div class="actions">
               <button class="btn" type="button" id="previousPreviewBtn">Previous Preview</button>
               <button class="btn" type="button" id="nextPreviewBtn">Next Preview</button>
-              <button class="btn" type="button" id="doneReviewBtn">I'm Done</button>
               <button class="btn btn-primary" type="button" id="requestChangesBtn">Update Preview</button>
-              <button class="btn btn-green" type="button" id="createFinalToolBtn">Create My Tool</button>
+              <button class="btn btn-green" type="button" id="createFinalToolBtn">I'm Done — Create My Tool</button>
             </div>
             <div class="change-message" id="finalToolMessage"></div>
             <p class="change-note">Tip: if you want a different version, type changes in the Request Changes box first, then click Update Preview.</p>
@@ -294,15 +294,9 @@
     function setupPreviewNavButtons() {
       const prev = document.getElementById('previousPreviewBtn');
       const next = document.getElementById('nextPreviewBtn');
-      const done = document.getElementById('doneReviewBtn');
 
       if (prev) prev.addEventListener('click', () => window.history.back());
       if (next) next.addEventListener('click', () => window.history.forward());
-      if (done) done.addEventListener('click', () => {
-        saveCurrentAnswer();
-        const finish = document.getElementById('finishCard');
-        if (finish) finish.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      });
     }
 
 
@@ -449,7 +443,7 @@
 
           msg.className = 'change-message success';
           msg.textContent = 'Updated preview ready. Opening it now...';
-          window.location.href = '/preview/?id=' + encodeURIComponent(data.preview_id) + '&token=' + encodeURIComponent(data.preview_token) + '&v=changes1';
+          window.location.href = '/preview/?id=' + encodeURIComponent(data.preview_id) + '&token=' + encodeURIComponent(data.preview_token) + '&v=changes-preview-ui-v5';
         } catch (error) {
           msg.className = 'change-message error';
           msg.textContent = error?.message || 'Could not update preview. Please try again.';
@@ -541,7 +535,7 @@
           <table>
             <thead>
               <tr>
-                <th>Button Name</th>
+                <th>Button</th>
                 <th>What It Does</th>
                 <th>When To Use It</th>
               </tr>
@@ -565,17 +559,17 @@
         {
           name: '🤖 Reset Everything — Keep Data',
           purpose: 'Rebuilds the layout, default formulas, dropdowns, dashboard, charts, and protections while keeping entered data where possible.',
-          when: 'Use only if the tool layout becomes messy or important sections are broken.'
+          when: 'Use if your team wants to reset the tool layout but keep the entered data.'
         },
         {
           name: '🔧 Fix Formulas Only — Keep Data',
           purpose: 'Repairs default formula cells without deleting normal working data.',
-          when: 'Use if totals, dashboard cards, calculated fields, or summaries stop working.'
+          when: 'Use if someone accidentally edits a calculation and wants Auto Bots to fix it.'
         },
         {
           name: '🛡️ Fix Default Formulas — Keep Your Custom Formulas',
           purpose: 'Fills missing default formulas while preserving custom formulas users added themselves.',
-          when: 'Use when blank formula cells need repair but custom formulas should stay safe.'
+          when: 'Use when your team added custom formulas and only missing default formulas should be restored.'
         }
       ];
 
@@ -590,7 +584,7 @@
         rows.push({
           name: '⬇️ Save / Print PDF',
           purpose: 'Creates a clean PDF version of the selected invoice, quote, report, or document.',
-          when: 'Use when a printable or downloadable copy is needed.'
+          when: 'Use when your team wants a clean printable copy.'
         });
       }
 
@@ -598,7 +592,7 @@
         rows.push({
           name: '✉️ Email PDF',
           purpose: 'Sends the generated document or report by email when the tool requires it.',
-          when: 'Use only for tools where emailing a PDF/report is part of the workflow.'
+          when: 'Use when your team wants to send the document directly from the sheet.'
         });
       }
 
