@@ -106,7 +106,7 @@
         <a href="/">Home</a>
         <a href="/pricing/">Pricing</a>
         <a href="/faq/">FAQ</a>
-        <a class="cta" href="/create-tool/?v=preview-ui-v5">Create Tool</a>
+        <a class="cta" href="/create-tool/?v=preview-ui-v7">Create Tool</a>
       </nav>
     </div>
   </header>
@@ -219,7 +219,7 @@
             <div class="badge">✅ Preview Ready</div>
             <div style="display:flex;gap:10px;flex-wrap:wrap;">
               <div class="pill">Complexity: ${escapeHtml(capitalize(complexity))}</div>
-              <div class="pill">1 Tool Kit = 1 tool</div>
+              <div class="pill">1 Tool Kit = 1 delivery</div>
             </div>
           </div>
           <h1>${escapeHtml(title)}</h1>
@@ -276,7 +276,7 @@
               <button class="btn" type="button" id="previousPreviewBtn">Previous Preview</button>
               <button class="btn" type="button" id="nextPreviewBtn">Next Preview</button>
               <button class="btn btn-primary" type="button" id="requestChangesBtn">Update Preview</button>
-              <button class="btn btn-green" type="button" id="createFinalToolBtn">I'm Done — Create My Tool</button>
+              <button class="btn btn-green" type="button" id="createFinalToolBtn">Done — Export</button>
             </div>
             <div class="change-message" id="finalToolMessage"></div>
             <p class="change-note">Tip: if you want a different version, type changes in the Request Changes box first, then click Update Preview.</p>
@@ -443,7 +443,7 @@
 
           msg.className = 'change-message success';
           msg.textContent = 'Updated preview ready. Opening it now...';
-          window.location.href = '/preview/?id=' + encodeURIComponent(data.preview_id) + '&token=' + encodeURIComponent(data.preview_token) + '&v=changes-preview-ui-v5';
+          window.location.href = '/preview/?id=' + encodeURIComponent(data.preview_id) + '&token=' + encodeURIComponent(data.preview_token) + '&v=changes-preview-ui-v7';
         } catch (error) {
           msg.className = 'change-message error';
           msg.textContent = error?.message || 'Could not update preview. Please try again.';
