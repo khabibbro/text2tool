@@ -1,157 +1,186 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Text2Tool App</title>
+  <meta name="robots" content="noindex,nofollow">
   <style>
-    :root {
-      --dark: #09090f;
-      --purple: #7c3aed;
-      --muted: #64748b;
-      --bg: #f8fafc;
-      --border: #e5e7eb;
-      --white: #ffffff;
-      --red: #dc2626;
+    :root{
+      --bg:#05020b;
+      --bg2:#10051f;
+      --card:rgba(255,255,255,.08);
+      --border:rgba(255,255,255,.16);
+      --text:#fff;
+      --muted:rgba(255,255,255,.72);
+      --purple:#8b5cf6;
+      --pink:#ec4899;
+      --cyan:#22d3ee;
     }
-    * { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--bg);
-      font-family: Arial, sans-serif;
-      color: #111827;
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:
+      radial-gradient(circle at 20% 0%, rgba(236,72,153,.25), transparent 34%),
+      radial-gradient(circle at 80% 10%, rgba(139,92,246,.28), transparent 36%),
+      linear-gradient(135deg,var(--bg),var(--bg2));
+      color:var(--text);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
     }
-    #loader {
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-      background: linear-gradient(180deg, #09090f 0, #111827 240px, #f8fafc 240px);
+    .loader{
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:24px;
     }
-    .card {
-      width: min(560px, 100%);
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 28px;
-      box-shadow: 0 24px 70px rgba(0,0,0,.14);
-      text-align: center;
+    .box{
+      width:min(720px,100%);
+      border:1px solid var(--border);
+      border-radius:26px;
+      padding:26px;
+      background:linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,.045));
+      box-shadow:0 24px 90px rgba(139,92,246,.24);
+      backdrop-filter:blur(16px);
     }
-    .logo {
-      width: 54px;
-      height: 54px;
-      border-radius: 16px;
-      margin: 0 auto 14px;
-      background: var(--purple);
-      color: white;
-      display: grid;
-      place-items: center;
-      font-weight: 900;
-      font-size: 18px;
+    .brand{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+    .logo{
+      width:50px;height:50px;border-radius:17px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--purple),var(--pink));
+      font-weight:1000;
+      box-shadow:0 18px 45px rgba(236,72,153,.25);
     }
-    h1 { margin: 0 0 8px; font-size: 24px; }
-    p { margin: 0; color: var(--muted); line-height: 1.5; }
-    .error h1 { color: var(--red); }
-    iframe {
-      width: 100%;
-      height: 100vh;
-      border: 0;
-      display: none;
-      background: white;
-    }
+    h1{margin:0;font-size:28px}
+    p{color:var(--muted);line-height:1.55;margin:10px 0 0}
+    .bar{height:10px;background:rgba(255,255,255,.10);border-radius:999px;overflow:hidden;margin-top:18px}
+    .bar i{display:block;width:40%;height:100%;border-radius:999px;background:linear-gradient(135deg,var(--purple),var(--pink));animation:load 1.2s infinite ease-in-out}
+    .err{border-color:rgba(251,113,133,.32);background:rgba(251,113,133,.08);padding:14px;border-radius:16px;color:#fff;margin-top:16px;white-space:pre-wrap}
+    iframe{width:100%;height:100vh;border:0;display:block;background:#05020b}
+    @keyframes load{0%{transform:translateX(-100%)}100%{transform:translateX(260%)}}
   </style>
 </head>
 <body>
-  <div id="loader">
-    <div class="card" id="statusCard">
-      <div class="logo">T2T</div>
-      <h1>Opening your tool...</h1>
-      <p>Please wait while Text2Tool loads the software.</p>
+  <div id="app">
+    <div class="loader">
+      <div class="box">
+        <div class="brand">
+          <div class="logo">T2T</div>
+          <div>
+            <h1>Loading Text2Tool App</h1>
+            <p>Preparing your private tool...</p>
+          </div>
+        </div>
+        <div class="bar"><i></i></div>
+      </div>
     </div>
   </div>
 
-  <iframe id="toolFrame" title="Text2Tool Generated App"></iframe>
+<script>
+(function(){
+  "use strict";
 
-  <script>
-    const SUPABASE_FUNCTION_BASE =
-      "https://wldldtmtxmmlufcmubnr.supabase.co/functions/v1/serve-generated-tool";
+  var SUPABASE_PUBLIC_BASE = "https://wldldtmtxmmlufcmubnr.supabase.co/storage/v1/object/public/generated-tools";
+  var ENGINE_URL = "/engine.js";
 
-    const params = new URLSearchParams(window.location.search);
-    const toolId = (params.get("id") || params.get("tool") || "").trim();
+  function qs(name){
+    return new URLSearchParams(location.search).get(name) || "";
+  }
 
-    const loader = document.getElementById("loader");
-    const frame = document.getElementById("toolFrame");
-    const statusCard = document.getElementById("statusCard");
+  function esc(value){
+    return String(value == null ? "" : value).replace(/[&<>"']/g,function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c] || c;
+    });
+  }
 
-    function showError(message) {
-      statusCard.className = "card error";
-      statusCard.innerHTML = `
-        <div class="logo">T2T</div>
-        <h1>Tool could not open</h1>
-        <p>${escapeHtml(message)}</p>
-      `;
-      loader.style.display = "grid";
-      frame.style.display = "none";
+  function showError(title, detail){
+    document.getElementById("app").innerHTML =
+      '<div class="loader"><div class="box">' +
+      '<div class="brand"><div class="logo">T2T</div><div><h1>'+esc(title)+'</h1><p>Text2Tool could not open this generated app.</p></div></div>' +
+      '<div class="err">'+esc(detail)+'</div>' +
+      '</div></div>';
+  }
+
+  function loadScript(src){
+    return new Promise(function(resolve,reject){
+      var s=document.createElement("script");
+      s.src=src + (src.indexOf("?")>-1 ? "&" : "?") + "v=" + Date.now();
+      s.onload=resolve;
+      s.onerror=function(){reject(new Error("Could not load " + src));};
+      document.head.appendChild(s);
+    });
+  }
+
+  async function fetchText(url){
+    var r = await fetch(url, { cache:"no-store" });
+    if(!r.ok) throw new Error("Fetch failed " + r.status + " for " + url);
+    return await r.text();
+  }
+
+  async function fetchJson(url){
+    var r = await fetch(url, { cache:"no-store" });
+    if(!r.ok) throw new Error("Fetch failed " + r.status + " for " + url);
+    return await r.json();
+  }
+
+  function injectBaseAndSafety(html, baseUrl){
+    var baseTag = '<base href="' + baseUrl.replace(/\/?$/, "/") + '">';
+    if (/<head[^>]*>/i.test(html)) {
+      return html.replace(/<head[^>]*>/i, function(m){ return m + baseTag; });
+    }
+    return baseTag + html;
+  }
+
+  function renderLegacyHtml(html, baseUrl){
+    var iframe = document.createElement("iframe");
+    iframe.setAttribute("title","Text2Tool Generated App");
+    iframe.setAttribute("sandbox","allow-scripts allow-forms allow-downloads allow-modals allow-popups allow-same-origin");
+    iframe.srcdoc = injectBaseAndSafety(html, baseUrl);
+    document.body.innerHTML = "";
+    document.body.appendChild(iframe);
+  }
+
+  async function main(){
+    var id = qs("id");
+    if(!id){
+      showError("Missing Tool ID","The URL must include ?id=YOUR_TOOL_ID");
+      return;
     }
 
-    function escapeHtml(value) {
-      return String(value || "").replace(/[&<>"']/g, function (m) {
-        return ({
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#039;"
-        })[m];
-      });
-    }
+    var base = SUPABASE_PUBLIC_BASE + "/" + encodeURIComponent(id);
+    var specUrl = base + "/tool_spec.json";
+    var legacyHtmlUrl = base + "/index.html";
 
-    function injectBaseTag(html, baseHref) {
-      const baseTag = `<base href="${baseHref.replace(/"/g, "&quot;")}/">`;
-
-      if (/<head[^>]*>/i.test(html)) {
-        return html.replace(/<head([^>]*)>/i, `<head$1>${baseTag}`);
+    // V7 path: small JSON blueprint + shared engine.js
+    try {
+      var spec = await fetchJson(specUrl);
+      await loadScript(ENGINE_URL);
+      if(!window.Text2ToolEngine || !window.Text2ToolEngine.render){
+        throw new Error("engine.js loaded but Text2ToolEngine.render was not found.");
       }
-
-      return `<!doctype html><html><head>${baseTag}</head><body>${html}</body></html>`;
+      document.body.innerHTML = '<div id="app"></div>';
+      window.Text2ToolEngine.render(spec, { root: document.getElementById("app") });
+      return;
+    } catch (specError) {
+      console.warn("V7 spec path failed; trying legacy full HTML path.", specError);
     }
 
-    async function loadTool() {
-      if (!toolId) {
-        showError("Missing tool ID.");
-        return;
-      }
-
-      const safeToolId = encodeURIComponent(toolId);
-      const toolUrl = `${SUPABASE_FUNCTION_BASE}/${safeToolId}`;
-
-      try {
-        const response = await fetch(toolUrl, { cache: "no-store" });
-
-        if (!response.ok) {
-          throw new Error(`Tool file not found. Status: ${response.status}`);
-        }
-
-        let html = await response.text();
-
-        if (!html || !html.trim()) {
-          throw new Error("Tool file is empty.");
-        }
-
-        html = injectBaseTag(html, `${SUPABASE_FUNCTION_BASE}/${safeToolId}`);
-
-        frame.srcdoc = html;
-        loader.style.display = "none";
-        frame.style.display = "block";
-      } catch (error) {
-        showError(error.message || "Something went wrong while opening this tool.");
-      }
+    // Legacy path: older generated full index.html files
+    try {
+      var html = await fetchText(legacyHtmlUrl);
+      renderLegacyHtml(html, base);
+      return;
+    } catch (legacyError) {
+      showError("Generated Tool Not Found",
+        "Tool ID: " + id + "\\n\\n" +
+        "Tried V7 blueprint: " + specUrl + "\\n" +
+        "Tried legacy HTML: " + legacyHtmlUrl + "\\n\\n" +
+        String(legacyError && (legacyError.message || legacyError))
+      );
     }
+  }
 
-    loadTool();
-  </script>
+  main().catch(function(err){
+    showError("Text2Tool Loader Error", String(err && (err.message || err)));
+  });
+})();
+</script>
 </body>
 </html>
