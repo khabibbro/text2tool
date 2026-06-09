@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Text2Tool Financial Statement Calculator</title>
+  <meta name="description" content="Professional all-in-one financial statement calculator for management accounts, audit review, tax return preparation, ratio analysis, and financial reporting." />
+  <style>
+    :root {
+      --bg: #07050d;
+      --bg-2: #0b0714;
+      --card: rgba(255, 255, 255, 0.075);
+      --card-strong: rgba(255, 255, 255, 0.115);
+      --card-soft: rgba(255, 255, 255, 0.045);
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.72);
+      --faint: rgba(255, 255, 255, 0.52);
+      --line: rgba(255, 255, 255, 0.14);
+      --purple: #8b5cf6;
+      --purple-2: #c084fc;
+      --pink: #ec4899;
+      --green: #22c55e;
+      --yellow: #facc15;
+      --red: #ef4444;
+      --blue: #38bdf8;
+      --radius: 22px;
+      --shadow: 0 24px 80px rgba(0,0,0,.45);
+      --max: 1380px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 18% 0%, rgba(139, 92, 246, .35), transparent 36%),
+        radial-gradient(circle at 82% 12%, rgba(236, 72, 153, .23), transparent 34%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 52%, var(--bg) 100%);
+      color: var(--text);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: rgba(7, 5, 13, .82);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      width: min(var(--max), calc(100% - 30px));
+      margin: 0 auto;
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      box-shadow: 0 14px 40px rgba(139, 92, 246, .45);
+      font-weight: 950;
+    }
+
+    .brand small {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: .08em;
+      font-weight: 800;
+      margin-top: 1px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 15px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 900;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: linear-gradient(135deg, var(--purple), var(--pink)); box-shadow: 0 18px 44px rgba(139,92,246,.32); }
+    .btn-secondary { background: rgba(255,255,255,.09); border: 1px solid var(--line); }
+    .btn-green { background: rgba(34,197,94,.15); border: 1px solid rgba(34,197,94,.28); color: #bbf7d0; }
+    .btn-red { background: rgba(239,68,68,.13); border: 1px solid rgba(239,68,68,.28); color: #fecaca; }
+    .btn-small { min-height: 34px; padding: 7px 10px; font-size: 12px; }
+
+    .shell {
+      width: min(var(--max), calc(100% - 30px));
+      margin: 0 auto;
+      padding: 28px 0 54px;
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .side {
+      position: sticky;
+      top: 96px;
+      align-self: start;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.055);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .side-top {
+      padding: 18px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+    }
+
+    .side-top h3 { margin: 0 0 5px; font-size: 17px; letter-spacing: -0.03em; }
+    .side-top p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
+
+    .side button {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 13px 16px;
+      text-align: left;
+      font-weight: 850;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .side button:hover, .side button.active { color: #fff; background: rgba(139,92,246,.16); }
+    .side button span:last-child { color: var(--faint); font-size: 12px; }
+
+    .hero {
+      border: 1px solid rgba(192, 132, 252, .24);
+      background:
+        linear-gradient(135deg, rgba(139,92,246,.22), rgba(236,72,153,.10)),
+        rgba(255,255,255,.055);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      padding: clamp(24px, 5vw, 44px);
+      overflow: hidden;
+      position: relative;
+    }
+    .hero:after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      top: -100px;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(236,72,153,.34), transparent 62%);
+      pointer-events: none;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid rgba(192, 132, 252, .28);
+      border-radius: 999px;
+      background: rgba(139, 92, 246, .13);
+      color: #e9d5ff;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 5.4vw, 62px);
+      line-height: .96;
+      letter-spacing: -0.07em;
+      max-width: 930px;
+    }
+    .gradient-text {
+      background: linear-gradient(90deg, #fff, #d8b4fe, #f9a8d4);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero p {
+      margin: 16px 0 0;
+      max-width: 880px;
+      color: var(--muted);
+      line-height: 1.68;
+      font-size: 16px;
+    }
+    .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+
+    .main { min-width: 0; }
+    .section {
+      margin-top: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.055);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .section-head {
+      padding: 20px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      background: rgba(255,255,255,.035);
+    }
+    .section-head h2 { margin: 0; font-size: 24px; letter-spacing: -0.045em; }
+    .section-head p { margin: 6px 0 0; color: var(--muted); line-height: 1.5; max-width: 850px; }
+    .section-body { padding: 20px; }
+
+    .grid { display: grid; gap: 14px; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card {
+      border: 1px solid var(--line);
+      background: var(--card);
+      border-radius: 18px;
+      padding: 16px;
+      min-width: 0;
+    }
+    .card h3 { margin: 0 0 10px; font-size: 16px; letter-spacing: -0.03em; }
+    .card p { margin: 0; color: var(--muted); line-height: 1.55; font-size: 14px; }
+
+    .metric {
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.035));
+      border-radius: 18px;
+      padding: 15px;
+      min-height: 108px;
+    }
+    .metric label { display: block; color: var(--muted); font-size: 12px; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; }
+    .metric strong { display: block; margin-top: 8px; font-size: 24px; letter-spacing: -0.045em; word-break: break-word; }
+    .metric small { display: block; margin-top: 5px; color: var(--faint); line-height: 1.35; }
+    .good { color: #86efac !important; }
+    .warn { color: #fde68a !important; }
+    .bad { color: #fca5a5 !important; }
+    .info { color: #bae6fd !important; }
+
+    label.field { display: grid; gap: 7px; color: var(--muted); font-size: 13px; font-weight: 850; }
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(7,5,13,.66);
+      color: #fff;
+      border-radius: 13px;
+      padding: 11px 12px;
+      outline: none;
+      min-height: 42px;
+    }
+    textarea { min-height: 96px; resize: vertical; line-height: 1.45; }
+    input:focus, select:focus, textarea:focus { border-color: rgba(192,132,252,.70); box-shadow: 0 0 0 4px rgba(139,92,246,.16); }
+    select option { background: #0b0714; color: #fff; }
+
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(0,0,0,.16);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 980px;
+      font-size: 13px;
+    }
+    th, td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,.10); vertical-align: middle; }
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: rgba(18,12,29,.98);
+      text-align: left;
+      color: #e9d5ff;
+      font-size: 12px;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    td input, td select { min-height: 36px; padding: 8px 9px; border-radius: 10px; }
+    td.num, th.num { text-align: right; }
+    .compact-table { min-width: 0; }
+    .compact-table td, .compact-table th { padding: 9px 10px; }
+    .line-total td { font-weight: 950; color: #fff; background: rgba(139,92,246,.10); }
+    .line-subtotal td { font-weight: 900; color: #e9d5ff; background: rgba(255,255,255,.035); }
+    .indent { padding-left: 28px !important; color: var(--muted); }
+    .right { text-align: right; }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.07);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .pill.good { background: rgba(34,197,94,.12); border-color: rgba(34,197,94,.25); }
+    .pill.warn { background: rgba(250,204,21,.12); border-color: rgba(250,204,21,.25); }
+    .pill.bad { background: rgba(239,68,68,.12); border-color: rgba(239,68,68,.25); }
+
+    .report-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+    .statement {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.055);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+    .statement h3 {
+      margin: 0;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      letter-spacing: -0.03em;
+    }
+    .statement .inside { padding: 14px; }
+
+    .check-list { display: grid; gap: 10px; }
+    .check-item {
+      display: grid;
+      grid-template-columns: 110px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 13px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      background: rgba(255,255,255,.045);
+    }
+    .check-item strong { display: block; margin-bottom: 4px; }
+    .check-item p { margin: 0; color: var(--muted); line-height: 1.45; }
+
+    .bar-list { display: grid; gap: 11px; }
+    .bar-row { display: grid; gap: 6px; }
+    .bar-row-top { display: flex; justify-content: space-between; gap: 10px; color: var(--muted); font-size: 13px; font-weight: 850; }
+    .bar-track { height: 12px; border-radius: 999px; background: rgba(255,255,255,.09); overflow: hidden; border: 1px solid rgba(255,255,255,.10); }
+    .bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--purple), var(--pink)); border-radius: inherit; }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 100;
+      display: none;
+      max-width: 360px;
+      border: 1px solid rgba(192,132,252,.32);
+      background: rgba(12, 8, 20, .94);
+      color: #fff;
+      border-radius: 18px;
+      padding: 14px 16px;
+      box-shadow: var(--shadow);
+      line-height: 1.45;
+      font-weight: 850;
+    }
+
+    .mobile-nav { display: none; margin-top: 14px; }
+    .hidden { display: none !important; }
+
+    @media (max-width: 1100px) {
+      .shell { grid-template-columns: 1fr; }
+      .side { display: none; }
+      .mobile-nav { display: block; }
+      .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .report-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 760px) {
+      .nav { align-items: flex-start; flex-direction: column; padding: 14px 0; }
+      .nav-actions { justify-content: flex-start; }
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      h1 { letter-spacing: -0.055em; }
+      .section-head { align-items: flex-start; }
+      .check-item { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      body { background: #fff !important; color: #111827 !important; }
+      .site-header, .side, .mobile-nav, .hero-actions, .no-print, .toast { display: none !important; }
+      .shell { display: block; width: 100%; padding: 0; }
+      .hero, .section, .card, .statement, .metric { box-shadow: none !important; background: #fff !important; color: #111827 !important; border-color: #d1d5db !important; }
+      .hero { padding: 18px; }
+      .section { break-inside: avoid; margin-top: 12px; }
+      .section-head, .statement h3, th { background: #f3f4f6 !important; color: #111827 !important; }
+      input, select, textarea, .btn { display: none !important; }
+      .muted, p, small, .metric label { color: #4b5563 !important; }
+      table { font-size: 11px; }
+      .table-wrap { overflow: visible; border-color: #d1d5db !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header no-print">
+    <nav class="nav">
+      <a class="brand" href="https://text2tool.com/">
+        <span class="brand-mark">T2T</span>
+        <span>Text2Tool AI<small>Financial Statement Suite</small></span>
+      </a>
+      <div class="nav-actions">
+        <button class="btn btn-secondary" onclick="saveLocal()">Save</button>
+        <button class="btn btn-secondary" onclick="loadLocal(true)">Load</button>
+        <button class="btn btn-green" onclick="loadDemo()">Demo Data</button>
+        <button class="btn btn-primary" onclick="window.print()">Print Report</button>
+      </div>
+    </nav>
+  </header>
+
+  <div class="shell">
+    <aside class="side no-print">
+      <div class="side-top">
+        <h3>Professional Workflow</h3>
+        <p>Enter setup and trial balance once. Statements, tax summary, ratios, cash flow, and checks update automatically.</p>
+      </div>
+      <button class="jump active" data-target="overview"><span>Overview</span><span>01</span></button>
+      <button class="jump" data-target="setup"><span>Entity Setup</span><span>02</span></button>
+      <button class="jump" data-target="ledger"><span>Trial Balance</span><span>03</span></button>
+      <button class="jump" data-target="reports"><span>Statements</span><span>04</span></button>
+      <button class="jump" data-target="tax"><span>Tax & Ratios</span><span>05</span></button>
+      <button class="jump" data-target="checks"><span>Audit Checks</span><span>06</span></button>
+      <button class="jump" data-target="tools"><span>Data Tools</span><span>07</span></button>
+    </aside>
+
+    <main class="main">
+      <section class="hero" id="overview">
+        <span class="eyebrow">Premium finance tool · Trial balance to full statements</span>
+        <h1>All-in-one <span class="gradient-text">Financial Statement Calculator</span> for accountants, auditors, and tax preparers.</h1>
+        <p>
+          Build management accounts from a trial balance, then generate income statement, balance sheet, indirect cash flow,
+          tax summary, audit checks, and KPI ratios. This tool is designed for review and preparation support; final filings
+          should still be reviewed against the applicable accounting and tax rules in your jurisdiction.
+        </p>
+        <div class="hero-actions no-print">
+          <button class="btn btn-primary" onclick="scrollToId('ledger')">Start with Trial Balance</button>
+          <button class="btn btn-secondary" onclick="addAccountRow()">Add Account Row</button>
+          <button class="btn btn-secondary" onclick="exportReportCSV()">Export CSV</button>
+          <button class="btn btn-secondary" onclick="exportJSON()">Backup JSON</button>
+        </div>
+        <div class="mobile-nav no-print">
+          <label class="field">Jump to section
+            <select onchange="scrollToId(this.value)">
+              <option value="overview">Overview</option>
+              <option value="setup">Entity Setup</option>
+              <option value="ledger">Trial Balance</option>
+              <option value="reports">Statements</option>
+              <option value="tax">Tax & Ratios</option>
+              <option value="checks">Audit Checks</option>
+              <option value="tools">Data Tools</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>Live Executive Summary</h2>
+            <p>These figures update instantly from your setup and account balances.</p>
+          </div>
+          <span id="statusPill" class="pill">Waiting for data</span>
+        </div>
+        <div class="section-body">
+          <div class="grid grid-4" id="summaryCards"></div>
+        </div>
+      </section>
+
+      <section class="section" id="setup">
+        <div class="section-head">
+          <div>
+            <h2>Entity Setup</h2>
+            <p>Use this once per file. Opening balances are mainly used for cash flow and retained earnings movement.</p>
+          </div>
+          <button class="btn btn-secondary no-print" onclick="resetSetupOnly()">Clear Setup</button>
+        </div>
+        <div class="section-body">
+          <div class="grid grid-3">
+            <label class="field">Company / Client Name <input id="companyName" data-setup="companyName" placeholder="ABC Trading LLC" /></label>
+            <label class="field">Prepared By <input id="preparedBy" data-setup="preparedBy" placeholder="Chartered Accountant / Auditor" /></label>
+            <label class="field">Currency Symbol <input id="currency" data-setup="currency" placeholder="$" /></label>
+            <label class="field">Period Start <input type="date" id="periodStart" data-setup="periodStart" /></label>
+            <label class="field">Period End <input type="date" id="periodEnd" data-setup="periodEnd" /></label>
+            <label class="field">Income Tax Rate % <input type="number" step="0.01" id="taxRate" data-setup="taxRate" /></label>
+            <label class="field">Opening Retained Earnings <input type="number" step="0.01" id="openingRetainedEarnings" data-setup="openingRetainedEarnings" /></label>
+            <label class="field">Opening Cash / Bank <input type="number" step="0.01" id="openingCash" data-setup="openingCash" /></label>
+            <label class="field">Materiality % of Revenue <input type="number" step="0.01" id="materialityPct" data-setup="materialityPct" /></label>
+          </div>
+
+          <div class="grid grid-3" style="margin-top:14px;">
+            <label class="field">Opening Accounts Receivable <input type="number" step="0.01" id="openingAR" data-setup="openingAR" /></label>
+            <label class="field">Opening Inventory <input type="number" step="0.01" id="openingInventory" data-setup="openingInventory" /></label>
+            <label class="field">Opening Prepayments <input type="number" step="0.01" id="openingPrepaid" data-setup="openingPrepaid" /></label>
+            <label class="field">Opening Accounts Payable <input type="number" step="0.01" id="openingAP" data-setup="openingAP" /></label>
+            <label class="field">Opening Accrued Expenses <input type="number" step="0.01" id="openingAccruals" data-setup="openingAccruals" /></label>
+            <label class="field">Opening Loans / Borrowings <input type="number" step="0.01" id="openingLoans" data-setup="openingLoans" /></label>
+            <label class="field">Opening Net Fixed Assets <input type="number" step="0.01" id="openingFixedAssetsNet" data-setup="openingFixedAssetsNet" /></label>
+            <label class="field">Tax Paid / Withheld <input type="number" step="0.01" id="taxPaid" data-setup="taxPaid" /></label>
+            <label class="field">Tax Credits / Rebates <input type="number" step="0.01" id="taxCredits" data-setup="taxCredits" /></label>
+            <label class="field">Permanent Tax Adjustments <input type="number" step="0.01" id="permanentAdjustments" data-setup="permanentAdjustments" /></label>
+            <label class="field">Disallowable Expenses Add-back <input type="number" step="0.01" id="disallowableExpenses" data-setup="disallowableExpenses" /></label>
+            <label class="field">Review Notes <textarea id="reviewNotes" data-setup="reviewNotes" placeholder="Client notes, assumptions, limitations, tax jurisdiction, accounting basis..."></textarea></label>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="ledger">
+        <div class="section-head">
+          <div>
+            <h2>Trial Balance & Adjustments</h2>
+            <p>Enter account balances using debit/credit columns. Use adjustment columns for audit, tax, accrual, depreciation, reclassification, or closing entries.</p>
+          </div>
+          <div class="no-print" style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="addAccountRow()">Add Row</button>
+            <button class="btn btn-secondary" onclick="addStandardChart()">Add Standard Chart</button>
+          </div>
+        </div>
+        <div class="section-body">
+          <div class="grid grid-4" id="trialCards" style="margin-bottom:14px;"></div>
+          <div class="table-wrap">
+            <table id="accountsTable">
+              <thead>
+                <tr>
+                  <th style="width:90px;">Code</th>
+                  <th style="width:220px;">Account Name</th>
+                  <th style="width:160px;">Statement Type</th>
+                  <th style="width:170px;">Sub Section</th>
+                  <th class="num" style="width:120px;">Debit</th>
+                  <th class="num" style="width:120px;">Credit</th>
+                  <th class="num" style="width:120px;">Adj Debit</th>
+                  <th class="num" style="width:120px;">Adj Credit</th>
+                  <th class="num" style="width:125px;">Normal Balance</th>
+                  <th style="width:190px;">Notes</th>
+                  <th class="no-print" style="width:70px;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="accountsBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="reports">
+        <div class="section-head">
+          <div>
+            <h2>Generated Financial Statements</h2>
+            <p>Income statement, balance sheet, cash flow, retained earnings movement, and statement breakdowns are generated from the mapped trial balance.</p>
+          </div>
+          <button class="btn btn-primary no-print" onclick="window.print()">Print / Save PDF</button>
+        </div>
+        <div class="section-body">
+          <div class="report-grid" id="reportsGrid"></div>
+        </div>
+      </section>
+
+      <section class="section" id="tax">
+        <div class="section-head">
+          <div>
+            <h2>Tax Summary & Financial Ratios</h2>
+            <p>Supports tax return preparation review, management analysis, lender packs, and internal audit ratio checks.</p>
+          </div>
+          <button class="btn btn-secondary no-print" onclick="exportReportCSV()">Export Report CSV</button>
+        </div>
+        <div class="section-body">
+          <div class="report-grid">
+            <div class="statement">
+              <h3>Tax Return Preparation Summary</h3>
+              <div class="inside" id="taxSummary"></div>
+            </div>
+            <div class="statement">
+              <h3>Ratio Dashboard</h3>
+              <div class="inside" id="ratioDashboard"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="checks">
+        <div class="section-head">
+          <div>
+            <h2>Audit & Quality Checks</h2>
+            <p>Automated review warnings to help identify incomplete mappings, imbalance, tax gaps, cash flow issues, and material review points.</p>
+          </div>
+          <span id="checkScore" class="pill">Review score pending</span>
+        </div>
+        <div class="section-body">
+          <div class="check-list" id="auditChecks"></div>
+        </div>
+      </section>
+
+      <section class="section" id="tools">
+        <div class="section-head">
+          <div>
+            <h2>Backup, Restore & Export</h2>
+            <p>Keep client files portable. Export JSON for backup or CSV for spreadsheets and working papers.</p>
+          </div>
+        </div>
+        <div class="section-body">
+          <div class="grid grid-3">
+            <div class="card">
+              <h3>Save in Browser</h3>
+              <p>Saves this file locally in the current browser using local storage.</p>
+              <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;" class="no-print">
+                <button class="btn btn-primary" onclick="saveLocal()">Save</button>
+                <button class="btn btn-secondary" onclick="loadLocal(true)">Load</button>
+              </div>
+            </div>
+            <div class="card">
+              <h3>JSON Backup</h3>
+              <p>Download or restore a complete client working file.</p>
+              <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;" class="no-print">
+                <button class="btn btn-primary" onclick="exportJSON()">Export JSON</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('jsonImport').click()">Import JSON</button>
+                <input class="hidden" type="file" id="jsonImport" accept="application/json" onchange="importJSON(event)" />
+              </div>
+            </div>
+            <div class="card">
+              <h3>Clean Start</h3>
+              <p>Use reset for a blank file or demo data to understand how all statements flow.</p>
+              <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;" class="no-print">
+                <button class="btn btn-green" onclick="loadDemo()">Load Demo</button>
+                <button class="btn btn-red" onclick="resetAll()">Reset All</button>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="margin-top:14px;">
+            <h3>Professional Use Note</h3>
+            <p>
+              This tool is a high-quality preparation and review calculator. It does not replace professional judgement,
+              jurisdiction-specific tax law, IFRS/GAAP disclosure requirements, statutory audit procedures, or final partner review.
+              Always verify classification, cut-off, supporting documents, tax treatments, and reporting format before filing.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const STORAGE_KEY = "text2tool_financial_statement_suite_v1";
+    const TYPES = ["Asset", "Liability", "Equity", "Revenue", "COGS", "Operating Expense", "Other Income", "Other Expense", "Tax Expense", "Dividend"];
+    const SUBTYPES = {
+      "Asset": ["Cash & Bank", "Accounts Receivable", "Inventory", "Prepayments", "Other Current Asset", "Fixed Assets", "Accumulated Depreciation", "Other Non-current Asset"],
+      "Liability": ["Accounts Payable", "Accrued Expenses", "Tax Payable", "Current Loan", "Other Current Liability", "Long-term Loan", "Other Non-current Liability"],
+      "Equity": ["Share Capital", "Owner Capital", "Retained Earnings", "Reserves", "Drawings", "Other Equity"],
+      "Revenue": ["Sales Revenue", "Service Revenue", "Other Revenue"],
+      "COGS": ["Cost of Goods Sold", "Direct Labour", "Direct Materials", "Freight In", "Other Direct Cost"],
+      "Operating Expense": ["Salaries & Wages", "Rent", "Utilities", "Marketing", "Professional Fees", "Depreciation", "Amortization", "Insurance", "Repairs", "Admin Expense", "Other Operating Expense"],
+      "Other Income": ["Interest Income", "Gain on Disposal", "Other Income"],
+      "Other Expense": ["Interest Expense", "Loss on Disposal", "Other Expense"],
+      "Tax Expense": ["Current Tax Expense", "Deferred Tax Expense"],
+      "Dividend": ["Dividend / Drawings"]
+    };
+
+    let state = blankState();
+
+    function blankState() {
+      return {
+        setup: {
+          companyName: "",
+          preparedBy: "",
+          currency: "$",
+          periodStart: "",
+          periodEnd: "",
+          taxRate: 25,
+          openingRetainedEarnings: 0,
+          openingCash: 0,
+          materialityPct: 1,
+          openingAR: 0,
+          openingInventory: 0,
+          openingPrepaid: 0,
+          openingAP: 0,
+          openingAccruals: 0,
+          openingLoans: 0,
+          openingFixedAssetsNet: 0,
+          taxPaid: 0,
+          taxCredits: 0,
+          permanentAdjustments: 0,
+          disallowableExpenses: 0,
+          reviewNotes: ""
+        },
+        accounts: seedAccounts(false)
+      };
+    }
+
+    function seedAccounts(includeDemo) {
+      const base = [
+        row("1000", "Cash and Bank", "Asset", "Cash & Bank", includeDemo ? 25000 : 0, 0, 0, 0, "Bank balance per ledger"),
+        row("1100", "Accounts Receivable", "Asset", "Accounts Receivable", includeDemo ? 12000 : 0, 0, 0, 0, "Customer balances"),
+        row("1200", "Inventory", "Asset", "Inventory", includeDemo ? 18000 : 0, 0, 0, 0, "Closing stock"),
+        row("1500", "Plant and Equipment", "Asset", "Fixed Assets", includeDemo ? 50000 : 0, 0, 0, 0, "Cost"),
+        row("1590", "Accumulated Depreciation", "Asset", "Accumulated Depreciation", 0, includeDemo ? 8000 : 0, 0, 0, "Contra asset"),
+        row("2000", "Accounts Payable", "Liability", "Accounts Payable", 0, includeDemo ? 9500 : 0, 0, 0, "Supplier balances"),
+        row("2200", "Tax Payable", "Liability", "Tax Payable", 0, includeDemo ? 6000 : 0, 0, 0, "Current tax provision"),
+        row("2500", "Bank Loan", "Liability", "Long-term Loan", 0, includeDemo ? 28000 : 0, 0, 0, "Loan closing balance"),
+        row("3000", "Share Capital", "Equity", "Share Capital", 0, includeDemo ? 35000 : 0, 0, 0, "Capital introduced"),
+        row("4000", "Revenue", "Revenue", "Sales Revenue", 0, includeDemo ? 88700 : 0, 0, 0, "Sales / service income"),
+        row("5000", "Cost of Goods Sold", "COGS", "Cost of Goods Sold", includeDemo ? 31000 : 0, 0, 0, 0, "Direct costs"),
+        row("6100", "Salaries and Wages", "Operating Expense", "Salaries & Wages", includeDemo ? 18000 : 0, 0, 0, 0, "Payroll expense"),
+        row("6200", "Rent Expense", "Operating Expense", "Rent", includeDemo ? 6000 : 0, 0, 0, 0, "Premises"),
+        row("6300", "Utilities", "Operating Expense", "Utilities", includeDemo ? 2000 : 0, 0, 0, 0, "Electricity / internet"),
+        row("6500", "Depreciation Expense", "Operating Expense", "Depreciation", includeDemo ? 5000 : 0, 0, 0, 0, "Annual depreciation"),
+        row("6600", "Professional Fees", "Operating Expense", "Professional Fees", includeDemo ? 1500 : 0, 0, 0, 0, "Accounting / legal"),
+        row("7100", "Interest Expense", "Other Expense", "Interest Expense", includeDemo ? 1200 : 0, 0, 0, 0, "Finance cost"),
+        row("8000", "Income Tax Expense", "Tax Expense", "Current Tax Expense", includeDemo ? 6000 : 0, 0, 0, 0, "Tax charge")
+      ];
+      if (!includeDemo) return base.slice(0, 12);
+      base.splice(3, 0, row("1300", "Prepaid Expenses", "Asset", "Prepayments", 1500, 0, 0, 0, "Prepaid insurance"));
+      base.splice(7, 0, row("2100", "Accrued Expenses", "Liability", "Accrued Expenses", 0, 2000, 0, 0, "Accruals"));
+      return base;
+    }
+
+    function row(code, name, type, subtype, debit, credit, adjDebit, adjCredit, notes) {
+      return { id: cryptoId(), code, name, type, subtype, debit, credit, adjDebit, adjCredit, notes };
+    }
+
+    function cryptoId() {
+      if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+      return "id_" + Math.random().toString(36).slice(2) + Date.now();
+    }
+
+    function n(value) {
+      const x = Number(String(value ?? "").replace(/,/g, ""));
+      return Number.isFinite(x) ? x : 0;
+    }
+
+    function money(value) {
+      const symbol = state.setup.currency || "$";
+      const amount = n(value);
+      const sign = amount < 0 ? "-" : "";
+      return sign + symbol + Math.abs(amount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function pct(value) {
+      if (!Number.isFinite(value)) return "—";
+      return (value * 100).toFixed(2) + "%";
+    }
+
+    function ratio(value) {
+      if (!Number.isFinite(value)) return "—";
+      return value.toFixed(2) + "x";
+    }
+
+    function esc(value) {
+      return String(value ?? "").replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"})[m]);
+    }
+
+    function normalSide(type) {
+      return ["Liability", "Equity", "Revenue", "Other Income"].includes(type) ? "credit" : "debit";
+    }
+
+    function accountBalance(a) {
+      const debit = n(a.debit) + n(a.adjDebit);
+      const credit = n(a.credit) + n(a.adjCredit);
+      return normalSide(a.type) === "credit" ? credit - debit : debit - credit;
+    }
+
+    function calc() {
+      const accounts = state.accounts || [];
+      const debitTotal = accounts.reduce((s, a) => s + n(a.debit) + n(a.adjDebit), 0);
+      const creditTotal = accounts.reduce((s, a) => s + n(a.credit) + n(a.adjCredit), 0);
+      const trialDiff = debitTotal - creditTotal;
+      const cat = type => accounts.filter(a => a.type === type).reduce((s, a) => s + accountBalance(a), 0);
+      const sub = (type, subtype) => accounts.filter(a => a.type === type && a.subtype === subtype).reduce((s, a) => s + accountBalance(a), 0);
+      const nameSum = text => accounts.filter(a => (a.name + " " + a.subtype).toLowerCase().includes(text.toLowerCase())).reduce((s, a) => s + accountBalance(a), 0);
+
+      const revenue = cat("Revenue");
+      const cogs = cat("COGS");
+      const opex = cat("Operating Expense");
+      const otherIncome = cat("Other Income");
+      const otherExpense = cat("Other Expense");
+      const grossProfit = revenue - cogs;
+      const operatingProfit = grossProfit - opex;
+      const pbt = operatingProfit + otherIncome - otherExpense;
+      const enteredTax = cat("Tax Expense");
+      const autoTax = enteredTax > 0 ? enteredTax : Math.max(0, pbt * n(state.setup.taxRate) / 100);
+      const tax = autoTax;
+      const netIncome = pbt - tax;
+      const dividends = cat("Dividend");
+
+      const cash = sub("Asset", "Cash & Bank");
+      const ar = sub("Asset", "Accounts Receivable");
+      const inventory = sub("Asset", "Inventory");
+      const prepaid = sub("Asset", "Prepayments");
+      const otherCurrentAsset = sub("Asset", "Other Current Asset");
+      const fixedAssets = sub("Asset", "Fixed Assets") + sub("Asset", "Accumulated Depreciation") + sub("Asset", "Other Non-current Asset");
+      const currentAssets = cash + ar + inventory + prepaid + otherCurrentAsset;
+      const totalAssets = currentAssets + fixedAssets;
+
+      const ap = sub("Liability", "Accounts Payable");
+      const accruals = sub("Liability", "Accrued Expenses");
+      const taxPayable = sub("Liability", "Tax Payable");
+      const currentLoans = sub("Liability", "Current Loan");
+      const otherCurrentLiability = sub("Liability", "Other Current Liability");
+      const longLoans = sub("Liability", "Long-term Loan");
+      const otherNonCurrentLiability = sub("Liability", "Other Non-current Liability");
+      const currentLiabilities = ap + accruals + taxPayable + currentLoans + otherCurrentLiability;
+      const nonCurrentLiabilities = longLoans + otherNonCurrentLiability;
+      const totalLiabilities = currentLiabilities + nonCurrentLiabilities;
+
+      const equityAccounts = cat("Equity");
+      const closingRetainedEarnings = n(state.setup.openingRetainedEarnings) + netIncome - dividends;
+      const totalEquity = equityAccounts + closingRetainedEarnings;
+      const balanceDiff = totalAssets - totalLiabilities - totalEquity;
+
+      const depreciation = Math.abs(nameSum("depreciation")) + Math.abs(nameSum("amortization"));
+      const interest = Math.abs(nameSum("interest expense"));
+      const ebitda = netIncome + tax + interest + depreciation;
+      const capexProxy = Math.max(0, fixedAssets - n(state.setup.openingFixedAssetsNet) + depreciation);
+      const loanMovement = (currentLoans + longLoans) - n(state.setup.openingLoans);
+      const changeAR = ar - n(state.setup.openingAR);
+      const changeInventory = inventory - n(state.setup.openingInventory);
+      const changePrepaid = prepaid - n(state.setup.openingPrepaid);
+      const changeAP = ap - n(state.setup.openingAP);
+      const changeAccruals = accruals - n(state.setup.openingAccruals);
+      const operatingCashFlow = netIncome + depreciation - changeAR - changeInventory - changePrepaid + changeAP + changeAccruals;
+      const investingCashFlow = -capexProxy;
+      const financingCashFlow = loanMovement - dividends;
+      const netCashFlow = operatingCashFlow + investingCashFlow + financingCashFlow;
+      const expectedCash = n(state.setup.openingCash) + netCashFlow;
+      const cashFlowVariance = cash - expectedCash;
+
+      const materiality = Math.abs(revenue) * n(state.setup.materialityPct) / 100;
+      const taxableIncome = Math.max(0, pbt + n(state.setup.permanentAdjustments) + n(state.setup.disallowableExpenses));
+      const taxDue = taxableIncome * n(state.setup.taxRate) / 100;
+      const netTaxPayable = taxDue - n(state.setup.taxPaid) - n(state.setup.taxCredits);
+
+      return {
+        accounts, debitTotal, creditTotal, trialDiff, revenue, cogs, opex, otherIncome, otherExpense,
+        grossProfit, operatingProfit, pbt, enteredTax, tax, netIncome, dividends,
+        cash, ar, inventory, prepaid, otherCurrentAsset, fixedAssets, currentAssets, totalAssets,
+        ap, accruals, taxPayable, currentLoans, otherCurrentLiability, longLoans, otherNonCurrentLiability,
+        currentLiabilities, nonCurrentLiabilities, totalLiabilities, equityAccounts, closingRetainedEarnings, totalEquity, balanceDiff,
+        depreciation, interest, ebitda, capexProxy, operatingCashFlow, investingCashFlow, financingCashFlow, netCashFlow, expectedCash, cashFlowVariance,
+        materiality, taxableIncome, taxDue, netTaxPayable,
+        ratios: {
+          grossMargin: revenue ? grossProfit / revenue : NaN,
+          operatingMargin: revenue ? operatingProfit / revenue : NaN,
+          netMargin: revenue ? netIncome / revenue : NaN,
+          currentRatio: currentLiabilities ? currentAssets / currentLiabilities : NaN,
+          quickRatio: currentLiabilities ? (currentAssets - inventory - prepaid) / currentLiabilities : NaN,
+          debtEquity: totalEquity ? totalLiabilities / totalEquity : NaN,
+          roa: totalAssets ? netIncome / totalAssets : NaN,
+          roe: totalEquity ? netIncome / totalEquity : NaN,
+          dso: revenue ? ar / (revenue / 365) : NaN,
+          dpo: cogs ? ap / (cogs / 365) : NaN,
+          inventoryTurnover: inventory ? cogs / inventory : NaN,
+          ebitdaMargin: revenue ? ebitda / revenue : NaN
+        }
+      };
+    }
+
+    function render() {
+      renderSetup();
+      renderAccounts();
+      renderOutputs();
+    }
+
+    function renderSetup() {
+      document.querySelectorAll("[data-setup]").forEach(el => {
+        const key = el.dataset.setup;
+        if (document.activeElement !== el) el.value = state.setup[key] ?? "";
+      });
+    }
+
+    function renderAccounts() {
+      const tbody = document.getElementById("accountsBody");
+      tbody.innerHTML = state.accounts.map((a, i) => `
+        <tr>
+          <td><input value="${esc(a.code)}" data-i="${i}" data-field="code" /></td>
+          <td><input value="${esc(a.name)}" data-i="${i}" data-field="name" /></td>
+          <td>${selectHtml(TYPES, a.type, i, "type")}</td>
+          <td>${selectHtml(SUBTYPES[a.type] || ["Other"], a.subtype, i, "subtype")}</td>
+          <td><input class="right" type="number" step="0.01" value="${n(a.debit)}" data-i="${i}" data-field="debit" /></td>
+          <td><input class="right" type="number" step="0.01" value="${n(a.credit)}" data-i="${i}" data-field="credit" /></td>
+          <td><input class="right" type="number" step="0.01" value="${n(a.adjDebit)}" data-i="${i}" data-field="adjDebit" /></td>
+          <td><input class="right" type="number" step="0.01" value="${n(a.adjCredit)}" data-i="${i}" data-field="adjCredit" /></td>
+          <td class="num ${accountBalance(a) < 0 ? 'bad' : ''}">${money(accountBalance(a))}</td>
+          <td><input value="${esc(a.notes)}" data-i="${i}" data-field="notes" /></td>
+          <td class="no-print"><button class="btn btn-red btn-small" onclick="deleteAccountRow(${i})">Delete</button></td>
+        </tr>
+      `).join("");
+    }
+
+    function selectHtml(options, selected, i, field) {
+      return `<select data-i="${i}" data-field="${field}">${options.map(o => `<option value="${esc(o)}" ${o === selected ? "selected" : ""}>${esc(o)}</option>`).join("")}</select>`;
+    }
+
+    function renderOutputs() {
+      const c = calc();
+      const isBalanced = Math.abs(c.trialDiff) < 0.01;
+      const bsBalanced = Math.abs(c.balanceDiff) < 0.01;
+      const status = document.getElementById("statusPill");
+      status.className = `pill ${isBalanced && bsBalanced ? 'good' : isBalanced ? 'warn' : 'bad'}`;
+      status.textContent = isBalanced && bsBalanced ? "Balanced file" : isBalanced ? "Trial balance OK, BS needs review" : "Trial balance out of balance";
+
+      document.getElementById("summaryCards").innerHTML = [
+        metric("Revenue", money(c.revenue), "Top-line income from revenue accounts", c.revenue >= 0 ? "info" : "bad"),
+        metric("Net Profit", money(c.netIncome), "After expenses and tax provision", c.netIncome >= 0 ? "good" : "bad"),
+        metric("Total Assets", money(c.totalAssets), "Current and non-current assets", "info"),
+        metric("Balance Difference", money(c.balanceDiff), "Assets - liabilities - equity", Math.abs(c.balanceDiff) < 0.01 ? "good" : "bad")
+      ].join("");
+
+      document.getElementById("trialCards").innerHTML = [
+        metric("Total Debits", money(c.debitTotal), "Including adjustment debits", "info"),
+        metric("Total Credits", money(c.creditTotal), "Including adjustment credits", "info"),
+        metric("Trial Balance Difference", money(c.trialDiff), "Must be zero before final reporting", isBalanced ? "good" : "bad"),
+        metric("Materiality Guide", money(c.materiality), `${n(state.setup.materialityPct)}% of revenue`, "warn")
+      ].join("");
+
+      renderReports(c);
+      renderTax(c);
+      renderChecks(c);
+    }
+
+    function metric(label, value, hint, klass) {
+      return `<div class="metric"><label>${esc(label)}</label><strong class="${klass || ''}">${esc(value)}</strong><small>${esc(hint)}</small></div>`;
+    }
+
+    function renderReports(c) {
+      document.getElementById("reportsGrid").innerHTML = `
+        <div class="statement">
+          <h3>Income Statement</h3>
+          <div class="inside">
+            ${statementTable([
+              ["Revenue", c.revenue, "line-subtotal"],
+              ["Cost of Goods Sold", -c.cogs],
+              ["Gross Profit", c.grossProfit, "line-total"],
+              ["Operating Expenses", -c.opex],
+              ["Operating Profit", c.operatingProfit, "line-subtotal"],
+              ["Other Income", c.otherIncome],
+              ["Other Expense", -c.otherExpense],
+              ["Profit Before Tax", c.pbt, "line-subtotal"],
+              ["Income Tax Expense", -c.tax],
+              ["Net Profit / (Loss)", c.netIncome, "line-total"]
+            ])}
+          </div>
+        </div>
+
+        <div class="statement">
+          <h3>Balance Sheet</h3>
+          <div class="inside">
+            ${statementTable([
+              ["Cash and Bank", c.cash],
+              ["Accounts Receivable", c.ar],
+              ["Inventory", c.inventory],
+              ["Prepayments", c.prepaid],
+              ["Other Current Assets", c.otherCurrentAsset],
+              ["Total Current Assets", c.currentAssets, "line-subtotal"],
+              ["Net Fixed / Non-current Assets", c.fixedAssets],
+              ["Total Assets", c.totalAssets, "line-total"],
+              ["Accounts Payable", -c.ap],
+              ["Accrued Expenses", -c.accruals],
+              ["Tax Payable", -c.taxPayable],
+              ["Current Loans / Other Current Liabilities", -(c.currentLoans + c.otherCurrentLiability)],
+              ["Total Current Liabilities", -c.currentLiabilities, "line-subtotal"],
+              ["Long-term Loans / Non-current Liabilities", -c.nonCurrentLiabilities],
+              ["Total Liabilities", -c.totalLiabilities, "line-subtotal"],
+              ["Equity Accounts", -c.equityAccounts],
+              ["Closing Retained Earnings", -c.closingRetainedEarnings],
+              ["Total Equity", -c.totalEquity, "line-subtotal"],
+              ["Balance Difference", c.balanceDiff, "line-total"]
+            ])}
+          </div>
+        </div>
+
+        <div class="statement">
+          <h3>Cash Flow Statement - Indirect Method</h3>
+          <div class="inside">
+            ${statementTable([
+              ["Opening Cash", n(state.setup.openingCash)],
+              ["Net Profit", c.netIncome],
+              ["Add Back: Depreciation / Amortization", c.depreciation],
+              ["Working Capital Movement", c.operatingCashFlow - c.netIncome - c.depreciation],
+              ["Net Cash from Operating Activities", c.operatingCashFlow, "line-subtotal"],
+              ["Estimated Capital Expenditure", c.investingCashFlow],
+              ["Net Cash from Investing Activities", c.investingCashFlow, "line-subtotal"],
+              ["Loan Movement less Dividends", c.financingCashFlow],
+              ["Net Cash from Financing Activities", c.financingCashFlow, "line-subtotal"],
+              ["Net Cash Movement", c.netCashFlow, "line-total"],
+              ["Expected Closing Cash", c.expectedCash],
+              ["Actual Closing Cash", c.cash],
+              ["Cash Flow Variance", c.cashFlowVariance, "line-total"]
+            ])}
+          </div>
+        </div>
+
+        <div class="statement">
+          <h3>Retained Earnings & EBITDA</h3>
+          <div class="inside">
+            ${statementTable([
+              ["Opening Retained Earnings", n(state.setup.openingRetainedEarnings)],
+              ["Add: Net Profit / (Loss)", c.netIncome],
+              ["Less: Dividends / Drawings", -c.dividends],
+              ["Closing Retained Earnings", c.closingRetainedEarnings, "line-total"],
+              ["EBITDA", c.ebitda, "line-subtotal"],
+              ["Depreciation / Amortization", c.depreciation],
+              ["Interest Expense", c.interest],
+              ["Tax Charge Used", c.tax]
+            ])}
+          </div>
+        </div>
+      `;
+    }
+
+    function statementTable(rows) {
+      return `<div class="table-wrap"><table class="compact-table"><tbody>${rows.map(([label, value, klass]) => `
+        <tr class="${klass || ''}"><td>${esc(label)}</td><td class="num">${money(value)}</td></tr>
+      `).join("")}</tbody></table></div>`;
+    }
+
+    function renderTax(c) {
+      document.getElementById("taxSummary").innerHTML = statementTable([
+        ["Accounting Profit Before Tax", c.pbt],
+        ["Permanent Adjustments", n(state.setup.permanentAdjustments)],
+        ["Disallowable Expenses Add-back", n(state.setup.disallowableExpenses)],
+        ["Estimated Taxable Income", c.taxableIncome, "line-subtotal"],
+        [`Tax Due at ${n(state.setup.taxRate)}%`, c.taxDue],
+        ["Less: Tax Paid / Withheld", -n(state.setup.taxPaid)],
+        ["Less: Tax Credits / Rebates", -n(state.setup.taxCredits)],
+        ["Estimated Net Tax Payable / (Refund)", c.netTaxPayable, "line-total"]
+      ]);
+
+      const ratioRows = [
+        ["Gross Margin", pct(c.ratios.grossMargin), c.ratios.grossMargin],
+        ["Operating Margin", pct(c.ratios.operatingMargin), c.ratios.operatingMargin],
+        ["Net Margin", pct(c.ratios.netMargin), c.ratios.netMargin],
+        ["EBITDA Margin", pct(c.ratios.ebitdaMargin), c.ratios.ebitdaMargin],
+        ["Current Ratio", ratio(c.ratios.currentRatio), safeScale(c.ratios.currentRatio, 2)],
+        ["Quick Ratio", ratio(c.ratios.quickRatio), safeScale(c.ratios.quickRatio, 2)],
+        ["Debt to Equity", ratio(c.ratios.debtEquity), safeScale(c.ratios.debtEquity, 2)],
+        ["Return on Assets", pct(c.ratios.roa), c.ratios.roa],
+        ["Return on Equity", pct(c.ratios.roe), c.ratios.roe],
+        ["Inventory Turnover", ratio(c.ratios.inventoryTurnover), safeScale(c.ratios.inventoryTurnover, 4)],
+        ["Receivable Days", Number.isFinite(c.ratios.dso) ? c.ratios.dso.toFixed(0) + " days" : "—", safeScale(c.ratios.dso, 90)],
+        ["Payable Days", Number.isFinite(c.ratios.dpo) ? c.ratios.dpo.toFixed(0) + " days" : "—", safeScale(c.ratios.dpo, 90)]
+      ];
+
+      document.getElementById("ratioDashboard").innerHTML = `<div class="bar-list">${ratioRows.map(([label, value, scale]) => `
+        <div class="bar-row">
+          <div class="bar-row-top"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>
+          <div class="bar-track"><div class="bar-fill" style="width:${Math.max(0, Math.min(100, (Number.isFinite(scale) ? scale : 0) * 100))}%"></div></div>
+        </div>
+      `).join("")}</div>`;
+    }
+
+    function safeScale(v, target) {
+      if (!Number.isFinite(v) || !target) return 0;
+      return Math.abs(v) / target;
+    }
+
+    function renderChecks(c) {
+      const checks = buildChecks(c);
+      const passed = checks.filter(x => x.level === "good").length;
+      const warning = checks.filter(x => x.level === "warn").length;
+      const failed = checks.filter(x => x.level === "bad").length;
+      const score = Math.round((passed / checks.length) * 100);
+      const scoreEl = document.getElementById("checkScore");
+      scoreEl.className = `pill ${failed ? 'bad' : warning ? 'warn' : 'good'}`;
+      scoreEl.textContent = `Review score ${score}% · ${failed} critical · ${warning} warnings`;
+      document.getElementById("auditChecks").innerHTML = checks.map(check => `
+        <div class="check-item">
+          <span class="pill ${check.level}">${check.label}</span>
+          <div><strong>${esc(check.title)}</strong><p>${esc(check.message)}</p></div>
+        </div>
+      `).join("");
+    }
+
+    function buildChecks(c) {
+      const checks = [];
+      const close = value => Math.abs(value) < 0.01;
+      const material = value => Math.abs(value) > Math.max(1, c.materiality || 0);
+      checks.push(close(c.trialDiff)
+        ? good("Trial Balance", "Debits and credits agree after adjustments.")
+        : bad("Trial Balance", `Debits and credits differ by ${money(c.trialDiff)}. Fix this before using final reports.`));
+      checks.push(close(c.balanceDiff)
+        ? good("Balance Sheet", "Assets equal liabilities plus equity.")
+        : bad("Balance Sheet", `Balance sheet difference is ${money(c.balanceDiff)}. Check retained earnings, equity, tax, and account mapping.`));
+      checks.push(Math.abs(c.revenue) > 0
+        ? good("Revenue", "Revenue accounts are present.")
+        : warn("Revenue", "No revenue entered. Confirm whether this is correct for the period."));
+      checks.push(c.enteredTax > 0 || c.pbt <= 0
+        ? good("Tax", "Tax expense is entered or profit before tax is not positive.")
+        : warn("Tax", "No tax expense entered. The tool is using an automatic tax provision for reporting estimates."));
+      checks.push(close(c.cashFlowVariance) || !material(c.cashFlowVariance)
+        ? good("Cash Flow", "Cash flow variance is not material based on the materiality setting.")
+        : warn("Cash Flow", `Cash flow variance is ${money(c.cashFlowVariance)}. Review opening balances, capex, financing, dividends, and working capital.`));
+      checks.push(c.accounts.some(a => a.subtype && a.type)
+        ? good("Mapping", "Account statement mappings are available.")
+        : bad("Mapping", "Some accounts are missing statement type or subsection mapping."));
+      const negativeAssets = c.accounts.filter(a => a.type === "Asset" && accountBalance(a) < 0 && a.subtype !== "Accumulated Depreciation");
+      checks.push(!negativeAssets.length
+        ? good("Asset Review", "No unusual negative asset balances detected except contra assets.")
+        : warn("Asset Review", `${negativeAssets.length} asset account(s) have negative balances. Consider reclassification or support review.`));
+      const retainedAccount = c.accounts.some(a => a.type === "Equity" && /retained/i.test(a.name));
+      checks.push(!retainedAccount || n(state.setup.openingRetainedEarnings) === 0
+        ? good("Retained Earnings", "Retained earnings setup does not appear duplicated.")
+        : warn("Retained Earnings", "Retained earnings may be entered both in setup and as an equity account. Avoid double counting."));
+      checks.push(c.ratios.currentRatio >= 1 || !Number.isFinite(c.ratios.currentRatio)
+        ? good("Liquidity", "Current ratio is acceptable or not applicable.")
+        : warn("Liquidity", `Current ratio is ${ratio(c.ratios.currentRatio)}. Consider going concern/liquidity review.`));
+      checks.push(c.netTaxPayable >= -Math.max(1, c.materiality * 3)
+        ? good("Tax Payable", "Tax payable/refund estimate is within normal review range.")
+        : warn("Tax Payable", `Estimated refund is ${money(Math.abs(c.netTaxPayable))}. Confirm withholding, credits, and filing treatment.`));
+      return checks;
+    }
+
+    function good(title, message) { return { level: "good", label: "PASS", title, message }; }
+    function warn(title, message) { return { level: "warn", label: "REVIEW", title, message }; }
+    function bad(title, message) { return { level: "bad", label: "FIX", title, message }; }
+
+    function addAccountRow() {
+      state.accounts.push(row("", "", "Asset", "Cash & Bank", 0, 0, 0, 0, ""));
+      render();
+      toast("New account row added.");
+    }
+
+    function deleteAccountRow(index) {
+      state.accounts.splice(index, 1);
+      render();
+      toast("Account row deleted.");
+    }
+
+    function addStandardChart() {
+      const existingCodes = new Set(state.accounts.map(a => String(a.code)));
+      seedAccounts(false).forEach(a => { if (!existingCodes.has(String(a.code))) state.accounts.push(a); });
+      render();
+      toast("Standard chart rows added where missing.");
+    }
+
+    function resetSetupOnly() {
+      if (!confirm("Clear setup fields only? Account rows will stay.")) return;
+      const accounts = state.accounts;
+      state = blankState();
+      state.accounts = accounts;
+      render();
+      toast("Setup cleared.");
+    }
+
+    function resetAll() {
+      if (!confirm("Reset everything and clear all entered data?")) return;
+      state = blankState();
+      render();
+      toast("Tool reset to blank file.");
+    }
+
+    function loadDemo() {
+      state = blankState();
+      const today = new Date();
+      state.setup = {
+        companyName: "Demo Trading Company",
+        preparedBy: "Text2Tool Finance Suite",
+        currency: "$",
+        periodStart: `${today.getFullYear()}-01-01`,
+        periodEnd: `${today.getFullYear()}-12-31`,
+        taxRate: 25,
+        openingRetainedEarnings: 0,
+        openingCash: 0,
+        materialityPct: 1,
+        openingAR: 8000,
+        openingInventory: 15000,
+        openingPrepaid: 0,
+        openingAP: 7000,
+        openingAccruals: 0,
+        openingLoans: 20000,
+        openingFixedAssetsNet: 45000,
+        taxPaid: 2500,
+        taxCredits: 0,
+        permanentAdjustments: 0,
+        disallowableExpenses: 0,
+        reviewNotes: "Demo file for testing the complete workflow. Replace with real client balances before professional use."
+      };
+      state.accounts = seedAccounts(true);
+      render();
+      toast("Professional demo data loaded.");
+    }
+
+    function saveLocal() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      toast("Saved in this browser.");
+    }
+
+    function loadLocal(showMessage) {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) {
+        if (showMessage) toast("No saved file found in this browser.");
+        return false;
+      }
+      try {
+        const parsed = JSON.parse(raw);
+        state = normalizeImportedState(parsed);
+        render();
+        if (showMessage) toast("Saved file loaded.");
+        return true;
+      } catch (e) {
+        toast("Saved file could not be loaded.");
+        return false;
+      }
+    }
+
+    function normalizeImportedState(data) {
+      const clean = blankState();
+      clean.setup = { ...clean.setup, ...(data.setup || {}) };
+      clean.accounts = Array.isArray(data.accounts) ? data.accounts.map(a => ({
+        id: a.id || cryptoId(),
+        code: a.code || "",
+        name: a.name || "",
+        type: TYPES.includes(a.type) ? a.type : "Asset",
+        subtype: a.subtype || "Other Current Asset",
+        debit: n(a.debit),
+        credit: n(a.credit),
+        adjDebit: n(a.adjDebit),
+        adjCredit: n(a.adjCredit),
+        notes: a.notes || ""
+      })) : clean.accounts;
+      return clean;
+    }
+
+    function exportJSON() {
+      const fileName = safeFileName(`${state.setup.companyName || 'financial-statement'}-backup.json`);
+      download(fileName, JSON.stringify(state, null, 2), "application/json");
+      toast("JSON backup downloaded.");
+    }
+
+    function importJSON(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          state = normalizeImportedState(JSON.parse(reader.result));
+          render();
+          toast("JSON backup imported.");
+        } catch (e) {
+          toast("Invalid JSON file.");
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = "";
+    }
+
+    function exportReportCSV() {
+      const c = calc();
+      const lines = [];
+      lines.push(["Text2Tool Financial Statement Calculator"]);
+      lines.push(["Company", state.setup.companyName || ""]);
+      lines.push(["Period", `${state.setup.periodStart || ''} to ${state.setup.periodEnd || ''}`]);
+      lines.push([]);
+      lines.push(["Income Statement"]);
+      [["Revenue", c.revenue], ["COGS", c.cogs], ["Gross Profit", c.grossProfit], ["Operating Expenses", c.opex], ["Profit Before Tax", c.pbt], ["Tax", c.tax], ["Net Income", c.netIncome]].forEach(r => lines.push(r));
+      lines.push([]);
+      lines.push(["Balance Sheet"]);
+      [["Current Assets", c.currentAssets], ["Non-current Assets", c.fixedAssets], ["Total Assets", c.totalAssets], ["Current Liabilities", c.currentLiabilities], ["Non-current Liabilities", c.nonCurrentLiabilities], ["Total Liabilities", c.totalLiabilities], ["Total Equity", c.totalEquity], ["Balance Difference", c.balanceDiff]].forEach(r => lines.push(r));
+      lines.push([]);
+      lines.push(["Trial Balance"]);
+      lines.push(["Code", "Account", "Type", "Sub Section", "Debit", "Credit", "Adj Debit", "Adj Credit", "Normal Balance", "Notes"]);
+      state.accounts.forEach(a => lines.push([a.code, a.name, a.type, a.subtype, n(a.debit), n(a.credit), n(a.adjDebit), n(a.adjCredit), accountBalance(a), a.notes]));
+      const csv = lines.map(row => row.map(cell => `"${String(cell ?? "").replace(/"/g, '""')}"`).join(",")).join("\n");
+      download(safeFileName(`${state.setup.companyName || 'financial-statement'}-report.csv`), csv, "text/csv");
+      toast("CSV report downloaded.");
+    }
+
+    function download(filename, content, type) {
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function safeFileName(name) {
+      return String(name).replace(/[^a-z0-9._-]+/gi, "-").replace(/-+/g, "-").replace(/^-|-$/g, "").toLowerCase();
+    }
+
+    function scrollToId(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function toast(message) {
+      const el = document.getElementById("toast");
+      el.textContent = message;
+      el.style.display = "block";
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => { el.style.display = "none"; }, 2600);
+    }
+
+    document.addEventListener("input", event => {
+      const el = event.target;
+      if (el.matches("[data-setup]")) {
+        state.setup[el.dataset.setup] = el.type === "number" ? n(el.value) : el.value;
+        renderOutputs();
+      }
+      if (el.matches("[data-field]")) {
+        const i = Number(el.dataset.i);
+        const field = el.dataset.field;
+        if (!state.accounts[i]) return;
+        state.accounts[i][field] = ["debit", "credit", "adjDebit", "adjCredit"].includes(field) ? n(el.value) : el.value;
+        renderOutputs();
+        const balanceCell = el.closest("tr").children[8];
+        balanceCell.textContent = money(accountBalance(state.accounts[i]));
+        balanceCell.className = `num ${accountBalance(state.accounts[i]) < 0 ? 'bad' : ''}`;
+      }
+    });
+
+    document.addEventListener("change", event => {
+      const el = event.target;
+      if (el.matches("select[data-field]")) {
+        const i = Number(el.dataset.i);
+        const field = el.dataset.field;
+        if (!state.accounts[i]) return;
+        state.accounts[i][field] = el.value;
+        if (field === "type") {
+          const firstSubtype = (SUBTYPES[el.value] || ["Other"])[0];
+          state.accounts[i].subtype = firstSubtype;
+          render();
+        } else {
+          renderOutputs();
+        }
+      }
+    });
+
+    document.querySelectorAll(".jump").forEach(btn => {
+      btn.addEventListener("click", () => scrollToId(btn.dataset.target));
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        document.querySelectorAll(".jump").forEach(btn => btn.classList.toggle("active", btn.dataset.target === entry.target.id));
+      });
+    }, { rootMargin: "-30% 0px -60% 0px", threshold: 0.01 });
+    ["overview", "setup", "ledger", "reports", "tax", "checks", "tools"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    if (!loadLocal(false)) render();
+  </script>
+</body>
+</html>
