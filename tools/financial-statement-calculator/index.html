@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -605,9 +606,7 @@
     <div class="top-actions no-print">
       <button class="btn small" onclick="saveData()">Save</button>
       <button class="btn small blue" onclick="loadData(true)">Load</button>
-      <button class="btn small" onclick="downloadJSON()">Backup JSON</button>
-      <button class="btn small" onclick="document.getElementById('importFile').click()">Import JSON</button>
-      <input id="importFile" class="hidden" type="file" accept="application/json,.json" onchange="importJSON(event)">
+      <button class="btn small" onclick="exportCSV('trial')">Download Data CSV</button>
       <button class="btn small green" onclick="loadDemo()">Demo Data</button>
       <button class="btn small red" onclick="resetAll()">Reset</button>
       <button class="btn small primary" onclick="window.print()">Print / Save PDF</button>
@@ -631,7 +630,7 @@
           <li><span class="tick">✓</span><span>Wide professional tables with readable inputs, no clipped code/subsection fields.</span></li>
           <li><span class="tick">✓</span><span>Minimum input workflow: quick-entry summary + detailed journal/ledger workflow.</span></li>
           <li><span class="tick">✓</span><span>Automatic statements, ratios, audit flags, working-paper notes and print-ready report.</span></li>
-          <li><span class="tick">✓</span><span>Private browser storage with JSON backup/import for client files.</span></li>
+          <li><span class="tick">✓</span><span>Private browser storage with print-ready PDF and CSV data download options.</span></li>
         </ul>
       </div>
     </div>
@@ -1670,27 +1669,6 @@ function ensureState(){
   state.adjustments=state.adjustments||[];
   state.taxRows=state.taxRows||[];
   if(!state.accounts.length) state.accounts=defaultAccounts();
-}
-function downloadJSON(){
-  saveSetup();
-  const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);
-  a.download=(getVal("entityName")||"financial-statement-file").toLowerCase().replace(/[^a-z0-9]+/g,"-")+"-backup.json";
-  a.click();
-  URL.revokeObjectURL(a.href);
-}
-function importJSON(e){
-  const file=e.target.files[0]; if(!file) return;
-  const reader=new FileReader();
-  reader.onload=()=>{
-    try{
-      state=JSON.parse(reader.result);
-      ensureState(); loadSetup(); renderAll(); saveData(); toast("JSON imported successfully.");
-    }catch(err){ toast("Invalid JSON file."); }
-  };
-  reader.readAsText(file);
-  e.target.value="";
 }
 function exportCSV(type){
   let rows=[];
