@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Final Tool Status | Text2Tool AI</title>
-  <meta name="description" content="Track your Text2Tool AI final tool delivery status." />
+  <title>Google Sheet Tool Status | Text2Tool AI</title>
+  <meta name="description" content="Track your Text2Tool AI Google Sheet tool delivery status." />
   <style>
     :root {
       --bg:#05020a; --panel:#14101d; --line:rgba(255,255,255,.14);
@@ -98,7 +98,7 @@
     <section class="hero">
       <div class="badge waiting-badge">Loading status...</div>
       <h1>Please wait</h1>
-      <p class="summary">Checking your final tool delivery status.</p>
+      <p class="summary">Checking your Google Sheet tool delivery status.</p>
     </section>
   </main>
 
@@ -119,7 +119,7 @@
 
     async function init() {
       if (!deliveryId || !deliveryToken) {
-        showError('Final tool status link is missing or incomplete.');
+        showError('Google Sheet tool status link is missing or incomplete.');
         return;
       }
 
@@ -127,7 +127,7 @@
         const item = await fetchDeliveryStatus();
         renderStatus(item);
       } catch (error) {
-        showError(error.message || 'Could not load final tool status.');
+        showError(error.message || 'Could not load Google Sheet tool status.');
       }
     }
 
@@ -147,9 +147,9 @@
       }), 20000, 'Status request timed out.');
 
       const text = await response.text();
-      if (!response.ok) throw new Error('Final tool status could not be loaded. Please refresh.');
+      if (!response.ok) throw new Error('Google Sheet tool status could not be loaded. Please refresh.');
       const rows = JSON.parse(text);
-      if (!Array.isArray(rows) || !rows.length) throw new Error('Final tool request not found.');
+      if (!Array.isArray(rows) || !rows.length) throw new Error('Google Sheet tool request not found.');
       return rows[0];
     }
 
@@ -162,8 +162,8 @@
       const readinessScore = Math.max(0, Math.min(100, Number(item.readiness_score || 0)));
       const qaPassed = item.qa_passed === true || item.qa_passed === 'true';
       const qaAttempts = Number(item.qa_attempts || 0);
-      const title = item.tool_title || 'Your final tool';
-      const summary = item.tool_summary || 'Your final tool request has been received.';
+      const title = item.tool_title || 'Your Google Sheet tool';
+      const summary = item.tool_summary || 'Your Google Sheet tool request has been received.';
       const message = item.status_message || getDefaultMessage(status, qaStatus, buildStatus, scanStatus, autoFixStatus);
       const finalUrl = item.final_tool_url || '';
       const creditUsed = item.credit_deducted === true || item.credit_deducted === 'true';
@@ -178,22 +178,22 @@
           <p class="summary">${escapeHtml(summary)}</p>
           <div class="message ${delivered ? 'success' : failed ? 'error' : isActiveChecking(qaStatus, buildStatus, scanStatus, autoFixStatus) ? 'info' : ''}">${escapeHtml(message)}</div>
           <div class="actions">
-            ${finalUrl ? `<a class="btn btn-green" href="${escapeAttr(finalUrl)}" target="_blank" rel="noopener">Open Finished Tool</a>` : ''}
+            ${finalUrl ? `<a class="btn btn-green" href="${escapeAttr(finalUrl)}" target="_blank" rel="noopener">Open Google Sheet Tool</a>` : ''}
             <button class="btn btn-primary" type="button" id="refreshBtn">Refresh Status</button>
-            <a class="btn" href="/create-tool/">Create Another Tool</a>
+            <a class="btn" href="/create-tool/">Create Another Google Sheet Tool</a>
           </div>
         </section>
 
         <div class="grid">
           <section class="card">
-            <h2>Delivery Progress</h2>
+            <h2>Google Sheet Delivery Progress</h2>
             <ul class="timeline">
-              <li class="done"><span class="dot"></span><div><strong>Preview approved</strong><span>Your tool structure was approved for final delivery.</span></div></li>
-              <li class="${timelineClass('building', {status, qaStatus, buildStatus, scanStatus, autoFixStatus, qaPassed, delivered, failed})}"><span class="dot"></span><div><strong>Building working tool</strong><span>Your working tool is being prepared privately. No source code is shown to customers.</span></div></li>
-              <li class="${timelineClass('checking', {status, qaStatus, buildStatus, scanStatus, autoFixStatus, qaPassed, delivered, failed})}"><span class="dot"></span><div><strong>Checking for common errors</strong><span>The tool is checked for #ERROR!, #REF!, #VALUE!, #N/A, broken formulas, missing tabs, dropdown issues and dashboard calculation issues.</span></div></li>
-              <li class="${timelineClass('fixing', {status, qaStatus, buildStatus, scanStatus, autoFixStatus, qaPassed, delivered, failed})}"><span class="dot"></span><div><strong>Auto Bots fixing issues</strong><span>If problems are found, Auto Bots can repair default formulas and re-check the tool before delivery.</span></div></li>
-              <li class="${timelineClass('qa', {status, qaStatus, buildStatus, scanStatus, autoFixStatus, qaPassed, delivered, failed})}"><span class="dot"></span><div><strong>Quality check passed</strong><span>${qaPassed || delivered ? 'The finished tool passed quality checks.' : 'The tool must pass QA before it can be delivered.'}</span></div></li>
-              <li class="${delivered ? 'done' : failed ? 'bad' : ''}"><span class="dot"></span><div><strong>Finished tool delivered</strong><span>${delivered ? 'Your working tool is ready to open.' : 'Once QA passes and delivery is complete, the finished working tool link will appear here.'}</span></div></li>
+              <li class="done"><span class="dot"></span><div><strong>Preview approved</strong><span>Your Google Sheet structure was approved for final delivery.</span></div></li>
+              <li class="${timelineClass('building', {status, qaStatus, buildStatus, scanStatus, autoFixStatus, qaPassed, delivered, failed})}"><span class="dot"></span><div><strong>Building Google Sheet tool</strong><span>Your Google Sheet tool is being prepared privately and will be delivered through a direct Google Sheets link.</span></div></li>
+              <li class="${timelineClass('checking', {status, qaStatus, buildStatus, scanStatus, autoFixStatus, qaPassed, delivered, failed})}"><span class="dot"></span><div><strong>Checking for common errors</strong><span>The Google Sheet is checked for #ERROR!, #REF!, #VALUE!, #N/A, broken formulas, missing tabs, dropdown issues and dashboard calculation issues.</span></div></li>
+              <li class="${timelineClass('fixing', {status, qaStatus, buildStatus, scanStatus, autoFixStatus, qaPassed, delivered, failed})}"><span class="dot"></span><div><strong>Auto Bots fixing issues</strong><span>If problems are found, Auto Bots can repair default formulas and re-check the Google Sheet before delivery.</span></div></li>
+              <li class="${timelineClass('qa', {status, qaStatus, buildStatus, scanStatus, autoFixStatus, qaPassed, delivered, failed})}"><span class="dot"></span><div><strong>Quality check passed</strong><span>${qaPassed || delivered ? 'The Google Sheet passed quality checks.' : 'The Google Sheet must pass QA before it can be delivered.'}</span></div></li>
+              <li class="${delivered ? 'done' : failed ? 'bad' : ''}"><span class="dot"></span><div><strong>Google Sheet tool delivered</strong><span>${delivered ? 'Your Google Sheet tool is ready to open.' : 'Once QA passes and delivery is complete, the Google Sheet link will appear here.'}</span></div></li>
             </ul>
           </section>
 
@@ -206,7 +206,7 @@
             <div class="mini">Readiness: ${readinessScore}/100</div>
             <div class="message">We check for common errors like #ERROR!, #REF!, #VALUE!, #N/A, broken formulas, missing tabs, missing dropdowns and dashboard calculation issues before delivery.</div>
             <h2 style="margin-top:22px;">Tool Kit Status</h2>
-            <p>${creditUsed ? '1 Tool Kit has been used because the finished working tool was delivered.' : 'No Tool Kit has been used yet. A Tool Kit is used only after the finished working tool is successfully delivered.'}</p>
+            <p>${creditUsed ? '1 Tool Kit has been used because the Google Sheet tool was delivered.' : 'No Tool Kit has been used yet. A Tool Kit is used only after the Google Sheet tool is successfully delivered.'}</p>
             <div class="mini">Status page ID: ${escapeHtml(String(item.id || '').slice(0, 8))}</div>
           </section>
         </div>
@@ -226,25 +226,25 @@
     }
 
     function getDefaultMessage(status, qaStatus, buildStatus, scanStatus, autoFixStatus) {
-      if (status === 'delivered') return 'Your finished working tool is ready.';
-      if (qaStatus === 'passed') return 'Your finished tool passed quality checks and is being prepared for delivery.';
+      if (status === 'delivered') return 'Your Google Sheet tool is ready.';
+      if (qaStatus === 'passed') return 'Your Google Sheet passed quality checks and is being prepared for delivery.';
       if (autoFixStatus === 'fixing' || buildStatus === 'fixing' || qaStatus === 'fixing') return 'Auto Bots are fixing issues found before delivery.';
-      if (scanStatus === 'scanning' || buildStatus === 'scanning' || qaStatus === 'checking') return 'Your working tool is being checked for common errors before delivery.';
-      if (buildStatus === 'created_private_file') return 'Your working tool has been created privately and is being checked.';
-      if (buildStatus === 'building' || status === 'building') return 'Your working tool is being built.';
+      if (scanStatus === 'scanning' || buildStatus === 'scanning' || qaStatus === 'checking') return 'Your Google Sheet is being checked for common errors before delivery.';
+      if (buildStatus === 'created_private_file') return 'Your Google Sheet has been created privately and is being checked.';
+      if (buildStatus === 'building' || status === 'building') return 'Your Google Sheet is being built.';
       if (qaStatus === 'failed' || buildStatus === 'failed' || scanStatus === 'failed' || autoFixStatus === 'failed') return 'Your tool needs additional fixes before it can be delivered.';
-      return 'Your final tool request has been received. We are preparing your working tool.';
+      return 'Your Google Sheet tool request has been received. We are preparing your sheet.';
     }
 
     function getQaText(qaStatus, buildStatus, scanStatus, autoFixStatus, qaPassed, qaAttempts, readinessScore) {
-      if (qaPassed) return 'QA passed. The tool is ready for delivery or has already been delivered.';
-      if (autoFixStatus === 'fixing' || buildStatus === 'fixing' || qaStatus === 'fixing') return 'Auto Bots are repairing issues found during checks, then the tool will be checked again.';
-      if (scanStatus === 'scanning' || buildStatus === 'scanning' || qaStatus === 'checking') return 'The working tool is being checked for common errors and broken logic.';
-      if (scanStatus === 'passed' || buildStatus === 'qa_ready') return 'Common error checks passed. The tool is waiting for final quality approval.';
-      if (scanStatus === 'failed' || buildStatus === 'failed' || qaStatus === 'failed') return 'Issues were found that need repair before delivery.';
-      if (buildStatus === 'building' || buildStatus === 'created_private_file') return 'The tool is being built. Checks will start after the working tool is created.';
-      if (readinessScore > 0) return 'The tool is progressing through checks before delivery.';
-      return qaAttempts > 0 ? 'QA is waiting for the next check.' : 'QA has not started yet. The tool is waiting to be built.';
+      if (qaPassed) return 'QA passed. The Google Sheet tool is ready for delivery or has already been delivered.';
+      if (autoFixStatus === 'fixing' || buildStatus === 'fixing' || qaStatus === 'fixing') return 'Auto Bots are repairing issues found during checks, then the Google Sheet will be checked again.';
+      if (scanStatus === 'scanning' || buildStatus === 'scanning' || qaStatus === 'checking') return 'The Google Sheet is being checked for common errors and broken logic.';
+      if (scanStatus === 'passed' || buildStatus === 'qa_ready') return 'Common error checks passed. The Google Sheet is waiting for final quality approval.';
+      if (scanStatus === 'failed' || buildStatus === 'failed' || qaStatus === 'failed') return 'Issues were found that need repair before the Google Sheet can be delivered.';
+      if (buildStatus === 'building' || buildStatus === 'created_private_file') return 'The Google Sheet is being built. Checks will start after the sheet is created.';
+      if (readinessScore > 0) return 'The Google Sheet is progressing through checks before delivery.';
+      return qaAttempts > 0 ? 'QA is waiting for the next check.' : 'QA has not started yet. The Google Sheet is waiting to be built.';
     }
 
     function isActiveChecking(qaStatus, buildStatus, scanStatus, autoFixStatus) {
