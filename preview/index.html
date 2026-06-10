@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -481,25 +482,66 @@
 
     function renderStructure(value) {
       const rows = normalizeStructure(value);
+      const usefulRows = rows.filter(row => String(row.tab_name || '').trim());
 
-      if (!rows.length) {
-        const sections = toArray(preview.preview_sections);
-        const fields = toArray(preview.preview_fields);
-
-        if (!sections.length && !fields.length) {
-          return '<div class="empty">Create another preview to see the suggested tabs and columns.</div>';
-        }
-
-        const fallbackRows = sections.slice(0, 6).map((section, index) => ({
-          tab_name: section,
-          purpose: 'Suggested section for this tool.',
-          columns: fields.slice(index * 5, index * 5 + 5)
-        }));
-
-        return renderStructureTable(fallbackRows);
+      // If Supabase/OpenAI sends a complete structure, show it.
+      if (usefulRows.length && usefulRows.some(row => toArray(row.columns).length)) {
+        return renderStructureTable(usefulRows);
       }
 
-      return renderStructureTable(rows);
+      // Google Sheets mode:
+      // Do not show old HTML-preview placeholders like "To be confirmed".
+      // The final Google Sheet is created by the Apps Script builder, but this preview
+      // should still show the standard sheet tabs clearly before the user builds.
+      return renderStructureTable(getGoogleSheetsPreviewRows());
+    }
+
+    function getGoogleSheetsPreviewRows() {
+      const requestedFields = toArray(preview.preview_fields)
+        .map(field => String(field || '').trim())
+        .filter(Boolean);
+
+      const dataColumns = requestedFields.length
+        ? requestedFields.slice(0, 8)
+        : ['Name / Item', 'Date', 'Status', 'Amount / Hours', 'Category', 'Notes'];
+
+      return [
+        {
+          tab_name: 'Data',
+          purpose: 'Main working tab where users enter and manage records.',
+          columns: dataColumns
+        },
+        {
+          tab_name: 'Dashboard',
+          purpose: 'Simple overview with the most important KPIs and summaries.',
+          columns: ['Total Records', 'Key Totals', 'Status Summary', 'Latest Activity', 'Important KPIs']
+        },
+        {
+          tab_name: 'Numerical Analytics',
+          purpose: 'Detailed number-based reports and calculated summaries.',
+          columns: ['Summary Tables', 'Totals', 'Averages', 'Breakdowns', 'Calculated Results']
+        },
+        {
+          tab_name: 'Visual Analytics',
+          purpose: 'Charts and visual summaries based on the entered data.',
+          columns: ['Charts', 'Graphs', 'Pie Charts', 'Trend Views', 'Visual KPIs']
+        },
+        {
+          tab_name: 'Custom Analytics',
+          purpose: 'User-controlled reporting with date and value filters.',
+          columns: ['From Date', 'To Date', 'Filter By', 'Custom Summary', 'Filtered Results']
+        },
+        {
+          tab_name: 'Settings',
+          purpose: 'Dropdown source lists and editable tool settings.',
+          columns: ['Dropdown Lists', 'Categories', 'Statuses', 'Names / Items', 'Tool Options']
+        },
+        {
+          tab_name: 'Read Me',
+          purpose: 'Short guide explaining how to use the finished Google Sheet.',
+          columns: ['Tabs Guide', 'Button Guide', 'Safe Usage Tips']
+        }
+      ];
     }
 
     function renderStructureTable(rows) {
@@ -514,13 +556,20 @@
               </tr>
             </thead>
             <tbody>
-              ${rows.map(row => `
-                <tr>
-                  <td>${escapeHtml(row.tab_name)}</td>
-                  <td>${escapeHtml(row.purpose || 'Used for this part of the tool.')}</td>
-                  <td><div class="columns">${toArray(row.columns).length ? toArray(row.columns).map(col => `<span class="col-pill">${escapeHtml(col)}</span>`).join('') : '<span class="col-pill">To be confirmed</span>'}</div></td>
-                </tr>
-              `).join('')}
+              ${rows.map(row => {
+                const columns = toArray(row.columns).filter(Boolean);
+                const columnHtml = columns.length
+                  ? columns.map(col => `<span class="col-pill">${escapeHtml(col)}</span>`).join('')
+                  : '<span class="col-pill">Standard Google Sheet section</span>';
+
+                return `
+                  <tr>
+                    <td>${escapeHtml(row.tab_name)}</td>
+                    <td>${escapeHtml(row.purpose || 'Used for this part of the Google Sheet tool.')}</td>
+                    <td><div class="columns">${columnHtml}</div></td>
+                  </tr>
+                `;
+              }).join('')}
             </tbody>
           </table>
         </div>
