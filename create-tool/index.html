@@ -625,25 +625,25 @@
 
         <p class="lead">
           Tell us what tracker, calculator, dashboard, report, or internal business tool you need.
-          The more details you provide, the better your preview overview will be. Longer prompts and uploads are unlocked with Tool Kits.
+          Keep your request short and clear. One tool only. You can use 1 free preview, then Tool Kits are required.
         </p>
 
         <div class="status-pill" id="signedInText">Signed in</div>
 
         <div class="examples">
-          <div class="example-card" data-example="Create an attendance tracker for my employees with check-in, check-out, total hours, monthly reports, and payout summary.">
+          <div class="example-card" data-example="Create an attendance tracker with check-in, check-out, total hours, monthly reports, and payout summary.">
             Attendance tracker with reports
           </div>
 
-          <div class="example-card" data-example="Create a Profit & Loss Tracker for my small business with income, expenses, monthly summary, and profit charts.">
+          <div class="example-card" data-example="Create a profit and loss tracker with income, expenses, monthly summary, and profit charts.">
             Profit & Loss tracker
           </div>
 
-          <div class="example-card" data-example="Create a commission calculator for my sales team with sales amount, commission percentage, target bonus, and monthly totals.">
+          <div class="example-card" data-example="Create a commission calculator with sales amount, commission percentage, target bonus, and monthly totals.">
             Commission calculator
           </div>
 
-          <div class="example-card" data-example="Create an invoice generator that can calculate totals, tax, discounts, generate PDFs, print invoices, and email customers.">
+          <div class="example-card" data-example="Create an invoice generator with totals, tax, discounts, PDF/print helper, and customer records.">
             Invoice generator
           </div>
         </div>
@@ -655,55 +655,20 @@
 
           <textarea
             id="prompt"
-            maxlength="2000"
-            placeholder="Example: Create a simple inventory tracker for a small shop with product name, stock in, stock out, current stock, low stock alert, and monthly summary."
+            maxlength="120"
+            placeholder="Example: Create an invoice generator with totals, tax, discount, customer records, dashboard, and print helper."
             required
           ></textarea>
 
           <div class="prompt-meta">
-            <span id="promptLimitHelp">Free preview limit: 2,000 characters. With Tool Kits: up to 50,000 characters. Links are not allowed in prompts.</span>
-            <span class="char-counter" id="charCounter">0 / 2,000</span>
+            <span id="promptLimitHelp">Limit: 120 characters. One clear tool request only. Links and uploads are disabled.</span>
+            <span class="char-counter" id="charCounter">0 / 120</span>
           </div>
 
-          <div class="link-error" id="linkError">Links are not allowed in prompt. Please remove website links/domains or upload a screenshot instead.</div>
-
-          <div
-            class="upload-panel"
-            id="uploadPanel"
-            title="Click to upload PNG/JPG/JPEG screenshots only. Typed links and document files are blocked for safety."
-          >
-            <div class="upload-top">
-              <div>
-                <p class="upload-title">Upload screenshots</p>
-                <p class="upload-help">
-                  Upload PNG, JPG, or JPEG screenshots to show examples, old screens, errors, layouts, or instructions visually.
-                </p>
-              </div>
-
-              <span class="lock-pill" id="uploadLockPill">Requires Tool Kits</span>
-            </div>
-
-            <input
-              type="file"
-              id="fileInput"
-              multiple
-              style="display:none;"
-              accept=".png,.jpg,.jpeg"
-            />
-
-            <p class="tiny-note">
-              Upload limit: maximum 5 screenshots per request and 2MB per screenshot. Only PNG, JPG, and JPEG screenshots are allowed.
-            </p>
-
-            <div class="selected-files" id="selectedFiles"></div>
-          </div>
+          <div class="link-error" id="linkError">Links are not allowed. Please type one short tool request only.</div>
 
           <div class="form-actions">
-            <button class="btn btn-upload" id="uploadBtn" type="button">
-              Upload File
-            </button>
-
-            <button class="btn btn-secondary" id="exampleBtn" type="button">
+<button class="btn btn-secondary" id="exampleBtn" type="button">
               Use Example
             </button>
 
@@ -728,10 +693,10 @@
 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    const FREE_PROMPT_CHARS = 2000;
-    const PAID_PROMPT_CHARS = 50000;
-    const MAX_FILES = 5;
-    const MAX_FILE_SIZE = 2 * 1024 * 1024;
+    const FREE_PROMPT_CHARS = 120;
+    const PAID_PROMPT_CHARS = 120;
+    const MAX_FILES = 0;
+    const MAX_FILE_SIZE = 0;
     const MULTIPLE_TOOLS_MESSAGE = "Multiple tools detected, please try again with 1 tool request at a time.";
 
     let currentPromptLimit = FREE_PROMPT_CHARS;
@@ -759,8 +724,8 @@
     const previewDisplay = document.getElementById("previewDisplay");
     const creditDisplay = document.getElementById("creditDisplay");
     const resetPreviewBtn = document.getElementById("resetPreviewBtn");
-    const uploadPanel = document.getElementById("uploadPanel");
-    const uploadLockPill = document.getElementById("uploadLockPill");
+    const uploadPanel = document.getElementById("uploadPanel") || { classList: { add(){}, remove(){}, toggle(){} }, style: {} };
+    const uploadLockPill = document.getElementById("uploadLockPill") || { textContent: "", style: {} };
     const form = document.getElementById("toolForm");
     const promptInput = document.getElementById("prompt");
     const charCounter = document.getElementById("charCounter");
@@ -768,9 +733,9 @@
     const promptLimitHelp = document.getElementById("promptLimitHelp");
     const submitBtn = document.getElementById("submitBtn");
     const exampleBtn = document.getElementById("exampleBtn");
-    const uploadBtn = document.getElementById("uploadBtn");
-    const fileInput = document.getElementById("fileInput");
-    const selectedFilesBox = document.getElementById("selectedFiles");
+    const uploadBtn = document.getElementById("uploadBtn") || { addEventListener(){}, textContent: "", style: {}, disabled: true };
+    const fileInput = document.getElementById("fileInput") || { addEventListener(){}, click(){}, value: "", files: [] };
+    const selectedFilesBox = document.getElementById("selectedFiles") || { innerHTML: "" };
     const message = document.getElementById("message");
 
     menuBtn?.addEventListener("click", () => {
@@ -939,7 +904,8 @@
       if (toolCreditBalance > 0) {
         currentPromptLimit = PAID_PROMPT_CHARS;
         promptInput.setAttribute("maxlength", String(PAID_PROMPT_CHARS));
-        promptLimitHelp.textContent = "Tool Kits active: you can add up to 50,000 characters. Links are not allowed in prompts.";
+        promptLimitHelp.textContent = "Limit: 120 characters. One clear tool request only. Links and uploads are disabled.";
+        selectedFiles = [];
 
         uploadPanel.classList.remove("locked");
         uploadLockPill.textContent = "Upload enabled";
@@ -949,7 +915,8 @@
       } else {
         currentPromptLimit = FREE_PROMPT_CHARS;
         promptInput.setAttribute("maxlength", String(FREE_PROMPT_CHARS));
-        promptLimitHelp.textContent = "Free preview limit: 2,000 characters. Buy Tool Kits to unlock longer prompts and screenshot uploads. Links are not allowed.";
+        promptLimitHelp.textContent = "Free preview: 1 request. Limit: 120 characters. Links and uploads are disabled.";
+        selectedFiles = [];
 
         uploadPanel.classList.add("locked");
         uploadLockPill.textContent = "Requires Tool Kits";
@@ -1107,7 +1074,7 @@
     });
 
     exampleBtn?.addEventListener("click", () => {
-      promptInput.value = "Create a simple inventory tracker for a small shop with product name, category, stock in, stock out, current stock, low stock alert, supplier name, and monthly summary.";
+      promptInput.value = "Create an inventory tracker with stock in, stock out, low stock alert, supplier, dashboard, and monthly summary.";
       updateCharCounter();
       promptInput.focus();
     });
@@ -1121,27 +1088,17 @@
     });
 
     uploadBtn.addEventListener("click", () => {
-      if (!uploadPanelOpen) {
-        uploadPanelOpen = true;
-        uploadPanel.classList.add("open");
-        uploadBtn.textContent = "Choose File";
-
-        if (toolCreditBalance <= 0) {
-          showMessage("File upload is available when you have at least 1 Tool Kit.", "error");
-        }
-
-        return;
-      }
-
-      if (toolCreditBalance <= 0) {
-        showMessage("File upload is available when you have at least 1 Tool Kit.", "error");
-        return;
-      }
-
-      fileInput.click();
+      selectedFiles = [];
+      renderSelectedFiles();
+      showMessage("Screenshot/file upload is disabled for now. Please type one short request under 120 characters.", "error");
     });
 
     fileInput.addEventListener("change", () => {
+      selectedFiles = [];
+      fileInput.value = "";
+      renderSelectedFiles();
+      showMessage("Screenshot/file upload is disabled for now. Please type one short request under 120 characters.", "error");
+      return;
       const incomingFiles = Array.from(fileInput.files || []);
 
       for (const file of incomingFiles) {
@@ -1268,6 +1225,7 @@
 
       await loadPreviewStatus();
 
+      selectedFiles = [];
       const prompt = promptInput.value.trim();
 
       if (!canCreatePreview) {
@@ -1290,7 +1248,7 @@
       }
 
       if (promptHasDisallowedLink(prompt)) {
-        showMessage("Links are not allowed in prompt. Please remove website links/domains or upload a screenshot instead.", "error");
+        showMessage("Links are not allowed. Please type one short tool request only.", "error");
         return;
       }
 
@@ -1304,7 +1262,8 @@
         return;
       }
 
-      const hasAttachments = selectedFiles.length > 0;
+      selectedFiles = [];
+      const hasAttachments = false;
 
       if (hasAttachments && toolCreditBalance <= 0) {
         showMessage("Screenshot uploads are available when you have at least 1 Tool Kit.", "error");
@@ -1323,9 +1282,7 @@
             prompt: prompt,
             status: "submitted",
             source_links: [],
-            upload_context: hasAttachments
-              ? "User added " + selectedFiles.length + " screenshot(s) for visual reference."
-              : null
+            upload_context: null
           })
           .select("id")
           .single();
@@ -1344,12 +1301,7 @@
           throw new Error(err);
         }
 
-        if (selectedFiles.length) {
-          showMessage("Uploading screenshots...", "success");
-          await uploadSelectedFilesForRequest(requestRow.id);
-        }
-
-        showMessage("Screenshots and request saved. Preparing preview overview...", "success");
+        showMessage("Request saved. Preparing preview overview...", "success");
 
         const { data: functionData, error: functionError } = await supabaseClient.functions.invoke("process-tool-request", {
           body: {
