@@ -115,6 +115,12 @@
     const deliveryToken = params.get('token') || '';
     const app = document.getElementById('app');
 
+    const POLL_EVERY_MS = 15000;
+    const MAX_AUTO_POLL_MS = 8 * 60 * 1000;
+    const pollStartedAt = Date.now();
+    let pollTimer = null;
+    let isRefreshing = false;
+
     init();
 
     async function init() {
@@ -123,12 +129,43 @@
         return;
       }
 
+      await refreshStatus();
+
+      if (!pollTimer) {
+        pollTimer = setInterval(refreshStatus, POLL_EVERY_MS);
+      }
+    }
+
+    async function refreshStatus() {
+      if (isRefreshing) return;
+      isRefreshing = true;
+
       try {
         const item = await fetchDeliveryStatus();
         renderStatus(item);
+
+        if (!shouldKeepPolling(item)) {
+          if (pollTimer) clearInterval(pollTimer);
+          pollTimer = null;
+        }
       } catch (error) {
         showError(error.message || 'Could not load Google Sheet tool status.');
+      } finally {
+        isRefreshing = false;
       }
+    }
+
+    function shouldKeepPolling(item) {
+      const status = String(item?.status || '').toLowerCase();
+      const buildStatus = String(item?.build_status || '').toLowerCase();
+      const qaStatus = String(item?.qa_status || '').toLowerCase();
+      const finalUrl = String(item?.final_tool_url || '').trim();
+
+      const delivered = status === 'delivered' || !!finalUrl;
+      const failed = status === 'failed' || status === 'cancelled' || status === 'qa_failed' || status === 'build_failed' || buildStatus === 'failed' || qaStatus === 'failed';
+
+      if (delivered || failed) return false;
+      return Date.now() - pollStartedAt < MAX_AUTO_POLL_MS;
     }
 
     async function fetchDeliveryStatus() {
@@ -169,7 +206,7 @@
       const delivered = status === 'delivered' || !!finalUrl;
       const failed = status === 'failed' || status === 'cancelled' || status === 'qa_failed' || status === 'build_failed' || qaStatus === 'failed' || buildStatus === 'failed' || scanStatus === 'failed' || autoFixStatus === 'failed';
       const message = delivered
-        ? 'Your tool is exported for online synced use to G-Sheets.'
+        ? 'Your tool is ready. Use the Make a copy link to own and edit your Google Sheet.'
         : (item.status_message || getDefaultMessage(status, qaStatus, buildStatus, scanStatus, autoFixStatus));
       const badge = getBadge(delivered, failed, qaStatus, buildStatus, scanStatus, autoFixStatus);
 
@@ -180,9 +217,14 @@
           <p class="summary">${escapeHtml(summary)}</p>
           <div class="message ${delivered ? 'success' : failed ? 'error' : isActiveChecking(qaStatus, buildStatus, scanStatus, autoFixStatus) ? 'info' : ''}">${escapeHtml(message)}</div>
           <div class="actions">
-            ${finalUrl ? `<a class="btn btn-green" href="${escapeAttr(finalUrl)}" target="_blank" rel="noopener">Open G-Sheets Tool</a>` : ''}
+            ${finalUrl ? `<a class="btn btn-green" href="${escapeAttr(finalUrl)}" target="_blank" rel="noopener">Make a copy and own it</a>` : ''}
             <button class="btn btn-primary" type="button" id="refreshBtn">Refresh Status</button>
             <a class="btn" href="/create-tool/">Create Another Google Sheet Tool</a>
+          </div>
+          <div class="customer-note">
+            ${delivered
+              ? 'Important: click “Make a copy” on the Google page so the tool becomes your own editable file. Some formulas may show errors or blanks until you add real data.'
+              : 'AI-built Google Sheets can take up to 7 minutes. This page refreshes automatically every 15 seconds. If formulas show errors later, add data first and the values should calculate normally.'}
           </div>
         </section>
 
@@ -191,11 +233,11 @@
             <h2>Google Sheet Delivery Progress</h2>
             <ul class="timeline">
               <li class="done"><span class="dot"></span><div><strong>Preview approved</strong><span>Your Google Sheet structure was approved for final delivery.</span></div></li>
-              <li class="${timelineClass('building', {status, qaStatus, buildStatus, scanStatus, autoFixStatus, qaPassed, delivered, failed})}"><span class="dot"></span><div><strong>Building Google Sheet tool</strong><span>Your Google Sheet tool is being prepared privately and will be delivered through a direct Google Sheets link.</span></div></li>
+              <li class="${timelineClass('building', {status, qaStatus, buildStatus, scanStatus, autoFixStatus, qaPassed, delivered, failed})}"><span class="dot"></span><div><strong>Building Google Sheet tool</strong><span>Your Google Sheet tool is being prepared privately. AI can take up to 7 minutes. This page auto-refreshes.</span></div></li>
               <li class="${timelineClass('checking', {status, qaStatus, buildStatus, scanStatus, autoFixStatus, qaPassed, delivered, failed})}"><span class="dot"></span><div><strong>Checking for common errors</strong><span>The Google Sheet is checked for #ERROR!, #REF!, #VALUE!, #N/A, broken formulas, missing tabs, dropdown issues and dashboard calculation issues.</span></div></li>
               <li class="${timelineClass('fixing', {status, qaStatus, buildStatus, scanStatus, autoFixStatus, qaPassed, delivered, failed})}"><span class="dot"></span><div><strong>Auto Bots fixing issues</strong><span>If problems are found, Auto Bots can repair default formulas and re-check the Google Sheet before delivery.</span></div></li>
               <li class="${timelineClass('qa', {status, qaStatus, buildStatus, scanStatus, autoFixStatus, qaPassed, delivered, failed})}"><span class="dot"></span><div><strong>Quality check passed</strong><span>${qaPassed || delivered ? 'The Google Sheet passed quality checks.' : 'The Google Sheet must pass QA before it can be delivered.'}</span></div></li>
-              <li class="${delivered ? 'done' : failed ? 'bad' : ''}"><span class="dot"></span><div><strong>Exported to G-Sheets</strong><span>${delivered ? 'Your tool is exported for online synced use to G-Sheets.' : 'Once QA passes and delivery is complete, your online synced G-Sheets link will appear here.'}</span></div></li>
+              <li class="${delivered ? 'done' : failed ? 'bad' : ''}"><span class="dot"></span><div><strong>Exported to G-Sheets</strong><span>${delivered ? 'Your tool is exported for online synced use to G-Sheets. Use the Make a copy link to own and edit it.' : 'Once QA passes and delivery is complete, your Make a copy link will appear here.'}</span></div></li>
             </ul>
           </section>
 
@@ -208,14 +250,14 @@
             <div class="mini">Readiness: ${readinessScore}/100</div>
             <div class="message">We check for common errors like #ERROR!, #REF!, #VALUE!, #N/A, broken formulas, missing tabs, missing dropdowns and dashboard calculation issues before delivery.</div>
             <h2 style="margin-top:22px;">Tool Kit Status</h2>
-            <p>${creditUsed ? '1 Tool Kit has been used because your tool was exported for online synced use to G-Sheets.' : 'No Tool Kit has been used yet. A Tool Kit is used only after your tool is successfully exported for online synced use to G-Sheets.'}</p>
+            <p>${creditUsed ? '1 Tool Kit has been used because your final Google Sheet was completed and delivered.' : 'No Tool Kit has been used yet. A Tool Kit is used only after your final Google Sheet is successfully completed and delivered.'}</p>
             <div class="mini">Status page ID: ${escapeHtml(String(item.id || '').slice(0, 8))}</div>
           </section>
         </div>
       `;
 
       const refreshBtn = document.getElementById('refreshBtn');
-      if (refreshBtn) refreshBtn.addEventListener('click', () => window.location.reload());
+      if (refreshBtn) refreshBtn.addEventListener('click', refreshStatus);
     }
 
     function getBadge(delivered, failed, qaStatus, buildStatus, scanStatus, autoFixStatus) {
@@ -228,7 +270,7 @@
     }
 
     function getDefaultMessage(status, qaStatus, buildStatus, scanStatus, autoFixStatus) {
-      if (status === 'delivered') return 'Your tool is exported for online synced use to G-Sheets.';
+      if (status === 'delivered') return 'Your tool is exported for online synced use to G-Sheets. Use the Make a copy link to own and edit it.';
       if (qaStatus === 'passed') return 'Your Google Sheet passed quality checks and is being prepared for delivery.';
       if (autoFixStatus === 'fixing' || buildStatus === 'fixing' || qaStatus === 'fixing') return 'Auto Bots are fixing issues found before delivery.';
       if (scanStatus === 'scanning' || buildStatus === 'scanning' || qaStatus === 'checking') return 'Your Google Sheet is being checked for common errors before delivery.';
