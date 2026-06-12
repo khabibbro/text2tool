@@ -726,14 +726,14 @@
 
           <textarea
             id="prompt"
-            maxlength="120"
+            maxlength="40"
             placeholder="Example: Create an attendance tracker."
             required
           ></textarea>
 
           <div class="prompt-meta">
-            <span id="promptLimitHelp">Limit: 120 characters. One clear tool request only. Links and uploads are disabled.</span>
-            <span class="char-counter" id="charCounter">0 / 120</span>
+            <span id="promptLimitHelp">Limit: 40 characters. One clear tool request only. Links and uploads are disabled.</span>
+            <span class="char-counter" id="charCounter">0 / 40</span>
           </div>
 
           <div class="link-error" id="linkError">Links are not allowed. Please type one short tool request only.</div>
@@ -764,8 +764,8 @@
 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    const FREE_PROMPT_CHARS = 120;
-    const PAID_PROMPT_CHARS = 120;
+    const FREE_PROMPT_CHARS = 40;
+    const PAID_PROMPT_CHARS = 40;
     const MAX_FILES = 0;
     const MAX_FILE_SIZE = 0;
     const MULTIPLE_TOOLS_MESSAGE = "Multiple tools detected, please try again with 1 tool request at a time.";
@@ -975,7 +975,7 @@
       if (toolCreditBalance > 0) {
         currentPromptLimit = PAID_PROMPT_CHARS;
         promptInput.setAttribute("maxlength", String(PAID_PROMPT_CHARS));
-        promptLimitHelp.textContent = "Limit: 120 characters. One clear tool request only. Links and uploads are disabled.";
+        promptLimitHelp.textContent = "Limit: 40 characters. One clear tool request only. Links and uploads are disabled.";
         selectedFiles = [];
 
         uploadPanel.classList.remove("locked");
@@ -986,7 +986,7 @@
       } else {
         currentPromptLimit = FREE_PROMPT_CHARS;
         promptInput.setAttribute("maxlength", String(FREE_PROMPT_CHARS));
-        promptLimitHelp.textContent = "Free preview: 1 request. Limit: 120 characters. Links and uploads are disabled.";
+        promptLimitHelp.textContent = "Free preview: 1 request. Limit: 40 characters. Links and uploads are disabled.";
         selectedFiles = [];
 
         uploadPanel.classList.add("locked");
@@ -1161,14 +1161,14 @@
     uploadBtn.addEventListener("click", () => {
       selectedFiles = [];
       renderSelectedFiles();
-      showMessage("Screenshot/file upload is disabled for now. Please type one short request under 120 characters.", "error");
+      showMessage("Screenshot/file upload is disabled for now. Please type one short request under 40 characters.", "error");
     });
 
     fileInput.addEventListener("change", () => {
       selectedFiles = [];
       fileInput.value = "";
       renderSelectedFiles();
-      showMessage("Screenshot/file upload is disabled for now. Please type one short request under 120 characters.", "error");
+      showMessage("Screenshot/file upload is disabled for now. Please type one short request under 40 characters.", "error");
       return;
       const incomingFiles = Array.from(fileInput.files || []);
 
@@ -1214,7 +1214,7 @@
       return String(name || "file")
         .replace(/[^a-zA-Z0-9._-]/g, "_")
         .replace(/_+/g, "_")
-        .slice(0, 120);
+        .slice(0, 40);
     }
 
     function formatBytes(bytes) {
