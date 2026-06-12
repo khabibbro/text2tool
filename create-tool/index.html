@@ -205,9 +205,30 @@
 
     .page-grid {
       display: grid;
-      grid-template-columns: .92fr 1.08fr;
+      grid-template-columns: 1fr;
       gap: 24px;
       align-items: start;
+    }
+
+    .hero-panel {
+      display: grid;
+      grid-template-columns: .9fr 1.25fr;
+      gap: 34px;
+      align-items: start;
+    }
+
+    .hero-copy {
+      min-width: 0;
+    }
+
+    .example-prompts-box {
+      min-width: 0;
+      padding: 22px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(139, 92, 246, .18), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.045));
     }
 
     .panel {
@@ -480,44 +501,51 @@
     }
 
     .examples-title {
-      margin-top: 20px;
-      margin-bottom: 12px;
+      margin: 0 0 14px;
       color: #fff;
-      font-size: 18px;
-      font-weight: 900;
-      letter-spacing: .01em;
+      font-size: 20px;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+    }
+
+    .examples-subtitle {
+      margin: -6px 0 16px;
+      color: rgba(255,255,255,.68);
+      font-size: 14px;
+      line-height: 1.55;
     }
 
     .examples {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
       margin-top: 0;
       width: 100%;
     }
 
     .example-card {
-      min-height: 66px;
-      padding: 16px 17px;
+      min-height: 72px;
+      padding: 15px 15px;
       border: 1px solid rgba(255,255,255,.14);
       background:
         linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.055));
       border-radius: 18px;
-      color: rgba(255,255,255,.90);
+      color: rgba(255,255,255,.92);
       cursor: pointer;
       transition: .2s ease;
       display: flex;
       align-items: center;
-      font-size: 15px;
-      line-height: 1.35;
+      font-size: 14px;
+      font-weight: 750;
+      line-height: 1.32;
       box-shadow: 0 12px 30px rgba(0,0,0,.16);
     }
 
     .example-card:hover {
       transform: translateY(-2px);
-      border-color: rgba(208, 76, 255, .45);
+      border-color: rgba(208, 76, 255, .48);
       background:
-        linear-gradient(135deg, rgba(164, 80, 255, .18), rgba(234, 64, 160, .13));
+        linear-gradient(135deg, rgba(164, 80, 255, .20), rgba(234, 64, 160, .14));
     }
 .loading-full {
       min-height: 54vh;
@@ -597,6 +625,16 @@
       .upload-top { flex-direction: column; }
     }
   
+    @media (max-width: 1080px) {
+      .hero-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .examples {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
     @media (max-width: 760px) {
       .examples {
         grid-template-columns: 1fr;
@@ -604,6 +642,10 @@
 
       .example-card {
         min-height: auto;
+      }
+
+      .example-prompts-box {
+        padding: 18px;
       }
     }
 
@@ -648,33 +690,38 @@
     </div>
 
     <div id="pageContent" class="page-grid" style="display:none;">
-      <section class="panel">
-        <div class="eyebrow">✨ Create your tool</div>
-        <h1>Describe the tool you want AI to prepare.</h1>
+      <section class="panel hero-panel">
+        <div class="hero-copy">
+          <div class="eyebrow">✨ Create your tool</div>
+          <h1>Describe the tool you want AI to prepare.</h1>
 
-        <p class="lead">
-          Tell us what tracker, calculator, dashboard, report, or internal business tool you need.
-          Keep your request short and clear. One tool only. You can use 1 free preview, then Tool Kits are required.
-        </p>
+          <p class="lead">
+            Tell us what tracker, calculator, dashboard, report, or internal business tool you need.
+            Keep your request short and clear. One tool only. You can use 1 free preview, then Tool Kits are required.
+          </p>
 
-        <div class="status-pill" id="signedInText">Signed in</div>
+          <div class="status-pill" id="signedInText">Signed in</div>
+        </div>
 
-        
-        <div class="examples-title">Example Prompts</div>
+        <div class="example-prompts-box">
+          <div class="examples-title">Example Prompts</div>
+          <p class="examples-subtitle">Click any example to fill the request box automatically.</p>
 
-        <div class="examples">
-          <div class="example-card" data-example="Create an attendance tracker with employee names, daily status, monthly summary, absence count, and dashboard.">Attendance tracker with reports</div>
-          <div class="example-card" data-example="Create a profit and loss tracker with income, expenses, monthly totals, category breakdown, net profit, and dashboard.">Profit &amp; Loss tracker</div>
-          <div class="example-card" data-example="Create a commission calculator with salesperson names, sales amount, commission rate, monthly totals, and dashboard.">Commission calculator</div>
-          <div class="example-card" data-example="Create an agriculture farm tracker with crop records, field expenses, fertilizer schedule, harvest quantity, sales, profit, and dashboard.">Agriculture farm tracker</div>
-          <div class="example-card" data-example="Create an inventory tracker with item names, stock in, stock out, reorder alerts, supplier details, and dashboard.">Inventory tracker</div>
-          <div class="example-card" data-example="Create a payroll tracker with employee names, salary, overtime, deductions, net pay, monthly summary, and dashboard.">Payroll tracker</div>
-          <div class="example-card" data-example="Create a customer CRM tracker with leads, follow-ups, deal status, contact details, notes, and dashboard.">Customer CRM tracker</div>
-          <div class="example-card" data-example="Create a hotel management tracker with room bookings, guest details, check-in and check-out dates, payments, occupancy, housekeeping status, and dashboard.">Hotel management tracker</div>
-        </div></div>
+          <div class="examples">
+            <div class="example-card" data-example="Create an attendance tracker with employee names, daily status, monthly summary, absence count, and dashboard.">Attendance tracker with reports</div>
+            <div class="example-card" data-example="Create a profit and loss tracker with income, expenses, monthly totals, category breakdown, net profit, and dashboard.">Profit &amp; Loss tracker</div>
+            <div class="example-card" data-example="Create a commission calculator with salesperson names, sales amount, commission rate, monthly totals, and dashboard.">Commission calculator</div>
+            <div class="example-card" data-example="Create an agriculture farm tracker with crop records, field expenses, fertilizer schedule, harvest quantity, sales, profit, and dashboard.">Agriculture farm tracker</div>
+            <div class="example-card" data-example="Create an inventory tracker with item names, stock in, stock out, reorder alerts, supplier details, and dashboard.">Inventory tracker</div>
+            <div class="example-card" data-example="Create a payroll tracker with employee names, salary, overtime, deductions, net pay, monthly summary, and dashboard.">Payroll tracker</div>
+            <div class="example-card" data-example="Create a customer CRM tracker with leads, follow-ups, deal status, contact details, notes, and dashboard.">Customer CRM tracker</div>
+            <div class="example-card" data-example="Create a hotel management tracker with room bookings, guest details, check-in and check-out dates, payments, occupancy, housekeeping status, and dashboard.">Hotel management tracker</div>
+            <div class="example-card" data-example="Create a project task tracker with tasks, owners, due dates, status, priority, progress, and dashboard.">Project task tracker</div>
+          </div>
+        </div>
       </section>
 
-      <section class="panel">
+      <section class="panel request-panel">
         <form id="toolForm">
           <label for="prompt">Your tool request</label>
 
@@ -693,7 +740,7 @@
           <div class="link-error" id="linkError">Links are not allowed. Please type one short tool request only.</div>
 
           <div class="form-actions">
-<button class="btn btn-secondary" id="exampleBtn" type="button">
+            <button class="btn btn-secondary" id="exampleBtn" type="button">
               Use Example
             </button>
 
