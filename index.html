@@ -1387,6 +1387,50 @@
       font-weight: 900;
     }
 
+
+    .way-section {
+      padding-top: 34px !important;
+    }
+
+
+    .hero-checklist {
+      max-width: 760px;
+      margin: 28px auto 0;
+      display: grid;
+      gap: 13px;
+      text-align: left;
+    }
+
+    .hero-checkitem {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: #1f2937;
+      font-size: 17px;
+      line-height: 1.45;
+      font-weight: 650;
+      letter-spacing: -0.015em;
+    }
+
+    .hero-checkitem .tick {
+      color: var(--blue);
+      font-size: 20px;
+      line-height: 1;
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    @media (max-width: 640px) {
+      .hero-checklist {
+        max-width: 100%;
+        margin-top: 22px;
+      }
+
+      .hero-checkitem {
+        font-size: 15px;
+      }
+    }
+
   </style>
 </head>
 
@@ -1423,6 +1467,14 @@
       <h1>Turn Text Into <span>Ready-Made Google Sheets</span></h1>
 
       <p class="hero-example">Example: Create an attendance tracker.</p>
+
+      <div class="hero-checklist" aria-label="What Text2Tool adds">
+        <div class="hero-checkitem"><span class="tick">✓</span><span>Formulas added in relevant cells</span></div>
+        <div class="hero-checkitem"><span class="tick">✓</span><span>Cells protected</span></div>
+        <div class="hero-checkitem"><span class="tick">✓</span><span>Conditional formatting added</span></div>
+        <div class="hero-checkitem"><span class="tick">✓</span><span>Analytics dashboards &amp; settings created</span></div>
+      </div>
+
 </section>
 
     <section>
@@ -1474,11 +1526,7 @@
     </section>
 
     <section class="way-section">
-      <div class="section-title">
-        <h2>The Old Way vs The Gold Way</h2>
-      </div>
-
-      <div class="compare-grid">
+<div class="compare-grid">
         <article class="way-card old">
           <div class="way-head">
             <div class="way-icon">⌛</div>
