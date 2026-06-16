@@ -229,13 +229,14 @@
     }
 
     .hero h1 {
-      max-width: 1080px;
+      max-width: 980px;
       margin: 22px auto 0;
       color: var(--text);
-      font-size: clamp(42px, 4.6vw, 60px);
+      font-size: clamp(44px, 4.8vw, 62px);
       line-height: 1.08;
       letter-spacing: -0.055em;
       font-weight: 850;
+      text-align: center;
     }
 
     .hero h1 span {
@@ -426,13 +427,14 @@
     }
 
     .way-card {
-      position: relative;
-      border-radius: 24px;
-      padding: 28px;
       border: 1px solid var(--line);
+      border-radius: 24px;
       background: #ffffff;
+      padding: 28px;
       box-shadow: var(--shadow-small);
-      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 430px;
     }
 
     .way-card.old {
@@ -484,16 +486,17 @@
 
     .way-list {
       display: grid;
-      gap: 14px;
+      gap: 18px;
+      margin-top: 26px;
     }
 
     .way-row {
-      min-height: 72px;
+      min-height: 86px;
       display: grid;
       grid-template-columns: 26px 1fr;
       align-items: center;
       gap: 14px;
-      padding: 16px;
+      padding: 18px;
       border: 1px solid var(--line);
       border-radius: 16px;
       background: rgba(255, 255, 255, .88);
@@ -570,13 +573,16 @@
     }
 
     .way-quote {
-      margin-top: 20px;
-      padding: 15px 16px;
+      margin-top: auto;
+      padding: 18px 16px;
       border-radius: 16px;
-      font-size: 16px;
-      line-height: 1.45;
       text-align: center;
-      font-weight: 850;
+      color: var(--blue);
+      background: #dbeafe;
+      border: 1px solid #bfdbfe;
+      font-size: 18px;
+      line-height: 1.25;
+      font-weight: 900;
     }
 
     .old .way-quote {
@@ -1224,12 +1230,13 @@
 
 
     .hero-example {
-      margin: 14px auto 0;
+      margin: 52px auto 0;
       color: var(--muted);
       font-size: 17px;
       line-height: 1.5;
       font-weight: 700;
       letter-spacing: -0.015em;
+      text-align: center;
     }
 
 
@@ -1295,6 +1302,13 @@
       font-size: 14px;
       line-height: 1.2;
       font-weight: 900;
+    }
+
+
+    .way-card.old .way-quote {
+      color: #9a3412;
+      background: #fff7ed;
+      border-color: #fed7aa;
     }
 
   </style>
@@ -1386,7 +1400,7 @@
 
     <section>
       <div class="section-title">
-        <h2>The Old Way vs Text2Tool Way</h2>
+        <h2>The Old Way vs The Gold Way</h2>
       </div>
 
       <div class="compare-grid">
@@ -1407,25 +1421,18 @@
             <div class="way-row">
               <div class="row-icon">•</div>
               <div class="row-copy">
-                <strong>More work, less pay</strong>
-              </div>
-            </div>
-
-            <div class="way-row">
-              <div class="row-icon">•</div>
-              <div class="row-copy">
                 <strong>Manual sheets slow down client work</strong>
               </div>
             </div>
           </div>
 
-          <div class="way-quote">Too much manual fixing.</div>
+          <div class="way-quote">More work. Less pay.</div>
         </article>
 
         <article class="way-card new">
           <div class="way-head">
             <div class="way-icon">⚡</div>
-            <h3>Text2Tool Way</h3>
+            <h3>The Gold Way</h3>
           </div>
 
           <div class="way-list">
@@ -1439,22 +1446,16 @@
             <div class="way-row">
               <div class="row-icon">✓</div>
               <div class="row-copy">
-                <strong>Less work, more money</strong>
-              </div>
-            </div>
-
-            <div class="way-row">
-              <div class="row-icon">✓</div>
-              <div class="row-copy">
                 <strong>Use saved time to do more work</strong>
               </div>
             </div>
           </div>
 
-          <div class="way-quote">Faster setup. Easier delivery.</div>
+          <div class="way-quote">Less work. More money.</div>
         </article>
       </div>
     </section>
+
 
 
     <section>
