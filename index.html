@@ -1431,6 +1431,168 @@
       }
     }
 
+
+    /* Final homepage polish: smaller, cleaner, centered headings */
+    .hero {
+      padding-top: 58px !important;
+      padding-bottom: 18px !important;
+      text-align: center !important;
+    }
+
+    .hero h1 {
+      max-width: 980px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      text-align: center !important;
+      font-size: clamp(40px, 4.5vw, 58px) !important;
+      line-height: 1.08 !important;
+      font-weight: 800 !important;
+      letter-spacing: -0.055em !important;
+    }
+
+    .hero h1 span {
+      color: var(--blue);
+    }
+
+    .section-title {
+      text-align: center !important;
+      max-width: 800px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    .section-title h2,
+    .demo-copy h2,
+    .cta-band h2 {
+      font-size: clamp(30px, 3.35vw, 44px) !important;
+      line-height: 1.08 !important;
+      font-weight: 800 !important;
+      letter-spacing: -0.05em !important;
+    }
+
+    .demo-copy h2 {
+      max-width: 520px;
+    }
+
+    .home-price-card h3,
+    .way-head h3,
+    .review-person {
+      font-weight: 800 !important;
+    }
+
+    .tool-chip,
+    .row-copy strong,
+    .home-price-card p,
+    .review-card p {
+      font-weight: 600 !important;
+    }
+
+
+    .home-faq-section {
+      padding-top: 56px;
+      padding-bottom: 56px;
+    }
+
+    .home-faq-wrap {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .home-faq-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 0 0 34px;
+      color: var(--text);
+      font-size: clamp(30px, 3.3vw, 44px);
+      line-height: 1.08;
+      letter-spacing: -0.05em;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .home-faq-title span {
+      font-size: 34px;
+      line-height: 1;
+    }
+
+    .home-faq-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .home-faq-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #ffffff;
+      box-shadow: 0 10px 28px rgba(27, 55, 96, 0.06);
+      overflow: hidden;
+    }
+
+    .home-faq-card summary {
+      list-style: none;
+      cursor: pointer;
+      min-height: 72px;
+      display: grid;
+      grid-template-columns: 34px 1fr 24px;
+      align-items: center;
+      gap: 18px;
+      padding: 20px 26px;
+      color: var(--text);
+      font-size: 17px;
+      line-height: 1.35;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .home-faq-card summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-icon {
+      color: var(--blue);
+      font-size: 22px;
+      line-height: 1;
+      text-align: center;
+    }
+
+    .faq-arrow {
+      color: #64748b;
+      font-size: 18px;
+      text-align: right;
+      transition: transform .18s ease;
+    }
+
+    .home-faq-card[open] .faq-arrow {
+      transform: rotate(180deg);
+    }
+
+    .home-faq-answer {
+      padding: 0 26px 22px 78px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.65;
+      font-weight: 520;
+    }
+
+    .home-faq-answer p {
+      margin: 0;
+    }
+
+    @media (max-width: 640px) {
+      .home-faq-card summary {
+        grid-template-columns: 28px 1fr 20px;
+        gap: 12px;
+        padding: 18px;
+        font-size: 15px;
+      }
+
+      .home-faq-answer {
+        padding: 0 18px 20px 58px;
+      }
+    }
+
   </style>
 </head>
 
@@ -1450,7 +1612,7 @@
       <div class="nav-links" id="navLinks">
         <a class="active" href="/">Home</a>
         <a href="#pricing">Pricing</a>
-        <a href="/faq/">FAQ</a>
+        <a href="#faq">FAQ</a>
       </div>
 
       <div class="nav-actions">
@@ -1462,9 +1624,7 @@
 
   <main>
     <section class="hero">
-      <div class="eyebrow">⚡ For freelancers, VAs & agencies</div>
-
-      <h1>Turn Text Into <span>Ready-Made Google Sheets</span></h1>
+<h1>Turn Text Into <span>Ready-Made Google Sheets</span></h1>
 
       <p class="hero-example">Example: Create an attendance tracker.</p>
 
@@ -1687,6 +1847,56 @@
         </article>
       </div>
     </section>
+
+
+    <section class="home-faq-section" id="faq">
+      <div class="home-faq-wrap">
+        <h2 class="home-faq-title"><span>📝</span> Frequently Asked Questions</h2>
+
+        <div class="home-faq-list">
+          <details class="home-faq-card">
+            <summary><span class="faq-icon">?</span><span>What if my tool has an issue?</span><span class="faq-arrow">⌄</span></summary>
+            <div class="home-faq-answer"><p>Use the instructions sent by email first. If the issue is from the generated setup, create a clearer request or contact support when support details are shown on the website or delivery email.</p></div>
+          </details>
+
+          <details class="home-faq-card">
+            <summary><span class="faq-icon">✎</span><span>What if I describe the wrong tool?</span><span class="faq-arrow">⌄</span></summary>
+            <div class="home-faq-answer"><p>Create another preview with a clearer request. Add the tool type, fields, formulas, reports, dashboards, and workflow rules you need.</p></div>
+          </details>
+
+          <details class="home-faq-card">
+            <summary><span class="faq-icon">✉</span><span>How will I receive my tool?</span><span class="faq-arrow">⌄</span></summary>
+            <div class="home-faq-answer"><p>Your finished tool is exported to Google Sheets. The Google Sheets link and instructions are sent to your email.</p></div>
+          </details>
+
+          <details class="home-faq-card">
+            <summary><span class="faq-icon">✓</span><span>Do I own the Google Sheet after delivery?</span><span class="faq-arrow">⌄</span></summary>
+            <div class="home-faq-answer"><p>Yes. Click File → Make a copy to save the tool inside your own Google Drive and use it under your own Google account.</p></div>
+          </details>
+
+          <details class="home-faq-card">
+            <summary><span class="faq-icon">⚙</span><span>Can I edit the tool after making a copy?</span><span class="faq-arrow">⌄</span></summary>
+            <div class="home-faq-answer"><p>Yes. After you make your own copy, you can edit and customize the Google Sheet according to your needs.</p></div>
+          </details>
+
+          <details class="home-faq-card">
+            <summary><span class="faq-icon">⌁</span><span>How do I write a good request?</span><span class="faq-arrow">⌄</span></summary>
+            <div class="home-faq-answer"><p>Mention the tool type, who will use it, main fields, formulas, reports, dashboards, conditional formatting, and final result you want.</p></div>
+          </details>
+
+          <details class="home-faq-card">
+            <summary><span class="faq-icon">▦</span><span>What kinds of tools can I request?</span><span class="faq-arrow">⌄</span></summary>
+            <div class="home-faq-answer"><p>You can request invoice generators, attendance trackers, inventory trackers, lead trackers, commission calculators, payroll calculators, KPI dashboards, profit and loss trackers, and similar Google Sheet tools.</p></div>
+          </details>
+
+          <details class="home-faq-card">
+            <summary><span class="faq-icon">$</span><span>What are Tool Kits?</span><span class="faq-arrow">⌄</span></summary>
+            <div class="home-faq-answer"><p>Tool Kits are used when you are ready to generate the final working Google Sheets tool after previewing the idea.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
 
     <section>
       <div class="cta-band">
