@@ -2203,7 +2203,7 @@
         <div class="home-create-top">
           <div>
             <h3>Enter your prompt</h3>
-            <p>Example: Create me a profit loss tracker for my Shopify business.</p>
+            <p>Example: Create a profit loss tracker.</p>
           </div>
 
           <div class="home-create-status">
@@ -2225,14 +2225,14 @@
 
           <textarea
             id="homePrompt"
-            maxlength="120"
+            maxlength="50"
             placeholder="Example: Create an attendance tracker."
             required
           ></textarea>
 
           <div class="home-prompt-meta">
-            <span>Limit: 120 characters. One clear tool request only.</span>
-            <span id="homeCharCounter">0 / 120</span>
+            <span>Limit: 50 characters. One clear tool request only.</span>
+            <span id="homeCharCounter">0 / 50</span>
           </div>
 
           <div id="homeLinkError" class="home-form-error">Links are not allowed. Please type one short tool request only.</div>
@@ -2256,7 +2256,7 @@
         <div class="home-faq-list">
           <details class="home-faq-card">
             <summary><span class="faq-icon">?</span><span>What if my tool has an issue?</span><span class="faq-arrow">⌄</span></summary>
-            <div class="home-faq-answer"><p>Use the instructions sent with your tool first. If something still looks wrong, create a clearer new request or contact support when support details are shown on the website or delivery email.</p></div>
+            <div class="home-faq-answer"><p>If it shows errors, that usually means you have not yet added data. Make sure to click File &gt; Make a copy to own it and get full features. Reach out to live chat support if the above does not help. If you are reaching out during off-duty hours, please email ai@text2tool.com and a ticket will be created. Someone will get back to you within 12 hours or less.</p></div>
           </details>
 
           <details class="home-faq-card">
@@ -2271,7 +2271,7 @@
 
           <details class="home-faq-card">
             <summary><span class="faq-icon">✉</span><span>How will I receive my tool?</span><span class="faq-arrow">⌄</span></summary>
-            <div class="home-faq-answer"><p>Your finished tool is exported to Google Sheets. The Google Sheets link and instructions are sent to your email.</p></div>
+            <div class="home-faq-answer"><p>Your tool is exported to Google Sheets and sent to you via email in 5–7 minutes. Make sure to click File &gt; Make a copy before using it so you get ownership.</p></div>
           </details>
 
           <details class="home-faq-card">
@@ -2281,7 +2281,7 @@
 
           <details class="home-faq-card">
             <summary><span class="faq-icon">⚙</span><span>Can I edit the tool after making a copy?</span><span class="faq-arrow">⌄</span></summary>
-            <div class="home-faq-answer"><p>Yes. After you make your own copy, you can edit and customize the Google Sheet according to your needs.</p></div>
+            <div class="home-faq-answer"><p>Yes. First open the delivered Google Sheet, then click File &gt; Make a copy. After the copy is saved in your own Google Drive, you can edit and customize the tool according to your needs.</p></div>
           </details>
 
           <details class="home-faq-card">
@@ -2406,7 +2406,7 @@
       const previewText = document.getElementById("homePreviewText");
       const creditText = document.getElementById("homeCreditText");
 
-      const PROMPT_LIMIT = 120;
+      const PROMPT_LIMIT = 50;
       const MULTIPLE_TOOLS_MESSAGE = "Multiple tools detected. Please request one tool at a time.";
 
       let currentUser = null;
