@@ -7,21 +7,32 @@
   <title>Text2Tool AI | AI Google Sheet Tools for Freelancers & VAs</title>
   <meta name="description" content="Freelancers and VAs can turn client tracker and Google Sheet requests into ready-to-use tools in seconds. Auto formulas. Auto built. Auto setup." />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     :root {
-      --bg: #07050d;
-      --card: rgba(255, 255, 255, 0.075);
-      --text: #ffffff;
-      --muted: rgba(255, 255, 255, 0.72);
-      --line: rgba(255, 255, 255, 0.14);
-      --purple: #8b5cf6;
-      --pink: #ec4899;
-      --green: #22c55e;
+      --bg: #fbfcff;
+      --bg-soft: #f6f8fc;
+      --surface: #ffffff;
+      --surface-2: #f8fbff;
+      --text: #121826;
+      --muted: #5f6b7c;
+      --soft-muted: #7b8797;
+      --line: #e5ebf3;
+      --line-strong: #d7e1ee;
+      --blue: #2563eb;
+      --blue-2: #1d4ed8;
+      --blue-soft: #eef5ff;
+      --green: #16a34a;
+      --red: #dc2626;
       --radius: 22px;
-      --max: 1120px;
-      --shadow: 0 24px 80px rgba(0,0,0,.45);
+      --max: 1180px;
+      --shadow: 0 24px 70px rgba(27, 55, 96, 0.10);
+      --shadow-soft: 0 14px 34px rgba(30, 64, 175, 0.08);
     }
 
     * { box-sizing: border-box; }
@@ -30,13 +41,15 @@
 
     body {
       margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at 18% 0%, rgba(139, 92, 246, .32), transparent 36%),
-        radial-gradient(circle at 82% 12%, rgba(236, 72, 153, .22), transparent 34%),
-        linear-gradient(180deg, #07050d 0%, #0b0714 52%, #07050d 100%);
-      color: var(--text);
       min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 14% 12%, rgba(37, 99, 235, 0.08), transparent 30%),
+        radial-gradient(circle at 84% 12%, rgba(29, 78, 216, 0.07), transparent 30%),
+        linear-gradient(180deg, #ffffff 0%, #f7faff 48%, #ffffff 100%);
+      font-family: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
 
     a { color: inherit; text-decoration: none; }
@@ -46,496 +59,482 @@
       position: sticky;
       top: 0;
       z-index: 50;
+      background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(18px);
-      background: rgba(7, 5, 13, .78);
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid rgba(229, 235, 243, 0.92);
     }
 
     .nav {
-      width: min(var(--max), calc(100% - 32px));
+      width: min(var(--max), calc(100% - 40px));
+      min-height: 76px;
       margin: 0 auto;
-      height: 76px;
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
       align-items: center;
-      justify-content: space-between;
-      gap: 18px;
+      gap: 24px;
     }
 
     .brand {
-      display: flex;
+      justify-self: start;
+      display: inline-flex;
       align-items: center;
       gap: 12px;
-      font-weight: 900;
-      letter-spacing: -0.03em;
-      white-space: nowrap;
+      min-width: max-content;
     }
 
     .brand-mark {
       width: 42px;
       height: 42px;
-      display: grid;
+      border-radius: 12px;
+      display: inline-grid;
       place-items: center;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--purple), var(--pink));
-      box-shadow: 0 14px 40px rgba(139, 92, 246, .45);
-      font-weight: 950;
+      color: #081225;
+      background: linear-gradient(135deg, #31b7ff 0%, #2563eb 100%);
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.26);
     }
 
-    .brand small {
-      display: block;
-      font-weight: 700;
-      letter-spacing: .08em;
+    .brand-copy {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.05;
+    }
+
+    .brand-name {
+      font-size: 19px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: var(--text);
+    }
+
+    .brand-tag {
+      margin-top: 4px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
       color: var(--muted);
-      font-size: 11px;
-      margin-top: 1px;
     }
 
     .nav-links {
-      display: flex;
+      justify-self: center;
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      gap: 8px;
+      gap: 32px;
+      color: #303949;
+      font-size: 14px;
+      font-weight: 650;
     }
 
-    .nav-links a,
-    .logout-btn {
-      padding: 10px 13px;
-      color: var(--muted);
-      border-radius: 999px;
-      font-weight: 750;
-      font-size: 14px;
-      transition: .2s ease;
-      border: 0;
-      background: transparent;
-      cursor: pointer;
+    .nav-links a {
+      position: relative;
+      padding: 8px 0;
+      transition: color .18s ease;
     }
 
     .nav-links a:hover,
-    .nav-links a.active,
-    .logout-btn:hover {
-      color: #fff;
-      background: rgba(255,255,255,.09);
+    .nav-links a.active {
+      color: var(--blue);
     }
 
-    .nav-cta {
-      padding: 12px 16px !important;
+    .nav-links a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
       border-radius: 999px;
-      background: linear-gradient(135deg, var(--purple), var(--pink));
-      color: #fff !important;
-      font-weight: 900 !important;
-      box-shadow: 0 14px 34px rgba(139, 92, 246, .28);
+      background: var(--blue);
+    }
+
+    .nav-actions {
+      justify-self: end;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: max-content;
+    }
+
+    .logout-btn {
+      border: 0;
+      background: transparent;
+      color: #303949;
+      padding: 10px 8px;
+      font-size: 14px;
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover { color: var(--blue); }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 20px;
+      border-radius: 12px;
+      color: #ffffff;
+      background: var(--blue);
+      font-size: 14px;
+      font-weight: 800;
+      box-shadow: 0 12px 26px rgba(37, 99, 235, 0.22);
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      background: var(--blue-2);
+      box-shadow: 0 16px 34px rgba(37, 99, 235, 0.28);
     }
 
     .menu-btn {
       display: none;
+      justify-self: end;
       border: 1px solid var(--line);
-      background: rgba(255,255,255,.08);
-      color: #fff;
+      background: var(--surface);
+      color: var(--text);
       border-radius: 12px;
-      padding: 10px 12px;
+      padding: 10px 14px;
+      font-weight: 800;
       cursor: pointer;
-      font-weight: 900;
+    }
+
+    main {
+      width: 100%;
+      overflow: hidden;
     }
 
     section {
-      width: min(var(--max), calc(100% - 32px));
+      width: min(var(--max), calc(100% - 40px));
       margin: 0 auto;
-      padding: 52px 0;
+      padding: 72px 0;
     }
 
-    .section-title {
+    .hero {
+      padding-top: 78px;
+      padding-bottom: 58px;
       text-align: center;
-      margin-bottom: 24px;
-    }
-
-    .section-title h2 {
-      margin: 0;
-      font-size: clamp(30px, 4vw, 46px);
-      letter-spacing: -0.05em;
-    }
-
-    .section-title p {
-      margin: 10px auto 0;
-      color: var(--muted);
-      max-width: 700px;
-      line-height: 1.65;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(42px, 7vw, 76px);
-      line-height: .95;
-      letter-spacing: -0.075em;
-    }
-
-    .gradient-text {
-      background: linear-gradient(90deg, #fff, #d8b4fe, #f9a8d4);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
     }
 
     .eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 12px;
-      border: 1px solid rgba(192, 132, 252, .28);
+      min-height: 34px;
+      padding: 0 14px;
       border-radius: 999px;
-      background: rgba(139, 92, 246, .10);
-      color: #e9d5ff;
+      border: 1px solid #cfe0ff;
+      background: #f3f8ff;
+      color: #164a9e;
       font-size: 13px;
       font-weight: 850;
-      margin-bottom: 18px;
+      letter-spacing: -0.01em;
+    }
+
+    .hero h1 {
+      max-width: 880px;
+      margin: 22px auto 0;
+      font-size: clamp(46px, 7vw, 82px);
+      line-height: 0.96;
+      letter-spacing: -0.075em;
+      font-weight: 900;
+      color: var(--text);
+    }
+
+    .gradient-text {
+      color: var(--blue);
+    }
+
+    .hero-subtitle {
+      max-width: 700px;
+      margin: 22px auto 0;
+      color: var(--muted);
+      font-size: clamp(18px, 2vw, 22px);
+      line-height: 1.62;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-points {
+      margin: 30px auto 0;
+      display: grid;
+      gap: 14px;
+      max-width: 640px;
+      text-align: left;
+    }
+
+    .hero-point {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      align-items: start;
+      gap: 12px;
+      color: #263244;
+      font-size: 16px;
+      line-height: 1.55;
+      font-weight: 550;
+    }
+
+    .hero-point .check {
+      color: var(--blue);
+      font-size: 20px;
+      line-height: 1.1;
+      font-weight: 900;
+    }
+
+    .hero-actions {
+      margin-top: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 9px;
-      border: 0;
-      border-radius: 999px;
-      padding: 14px 20px;
-      min-height: 50px;
-      font-weight: 900;
-      cursor: pointer;
-      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+      min-height: 54px;
+      padding: 0 25px;
+      border-radius: 13px;
+      font-size: 15px;
+      font-weight: 850;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
     }
 
-    .btn:hover { transform: translateY(-2px); }
-
     .btn-primary {
-      background: linear-gradient(135deg, var(--purple), var(--pink));
       color: #fff;
-      box-shadow: 0 18px 44px rgba(139,92,246,.32);
+      background: var(--blue);
+      border: 1px solid var(--blue);
+      box-shadow: 0 18px 34px rgba(37, 99, 235, 0.22);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      background: var(--blue-2);
+      border-color: var(--blue-2);
+      box-shadow: 0 22px 42px rgba(37, 99, 235, 0.28);
     }
 
     .btn-secondary {
-      color: #fff;
-      background: rgba(255,255,255,.09);
+      color: var(--text);
+      background: #ffffff;
+      border: 1px solid var(--line-strong);
+      box-shadow: 0 10px 24px rgba(27, 55, 96, 0.06);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-1px);
+      border-color: #bcd0f4;
+      box-shadow: 0 16px 34px rgba(27, 55, 96, 0.10);
+    }
+
+    .hero-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .metric-strip {
+      width: min(820px, 100%);
+      margin: 46px auto 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
     }
 
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 30px;
-      justify-content: center;
+    .metric-item {
+      padding: 22px 18px;
+      border-right: 1px solid var(--line);
+      text-align: center;
     }
 
-    .t2t-freelancer-landing {
-      padding-top: 56px;
+    .metric-item:last-child { border-right: 0; }
+
+    .metric-value {
+      color: var(--blue);
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -0.05em;
     }
 
-    .t2t-stats-row {
+    .metric-label {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .section-title {
+      max-width: 760px;
+      margin: 0 auto 34px;
+      text-align: center;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(34px, 4vw, 52px);
+      line-height: 1.02;
+      letter-spacing: -0.06em;
+      font-weight: 900;
+      color: var(--text);
+    }
+
+    .section-title p {
+      margin: 14px auto 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.65;
+      font-weight: 550;
+    }
+
+    .story-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
+      gap: 18px;
+      margin-top: 48px;
+      text-align: left;
     }
 
-    .t2t-stat-card {
-      border: 1px solid rgba(192, 132, 252, .28);
-      border-radius: 24px;
-      background:
-        radial-gradient(circle at 10% 0%, rgba(139,92,246,.32), transparent 45%),
-        rgba(255,255,255,.08);
+    .story-card {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255,255,255,.78);
       padding: 22px;
-      min-height: 118px;
-      box-shadow: 0 18px 50px rgba(0,0,0,.24);
+      box-shadow: 0 14px 34px rgba(27,55,96,.07);
     }
 
-    .t2t-stat-card span {
-      display: block;
-      color: var(--muted);
-      font-weight: 850;
-      margin-bottom: 8px;
+    .story-card p {
+      margin: 0;
+      color: #334155;
+      font-size: 15px;
+      line-height: 1.7;
+      font-weight: 550;
     }
 
-    .t2t-stat-card strong {
-      display: block;
-      font-size: clamp(44px, 7vw, 82px);
-      line-height: .88;
-      letter-spacing: -0.07em;
-      background: linear-gradient(90deg, #fff, #d8b4fe, #f9a8d4);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .t2t-main-hero {
-      border: 1px solid rgba(255,255,255,.14);
-      border-radius: 34px;
-      padding: clamp(26px, 4vw, 48px);
-      background:
-        radial-gradient(circle at 12% 0%, rgba(139,92,246,.28), transparent 42%),
-        radial-gradient(circle at 88% 0%, rgba(236,72,153,.22), transparent 38%),
-        rgba(255,255,255,.065);
+    .demo-wrap {
+      display: grid;
+      grid-template-columns: 0.9fr 1.25fr;
+      gap: 28px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: #ffffff;
       box-shadow: var(--shadow);
-      overflow: hidden;
-      text-align: center;
+      padding: 28px;
     }
 
-    .t2t-main-hero .eyebrow {
-      margin-left: auto;
-      margin-right: auto;
-      margin-bottom: 16px;
+    .demo-copy {
+      padding: 10px 8px 10px 10px;
     }
 
-    .t2t-hero-title {
-      max-width: 820px;
-      margin: 0 auto;
-      text-align: center;
-      font-size: clamp(34px, 4.8vw, 62px);
-      line-height: 1.08;
-      letter-spacing: -0.065em;
+    .demo-copy h3 {
+      margin: 0;
+      font-size: clamp(28px, 3vw, 42px);
+      line-height: 1.06;
+      letter-spacing: -0.055em;
+      font-weight: 900;
+      color: var(--text);
     }
 
-    .t2t-hero-title span {
-      display: block;
-    }
-
-    .t2t-hero-title .t2t-hero-small {
-      font-size: .9em;
-    }
-
-    .t2t-main-hero p {
-      margin: 18px auto 0;
-      color: rgba(255,255,255,.88);
-      font-size: clamp(17px, 1.6vw, 21px);
-      line-height: 1.45;
-      max-width: 920px;
-      font-weight: 850;
-    }
-
-    .t2t-main-hero .t2t-subline {
-      margin: 16px auto 0;
+    .demo-copy p {
+      margin: 16px 0 0;
       color: var(--muted);
       font-size: 17px;
-      line-height: 1.7;
-      max-width: 780px;
-      font-weight: 650;
-    }
-
-    .t2t-auto-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 26px;
-      justify-content: center;
-    }
-
-    .t2t-auto-tags span {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid rgba(34,197,94,.34);
-      background: rgba(34,197,94,.12);
-      color: #bbf7d0;
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-weight: 950;
-    }
-
-    .t2t-story-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-      margin-top: 22px;
-    }
-
-    .t2t-story-card {
-      border: 1px solid var(--line);
-      border-radius: 26px;
-      background: rgba(255,255,255,.075);
-      padding: 22px;
-      box-shadow: 0 16px 45px rgba(0,0,0,.18);
-    }
-
-    .t2t-avatar {
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, var(--purple), var(--pink));
-      box-shadow: 0 14px 34px rgba(139,92,246,.28);
-      font-weight: 950;
-      margin-bottom: 14px;
-    }
-
-    .t2t-story-card p {
-      margin: 0 0 16px;
-      color: rgba(255,255,255,.86);
       line-height: 1.65;
-      font-size: 16px;
-      font-weight: 650;
+      font-weight: 520;
     }
 
-    .t2t-story-card strong {
-      display: block;
-      font-weight: 950;
-      margin-bottom: 4px;
+    .mini-flow {
+      margin-top: 24px;
+      display: grid;
+      gap: 12px;
     }
 
-    .t2t-story-card span {
-      color: var(--muted);
+    .mini-flow span {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      align-items: center;
+      gap: 10px;
+      color: #263244;
+      font-size: 15px;
       font-weight: 750;
     }
 
-    .flip-card {
-      width: 100%;
-      display: block;
-      position: relative;
-      cursor: pointer;
-      perspective: 1200px;
-      outline: none;
-    }
-
-    .flip-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-      transition: transform .55s ease;
-    }
-
-    .flip-card.is-flipped .flip-inner {
-      transform: rotateY(180deg);
-    }
-
-    .flip-face {
-      position: absolute;
-      inset: 0;
-      backface-visibility: hidden;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--card);
-      padding: 24px;
-      box-shadow: 0 16px 40px rgba(0,0,0,.20);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      overflow: hidden;
-    }
-
-    .flip-back {
-      transform: rotateY(180deg);
-      background:
-        radial-gradient(circle at 20% 0%, rgba(139,92,246,.22), transparent 38%),
-        rgba(255,255,255,.085);
-      border-color: rgba(192,132,252,.28);
-    }
-
-    .flip-icon {
-      width: 54px;
-      height: 54px;
-      border-radius: 18px;
-      display: grid;
+    .mini-flow b {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: inline-grid;
       place-items: center;
-      background: rgba(139,92,246,.16);
-      color: #d8b4fe;
-      font-size: 25px;
-      margin-bottom: 16px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 14px;
+      font-weight: 900;
     }
 
-    .flip-face h3 {
-      margin: 0;
-      font-size: clamp(25px, 4vw, 46px);
-      letter-spacing: -0.055em;
-      line-height: 1.08;
+    .demo-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: #f9fbff;
+      padding: 14px;
+      box-shadow: inset 0 1px 0 #fff;
+      min-width: 0;
     }
 
-    .flip-face p {
-      margin: 14px 0 0;
-      color: var(--muted);
-      line-height: 1.62;
-      font-size: 18px;
-      max-width: 760px;
-    }
-
-    .flip-hint {
-      display: inline-flex;
-      width: fit-content;
+    .demo-browser {
+      height: 38px;
+      display: flex;
       align-items: center;
       gap: 8px;
-      padding: 9px 12px;
+      padding: 0 10px;
+      border-radius: 14px 14px 0 0;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-bottom: 0;
+    }
+
+    .demo-browser span {
+      width: 10px;
+      height: 10px;
       border-radius: 999px;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.12);
-      color: #e9d5ff;
-      font-size: 13px;
-      font-weight: 900;
-      margin-top: 18px;
-    }
-
-    .t2t-demo-title {
-      margin-top: 46px;
-    }
-
-    .t2t-demo-flip-card {
-      height: 560px;
-      margin-top: 18px;
-    }
-
-    .t2t-demo-front {
-      background:
-        radial-gradient(circle at 10% 0%, rgba(34,197,94,.18), transparent 35%),
-        radial-gradient(circle at 95% 0%, rgba(236,72,153,.16), transparent 40%),
-        rgba(255,255,255,.08);
-    }
-
-    .t2t-mini-flow {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 28px;
-      align-items: center;
-    }
-
-    .t2t-mini-flow span {
-      color: rgba(255,255,255,.88);
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.08);
-      border-radius: 999px;
-      padding: 10px 13px;
-      font-weight: 900;
-    }
-
-    .t2t-demo-back {
-      padding: 16px;
+      background: #d9e2ef;
     }
 
     .t2t-carousel {
       position: relative;
-      width: 100%;
-      height: 100%;
-      display: grid;
-      place-items: center;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 0 0 16px 16px;
+      background: #ffffff;
+      min-height: 380px;
     }
 
     .t2t-demo-screen {
+      position: relative;
       width: 100%;
-      height: 100%;
-      border-radius: 18px;
-      overflow: hidden;
-      background: rgba(0,0,0,.3);
-      border: 1px solid rgba(255,255,255,.14);
-      display: grid;
-      place-items: center;
+      min-height: 380px;
+      background: #ffffff;
     }
 
     .t2t-demo-slide {
-      grid-area: 1 / 1;
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: contain;
-      background: #fff;
       opacity: 0;
-      transform: scale(.985);
-      transition: opacity .35s ease, transform .35s ease;
+      transform: scale(.99);
+      transition: opacity .25s ease, transform .25s ease;
+      padding: 14px;
     }
 
     .t2t-demo-slide.is-active {
@@ -545,813 +544,436 @@
 
     .t2t-demo-nav {
       position: absolute;
-      z-index: 3;
       top: 50%;
       transform: translateY(-50%);
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: 1px solid rgba(255,255,255,.22);
-      background: rgba(7,5,13,.76);
-      color: #fff;
+      z-index: 4;
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.92);
+      color: var(--text);
+      font-size: 28px;
+      font-weight: 700;
       cursor: pointer;
-      font-size: 30px;
-      display: grid;
-      place-items: center;
-      line-height: 1;
-      transition: .2s ease;
+      box-shadow: 0 10px 24px rgba(27,55,96,.10);
     }
 
-    .t2t-demo-nav:hover {
-      background: rgba(139,92,246,.95);
-    }
-
-    .t2t-demo-prev { left: 16px; }
-    .t2t-demo-next { right: 16px; }
+    .t2t-demo-prev { left: 12px; }
+    .t2t-demo-next { right: 12px; }
 
     .t2t-demo-dots {
       position: absolute;
-      bottom: 16px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 4;
+      left: 0;
+      right: 0;
+      bottom: 12px;
+      z-index: 5;
       display: flex;
-      gap: 8px;
-      padding: 8px 10px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(7,5,13,.72);
-      border-radius: 999px;
+      justify-content: center;
+      gap: 7px;
     }
 
     .t2t-demo-dot {
-      width: 10px;
-      height: 10px;
+      width: 7px;
+      height: 7px;
       border-radius: 999px;
       border: 0;
-      background: rgba(255,255,255,.35);
+      background: #c8d4e6;
       cursor: pointer;
-      padding: 0;
     }
 
     .t2t-demo-dot.is-active {
-      width: 26px;
-      background: linear-gradient(135deg, var(--purple), var(--pink));
+      width: 22px;
+      background: var(--blue);
     }
 
-    .t2t-old-new-grid {
+    .compare-section {
+      padding-top: 48px;
+    }
+
+    .compare-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-      margin-top: 24px;
+      gap: 22px;
+      align-items: stretch;
     }
 
-    .t2t-compare-card {
-      position: relative;
+    .compare-card {
       border: 1px solid var(--line);
-      border-radius: 28px;
-      padding: clamp(20px, 3vw, 28px);
-      box-shadow: 0 18px 48px rgba(0,0,0,.20);
-      overflow: hidden;
-      min-height: 310px;
+      border-radius: 24px;
+      background: #ffffff;
+      padding: 28px;
+      box-shadow: var(--shadow-soft);
     }
 
-    .t2t-compare-card.bad {
-      background:
-        radial-gradient(circle at 12% 0%, rgba(239,68,68,.16), transparent 32%),
-        linear-gradient(180deg, rgba(255,255,255,.085), rgba(255,255,255,.045));
+    .compare-card h3 {
+      margin: 0 0 20px;
+      font-size: 30px;
+      letter-spacing: -0.05em;
+      font-weight: 900;
+      color: var(--text);
     }
 
-    .t2t-compare-card.good {
-      border-color: rgba(139,92,246,.38);
-      background:
-        radial-gradient(circle at 90% 0%, rgba(139,92,246,.28), transparent 35%),
-        radial-gradient(circle at 18% 6%, rgba(34,197,94,.16), transparent 28%),
-        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-    }
-
-    .t2t-compare-top {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-
-    .t2t-compare-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 20px;
+    .compare-list {
       display: grid;
-      place-items: center;
-      font-size: 27px;
-      flex: 0 0 auto;
+      gap: 18px;
     }
 
-    .t2t-compare-card.bad .t2t-compare-icon {
-      background: rgba(239,68,68,.13);
-      color: #fecaca;
-    }
-
-    .t2t-compare-card.good .t2t-compare-icon {
-      background: linear-gradient(135deg, var(--purple), var(--pink));
-      color: #fff;
-      box-shadow: 0 14px 32px rgba(139,92,246,.32);
-    }
-
-    .t2t-compare-card h3 {
-      margin: 0;
-      font-size: clamp(22px, 2.4vw, 30px);
-      line-height: 1.12;
-      letter-spacing: -0.045em;
-    }
-
-    .t2t-compare-list {
-      display: grid;
-      gap: 13px;
-      margin-top: 12px;
-    }
-
-    .t2t-compare-item {
-      border: 1px solid rgba(255,255,255,.11);
-      border-radius: 18px;
-      padding: 14px 16px;
-      background: rgba(255,255,255,.07);
-    }
-
-    .t2t-compare-item strong {
+    .compare-item strong {
       display: block;
+      color: var(--text);
       font-size: 17px;
-      line-height: 1.25;
+      font-weight: 850;
       letter-spacing: -0.02em;
     }
 
-    .t2t-compare-item span {
+    .compare-item span {
       display: block;
-      margin-top: 3px;
+      margin-top: 4px;
       color: var(--muted);
-      line-height: 1.45;
-      font-weight: 650;
       font-size: 14px;
+      font-weight: 650;
     }
 
-    .t2t-compare-quote {
-      margin-top: 16px;
-      border-radius: 18px;
-      padding: 15px 16px;
-      text-align: center;
-      font-size: 18px;
-      font-weight: 950;
-      line-height: 1.35;
-    }
-
-    .t2t-compare-card.bad .t2t-compare-quote {
-      color: #fecaca;
-      background: rgba(239,68,68,.13);
-      border: 1px solid rgba(239,68,68,.22);
-    }
-
-    .t2t-compare-card.good .t2t-compare-quote {
-      color: #e9d5ff;
-      background: rgba(139,92,246,.18);
-      border: 1px solid rgba(192,132,252,.26);
-    }
-
-    .t2t-ai-box,
-    .t2t-money-box,
-    .t2t-final-cta {
+    .compare-quote {
       margin-top: 24px;
-      border: 1px solid rgba(192,132,252,.22);
-      border-radius: 30px;
-      padding: clamp(24px, 4vw, 36px);
-      background:
-        radial-gradient(circle at 12% 0%, rgba(139,92,246,.25), transparent 38%),
-        linear-gradient(135deg, rgba(255,255,255,.105), rgba(255,255,255,.045));
-    }
-
-    .t2t-ai-box h2,
-    .t2t-money-box h2,
-    .t2t-final-cta h2 {
-      margin: 0;
-      font-size: clamp(25px, 3vw, 38px);
-      letter-spacing: -0.055em;
-      line-height: 1.05;
-    }
-
-    .t2t-ai-box p,
-    .t2t-money-box p,
-    .t2t-final-cta p {
-      margin: 14px 0 0;
-      color: rgba(255,255,255,.84);
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--blue);
       font-size: 17px;
-      line-height: 1.55;
-      font-weight: 750;
+      font-weight: 850;
     }
 
-    .t2t-ai-list {
-      margin-top: 18px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+    .simple-band {
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background: #ffffff;
+      box-shadow: var(--shadow-soft);
+      padding: 34px;
+      text-align: center;
+      margin-top: 24px;
     }
 
-    .t2t-ai-list span {
-      padding: 10px 13px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.12);
-      color: rgba(255,255,255,.88);
+    .simple-band h2 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.05;
+      letter-spacing: -0.06em;
       font-weight: 900;
     }
 
-    .t2t-money-box strong {
-      color: #bbf7d0;
+    .simple-band p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.55;
+      font-weight: 650;
     }
 
-    .t2t-final-cta {
-      text-align: center;
-      display: grid;
-      place-items: center;
+    .money-line {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 18px;
     }
 
-    .t2t-final-cta strong {
-      display: block;
-      margin: 16px 0 22px;
-      font-size: clamp(22px, 3vw, 34px);
-      letter-spacing: -0.055em;
-      background: linear-gradient(90deg, #fff, #d8b4fe, #f9a8d4);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+    .money-line span {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: #164a9e;
+      font-size: 14px;
+      font-weight: 850;
     }
 
-
-
-    .secret-section {
-      padding-top: 58px;
-      padding-bottom: 58px;
-    }
-
-    .secret-shell {
-      position: relative;
-      border: 1px solid rgba(139, 92, 246, .32);
-      border-radius: 34px;
-      padding: clamp(24px, 4vw, 42px);
-      background:
-        radial-gradient(circle at 0% 28%, rgba(139,92,246,.22), transparent 34%),
-        radial-gradient(circle at 100% 22%, rgba(236,72,153,.18), transparent 32%),
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
-      box-shadow: 0 24px 80px rgba(0,0,0,.32);
-      overflow: hidden;
-    }
-
-    .secret-shell::before,
-    .secret-shell::after {
-      content: "";
-      position: absolute;
-      width: 210px;
-      height: 210px;
-      border-radius: 50%;
-      background: rgba(139,92,246,.18);
-      filter: blur(70px);
-      pointer-events: none;
-    }
-
-    .secret-shell::before {
-      left: -80px;
-      top: 120px;
-    }
-
-    .secret-shell::after {
-      right: -80px;
-      top: 120px;
-      background: rgba(236,72,153,.14);
-    }
-
-    .secret-content {
-      position: relative;
-      z-index: 2;
-    }
-
-    .secret-title {
-      text-align: center;
+    .tool-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
       max-width: 920px;
       margin: 0 auto;
     }
 
-    .secret-title h2 {
-      margin: 0;
-      font-size: clamp(34px, 5vw, 62px);
-      line-height: 1.04;
-      letter-spacing: -0.07em;
-    }
-
-    .secret-title h2 span {
-      display: block;
-      background: linear-gradient(90deg, #d8b4fe, #a855f7, #ec4899);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .secret-title p {
-      margin: 14px auto 0;
-      color: var(--muted);
-      line-height: 1.65;
-      font-size: 17px;
-      max-width: 660px;
-      font-weight: 700;
-    }
-
-    .secret-compare-grid {
-      display: grid;
-      grid-template-columns: .88fr 1fr 1.12fr;
-      gap: 18px;
-      align-items: end;
-      margin-top: 36px;
-    }
-
-    .secret-tier {
-      position: relative;
-      border: 1px solid rgba(255,255,255,.14);
-      border-radius: 26px;
-      padding: 22px;
-      background: rgba(255,255,255,.06);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-    }
-
-    .secret-tier.freelancer {
-      min-height: 300px;
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.045));
-    }
-
-    .secret-tier.ai {
-      min-height: 380px;
-      border-color: rgba(139,92,246,.34);
-      background:
-        radial-gradient(circle at 60% 0%, rgba(139,92,246,.30), transparent 34%),
-        rgba(139,92,246,.095);
-    }
-
-    .secret-tier.t2t {
-      min-height: 500px;
-      border-color: rgba(192,132,252,.62);
-      background:
-        radial-gradient(circle at 50% 0%, rgba(236,72,153,.28), transparent 34%),
-        radial-gradient(circle at 70% 20%, rgba(139,92,246,.38), transparent 42%),
-        rgba(139,92,246,.13);
-      box-shadow: 0 0 44px rgba(139,92,246,.28);
-    }
-
-    .secret-tier.t2t::before {
-      content: "T2T";
-      position: absolute;
-      top: -1px;
-      right: 22px;
-      width: 68px;
-      height: 68px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--purple), var(--pink));
-      border: 1px solid rgba(255,255,255,.32);
-      box-shadow: 0 0 32px rgba(168,85,247,.62);
-      font-weight: 950;
-    }
-
-    .secret-tier h3 {
-      margin: 0 0 18px;
-      font-size: clamp(20px, 2vw, 26px);
-      letter-spacing: -0.04em;
-      line-height: 1.15;
-    }
-
-    .secret-tier .secret-label {
-      width: fit-content;
-      margin-bottom: 12px;
-      border: 1px solid rgba(192,132,252,.24);
+    .tool-chip {
+      border: 1px solid var(--line-strong);
       border-radius: 999px;
-      padding: 7px 10px;
-      color: #e9d5ff;
-      background: rgba(139,92,246,.12);
-      font-size: 12px;
-      font-weight: 950;
-      text-transform: uppercase;
-      letter-spacing: .06em;
+      background: #ffffff;
+      padding: 12px 16px;
+      color: #263244;
+      font-size: 14px;
+      font-weight: 800;
+      box-shadow: 0 10px 22px rgba(27,55,96,.05);
+    }
+
+    .secret-section {
+      width: 100%;
+      max-width: none;
+      margin-top: 12px;
+      padding: 82px 0;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(37,99,235,.11), transparent 34%),
+        linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .secret-shell {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .secret-compare {
+      margin-top: 36px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      overflow: hidden;
+      background: #ffffff;
+      box-shadow: var(--shadow-soft);
     }
 
     .secret-row {
-      border-top: 1px solid rgba(255,255,255,.10);
-      padding: 13px 0;
+      display: grid;
+      grid-template-columns: 1.1fr repeat(3, 1fr);
+      border-bottom: 1px solid var(--line);
+      min-height: 62px;
     }
 
-    .secret-row:first-of-type {
-      border-top: 0;
+    .secret-row:last-child { border-bottom: 0; }
+
+    .secret-cell {
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      border-right: 1px solid var(--line);
+      color: #263244;
+      font-size: 15px;
+      font-weight: 760;
     }
 
-    .secret-row strong {
-      display: block;
-      font-size: 16px;
-      line-height: 1.25;
+    .secret-cell:last-child { border-right: 0; }
+
+    .secret-cell.heading {
+      background: #f7faff;
+      color: var(--text);
+      font-weight: 900;
     }
 
-    .secret-bar {
-      height: 8px;
-      width: 100%;
-      border-radius: 999px;
-      background: rgba(255,255,255,.12);
-      margin-top: 8px;
-      overflow: hidden;
+    .secret-cell.highlight {
+      color: var(--blue);
+      font-weight: 900;
     }
 
-    .secret-bar span {
-      display: block;
-      height: 100%;
-      border-radius: inherit;
-      background: linear-gradient(90deg, var(--purple), var(--pink));
-      box-shadow: 0 0 16px rgba(168,85,247,.44);
-    }
-
-    .secret-tier.freelancer .secret-bar span { width: 34%; opacity: .55; }
-    .secret-tier.ai .secret-bar span { width: 68%; }
-    .secret-tier.t2t .secret-bar span { width: 100%; }
-
-    .secret-benefits {
+    .benefit-line {
+      margin-top: 28px;
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 12px;
-      margin-top: 18px;
-      border: 1px solid rgba(192,132,252,.20);
-      border-radius: 24px;
-      padding: 14px;
-      background: rgba(255,255,255,.055);
     }
 
-    .secret-benefit {
-      display: grid;
-      grid-template-columns: 42px 1fr;
-      gap: 12px;
-      align-items: center;
-      padding: 12px;
-      min-height: 92px;
-      border-right: 1px solid rgba(255,255,255,.10);
-    }
-
-    .secret-benefit:last-child {
-      border-right: 0;
-    }
-
-    .secret-benefit-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 15px;
-      display: grid;
-      place-items: center;
-      background: rgba(139,92,246,.20);
-      color: #e9d5ff;
-      flex: 0 0 auto;
-      font-size: 20px;
-    }
-
-    .secret-benefit strong {
-      display: block;
-      line-height: 1.18;
-      letter-spacing: -0.02em;
-      font-size: 15px;
-    }
-
-    .secret-benefit span {
-      display: block;
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.3;
-      font-weight: 650;
-    }
-
-    .top-users-box {
-      margin-top: 22px;
-      border: 1px solid rgba(255,255,255,.13);
-      border-radius: 26px;
-      padding: clamp(20px, 3vw, 28px);
-      background: rgba(255,255,255,.065);
-    }
-
-    .top-users-head {
-      text-align: center;
-      max-width: 780px;
-      margin: 0 auto 20px;
-    }
-
-    .top-users-head h3 {
-      margin: 0;
-      font-size: clamp(25px, 3vw, 38px);
-      letter-spacing: -0.055em;
-    }
-
-    .top-users-head p {
-      margin: 8px 0 0;
-      color: var(--muted);
-      line-height: 1.55;
-      font-weight: 700;
-    }
-
-    .top-users-steps {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .top-users-step {
-      border: 1px solid rgba(255,255,255,.11);
-      border-radius: 20px;
-      padding: 17px;
-      background: rgba(255,255,255,.065);
-      min-height: 170px;
-    }
-
-    .top-users-step b {
-      display: inline-flex;
-      width: fit-content;
-      border-radius: 999px;
-      padding: 7px 10px;
-      background: rgba(139,92,246,.16);
-      color: #e9d5ff;
-      font-size: 12px;
-      margin-bottom: 10px;
-    }
-
-    .top-users-step strong {
-      display: block;
-      font-size: 18px;
-      line-height: 1.25;
-      margin-bottom: 8px;
-    }
-
-    .top-users-step span {
-      color: var(--muted);
-      line-height: 1.5;
-      font-weight: 650;
-      font-size: 14px;
-    }
-
-    .top-users-result {
-      margin: 16px auto 0;
-      max-width: 760px;
-      text-align: center;
-      border-radius: 18px;
-      padding: 14px 16px;
-      background: rgba(34,197,94,.10);
-      border: 1px solid rgba(34,197,94,.24);
-      color: #bbf7d0;
-      font-weight: 900;
-      line-height: 1.45;
-    }
-
-
-    .tool-grid {
-      display: flex;
-      flex-wrap: nowrap;
-      gap: 12px;
-      margin-top: 26px;
-      overflow-x: auto;
-      overflow-y: hidden;
-      padding: 6px 4px 16px;
-      scroll-snap-type: x proximity;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .tool-grid::-webkit-scrollbar {
-      height: 8px;
-    }
-
-    .tool-grid::-webkit-scrollbar-track {
-      background: rgba(255,255,255,.07);
-      border-radius: 999px;
-    }
-
-    .tool-grid::-webkit-scrollbar-thumb {
-      background: rgba(168,85,247,.65);
-      border-radius: 999px;
-    }
-
-    .tool-chip {
-      flex: 0 0 auto;
-      min-width: 250px;
+    .benefit-line div {
       border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 16px 18px;
-      background: rgba(255,255,255,.07);
-      color: rgba(255,255,255,.88);
-      font-weight: 900;
+      border-radius: 16px;
+      background: #ffffff;
+      padding: 16px;
+      color: #263244;
+      font-size: 14px;
+      font-weight: 800;
       text-align: center;
-      min-height: 58px;
+    }
+
+    .steps {
+      margin-top: 28px;
       display: grid;
-      place-items: center;
-      line-height: 1.2;
-      white-space: nowrap;
-      scroll-snap-align: start;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .step {
+      border-top: 1px solid var(--line-strong);
+      padding-top: 18px;
+    }
+
+    .step-badge {
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .step h3 {
+      margin: 12px 0 0;
+      color: var(--text);
+      font-size: 22px;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+    }
+
+    .step p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-weight: 600;
+    }
+
+    .result-line {
+      margin-top: 30px;
+      padding: 18px 20px;
+      border-radius: 16px;
+      background: #ecfdf5;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 850;
     }
 
     .cta-band {
-      border: 1px solid rgba(192, 132, 252, .22);
-      border-radius: 30px;
-      padding: 34px;
-      background:
-        radial-gradient(circle at 12% 0%, rgba(139,92,246,.26), transparent 38%),
-        linear-gradient(135deg, rgba(255,255,255,.11), rgba(255,255,255,.05));
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
       align-items: center;
-      justify-content: space-between;
-      gap: 22px;
-      margin-bottom: 36px;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      padding: 34px;
+      background: var(--text);
+      color: #ffffff;
+      box-shadow: 0 24px 60px rgba(18,24,38,.18);
     }
 
     .cta-band h2 {
       margin: 0;
-      font-size: clamp(28px, 4vw, 42px);
-      letter-spacing: -0.055em;
+      font-size: clamp(30px, 4vw, 44px);
+      line-height: 1.05;
+      letter-spacing: -0.06em;
+      font-weight: 900;
     }
 
     .cta-band p {
-      margin: 10px 0 0;
-      color: var(--muted);
-      line-height: 1.65;
-      max-width: 650px;
+      margin: 12px 0 0;
+      color: rgba(255,255,255,.74);
+      font-size: 17px;
+      line-height: 1.6;
+      font-weight: 550;
+    }
+
+    .cta-band .btn-primary {
+      background: #ffffff;
+      color: var(--text);
+      border-color: #ffffff;
+      box-shadow: none;
     }
 
     footer {
-      border-top: 1px solid var(--line);
-      padding: 28px 0;
-      color: var(--muted);
-      text-align: center;
-      width: min(var(--max), calc(100% - 32px));
+      width: min(var(--max), calc(100% - 40px));
       margin: 0 auto;
+      padding: 34px 0 44px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
       font-size: 14px;
-    }
-
-
-    .t2t-main-hero,
-    .t2t-story-card,
-    .t2t-compare-card,
-    .t2t-ai-box,
-    .t2t-money-box,
-    .t2t-final-cta {
+      font-weight: 600;
       text-align: center;
     }
 
-    .t2t-story-card .t2t-avatar {
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .t2t-compare-top {
-      justify-content: center;
-      flex-direction: column;
-      gap: 10px;
-      text-align: center;
-    }
-
-    .t2t-compare-list {
-      max-width: 430px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .t2t-ai-list {
-      justify-content: center;
-    }
-
-    .t2t-story-card p {
-      font-size: 15px;
-      line-height: 1.45;
-    }
-
-    .t2t-money-box p,
-    .t2t-final-cta p {
-      line-height: 1.45;
-    }
-
-    @media (max-width: 860px) {
+    @media (max-width: 980px) {
       .nav {
-        height: auto;
-        padding: 14px 0;
-        align-items: flex-start;
+        grid-template-columns: 1fr auto;
       }
 
-      .menu-btn { display: block; }
+      .menu-btn { display: inline-flex; }
 
       .nav-links {
         display: none;
-        position: absolute;
-        top: 70px;
-        left: 16px;
-        right: 16px;
-        padding: 12px;
-        border: 1px solid var(--line);
-        border-radius: 18px;
-        background: rgba(10, 6, 18, .96);
+        grid-column: 1 / -1;
+        justify-self: stretch;
+        width: 100%;
+        padding: 14px 0 18px;
+        border-top: 1px solid var(--line);
         flex-direction: column;
-        align-items: stretch;
+        align-items: flex-start;
+        gap: 12px;
       }
 
       .nav-links.open { display: flex; }
 
-      .nav-links a,
-      .logout-btn {
-        width: 100%;
-        text-align: center;
+      .nav-actions {
+        justify-self: end;
+        grid-column: 2;
+        grid-row: 1;
+        margin-right: 82px;
       }
 
-      .t2t-stats-row,
-      .t2t-story-grid,
-      .t2t-old-new-grid {
+      .demo-wrap,
+      .compare-grid,
+      .story-grid {
         grid-template-columns: 1fr;
       }
 
-      .t2t-demo-flip-card {
-        height: 430px;
+      .benefit-line,
+      .steps,
+      .metric-strip {
+        grid-template-columns: 1fr;
       }
 
-      .tool-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+      .metric-item {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
       }
+
+      .metric-item:last-child { border-bottom: 0; }
+
+      .secret-row {
+        grid-template-columns: 1fr;
+      }
+
+      .secret-cell {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .secret-cell:last-child { border-bottom: 0; }
 
       .cta-band {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .secret-compare-grid,
-      .top-users-steps {
         grid-template-columns: 1fr;
       }
-
-      .secret-tier.freelancer,
-      .secret-tier.ai,
-      .secret-tier.t2t {
-        min-height: auto;
-      }
-
-      .secret-benefits {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .secret-benefit {
-        border-right: 0;
-      }
-
     }
 
-    @media (max-width: 520px) {
-      .tool-grid { grid-template-columns: 1fr; }
+    @media (max-width: 640px) {
+      .nav,
+      section,
+      .secret-shell,
+      footer {
+        width: min(100% - 24px, var(--max));
+      }
 
-      .hero-actions { flex-direction: column; }
+      .brand-tag { display: none; }
+      .brand-name { font-size: 17px; }
+      .nav-actions { display: none; }
 
-      .btn { width: 100%; }
+      .hero {
+        padding-top: 54px;
+      }
 
-      .brand span { font-size: 15px; }
+      .hero h1 {
+        font-size: 43px;
+      }
 
-      .brand small { font-size: 10px; }
-
-      .t2t-main-hero {
+      .demo-wrap,
+      .simple-band,
+      .cta-band,
+      .compare-card {
         padding: 22px;
+        border-radius: 22px;
       }
 
-      .t2t-hero-title {
-        font-size: clamp(31px, 10vw, 44px);
+      .t2t-carousel,
+      .t2t-demo-screen {
+        min-height: 260px;
       }
-
-      .t2t-demo-flip-card {
-        height: 360px;
-      }
-
-      .t2t-demo-nav {
-        width: 38px;
-        height: 38px;
-        font-size: 26px;
-      }
-
-      .t2t-demo-prev { left: 10px; }
-      .t2t-demo-next { right: 10px; }
-
-      .secret-benefits {
-        grid-template-columns: 1fr;
-      }
-
-      .secret-shell {
-        padding: 20px;
-        border-radius: 26px;
-      }
-
-      .secret-tier {
-        padding: 18px;
-      }
-
     }
   </style>
-  <link rel="stylesheet" href="assets/text2tool-professional-theme.css" />
 </head>
 
 <body>
@@ -1359,7 +981,10 @@
     <nav class="nav" aria-label="Main navigation">
       <a class="brand" href="/">
         <span class="brand-mark">T2T</span>
-        <span>Text2Tool AI<small>We build it, you own it</small></span>
+        <span class="brand-copy">
+          <span class="brand-name">Text2Tool AI</span>
+          <span class="brand-tag">We build it, you own it</span>
+        </span>
       </a>
 
       <button class="menu-btn" type="button" id="menuBtn">Menu</button>
@@ -1368,6 +993,9 @@
         <a class="active" href="/">Home</a>
         <a href="/pricing/">Pricing</a>
         <a href="/faq/">FAQ</a>
+      </div>
+
+      <div class="nav-actions">
         <button class="logout-btn" type="button" id="logoutBtn" style="display:none;">Logout</button>
         <a class="nav-cta" href="/create-tool/?v=final1">Create Tool</a>
       </div>
@@ -1375,165 +1003,156 @@
   </header>
 
   <main>
-    <section class="t2t-freelancer-landing">
-      <div class="t2t-stats-row" aria-label="Text2Tool speed and earnings stats">
-        <div class="t2t-stat-card">
-          <span>Earning Boost</span>
-          <strong>↑ 55x</strong>
+    <section class="hero">
+      <div class="eyebrow">⚡ For freelancers, VAs & sheet sellers</div>
+
+      <h1>
+        Client Needs a Tracker?
+        <span class="gradient-text">AI Builds It.</span>
+        <span class="gradient-text">You Get Paid.</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Turn tracker / Google Sheet requests into ready-to-use tools in seconds.
+      </p>
+
+      <div class="hero-points" aria-label="Text2Tool value points">
+        <div class="hero-point"><span class="check">✓</span><span>Launch faster instead of building every sheet manually.</span></div>
+        <div class="hero-point"><span class="check">✓</span><span>Send better demos before the client hires you.</span></div>
+        <div class="hero-point"><span class="check">✓</span><span>Deliver tools the client can own by making a copy.</span></div>
+      </div>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="/create-tool/?v=final1">Create My First Tool</a>
+        <a class="btn btn-secondary" href="/pricing/">View Pricing</a>
+      </div>
+
+      <div class="hero-note">No payment is required to generate your first preview.</div>
+
+      <div class="metric-strip" aria-label="Text2Tool speed and earnings stats">
+        <div class="metric-item">
+          <div class="metric-value">55x</div>
+          <div class="metric-label">Earning Boost</div>
         </div>
-        <div class="t2t-stat-card">
-          <span>Time Saving</span>
-          <strong>↑ 100x</strong>
+        <div class="metric-item">
+          <div class="metric-value">100x</div>
+          <div class="metric-label">Time Saving</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-value">~5 min</div>
+          <div class="metric-label">Email Delivery</div>
         </div>
       </div>
 
-      <div class="t2t-main-hero">
-        <div class="eyebrow">⚡ For freelancers, VAs & sheet sellers</div>
-
-        <h1 class="t2t-hero-title">
-          <span>Client Needs a Tracker?</span>
-          <span class="gradient-text">AI Builds It.</span>
-          <span class="gradient-text">You Get Paid.</span>
-        </h1>
-
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="/create-tool/?v=final1">Create My First Tool</a>
-          <a class="btn btn-secondary" href="/pricing/">View Pricing</a>
-        </div>
-      </div>
-
-      <div class="t2t-story-grid">
-        <article class="t2t-story-card">
-          <div class="t2t-avatar">SM</div>
-          <p>“Before, I was stuck building a few trackers manually. Now I can turn client requests into clean Google Sheet tools much faster, take more jobs, and keep moving to the next order.”</p>
-          <strong>Sarah M.</strong>
-          <span>Freelance VA</span>
+      <div class="story-grid">
+        <article class="story-card">
+          <p>“Before, I was stuck building a few trackers manually. Now I can turn client requests into clean Google Sheet tools much faster.”</p>
         </article>
 
-        <article class="t2t-story-card">
-          <div class="t2t-avatar">DR</div>
-          <p>“When I apply for spreadsheet jobs, I build a quick demo first and send screenshots with my proposal. Clients notice the fast response and it helps me look more prepared than other freelancers.”</p>
-          <strong>Daniel R.</strong>
-          <span>Freelancer</span>
+        <article class="story-card">
+          <p>“When I apply for spreadsheet jobs, I build a quick demo first and send screenshots with my proposal. Clients notice the effort.”</p>
         </article>
       </div>
+    </section>
 
-      <div class="section-title t2t-demo-title">
+    <section>
+      <div class="section-title">
         <h2>Check End Results</h2>
-        <p>Flip the card to see the finished Google Sheet result.</p>
+        <p>See the finished Google Sheet result.</p>
       </div>
 
-      <div class="flip-card t2t-demo-flip-card" role="button" tabindex="0" aria-label="Flip to see finished Google Sheet screenshots">
-        <div class="flip-inner">
-          <div class="flip-face flip-front t2t-demo-front">
-            <div>
-              <div class="flip-icon">🚀</div>
-              <h3>Client asks. You type. AI builds. You deliver.</h3>
-              <p>Turn tracker / Google Sheet requests into ready-to-use tools in seconds.</p>
-            </div>
+      <div class="demo-wrap">
+        <div class="demo-copy">
+          <div class="eyebrow">Preview the output</div>
+          <h3>Client asks. You type. AI builds. You deliver.</h3>
+          <p>Turn tracker / Google Sheet requests into ready-to-use tools in seconds.</p>
 
-            <div>
-              <div class="t2t-mini-flow">
-                <span>Client request</span>
-                <span>→</span>
-                <span>Text2Tool</span>
-                <span>→</span>
-                <span>Finished Sheet</span>
-              </div>
-              <div class="flip-hint">Hover or click to see the result</div>
-            </div>
+          <div class="mini-flow">
+            <span><b>1</b>Client request</span>
+            <span><b>2</b>Text2Tool builds</span>
+            <span><b>3</b>You send proof</span>
           </div>
+        </div>
 
-          <div class="flip-face flip-back t2t-demo-back">
-            <div class="t2t-carousel" aria-label="Finished Google Sheet screenshots">
-              <button class="t2t-demo-nav t2t-demo-prev" type="button" aria-label="Previous screenshot">‹</button>
+        <div class="demo-card">
+          <div class="demo-browser" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="t2t-carousel" aria-label="Finished Google Sheet screenshots">
+            <button class="t2t-demo-nav t2t-demo-prev" type="button" aria-label="Previous screenshot">‹</button>
 
-              <div class="t2t-demo-screen">
-                <img class="t2t-demo-slide is-active" src="/assets/sheet-preview-1.png" onerror="this.onerror=null;this.src='/assets/assetsheet-preview-1.png';" alt="Google Sheet attendance tracker main tab screenshot">
-                <img class="t2t-demo-slide" src="/assets/sheet-preview-2.png" onerror="this.onerror=null;this.src='/assets/assetsheet-preview-2.png';" alt="Google Sheet dashboard summary screenshot">
-                <img class="t2t-demo-slide" src="/assets/sheet-preview-3.png" onerror="this.onerror=null;this.src='/assets/assetsheet-preview-3.png';" alt="Google Sheet dashboard charts screenshot">
-                <img class="t2t-demo-slide" src="/assets/sheet-preview-4.png" onerror="this.onerror=null;this.src='/assets/assetsheet-preview-4.png';" alt="Google Sheet advanced analytics screenshot">
-                <img class="t2t-demo-slide" src="/assets/sheet-preview-5.png" onerror="this.onerror=null;this.src='/assets/assetsheet-preview-5.png';" alt="Google Sheet auto bot repair popup screenshot">
-                <img class="t2t-demo-slide" src="/assets/sheet-preview-6.png" onerror="this.onerror=null;this.src='/assets/assetsheet-preview-6.png';" alt="Google Sheet settings and auto bots menu screenshot">
-              </div>
+            <div class="t2t-demo-screen">
+              <img class="t2t-demo-slide is-active" src="/assets/sheet-preview-1.png" onerror="this.onerror=null;this.src='/assets/assetsheet-preview-1.png';" alt="Google Sheet attendance tracker main tab screenshot">
+              <img class="t2t-demo-slide" src="/assets/sheet-preview-2.png" onerror="this.onerror=null;this.src='/assets/assetsheet-preview-2.png';" alt="Google Sheet dashboard summary screenshot">
+              <img class="t2t-demo-slide" src="/assets/sheet-preview-3.png" onerror="this.onerror=null;this.src='/assets/assetsheet-preview-3.png';" alt="Google Sheet dashboard charts screenshot">
+              <img class="t2t-demo-slide" src="/assets/sheet-preview-4.png" onerror="this.onerror=null;this.src='/assets/assetsheet-preview-4.png';" alt="Google Sheet advanced analytics screenshot">
+              <img class="t2t-demo-slide" src="/assets/sheet-preview-5.png" onerror="this.onerror=null;this.src='/assets/assetsheet-preview-5.png';" alt="Google Sheet auto bot repair popup screenshot">
+              <img class="t2t-demo-slide" src="/assets/sheet-preview-6.png" onerror="this.onerror=null;this.src='/assets/assetsheet-preview-6.png';" alt="Google Sheet settings and auto bots menu screenshot">
+            </div>
 
-              <button class="t2t-demo-nav t2t-demo-next" type="button" aria-label="Next screenshot">›</button>
+            <button class="t2t-demo-nav t2t-demo-next" type="button" aria-label="Next screenshot">›</button>
 
-              <div class="t2t-demo-dots" aria-label="Screenshot controls">
-                <button class="t2t-demo-dot is-active" type="button" aria-label="Show screenshot 1"></button>
-                <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 2"></button>
-                <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 3"></button>
-                <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 4"></button>
-                <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 5"></button>
-                <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 6"></button>
-              </div>
+            <div class="t2t-demo-dots" aria-label="Screenshot controls">
+              <button class="t2t-demo-dot is-active" type="button" aria-label="Show screenshot 1"></button>
+              <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 2"></button>
+              <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 3"></button>
+              <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 4"></button>
+              <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 5"></button>
+              <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 6"></button>
             </div>
           </div>
         </div>
       </div>
+    </section>
 
-      <div class="t2t-old-new-grid">
-        <article class="t2t-compare-card bad">
-          <div class="t2t-compare-top">
-            <div class="t2t-compare-icon">⏳</div>
-            <h3>The Old Way</h3>
-          </div>
-
-          <div class="t2t-compare-list">
-            <div class="t2t-compare-item">
+    <section class="compare-section">
+      <div class="compare-grid">
+        <article class="compare-card">
+          <h3>The Old Way</h3>
+          <div class="compare-list">
+            <div class="compare-item">
               <strong>Hours lost</strong>
               <span>Manual setup</span>
             </div>
-            <div class="t2t-compare-item">
+            <div class="compare-item">
               <strong>Less earnings</strong>
               <span>Too much work</span>
             </div>
-            <div class="t2t-compare-item">
+            <div class="compare-item">
               <strong>Slow delivery</strong>
               <span>Repeated edits</span>
             </div>
           </div>
-
-          <div class="t2t-compare-quote">Too much work. Too little money.</div>
+          <div class="compare-quote">Too much work. Too little money.</div>
         </article>
 
-        <article class="t2t-compare-card good">
-          <div class="t2t-compare-top">
-            <div class="t2t-compare-icon">👑</div>
-            <h3>The Gold Way</h3>
-          </div>
-
-          <div class="t2t-compare-list">
-            <div class="t2t-compare-item">
+        <article class="compare-card">
+          <h3>The Gold Way</h3>
+          <div class="compare-list">
+            <div class="compare-item">
               <strong>Build with T2T AI</strong>
               <span>AI builds</span>
             </div>
-            <div class="t2t-compare-item">
+            <div class="compare-item">
               <strong>You deliver to client</strong>
               <span>You get paid</span>
             </div>
-            <div class="t2t-compare-item">
+            <div class="compare-item">
               <strong>Repeat faster</strong>
               <span>More output</span>
             </div>
           </div>
-
-          <div class="t2t-compare-quote">Less work. More money.</div>
+          <div class="compare-quote">Less work. More money.</div>
         </article>
       </div>
 
-      <div class="t2t-ai-box">
+      <div class="simple-band">
         <h2>AI is not your job’s enemy unless you don’t use it!</h2>
         <p>Text2Tool helps freelancers and VAs move faster.</p>
-
+        <div class="money-line">
+          <span>Sell for $10–$50.</span>
+          <span>Create for $1 or less.</span>
+          <span>Keep the profit.</span>
+        </div>
       </div>
-
-      <div class="t2t-money-box">
-        <h2>Sell for $10–$50.</h2>
-        <p>Create for <strong>$1 or less.</strong></p>
-        <p>Keep the profit.</p>
-      </div>
-
     </section>
 
     <section>
@@ -1556,129 +1175,78 @@
 
     <section class="secret-section">
       <div class="secret-shell">
-        <div class="secret-content">
-          <div class="secret-title">
-            <div class="eyebrow">✦ Built for top performers</div>
-            <h2>The Secret Tool of <span>Top Rated Plus Freelancers</span></h2>
-            <p>See how top freelancers stay miles ahead.</p>
+        <div class="section-title">
+          <div class="eyebrow">✦ Built for top performers</div>
+          <h2>The Secret Tool of Top Rated Plus Freelancers</h2>
+          <p>See how top freelancers stay miles ahead.</p>
+        </div>
+
+        <div class="secret-compare" aria-label="Freelancer performance comparison">
+          <div class="secret-row">
+            <div class="secret-cell heading">Level</div>
+            <div class="secret-cell heading">Freelancers</div>
+            <div class="secret-cell heading">AI-Powered Freelancers</div>
+            <div class="secret-cell heading">T2T-Powered Freelancers</div>
           </div>
-
-          <div class="secret-compare-grid" aria-label="Freelancer performance comparison">
-            <article class="secret-tier freelancer">
-              <div class="secret-label">Base level</div>
-              <h3>Freelancers</h3>
-
-              <div class="secret-row">
-                <strong>Standard Speed</strong>
-                <div class="secret-bar"><span></span></div>
-              </div>
-              <div class="secret-row">
-                <strong>1X Output</strong>
-                <div class="secret-bar"><span></span></div>
-              </div>
-              <div class="secret-row">
-                <strong>Good Quality</strong>
-                <div class="secret-bar"><span></span></div>
-              </div>
-              <div class="secret-row">
-                <strong>Limited Earning Boost</strong>
-                <div class="secret-bar"><span></span></div>
-              </div>
-            </article>
-
-            <article class="secret-tier ai">
-              <div class="secret-label">AI assisted</div>
-              <h3>AI-Powered Freelancers</h3>
-
-              <div class="secret-row">
-                <strong>2–3X Faster</strong>
-                <div class="secret-bar"><span></span></div>
-              </div>
-              <div class="secret-row">
-                <strong>2–3X Output</strong>
-                <div class="secret-bar"><span></span></div>
-              </div>
-              <div class="secret-row">
-                <strong>High Accuracy</strong>
-                <div class="secret-bar"><span></span></div>
-              </div>
-              <div class="secret-row">
-                <strong>2–3X Earning Boost</strong>
-                <div class="secret-bar"><span></span></div>
-              </div>
-            </article>
-
-            <article class="secret-tier t2t">
-              <div class="secret-label">Leagues ahead</div>
-              <h3>T2T-Powered Freelancers</h3>
-
-              <div class="secret-row">
-                <strong>100X Faster</strong>
-                <div class="secret-bar"><span></span></div>
-              </div>
-              <div class="secret-row">
-                <strong>100X Output</strong>
-                <div class="secret-bar"><span></span></div>
-              </div>
-              <div class="secret-row">
-                <strong>Exceptional Quality</strong>
-                <div class="secret-bar"><span></span></div>
-              </div>
-              <div class="secret-row">
-                <strong>100X Earning Boost</strong>
-                <div class="secret-bar"><span></span></div>
-              </div>
-            </article>
+          <div class="secret-row">
+            <div class="secret-cell heading">Speed</div>
+            <div class="secret-cell">Standard Speed</div>
+            <div class="secret-cell">2–3X Faster</div>
+            <div class="secret-cell highlight">100X Faster</div>
           </div>
-
-          <div class="secret-benefits" aria-label="T2T benefits">
-            <div class="secret-benefit">
-              <div class="secret-benefit-icon">⚡</div>
-              <div><strong>Deliver 100X Faster</strong><span>Beat deadlines.</span></div>
-            </div>
-            <div class="secret-benefit">
-              <div class="secret-benefit-icon">📈</div>
-              <div><strong>Earn More</strong><span>More output.</span></div>
-            </div>
-            <div class="secret-benefit">
-              <div class="secret-benefit-icon">🏆</div>
-              <div><strong>Win More Clients</strong><span>Show proof first.</span></div>
-            </div>
-            <div class="secret-benefit">
-              <div class="secret-benefit-icon">💰</div>
-              <div><strong>Charge More</strong><span>Deliver faster.</span></div>
-            </div>
+          <div class="secret-row">
+            <div class="secret-cell heading">Output</div>
+            <div class="secret-cell">1X Output</div>
+            <div class="secret-cell">2–3X Output</div>
+            <div class="secret-cell highlight">100X Output</div>
           </div>
-
-          <div class="top-users-box">
-            <div class="top-users-head">
-              <h3>How Top Users Use It</h3>
-              <p>They do not just apply. They send a quick demo so clients can see proof before hiring.</p>
-            </div>
-
-            <div class="top-users-steps">
-              <div class="top-users-step">
-                <b>Step 1</b>
-                <strong>Client posts a job</strong>
-                <span>Example: “I need a Google Sheet with profit and loss tracking, formulas, auto-highlights, and a clean layout for my company.”</span>
-              </div>
-
-              <div class="top-users-step">
-                <b>Step 2</b>
-                <strong>Generate a demo with T2T</strong>
-                <span>Paste the job description into Text2Tool, create a demo sheet, and capture clean screenshots.</span>
-              </div>
-
-              <div class="top-users-step">
-                <b>Step 3</b>
-                <strong>Send proof with your proposal</strong>
-                <span>Share the demo screenshots so the client knows you understand the job and can actually build it.</span>
-              </div>
-            </div>
-
-            <div class="top-users-result">Result: stronger proposals, faster trust, and higher hiring chances.</div>
+          <div class="secret-row">
+            <div class="secret-cell heading">Quality</div>
+            <div class="secret-cell">Good Quality</div>
+            <div class="secret-cell">High Accuracy</div>
+            <div class="secret-cell highlight">Exceptional Quality</div>
+          </div>
+          <div class="secret-row">
+            <div class="secret-cell heading">Earning</div>
+            <div class="secret-cell">Limited Earning Boost</div>
+            <div class="secret-cell">2–3X Earning Boost</div>
+            <div class="secret-cell highlight">100X Earning Boost</div>
           </div>
         </div>
+
+        <div class="benefit-line" aria-label="T2T benefits">
+          <div>⚡ Deliver 100X Faster</div>
+          <div>📈 Earn More</div>
+          <div>🏆 Win More Clients</div>
+          <div>💰 Charge More</div>
+        </div>
+
+        <div class="section-title" style="margin-top:70px;">
+          <h2>How Top Users Use It</h2>
+          <p>They do not just apply. They send a quick demo so clients can see proof before hiring.</p>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-badge">Step 1</div>
+            <h3>Client posts a job</h3>
+            <p>Example: “I need a Google Sheet with profit and loss tracking, formulas, auto-highlights, and a clean layout for my company.”</p>
+          </div>
+
+          <div class="step">
+            <div class="step-badge">Step 2</div>
+            <h3>Generate a demo with T2T</h3>
+            <p>Paste the job description into Text2Tool, create a demo sheet, and capture clean screenshots.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-badge">Step 3</div>
+            <h3>Send proof with your proposal</h3>
+            <p>Share the demo screenshots so the client knows you understand the job and can actually build it.</p>
+          </div>
+        </div>
+
+        <div class="result-line">Result: stronger proposals, faster trust, and higher hiring chances.</div>
       </div>
     </section>
 
