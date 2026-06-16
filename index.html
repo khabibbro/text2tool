@@ -217,7 +217,7 @@
 
     .hero {
       padding-top: 76px;
-      padding-bottom: 50px;
+      padding-bottom: 34px;
       text-align: center;
     }
 
@@ -1166,7 +1166,7 @@
       background: #ffffff;
       padding: 24px;
       box-shadow: var(--shadow-small);
-      min-height: 260px;
+      min-height: 350px;
       display: flex;
       flex-direction: column;
     }
@@ -1244,6 +1244,48 @@
       letter-spacing: -0.015em;
     }
 
+
+    .home-price-card ul {
+      margin: 18px 0 22px;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .home-price-card li {
+      position: relative;
+      padding-left: 22px;
+      color: var(--text-soft);
+      font-size: 14px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .home-price-card li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--blue);
+      font-weight: 900;
+    }
+
+
+    .review-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
   </style>
 </head>
 
@@ -1277,38 +1319,61 @@
     <section class="hero">
       <div class="eyebrow">⚡ For freelancers, VAs & agencies</div>
 
-      <h1>
-        Turn text into ready-made Google Sheets.
-        <span>Ready‑Made Google Sheets</span>
-      </h1>
-
-      <p class="hero-subtitle">
-        Turn text into ready-made Google Sheets.</p>
+      <h1>Turn text into <span>ready-made Google Sheets</span></h1>
 
       <p class="hero-example">Example: Create an attendance tracker.</p>
 
       <div class="hero-actions">
         <a class="btn btn-primary" href="/create-tool/?v=final1">Create My First Tool</a>
-        <a class="btn btn-secondary" href="#pricing">View Pricing</a>
       </div>
 
       <div class="hero-note">First preview is free. Delivery is by email in about 5 minutes.</div>
+    </section>
 
-      <div class="hero-meta" aria-label="Text2Tool quick summary">
-        <div class="meta-item">
-          <strong>Prompt to Sheet</strong>
-          <span>Describe what you need</span>
+    <section>
+      <div class="demo-panel">
+        <div class="demo-copy">
+          <div class="eyebrow">End result preview</div>
+          <h2>See what the finished sheet looks like</h2>
+          <p>Text2Tool is not just text. The goal is a usable Google Sheet tool with clear tabs, formulas, dashboards and settings.</p>
+
+          <div class="demo-points">
+            <div><b>1</b> Multiple Tabs</div>
+            <div><b>2</b> Dashboards and Analytics</div>
+            <div><b>3</b> built in formulas & settings</div>
+          </div>
         </div>
-        <div class="meta-item">
-          <strong>Ready‑Made Tools</strong>
-          <span>Auto adds Formulas & Layout</span>
-        </div>
-        <div class="meta-item">
-          <strong>Work Faster</strong>
-          <span>Useful for more work in less time</span>
+
+        <div class="demo-card">
+          <div class="browser-bar" aria-hidden="true"><span></span><span></span><span></span></div>
+
+          <div class="t2t-carousel" aria-label="Finished Google Sheet screenshots">
+            <button class="t2t-demo-nav t2t-demo-prev" type="button" aria-label="Previous screenshot">‹</button>
+
+            <div class="t2t-demo-screen">
+              <img class="t2t-demo-slide is-active" src="/assets/sheet-preview-1.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-1.png';" alt="Google Sheet attendance tracker main tab screenshot">
+              <img class="t2t-demo-slide" src="/assets/sheet-preview-2.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-2.png';" alt="Google Sheet dashboard summary screenshot">
+              <img class="t2t-demo-slide" src="/assets/sheet-preview-3.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-3.png';" alt="Google Sheet dashboard charts screenshot">
+              <img class="t2t-demo-slide" src="/assets/sheet-preview-4.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-4.png';" alt="Google Sheet advanced analytics screenshot">
+              <img class="t2t-demo-slide" src="/assets/sheet-preview-5.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-5.png';" alt="Google Sheet auto bot repair popup screenshot">
+              <img class="t2t-demo-slide" src="/assets/sheet-preview-6.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-6.png';" alt="Google Sheet settings and auto bot menu screenshot">
+            </div>
+
+            <button class="t2t-demo-nav t2t-demo-next" type="button" aria-label="Next screenshot">›</button>
+
+            <div class="t2t-demo-dots" aria-label="Screenshot controls">
+              <button class="t2t-demo-dot is-active" type="button" aria-label="Show screenshot 1"></button>
+              <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 2"></button>
+              <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 3"></button>
+              <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 4"></button>
+              <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 5"></button>
+              <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 6"></button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
+
 
     <section>
       <div class="section-title">
@@ -1396,50 +1461,6 @@
     </section>
 
     <section>
-      <div class="demo-panel">
-        <div class="demo-copy">
-          <div class="eyebrow">End result preview</div>
-          <h2>See what the finished sheet looks like</h2>
-          <p>Text2Tool is not just text. The goal is a usable Google Sheet tool with clear tabs, formulas, dashboards and settings.</p>
-
-          <div class="demo-points">
-            <div><b>1</b> Multiple Tabs</div>
-            <div><b>2</b> Dashboards and Analytics</div>
-            <div><b>3</b> built in formulas & settings</div>
-          </div>
-        </div>
-
-        <div class="demo-card">
-          <div class="browser-bar" aria-hidden="true"><span></span><span></span><span></span></div>
-
-          <div class="t2t-carousel" aria-label="Finished Google Sheet screenshots">
-            <button class="t2t-demo-nav t2t-demo-prev" type="button" aria-label="Previous screenshot">‹</button>
-
-            <div class="t2t-demo-screen">
-              <img class="t2t-demo-slide is-active" src="/assets/sheet-preview-1.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-1.png';" alt="Google Sheet attendance tracker main tab screenshot">
-              <img class="t2t-demo-slide" src="/assets/sheet-preview-2.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-2.png';" alt="Google Sheet dashboard summary screenshot">
-              <img class="t2t-demo-slide" src="/assets/sheet-preview-3.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-3.png';" alt="Google Sheet dashboard charts screenshot">
-              <img class="t2t-demo-slide" src="/assets/sheet-preview-4.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-4.png';" alt="Google Sheet advanced analytics screenshot">
-              <img class="t2t-demo-slide" src="/assets/sheet-preview-5.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-5.png';" alt="Google Sheet auto bot repair popup screenshot">
-              <img class="t2t-demo-slide" src="/assets/sheet-preview-6.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-6.png';" alt="Google Sheet settings and auto bot menu screenshot">
-            </div>
-
-            <button class="t2t-demo-nav t2t-demo-next" type="button" aria-label="Next screenshot">›</button>
-
-            <div class="t2t-demo-dots" aria-label="Screenshot controls">
-              <button class="t2t-demo-dot is-active" type="button" aria-label="Show screenshot 1"></button>
-              <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 2"></button>
-              <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 3"></button>
-              <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 4"></button>
-              <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 5"></button>
-              <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 6"></button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section>
       <div class="section-title">
         <h2>Popular tools users request</h2>
       </div>
@@ -1469,8 +1490,13 @@
           <div class="home-price-tag">Free</div>
           <h3>Free Preview</h3>
           <div class="home-price">$0</div>
-          <p>Test your idea and see a preview before buying a Tool Kit.</p>
-          <a class="btn btn-secondary" href="/create-tool/?v=final1">Create Preview</a>
+          <p>Test your tool idea and see a preview before buying.</p>
+          <ul>
+            <li>Create a tool preview</li>
+            <li>See planned tabs and fields</li>
+            <li>No payment required</li>
+          </ul>
+          <a class="btn btn-secondary" href="/create-tool/?v=final1">Create Tool</a>
         </article>
 
         <article class="home-price-card">
@@ -1478,23 +1504,38 @@
           <h3>Tester Pack</h3>
           <div class="home-price">$1</div>
           <p>Best for testing one small Google Sheet tool after preview.</p>
-          <a class="btn btn-secondary" href="/create-tool/?v=final1">Start</a>
+          <ul>
+            <li>Same core features</li>
+            <li>Good for first test</li>
+            <li>Preview saved for 30 days</li>
+          </ul>
+          <a class="btn btn-secondary" href="/create-tool/?v=final1">Create Tool</a>
         </article>
 
         <article class="home-price-card featured">
-          <div class="home-price-tag">Popular</div>
+          <div class="home-price-tag">Most popular</div>
           <h3>Freelance VA Pack</h3>
           <div class="home-price">$10</div>
           <p>Best for freelancers and VAs creating tools for regular work.</p>
-          <a class="btn btn-primary" href="/create-tool/?v=final1">Choose Pack</a>
+          <ul>
+            <li>Same core features</li>
+            <li>Useful for repeated tools</li>
+            <li>Better than pay-as-you-go</li>
+          </ul>
+          <a class="btn btn-primary" href="/create-tool/?v=final1">Create Tool</a>
         </article>
 
         <article class="home-price-card">
           <div class="home-price-tag">Agency</div>
           <h3>Agency Pack</h3>
           <div class="home-price">$50</div>
-          <p>Best for agencies and repeat client/admin sheet work.</p>
-          <a class="btn btn-secondary" href="/create-tool/?v=final1">Choose Pack</a>
+          <p>Best for agencies managing repeat admin, tracking and reporting work.</p>
+          <ul>
+            <li>Same core features</li>
+            <li>Great for client tasks</li>
+            <li>Built for repeat workflows</li>
+          </ul>
+          <a class="btn btn-secondary" href="/create-tool/?v=final1">Create Tool</a>
         </article>
       </div>
     </section>
@@ -1507,14 +1548,16 @@
 
       <div class="reviews-grid">
         <article class="review-card">
-          <p>“Text2Tool helped me create a clean sheet much faster than building everything manually.”</p>
-          <div class="review-person">Sara</div>
-          <div class="review-role">Virtual Assistant</div>
+          <div class="review-avatar">SM</div>
+          <p>“Before, I was stuck building a few trackers manually. Now I can turn client requests into clean Google Sheet tools much faster, take more jobs, and keep moving to the next order.”</p>
+          <div class="review-person">Sarah M.</div>
+          <div class="review-role">Freelance VA</div>
         </article>
 
         <article class="review-card">
-          <p>“I used it to turn requirements into a ready Google Sheet structure without wasting hours on setup.”</p>
-          <div class="review-person">Adam</div>
+          <div class="review-avatar">DR</div>
+          <p>“When I apply for spreadsheet jobs, I build a quick demo first and send screenshots with my proposal. Clients notice the fast response and it helps me look more prepared than other freelancers.”</p>
+          <div class="review-person">Daniel R.</div>
           <div class="review-role">Freelancer</div>
         </article>
       </div>
@@ -1527,7 +1570,7 @@
           
         </div>
 
-        <a class="btn btn-primary" href="/create-tool/?v=final1">Create Your First Tool</a>
+        <a class="btn btn-primary" href="/create-tool/?v=final1">Start!</a>
       </div>
     </section>
   </main>
