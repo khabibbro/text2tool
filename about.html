@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>About Text2Tool — AI Google Sheets Tool Generator for Business</title>
+  <meta name="description" content="Learn how Text2Tool works. Turn a short simple prompt into a Google Sheets business tool for invoices, attendance, lead tracking, profit loss, inventory, dashboards, and more." />
+  <link rel="canonical" href="https://text2tool.com/about.html" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#2563eb" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://text2tool.com/about.html" />
+  <meta property="og:title" content="About Text2Tool — How It Works" />
+  <meta property="og:description" content="Text2Tool turns short simple prompts into Google Sheets business tools, trackers, calculators, dashboards, and templates." />
+  <meta property="og:site_name" content="Text2Tool" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="About Text2Tool — How It Works" />
+  <meta name="twitter:description" content="Create Google Sheets business tools from short simple prompts with Text2Tool." />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "About Text2Tool — How It Works",
+    "url": "https://text2tool.com/about.html",
+    "description": "Text2Tool is an AI Google Sheets tool generator that creates spreadsheet tools, templates, trackers, calculators and dashboards from short simple prompts.",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Text2Tool",
+      "url": "https://text2tool.com/"
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #fbfcff;
+      --paper: #ffffff;
+      --paper-soft: #f8fbff;
+      --text: #121826;
+      --text-soft: #30394a;
+      --muted: #667085;
+      --line: #e4eaf3;
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --blue-soft: #eef5ff;
+      --green-soft: #ecfdf5;
+      --green-line: #bbf7d0;
+      --green: #16a34a;
+      --radius: 24px;
+      --max: 1120px;
+      --shadow: 0 24px 70px rgba(15, 23, 42, 0.09);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 18% 0%, rgba(37, 99, 235, 0.08), transparent 32%),
+        radial-gradient(circle at 88% 10%, rgba(59, 130, 246, 0.08), transparent 34%),
+        linear-gradient(180deg, #ffffff 0%, #f8fbff 48%, #ffffff 100%);
+      font-family: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      line-height: 1.65;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(228, 234, 243, 0.95);
+    }
+
+    .nav {
+      width: min(var(--max), calc(100% - 40px));
+      min-height: 76px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      font-size: 20px;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--blue), #7c3aed);
+      box-shadow: 0 14px 30px rgba(37, 99, 235, 0.24);
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 18px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-link {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+      padding: 10px 12px;
+      border-radius: 999px;
+    }
+
+    .nav-link:hover {
+      color: var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 16px;
+      border-radius: 999px;
+      background: var(--blue);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 900;
+      box-shadow: 0 14px 30px rgba(37, 99, 235, 0.18);
+    }
+
+    .wrap {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 82px 0 38px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.86);
+      color: var(--blue);
+      font-weight: 900;
+      font-size: 13px;
+      margin-bottom: 18px;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.05);
+    }
+
+    h1 {
+      margin: 0 auto 18px;
+      max-width: 920px;
+      font-size: clamp(38px, 6vw, 72px);
+      line-height: 0.98;
+      letter-spacing: -0.075em;
+      font-weight: 900;
+    }
+
+    .hero p {
+      margin: 0 auto;
+      max-width: 780px;
+      color: var(--text-soft);
+      font-size: clamp(17px, 2vw, 22px);
+      line-height: 1.65;
+      font-weight: 500;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 22px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      font-weight: 900;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #ffffff;
+    }
+
+    .btn-secondary {
+      background: #ffffff;
+      color: var(--text);
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 28px;
+      align-items: start;
+      padding: 34px 0 76px;
+    }
+
+    article {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(24px, 4vw, 48px);
+    }
+
+    article h2 {
+      margin: 44px 0 14px;
+      font-size: clamp(26px, 3vw, 40px);
+      line-height: 1.08;
+      letter-spacing: -0.045em;
+      font-weight: 900;
+    }
+
+    article h2:first-child { margin-top: 0; }
+
+    article h3 {
+      margin: 30px 0 10px;
+      font-size: 22px;
+      line-height: 1.18;
+      letter-spacing: -0.02em;
+      font-weight: 900;
+    }
+
+    article p {
+      color: var(--text-soft);
+      font-size: 17px;
+      margin: 0 0 16px;
+    }
+
+    article ul {
+      margin: 14px 0 22px;
+      padding-left: 22px;
+      color: var(--text-soft);
+      font-size: 17px;
+    }
+
+    article li { margin: 8px 0; }
+
+    .prompt-box {
+      border: 1px solid var(--green-line);
+      background: var(--green-soft);
+      color: #14532d;
+      border-radius: 18px;
+      padding: 18px;
+      margin: 18px 0 24px;
+      font-weight: 800;
+    }
+
+    .prompt-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      padding: 0;
+      margin: 18px 0 24px;
+      list-style: none;
+    }
+
+    .prompt-list li {
+      margin: 0;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: var(--paper-soft);
+      color: var(--text);
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .toc {
+      position: sticky;
+      top: 100px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+    }
+
+    .toc strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .toc a {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+      padding: 8px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .toc a:hover { color: var(--blue); }
+
+    .cta-panel {
+      margin-top: 34px;
+      border-radius: 24px;
+      padding: 30px;
+      background: linear-gradient(135deg, var(--blue), #7c3aed);
+      color: #ffffff;
+      text-align: center;
+    }
+
+    .cta-panel h2 {
+      margin-top: 0;
+      color: #ffffff;
+    }
+
+    .cta-panel p {
+      color: rgba(255, 255, 255, 0.88);
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-panel .btn {
+      background: #ffffff;
+      color: var(--blue);
+      border-color: #ffffff;
+      margin-top: 8px;
+    }
+
+    footer {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      padding: 34px 0 44px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    footer a {
+      color: var(--blue);
+      font-weight: 900;
+      margin: 0 8px;
+    }
+
+    @media (max-width: 900px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .toc {
+        position: static;
+        order: -1;
+      }
+
+      .prompt-list {
+        grid-template-columns: 1fr;
+      }
+
+      .nav {
+        min-height: auto;
+        padding: 16px 0;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-actions {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .wrap, .nav, footer {
+        width: min(100% - 28px, var(--max));
+      }
+
+      .hero {
+        padding-top: 54px;
+      }
+
+      article {
+        border-radius: 20px;
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="/">
+        <span class="brand-mark">T</span>
+        <span>Text2Tool</span>
+      </a>
+
+      <div class="nav-actions">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/faq.html">FAQ</a>
+        <a class="nav-cta" href="/create-tool.html">Create Tool</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <div class="eyebrow">About Text2Tool</div>
+        <h1>Turn short simple prompts into Google Sheets business tools.</h1>
+        <p>Text2Tool helps users create spreadsheet tools, trackers, calculators, dashboards, and business templates from short requests like create invoice tool, create attendance tracker, create lead generation tracker, or create profit loss tracker.</p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/create-tool.html">Create Your Tool</a>
+          <a class="btn btn-secondary" href="/">Back to Home</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap content-grid">
+      <article>
+        <h2 id="what-is-text2tool">What Is Text2Tool?</h2>
+        <p>Text2Tool is an AI Google Sheets tool generator. It is built for people who want a business tool without starting from a blank spreadsheet.</p>
+        <p>Instead of building formulas, tabs, dashboards, dropdowns, and reports yourself, you write a short simple prompt. Text2Tool then helps create a Google Sheets-based tool for that business need.</p>
+        <p>The goal is simple: write the tool name or short idea, preview it, and export it into Google Sheets.</p>
+
+        <h2 id="how-it-works">How Text2Tool Works</h2>
+
+        <h3>1. Write a short simple prompt</h3>
+        <p>Text2Tool is now designed for short, focused prompts. You do not need to write a long detailed description. You also do not need to be technical.</p>
+
+        <div class="prompt-box">
+          Best style: short and clear. Ask for one tool at a time.
+        </div>
+
+        <ul class="prompt-list">
+          <li>Create invoice tool</li>
+          <li>Create attendance tracker</li>
+          <li>Create lead generation tracker</li>
+          <li>Create profit loss tracker</li>
+          <li>Create inventory tracker</li>
+          <li>Create CRM tool</li>
+          <li>Create payroll tracker</li>
+          <li>Create customer support tracker</li>
+        </ul>
+
+        <p>A short prompt works better because the system can focus on one tool. If a prompt asks for many different tools in one request, the result can become confusing. Text2Tool is made to create one tool at a time.</p>
+
+        <h3>2. Preview the tool idea</h3>
+        <p>After you enter your short prompt, Text2Tool gives you a preview of the tool idea. The preview helps you understand what type of Google Sheets tool will be created before you export it.</p>
+        <p>This is useful for non-technical users because it turns the idea into a clearer structure. You can see the expected tool direction before generating the final sheet.</p>
+
+        <h3>3. Export to Google Sheets</h3>
+        <p>After previewing, you can export the tool. Text2Tool creates a Google Sheets-based business tool and delivers it by email.</p>
+        <p>Once your Google Sheet is delivered, you can open it and use <strong>File &gt; Make a copy</strong> to save your own editable version. After making a copy, you can use the sheet for your own business workflow.</p>
+
+        <h2 id="why-google-sheets">Why Text2Tool Uses Google Sheets</h2>
+        <p>Google Sheets is flexible, online, shareable, and familiar to many business users. Many small businesses already use spreadsheets for daily work, so Google Sheets is a practical place to manage simple business tools.</p>
+        <p>A well-made Google Sheets tool can help with records, calculations, reports, dashboards, dropdowns, charts, and organized tabs.</p>
+
+        <p>Google Sheets can be useful for:</p>
+        <ul>
+          <li>Invoices and billing</li>
+          <li>Attendance tracking</li>
+          <li>Lead generation tracking</li>
+          <li>Profit and loss tracking</li>
+          <li>Customer records and CRM</li>
+          <li>Inventory and stock tracking</li>
+          <li>Sales tracking</li>
+          <li>Expense tracking</li>
+          <li>Payroll records</li>
+          <li>Project management</li>
+          <li>Task management</li>
+          <li>Staff management</li>
+          <li>Business dashboards</li>
+          <li>Custom reports</li>
+        </ul>
+
+        <h2 id="tool-examples">What Types of Tools Can You Create?</h2>
+
+        <h3>Invoice Tool</h3>
+        <p>An invoice tool can help you create invoices, record customer details, add products or services, calculate totals, and keep invoice records. This can be useful for freelancers, shop owners, agencies, and service businesses.</p>
+
+        <h3>Attendance Tracker</h3>
+        <p>An attendance tracker can help businesses record employee attendance, mark daily status, track monthly attendance, and review simple reports.</p>
+
+        <h3>Lead Generation Tracker</h3>
+        <p>A lead generation tracker can help you manage new leads, contact details, source, status, follow-up dates, and notes. This is useful for agencies, sales teams, freelancers, and service providers.</p>
+
+        <h3>Profit Loss Tracker</h3>
+        <p>A profit loss tracker can help you record income, expenses, totals, and monthly profit. This is useful for small business owners who want a clearer view of business performance.</p>
+
+        <h3>CRM Tool</h3>
+        <p>A CRM tool can help manage customer names, contact details, follow-up status, notes, and deal stages. This is useful for people who need to track relationships and sales opportunities.</p>
+
+        <h3>Inventory Tracker</h3>
+        <p>An inventory tracker can help record stock in, stock out, available quantity, low stock items, and product details. This is useful for shops, warehouses, online stores, and product-based businesses.</p>
+
+        <h3>Project Tracker</h3>
+        <p>A project tracker can help manage tasks, deadlines, owners, status, priority, and progress. This is useful for agencies, remote teams, freelancers, and small companies.</p>
+
+        <h3>Business Dashboard</h3>
+        <p>A business dashboard can help show important numbers in one place. This may include sales, expenses, leads, tasks, attendance, inventory, or performance metrics.</p>
+
+        <h2 id="who-is-it-for">Who Is Text2Tool For?</h2>
+        <p>Text2Tool is made for people who need practical business tools but do not want to build everything manually.</p>
+
+        <p>It can be useful for:</p>
+        <ul>
+          <li>Small business owners</li>
+          <li>Freelancers</li>
+          <li>Virtual assistants</li>
+          <li>Agencies</li>
+          <li>Shop owners</li>
+          <li>Service providers</li>
+          <li>Startup founders</li>
+          <li>Sales teams</li>
+          <li>Hotel managers</li>
+          <li>Farm owners</li>
+          <li>Operations teams</li>
+          <li>People who use Google Sheets for daily work</li>
+        </ul>
+
+        <p>You do not need to be a developer, spreadsheet expert, or automation specialist. Text2Tool is built for users who want to write a short tool idea and receive a Google Sheets-based business tool.</p>
+
+        <h2 id="templates-vs-custom">Why Not Just Download a Template?</h2>
+        <p>Free spreadsheet templates are useful, but they are often fixed. A downloaded template may not match your exact workflow. It may have the wrong columns, missing reports, confusing formulas, or extra sections you do not need.</p>
+        <p>Text2Tool starts from your short prompt. This makes it more flexible than searching through many generic templates.</p>
+        <p>For example, one person may need an invoice tool. Another may need an attendance tracker. Another may need a lead generation tracker. Text2Tool is designed to create a tool based on the specific tool type requested.</p>
+
+        <h2 id="best-prompts">Best Prompt Style</h2>
+        <p>The best prompts are short, simple, and focused on one tool.</p>
+
+        <ul class="prompt-list">
+          <li>Create invoice tool</li>
+          <li>Create attendance tracker</li>
+          <li>Create lead generation tracker</li>
+          <li>Create profit loss tracker</li>
+          <li>Create CRM tool</li>
+          <li>Create inventory tracker</li>
+          <li>Create payroll tool</li>
+          <li>Create sales tracker</li>
+          <li>Create expense tracker</li>
+          <li>Create task tracker</li>
+          <li>Create project tracker</li>
+          <li>Create customer support tracker</li>
+        </ul>
+
+        <p>Avoid asking for multiple tools in one prompt. For example, instead of asking for invoices, payroll, CRM, inventory, HR, and accounting all together, create each tool separately.</p>
+
+        <h2 id="ownership">Text2Tool and Ownership</h2>
+        <p>When your Google Sheets tool is delivered, you can use <strong>File &gt; Make a copy</strong> to create your own version. After making a copy, you can edit your sheet, add data, change values, and adjust it for your workflow.</p>
+        <p>This makes Text2Tool useful for people who want a practical starting point instead of a locked software dashboard.</p>
+
+        <h2 id="faq">Frequently Asked Questions</h2>
+
+        <h3>Is Text2Tool only for Google Sheets?</h3>
+        <p>Text2Tool is focused on creating Google Sheets-based business tools. Google Sheets is flexible, shareable, and easy for many users to understand.</p>
+
+        <h3>Do I need coding knowledge?</h3>
+        <p>No. Text2Tool is designed for non-technical users. You only need to write a short simple prompt.</p>
+
+        <h3>Should I write a long detailed prompt?</h3>
+        <p>No. Text2Tool now works best with short simple prompts like create invoice tool, create attendance tracker, create lead generation tracker, or create profit loss tracker.</p>
+
+        <h3>Can I edit the final Google Sheet?</h3>
+        <p>Yes. After the tool is delivered, you can use File &gt; Make a copy to save your own editable version.</p>
+
+        <h3>What kind of request works best?</h3>
+        <p>A clear, focused request works best. Ask for one tool at a time, such as invoice tool, attendance tracker, lead generation tracker, profit loss tracker, CRM tool, or inventory tracker.</p>
+
+        <h3>Can I create a tool for my specific business?</h3>
+        <p>Yes. You can request the type of business tool you need. For example, you can ask for a tracker for sales, leads, expenses, attendance, inventory, projects, customer support, or business reports.</p>
+
+        <h3>Is this the same as downloading a template?</h3>
+        <p>No. A normal template is fixed. Text2Tool creates a tool based on your short prompt, which makes it more flexible than searching for a generic spreadsheet template.</p>
+
+        <div class="cta-panel">
+          <h2>Start Creating Your Tool</h2>
+          <p>Text2Tool helps you turn a short simple prompt into a working Google Sheets business tool. Start with one tool idea and export it to Google Sheets.</p>
+          <a class="btn" href="/create-tool.html">Create Your Tool</a>
+        </div>
+      </article>
+
+      <aside class="toc" aria-label="Page contents">
+        <strong>On this page</strong>
+        <a href="#what-is-text2tool">What is Text2Tool?</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#why-google-sheets">Why Google Sheets</a>
+        <a href="#tool-examples">Tool examples</a>
+        <a href="#who-is-it-for">Who it is for</a>
+        <a href="#templates-vs-custom">Templates vs custom</a>
+        <a href="#best-prompts">Best prompt style</a>
+        <a href="#ownership">Ownership</a>
+        <a href="#faq">FAQs</a>
+      </aside>
+    </section>
+  </main>
+
+  <footer>
+    <a href="/">Home</a>
+    <a href="/about.html">About</a>
+    <a href="/faq.html">FAQ</a>
+    <a href="/create-tool.html">Create Tool</a>
+    <br><br>
+    Built for freelancers, VAs, agencies and growing businesses. Text2Tool AI © 2026.
+  </footer>
+</body>
+</html>
