@@ -1015,6 +1015,53 @@
         min-height: 265px;
       }
     }
+
+    .info-tip {
+      position: relative;
+      display: inline-grid;
+      place-items: center;
+      width: 18px;
+      height: 18px;
+      margin-left: 6px;
+      border-radius: 999px;
+      border: 1px solid #cfe0ff;
+      background: #f3f8ff;
+      color: #2563eb;
+      font-size: 12px;
+      font-weight: 900;
+      cursor: help;
+      vertical-align: middle;
+    }
+
+    .info-tip::after {
+      content: attr(data-tip);
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 10px);
+      transform: translateX(-50%) translateY(4px);
+      width: max-content;
+      max-width: 260px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: #111827;
+      color: #ffffff;
+      box-shadow: 0 16px 34px rgba(17, 24, 39, 0.18);
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 650;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .15s ease, transform .15s ease;
+      z-index: 20;
+      text-align: left;
+      white-space: normal;
+    }
+
+    .info-tip:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
   </style>
 </head>
 
@@ -1089,20 +1136,20 @@
       <div class="workflow">
         <div class="work-step">
           <div class="step-number">1</div>
-          <strong>Paste the request</strong>
-          <span>Use the client’s sheet requirements or your own idea.</span>
+          <strong>Enter prompt <span class="info-tip" data-tip="Example: Create a profit loss tracker.">i</span></strong>
+          <span></span>
         </div>
 
         <div class="work-step">
           <div class="step-number">2</div>
-          <strong>AI builds the sheet</strong>
-          <span>Text2Tool prepares the Google Sheet structure.</span>
+          <strong>Get the Sheet/tool <span class="info-tip" data-tip="Delivered via email in about 5 minutes.">i</span></strong>
+          <span></span>
         </div>
 
         <div class="work-step">
           <div class="step-number">3</div>
-          <strong>Use or deliver it</strong>
-          <span>Preview it, then make a copy and own the file.</span>
+          <strong></strong>
+          <span></span>
         </div>
       </div>
     </section>
@@ -1200,9 +1247,9 @@
           <p>Text2Tool is not just text. The goal is a usable Google Sheet tool with clear tabs, formulas, dashboards and settings.</p>
 
           <div class="demo-points">
-            <div><b>1</b> Clean input tabs</div>
-            <div><b>2</b> Dashboard and summaries</div>
-            <div><b>3</b> Settings and dropdowns</div>
+            <div><b>1</b> Multiple Tabs</div>
+            <div><b>2</b> Dashboards and Analytics</div>
+            <div><b>3</b> built in formulas & settings</div>
           </div>
         </div>
 
@@ -1256,35 +1303,10 @@
     </section>
 
     <section>
-      <div class="use-box">
-        <h2>Use it before or after winning the job</h2>
-        <p>Create a quick demo from the job description, or build the final sheet faster after the client approves the work.</p>
-
-        <div class="use-line">
-          <div class="use-item">
-            <b>1</b>
-            <div>
-              <strong>For proposals</strong>
-              <span>Create a sample version from the client’s requirements and include it with your cover letter.</span>
-            </div>
-          </div>
-
-          <div class="use-item">
-            <b>2</b>
-            <div>
-              <strong>For delivery</strong>
-              <span>Save time building the actual tracker, calculator, report or dashboard.</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section>
       <div class="cta-band">
         <div>
           <h2>Ready to create your first tool?</h2>
-          <p>Describe the Google Sheet you need. Preview it first, then choose a Tool Kit when you are ready.</p>
+          
         </div>
 
         <a class="btn btn-primary" href="/create-tool/?v=final1">Create Your First Tool</a>
