@@ -1593,6 +1593,119 @@
       }
     }
 
+
+    /* V15 fixes: centered checklist, smaller comparison cards, embedded create section */
+    .hero-checklist {
+      width: fit-content !important;
+      max-width: calc(100% - 32px) !important;
+      margin: 28px auto 0 !important;
+      display: grid !important;
+      gap: 13px !important;
+      text-align: left !important;
+      justify-items: start !important;
+    }
+
+    .hero-checkitem {
+      justify-content: flex-start !important;
+      font-size: 16px !important;
+      font-weight: 620 !important;
+    }
+
+    .way-section .compare-grid {
+      max-width: 760px !important;
+      gap: 14px !important;
+    }
+
+    .way-section .way-card {
+      padding: 18px !important;
+      border-radius: 16px !important;
+    }
+
+    .way-section .way-head {
+      margin-bottom: 16px !important;
+    }
+
+    .way-section .way-icon {
+      width: 42px !important;
+      height: 42px !important;
+      font-size: 21px !important;
+      border-radius: 13px !important;
+    }
+
+    .way-section .way-head h3 {
+      font-size: 22px !important;
+      font-weight: 780 !important;
+    }
+
+    .way-section .way-list {
+      gap: 12px !important;
+    }
+
+    .way-section .way-row {
+      min-height: 56px !important;
+      padding: 13px 15px !important;
+      border-radius: 12px !important;
+    }
+
+    .way-section .row-copy strong {
+      font-size: 14px !important;
+      font-weight: 650 !important;
+    }
+
+    .way-section .way-quote {
+      margin-top: 14px !important;
+      padding: 12px !important;
+      font-size: 14px !important;
+    }
+
+    .home-create-section {
+      padding-top: 56px;
+      padding-bottom: 56px;
+    }
+
+    .home-create-card {
+      max-width: 1040px;
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: #ffffff;
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .home-create-frame {
+      width: 100%;
+      height: 980px;
+      display: block;
+      border: 0;
+      background: #ffffff;
+    }
+
+    @media (max-width: 900px) {
+      .way-section .compare-grid {
+        max-width: 100% !important;
+      }
+
+      .home-create-frame {
+        height: 1100px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-checklist {
+        width: fit-content !important;
+        max-width: calc(100% - 20px) !important;
+      }
+
+      .hero-checkitem {
+        font-size: 15px !important;
+      }
+
+      .home-create-frame {
+        height: 1180px;
+      }
+    }
+
   </style>
 </head>
 
@@ -1617,7 +1730,7 @@
 
       <div class="nav-actions">
         <button class="logout-btn" type="button" id="logoutBtn" style="display:none;">Logout</button>
-        <a class="nav-cta" href="/create-tool/?v=final1">Create Tool</a>
+        <a class="nav-cta" href="#create-tool">Create Tool</a>
       </div>
     </nav>
   </header>
@@ -1681,7 +1794,7 @@
       </div>
     
       <div class="demo-cta">
-        <a class="btn btn-primary" href="/create-tool/?v=final1">Create My First Tool</a>
+        <a class="btn btn-primary" href="#create-tool">Create My First Tool</a>
       </div>
     </section>
 
@@ -1777,7 +1890,7 @@
             <li>See planned sections</li>
             <li>No payment required</li>
           </ul>
-          <a class="btn btn-secondary" href="/create-tool/?v=final1">Create Tool</a>
+          <a class="btn btn-secondary" href="#create-tool">Create Tool</a>
         </article>
 
         <article class="home-price-card">
@@ -1791,7 +1904,7 @@
             <li>Preview saved for 30 days</li>
             <li>Simple pay-as-you-go</li>
           </ul>
-          <a class="btn btn-secondary" href="/create-tool/?v=final1">Create Tool</a>
+          <a class="btn btn-secondary" href="#create-tool">Create Tool</a>
         </article>
 
         <article class="home-price-card featured">
@@ -1805,7 +1918,7 @@
             <li>Useful for client work</li>
             <li>Built for regular use</li>
           </ul>
-          <a class="btn btn-primary" href="/create-tool/?v=final1">Create Tool</a>
+          <a class="btn btn-primary" href="#create-tool">Create Tool</a>
         </article>
 
         <article class="home-price-card">
@@ -1819,7 +1932,7 @@
             <li>Useful for teams</li>
             <li>Strong agency value</li>
           </ul>
-          <a class="btn btn-secondary" href="/create-tool/?v=final1">Create Tool</a>
+          <a class="btn btn-secondary" href="#create-tool">Create Tool</a>
         </article>
       </div>
     </section>
@@ -1849,6 +1962,18 @@
     </section>
 
 
+    <section class="home-create-section" id="create-tool">
+      <div class="section-title">
+        <h2>Create Your Tool</h2>
+        <p>Keep the prompt short, clear, and simple.</p>
+      </div>
+
+      <div class="home-create-card">
+        <iframe class="home-create-frame" src="/create-tool/?v=final1" title="Create a Text2Tool Google Sheet tool" loading="lazy"></iframe>
+      </div>
+    </section>
+
+
     <section class="home-faq-section" id="faq">
       <div class="home-faq-wrap">
         <h2 class="home-faq-title"><span>📝</span> Frequently Asked Questions</h2>
@@ -1856,12 +1981,17 @@
         <div class="home-faq-list">
           <details class="home-faq-card">
             <summary><span class="faq-icon">?</span><span>What if my tool has an issue?</span><span class="faq-arrow">⌄</span></summary>
-            <div class="home-faq-answer"><p>Use the instructions sent by email first. If the issue is from the generated setup, create a clearer request or contact support when support details are shown on the website or delivery email.</p></div>
+            <div class="home-faq-answer"><p>Use the instructions sent with your tool first. If something still looks wrong, create a clearer new request or contact support when support details are shown on the website or delivery email.</p></div>
           </details>
 
           <details class="home-faq-card">
-            <summary><span class="faq-icon">✎</span><span>What if I describe the wrong tool?</span><span class="faq-arrow">⌄</span></summary>
-            <div class="home-faq-answer"><p>Create another preview with a clearer request. Add the tool type, fields, formulas, reports, dashboards, and workflow rules you need.</p></div>
+            <summary><span class="faq-icon">✎</span><span>How should I write my prompt?</span><span class="faq-arrow">⌄</span></summary>
+            <div class="home-faq-answer"><p>Keep it short, clear, and simple. Example: “Create me a profit loss tracker for my Shopify business.”</p></div>
+          </details>
+
+          <details class="home-faq-card">
+            <summary><span class="faq-icon">⚡</span><span>Do I need to explain formulas and tabs?</span><span class="faq-arrow">⌄</span></summary>
+            <div class="home-faq-answer"><p>No. Text2Tool is designed to create the best structure from simple prompts. You can add details only when they are truly important.</p></div>
           </details>
 
           <details class="home-faq-card">
@@ -1880,11 +2010,6 @@
           </details>
 
           <details class="home-faq-card">
-            <summary><span class="faq-icon">⌁</span><span>How do I write a good request?</span><span class="faq-arrow">⌄</span></summary>
-            <div class="home-faq-answer"><p>Mention the tool type, who will use it, main fields, formulas, reports, dashboards, conditional formatting, and final result you want.</p></div>
-          </details>
-
-          <details class="home-faq-card">
             <summary><span class="faq-icon">▦</span><span>What kinds of tools can I request?</span><span class="faq-arrow">⌄</span></summary>
             <div class="home-faq-answer"><p>You can request invoice generators, attendance trackers, inventory trackers, lead trackers, commission calculators, payroll calculators, KPI dashboards, profit and loss trackers, and similar Google Sheet tools.</p></div>
           </details>
@@ -1897,17 +2022,6 @@
       </div>
     </section>
 
-
-    <section>
-      <div class="cta-band">
-        <div>
-          <h2>Ready to create your first tool?</h2>
-          
-        </div>
-
-        <a class="btn btn-primary" href="/create-tool/?v=final1">Start!</a>
-      </div>
-    </section>
   </main>
 
   <footer>
