@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Text2Tool AI | AI Google Sheet Tools for Freelancers & VAs</title>
-  <meta name="description" content="Freelancers and VAs can turn client tracker and Google Sheet requests into ready-to-use tools in seconds. Auto formulas. Auto built. Auto setup." />
+  <title>Text2Tool AI | AI Google Sheet Tools for Freelancers, VAs & Agencies</title>
+  <meta name="description" content="Turn client requirements into ready-made Google Sheet tools. Built for freelancers, virtual assistants and agencies who want to save time on trackers, calculators, reports and dashboards." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,23 +16,27 @@
   <style>
     :root {
       --bg: #fbfcff;
-      --bg-soft: #f6f8fc;
-      --surface: #ffffff;
-      --surface-2: #f8fbff;
+      --paper: #ffffff;
+      --paper-soft: #f8fbff;
       --text: #121826;
-      --muted: #5f6b7c;
-      --soft-muted: #7b8797;
-      --line: #e5ebf3;
-      --line-strong: #d7e1ee;
+      --text-soft: #30394a;
+      --muted: #667085;
+      --muted-2: #7b8798;
+      --line: #e4eaf3;
+      --line-strong: #d3def0;
       --blue: #2563eb;
-      --blue-2: #1d4ed8;
+      --blue-dark: #1d4ed8;
       --blue-soft: #eef5ff;
+      --orange-soft: #fff7ed;
+      --orange-line: #fed7aa;
+      --orange: #ea580c;
+      --green-soft: #ecfdf5;
+      --green-line: #bbf7d0;
       --green: #16a34a;
-      --red: #dc2626;
-      --radius: 22px;
+      --radius: 24px;
       --max: 1180px;
-      --shadow: 0 24px 70px rgba(27, 55, 96, 0.10);
-      --shadow-soft: 0 14px 34px rgba(30, 64, 175, 0.08);
+      --shadow: 0 24px 70px rgba(15, 23, 42, 0.09);
+      --shadow-small: 0 14px 35px rgba(30, 64, 175, 0.08);
     }
 
     * { box-sizing: border-box; }
@@ -44,9 +48,9 @@
       min-height: 100vh;
       color: var(--text);
       background:
-        radial-gradient(circle at 14% 12%, rgba(37, 99, 235, 0.08), transparent 30%),
-        radial-gradient(circle at 84% 12%, rgba(29, 78, 216, 0.07), transparent 30%),
-        linear-gradient(180deg, #ffffff 0%, #f7faff 48%, #ffffff 100%);
+        radial-gradient(circle at 18% 0%, rgba(37, 99, 235, 0.08), transparent 32%),
+        radial-gradient(circle at 88% 10%, rgba(59, 130, 246, 0.08), transparent 34%),
+        linear-gradient(180deg, #ffffff 0%, #f8fbff 48%, #ffffff 100%);
       font-family: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
@@ -58,10 +62,10 @@
     .site-header {
       position: sticky;
       top: 0;
-      z-index: 50;
-      background: rgba(255, 255, 255, 0.92);
+      z-index: 60;
+      background: rgba(255, 255, 255, 0.94);
       backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(229, 235, 243, 0.92);
+      border-bottom: 1px solid rgba(228, 234, 243, 0.95);
     }
 
     .nav {
@@ -86,35 +90,35 @@
       width: 42px;
       height: 42px;
       border-radius: 12px;
-      display: inline-grid;
+      display: grid;
       place-items: center;
+      background: linear-gradient(135deg, #35b8ff 0%, var(--blue) 100%);
       color: #081225;
-      background: linear-gradient(135deg, #31b7ff 0%, #2563eb 100%);
+      box-shadow: 0 14px 28px rgba(37, 99, 235, 0.22);
       font-size: 15px;
       font-weight: 900;
-      letter-spacing: -0.04em;
-      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.26);
+      letter-spacing: -0.06em;
     }
 
     .brand-copy {
       display: flex;
       flex-direction: column;
-      line-height: 1.05;
+      line-height: 1.08;
     }
 
     .brand-name {
+      color: var(--text);
       font-size: 19px;
       font-weight: 900;
-      letter-spacing: -0.04em;
-      color: var(--text);
+      letter-spacing: -0.045em;
     }
 
     .brand-tag {
       margin-top: 4px;
+      color: var(--muted);
       font-size: 12px;
       font-weight: 800;
       letter-spacing: 0.08em;
-      color: var(--muted);
     }
 
     .nav-links {
@@ -122,14 +126,14 @@
       display: inline-flex;
       align-items: center;
       gap: 32px;
-      color: #303949;
+      color: #344054;
       font-size: 14px;
       font-weight: 650;
     }
 
     .nav-links a {
       position: relative;
-      padding: 8px 0;
+      padding: 9px 0;
       transition: color .18s ease;
     }
 
@@ -143,7 +147,7 @@
       position: absolute;
       left: 0;
       right: 0;
-      bottom: 0;
+      bottom: 2px;
       height: 2px;
       border-radius: 999px;
       background: var(--blue);
@@ -160,7 +164,7 @@
     .logout-btn {
       border: 0;
       background: transparent;
-      color: #303949;
+      color: #344054;
       padding: 10px 8px;
       font-size: 14px;
       font-weight: 650;
@@ -170,23 +174,23 @@
     .logout-btn:hover { color: var(--blue); }
 
     .nav-cta {
+      min-height: 44px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 44px;
       padding: 0 20px;
       border-radius: 12px;
-      color: #ffffff;
       background: var(--blue);
+      color: #ffffff;
       font-size: 14px;
       font-weight: 800;
       box-shadow: 0 12px 26px rgba(37, 99, 235, 0.22);
-      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+      transition: background .18s ease, transform .18s ease, box-shadow .18s ease;
     }
 
     .nav-cta:hover {
+      background: var(--blue-dark);
       transform: translateY(-1px);
-      background: var(--blue-2);
       box-shadow: 0 16px 34px rgba(37, 99, 235, 0.28);
     }
 
@@ -194,28 +198,26 @@
       display: none;
       justify-self: end;
       border: 1px solid var(--line);
-      background: var(--surface);
+      background: var(--paper);
       color: var(--text);
       border-radius: 12px;
       padding: 10px 14px;
+      font-size: 14px;
       font-weight: 800;
       cursor: pointer;
     }
 
-    main {
-      width: 100%;
-      overflow: hidden;
-    }
+    main { overflow: hidden; }
 
     section {
       width: min(var(--max), calc(100% - 40px));
       margin: 0 auto;
-      padding: 72px 0;
+      padding: 70px 0;
     }
 
     .hero {
-      padding-top: 78px;
-      padding-bottom: 58px;
+      padding-top: 76px;
+      padding-bottom: 50px;
       text-align: center;
     }
 
@@ -227,7 +229,7 @@
       padding: 0 14px;
       border-radius: 999px;
       border: 1px solid #cfe0ff;
-      background: #f3f8ff;
+      background: #f4f8ff;
       color: #164a9e;
       font-size: 13px;
       font-weight: 850;
@@ -235,62 +237,36 @@
     }
 
     .hero h1 {
-      max-width: 880px;
+      max-width: 940px;
       margin: 22px auto 0;
-      font-size: clamp(46px, 7vw, 82px);
-      line-height: 0.96;
+      color: var(--text);
+      font-size: clamp(45px, 7vw, 82px);
+      line-height: .98;
       letter-spacing: -0.075em;
       font-weight: 900;
-      color: var(--text);
     }
 
-    .gradient-text {
+    .hero h1 span {
       color: var(--blue);
     }
 
     .hero-subtitle {
-      max-width: 700px;
+      max-width: 735px;
       margin: 22px auto 0;
       color: var(--muted);
       font-size: clamp(18px, 2vw, 22px);
-      line-height: 1.62;
+      line-height: 1.58;
       font-weight: 500;
       letter-spacing: -0.02em;
-    }
-
-    .hero-points {
-      margin: 30px auto 0;
-      display: grid;
-      gap: 14px;
-      max-width: 640px;
-      text-align: left;
-    }
-
-    .hero-point {
-      display: grid;
-      grid-template-columns: 24px 1fr;
-      align-items: start;
-      gap: 12px;
-      color: #263244;
-      font-size: 16px;
-      line-height: 1.55;
-      font-weight: 550;
-    }
-
-    .hero-point .check {
-      color: var(--blue);
-      font-size: 20px;
-      line-height: 1.1;
-      font-weight: 900;
     }
 
     .hero-actions {
       margin-top: 34px;
       display: flex;
-      align-items: center;
       justify-content: center;
-      flex-wrap: wrap;
+      align-items: center;
       gap: 14px;
+      flex-wrap: wrap;
     }
 
     .btn {
@@ -302,72 +278,75 @@
       border-radius: 13px;
       font-size: 15px;
       font-weight: 850;
-      transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
+      border: 1px solid transparent;
+      transition: background .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease;
     }
 
     .btn-primary {
-      color: #fff;
+      color: #ffffff;
       background: var(--blue);
-      border: 1px solid var(--blue);
+      border-color: var(--blue);
       box-shadow: 0 18px 34px rgba(37, 99, 235, 0.22);
     }
 
     .btn-primary:hover {
+      background: var(--blue-dark);
+      border-color: var(--blue-dark);
       transform: translateY(-1px);
-      background: var(--blue-2);
-      border-color: var(--blue-2);
       box-shadow: 0 22px 42px rgba(37, 99, 235, 0.28);
     }
 
     .btn-secondary {
       color: var(--text);
       background: #ffffff;
-      border: 1px solid var(--line-strong);
-      box-shadow: 0 10px 24px rgba(27, 55, 96, 0.06);
+      border-color: var(--line-strong);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
     }
 
     .btn-secondary:hover {
+      border-color: #b9cae9;
       transform: translateY(-1px);
-      border-color: #bcd0f4;
-      box-shadow: 0 16px 34px rgba(27, 55, 96, 0.10);
+      box-shadow: 0 16px 34px rgba(15, 23, 42, 0.09);
     }
 
     .hero-note {
-      margin-top: 12px;
+      margin-top: 13px;
       color: var(--muted);
       font-size: 14px;
       font-weight: 700;
     }
 
-    .metric-strip {
-      width: min(820px, 100%);
-      margin: 46px auto 0;
+    .hero-meta {
+      max-width: 850px;
+      margin: 42px auto 0;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       border: 1px solid var(--line);
       border-radius: 18px;
-      background: rgba(255, 255, 255, 0.78);
-      box-shadow: var(--shadow-soft);
       overflow: hidden;
+      background: rgba(255,255,255,.82);
+      box-shadow: var(--shadow-small);
     }
 
-    .metric-item {
-      padding: 22px 18px;
+    .meta-item {
+      padding: 21px 18px;
       border-right: 1px solid var(--line);
       text-align: center;
     }
 
-    .metric-item:last-child { border-right: 0; }
+    .meta-item:last-child { border-right: 0; }
 
-    .metric-value {
-      color: var(--blue);
-      font-size: 24px;
+    .meta-item strong {
+      display: block;
+      color: var(--text);
+      font-size: 18px;
+      letter-spacing: -0.03em;
       font-weight: 900;
-      letter-spacing: -0.05em;
     }
 
-    .metric-label {
-      margin-top: 5px;
+    .meta-item span {
+      display: block;
+      margin-top: 6px;
       color: var(--muted);
       font-size: 13px;
       font-weight: 700;
@@ -375,109 +354,302 @@
 
     .section-title {
       max-width: 760px;
-      margin: 0 auto 34px;
+      margin: 0 auto 36px;
       text-align: center;
     }
 
     .section-title h2 {
       margin: 0;
-      font-size: clamp(34px, 4vw, 52px);
-      line-height: 1.02;
-      letter-spacing: -0.06em;
-      font-weight: 900;
       color: var(--text);
+      font-size: clamp(34px, 4vw, 52px);
+      line-height: 1.04;
+      letter-spacing: -0.065em;
+      font-weight: 900;
     }
 
     .section-title p {
       margin: 14px auto 0;
       color: var(--muted);
       font-size: 18px;
-      line-height: 1.65;
-      font-weight: 550;
+      line-height: 1.6;
+      font-weight: 520;
     }
 
-    .story-grid {
+    .workflow {
+      max-width: 900px;
+      margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-      margin-top: 48px;
-      text-align: left;
-    }
-
-    .story-card {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
       border: 1px solid var(--line);
       border-radius: 20px;
-      background: rgba(255,255,255,.78);
-      padding: 22px;
-      box-shadow: 0 14px 34px rgba(27,55,96,.07);
+      background: #ffffff;
+      overflow: hidden;
+      box-shadow: var(--shadow-small);
     }
 
-    .story-card p {
-      margin: 0;
-      color: #334155;
-      font-size: 15px;
-      line-height: 1.7;
-      font-weight: 550;
-    }
-
-    .demo-wrap {
+    .work-step {
+      min-height: 122px;
+      padding: 24px;
+      border-right: 1px solid var(--line);
       display: grid;
-      grid-template-columns: 0.9fr 1.25fr;
+      align-content: center;
+      gap: 8px;
+    }
+
+    .work-step:last-child { border-right: 0; }
+
+    .step-number {
+      width: 34px;
+      height: 34px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 10px;
+      color: var(--blue);
+      background: var(--blue-soft);
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .work-step strong {
+      color: var(--text);
+      font-size: 18px;
+      letter-spacing: -0.03em;
+      font-weight: 900;
+    }
+
+    .work-step span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+      font-weight: 580;
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .way-card {
+      position: relative;
+      border-radius: 24px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      box-shadow: var(--shadow-small);
+      overflow: hidden;
+    }
+
+    .way-card.old {
+      background: linear-gradient(145deg, #fffafa 0%, #ffffff 74%);
+    }
+
+    .way-card.new {
+      border-color: #bdd5ff;
+      background:
+        radial-gradient(circle at 92% 0%, rgba(37, 99, 235, .10), transparent 28%),
+        linear-gradient(145deg, #f3f8ff 0%, #ffffff 76%);
+    }
+
+    .way-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .way-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      flex: 0 0 auto;
+    }
+
+    .old .way-icon {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .new .way-icon {
+      background: #dbeafe;
+      color: var(--blue);
+    }
+
+    .way-head h3 {
+      margin: 0;
+      color: var(--text);
+      font-size: 29px;
+      line-height: 1.1;
+      letter-spacing: -0.055em;
+      font-weight: 900;
+    }
+
+    .way-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .way-row {
+      min-height: 74px;
+      display: grid;
+      grid-template-columns: 30px 1fr auto;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, .88);
+    }
+
+    .row-icon {
+      color: var(--blue);
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .old .row-icon { color: var(--orange); }
+
+    .row-copy strong {
+      display: block;
+      color: var(--text);
+      font-size: 16px;
+      letter-spacing: -0.025em;
+      font-weight: 850;
+    }
+
+    .row-copy span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+      font-weight: 560;
+    }
+
+    .info {
+      position: relative;
+      width: 24px;
+      height: 24px;
+      display: inline-grid;
+      place-items: center;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 900;
+      cursor: help;
+    }
+
+    .info::after {
+      content: attr(data-tip);
+      position: absolute;
+      right: 0;
+      bottom: calc(100% + 10px);
+      width: 260px;
+      padding: 12px 13px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #111827;
+      color: #ffffff;
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 600;
+      text-align: left;
+      box-shadow: 0 18px 35px rgba(15, 23, 42, 0.20);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(5px);
+      transition: opacity .16s ease, transform .16s ease;
+      z-index: 10;
+    }
+
+    .info:hover::after,
+    .info:focus::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .way-quote {
+      margin-top: 20px;
+      padding: 15px 16px;
+      border-radius: 16px;
+      font-size: 16px;
+      line-height: 1.45;
+      text-align: center;
+      font-weight: 850;
+    }
+
+    .old .way-quote {
+      color: #9a3412;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+    }
+
+    .new .way-quote {
+      color: #1e40af;
+      background: #dbeafe;
+      border: 1px solid #bfdbfe;
+    }
+
+    .demo-panel {
+      display: grid;
+      grid-template-columns: .8fr 1.3fr;
       gap: 28px;
       align-items: center;
       border: 1px solid var(--line);
       border-radius: 28px;
       background: #ffffff;
-      box-shadow: var(--shadow);
       padding: 28px;
+      box-shadow: var(--shadow);
     }
 
-    .demo-copy {
-      padding: 10px 8px 10px 10px;
-    }
-
-    .demo-copy h3 {
+    .demo-copy h2 {
       margin: 0;
-      font-size: clamp(28px, 3vw, 42px);
-      line-height: 1.06;
-      letter-spacing: -0.055em;
-      font-weight: 900;
       color: var(--text);
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.04;
+      letter-spacing: -0.06em;
+      font-weight: 900;
     }
 
     .demo-copy p {
-      margin: 16px 0 0;
+      margin: 14px 0 0;
       color: var(--muted);
       font-size: 17px;
-      line-height: 1.65;
+      line-height: 1.62;
       font-weight: 520;
     }
 
-    .mini-flow {
-      margin-top: 24px;
+    .demo-points {
+      margin-top: 22px;
       display: grid;
-      gap: 12px;
+      gap: 11px;
     }
 
-    .mini-flow span {
-      display: grid;
-      grid-template-columns: 34px 1fr;
+    .demo-points div {
+      display: flex;
       align-items: center;
-      gap: 10px;
-      color: #263244;
+      gap: 9px;
+      color: var(--text-soft);
       font-size: 15px;
       font-weight: 750;
     }
 
-    .mini-flow b {
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      display: inline-grid;
+    .demo-points b {
+      width: 26px;
+      height: 26px;
+      display: grid;
       place-items: center;
+      border-radius: 8px;
       background: var(--blue-soft);
       color: var(--blue);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 900;
     }
 
@@ -486,27 +658,27 @@
       border-radius: 22px;
       background: #f9fbff;
       padding: 14px;
-      box-shadow: inset 0 1px 0 #fff;
       min-width: 0;
+      box-shadow: inset 0 1px 0 #ffffff;
     }
 
-    .demo-browser {
+    .browser-bar {
       height: 38px;
       display: flex;
       align-items: center;
       gap: 8px;
       padding: 0 10px;
-      border-radius: 14px 14px 0 0;
-      background: #ffffff;
       border: 1px solid var(--line);
       border-bottom: 0;
+      border-radius: 14px 14px 0 0;
+      background: #ffffff;
     }
 
-    .demo-browser span {
+    .browser-bar span {
       width: 10px;
       height: 10px;
       border-radius: 999px;
-      background: #d9e2ef;
+      background: #d7dfec;
     }
 
     .t2t-carousel {
@@ -515,13 +687,13 @@
       border: 1px solid var(--line);
       border-radius: 0 0 16px 16px;
       background: #ffffff;
-      min-height: 380px;
+      min-height: 390px;
     }
 
     .t2t-demo-screen {
       position: relative;
       width: 100%;
-      min-height: 380px;
+      min-height: 390px;
       background: #ffffff;
     }
 
@@ -531,10 +703,10 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
+      padding: 14px;
       opacity: 0;
       transform: scale(.99);
       transition: opacity .25s ease, transform .25s ease;
-      padding: 14px;
     }
 
     .t2t-demo-slide.is-active {
@@ -546,17 +718,19 @@
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      z-index: 4;
+      z-index: 5;
       width: 38px;
       height: 38px;
-      border-radius: 999px;
+      display: grid;
+      place-items: center;
       border: 1px solid var(--line);
+      border-radius: 999px;
       background: rgba(255,255,255,.92);
       color: var(--text);
-      font-size: 28px;
-      font-weight: 700;
+      font-size: 26px;
+      font-weight: 800;
       cursor: pointer;
-      box-shadow: 0 10px 24px rgba(27,55,96,.10);
+      box-shadow: 0 10px 22px rgba(15,23,42,.12);
     }
 
     .t2t-demo-prev { left: 12px; }
@@ -567,7 +741,7 @@
       left: 0;
       right: 0;
       bottom: 12px;
-      z-index: 5;
+      z-index: 6;
       display: flex;
       justify-content: center;
       gap: 7px;
@@ -576,9 +750,9 @@
     .t2t-demo-dot {
       width: 7px;
       height: 7px;
-      border-radius: 999px;
       border: 0;
-      background: #c8d4e6;
+      border-radius: 999px;
+      background: #c7d3e5;
       cursor: pointer;
     }
 
@@ -587,247 +761,104 @@
       background: var(--blue);
     }
 
-    .compare-section {
-      padding-top: 48px;
+    .tool-grid {
+      max-width: 930px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
     }
 
-    .compare-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 22px;
-      align-items: stretch;
-    }
-
-    .compare-card {
-      border: 1px solid var(--line);
-      border-radius: 24px;
+    .tool-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 16px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
       background: #ffffff;
-      padding: 28px;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .compare-card h3 {
-      margin: 0 0 20px;
-      font-size: 30px;
-      letter-spacing: -0.05em;
-      font-weight: 900;
-      color: var(--text);
-    }
-
-    .compare-list {
-      display: grid;
-      gap: 18px;
-    }
-
-    .compare-item strong {
-      display: block;
-      color: var(--text);
-      font-size: 17px;
-      font-weight: 850;
-      letter-spacing: -0.02em;
-    }
-
-    .compare-item span {
-      display: block;
-      margin-top: 4px;
-      color: var(--muted);
+      color: #263244;
       font-size: 14px;
-      font-weight: 650;
+      font-weight: 800;
+      box-shadow: 0 10px 22px rgba(15,23,42,.04);
     }
 
-    .compare-quote {
-      margin-top: 24px;
-      padding-top: 18px;
-      border-top: 1px solid var(--line);
-      color: var(--blue);
-      font-size: 17px;
-      font-weight: 850;
-    }
-
-    .simple-band {
+    .use-box {
+      max-width: 940px;
+      margin: 0 auto;
       border: 1px solid var(--line);
       border-radius: 26px;
       background: #ffffff;
-      box-shadow: var(--shadow-soft);
-      padding: 34px;
-      text-align: center;
-      margin-top: 24px;
+      padding: 32px;
+      box-shadow: var(--shadow-small);
     }
 
-    .simple-band h2 {
+    .use-box h2 {
       margin: 0;
-      font-size: clamp(30px, 4vw, 48px);
+      color: var(--text);
+      text-align: center;
+      font-size: clamp(30px, 4vw, 46px);
       line-height: 1.05;
       letter-spacing: -0.06em;
       font-weight: 900;
     }
 
-    .simple-band p {
-      margin: 12px 0 0;
+    .use-box p {
+      max-width: 760px;
+      margin: 14px auto 0;
       color: var(--muted);
-      font-size: 18px;
-      line-height: 1.55;
-      font-weight: 650;
+      text-align: center;
+      font-size: 17px;
+      line-height: 1.62;
+      font-weight: 520;
     }
 
-    .money-line {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .money-line span {
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: var(--blue-soft);
-      color: #164a9e;
-      font-size: 14px;
-      font-weight: 850;
-    }
-
-    .tool-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      max-width: 920px;
-      margin: 0 auto;
-    }
-
-    .tool-chip {
-      border: 1px solid var(--line-strong);
-      border-radius: 999px;
-      background: #ffffff;
-      padding: 12px 16px;
-      color: #263244;
-      font-size: 14px;
-      font-weight: 800;
-      box-shadow: 0 10px 22px rgba(27,55,96,.05);
-    }
-
-    .secret-section {
-      width: 100%;
-      max-width: none;
-      margin-top: 12px;
-      padding: 82px 0;
-      background:
-        radial-gradient(circle at 50% 0%, rgba(37,99,235,.11), transparent 34%),
-        linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .secret-shell {
-      width: min(var(--max), calc(100% - 40px));
-      margin: 0 auto;
-    }
-
-    .secret-compare {
-      margin-top: 36px;
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      overflow: hidden;
-      background: #ffffff;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .secret-row {
+    .use-line {
+      margin-top: 26px;
       display: grid;
-      grid-template-columns: 1.1fr repeat(3, 1fr);
-      border-bottom: 1px solid var(--line);
-      min-height: 62px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
     }
 
-    .secret-row:last-child { border-bottom: 0; }
-
-    .secret-cell {
+    .use-item {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 12px;
+      align-items: start;
       padding: 18px;
-      display: flex;
-      align-items: center;
-      border-right: 1px solid var(--line);
-      color: #263244;
-      font-size: 15px;
-      font-weight: 760;
-    }
-
-    .secret-cell:last-child { border-right: 0; }
-
-    .secret-cell.heading {
-      background: #f7faff;
-      color: var(--text);
-      font-weight: 900;
-    }
-
-    .secret-cell.highlight {
-      color: var(--blue);
-      font-weight: 900;
-    }
-
-    .benefit-line {
-      margin-top: 28px;
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .benefit-line div {
       border: 1px solid var(--line);
-      border-radius: 16px;
-      background: #ffffff;
-      padding: 16px;
-      color: #263244;
-      font-size: 14px;
-      font-weight: 800;
-      text-align: center;
+      border-radius: 18px;
+      background: var(--paper-soft);
     }
 
-    .steps {
-      margin-top: 28px;
+    .use-item b {
+      width: 34px;
+      height: 34px;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
-    }
-
-    .step {
-      border-top: 1px solid var(--line-strong);
-      padding-top: 18px;
-    }
-
-    .step-badge {
+      place-items: center;
+      border-radius: 10px;
+      background: var(--blue-soft);
       color: var(--blue);
-      font-size: 13px;
+      font-size: 15px;
       font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: .08em;
     }
 
-    .step h3 {
-      margin: 12px 0 0;
+    .use-item strong {
+      display: block;
       color: var(--text);
-      font-size: 22px;
-      letter-spacing: -0.04em;
+      font-size: 17px;
+      letter-spacing: -0.03em;
       font-weight: 900;
     }
 
-    .step p {
-      margin: 10px 0 0;
+    .use-item span {
+      display: block;
+      margin-top: 5px;
       color: var(--muted);
-      line-height: 1.65;
-      font-weight: 600;
-    }
-
-    .result-line {
-      margin-top: 30px;
-      padding: 18px 20px;
-      border-radius: 16px;
-      background: #ecfdf5;
-      border: 1px solid #bbf7d0;
-      color: #166534;
-      text-align: center;
-      font-size: 16px;
-      font-weight: 850;
+      font-size: 14px;
+      line-height: 1.45;
+      font-weight: 570;
     }
 
     .cta-band {
@@ -835,12 +866,11 @@
       grid-template-columns: 1fr auto;
       gap: 24px;
       align-items: center;
-      border: 1px solid var(--line);
       border-radius: 26px;
       padding: 34px;
-      background: var(--text);
+      background: #111827;
       color: #ffffff;
-      box-shadow: 0 24px 60px rgba(18,24,38,.18);
+      box-shadow: 0 24px 60px rgba(17,24,39,.18);
     }
 
     .cta-band h2 {
@@ -855,8 +885,8 @@
       margin: 12px 0 0;
       color: rgba(255,255,255,.74);
       font-size: 17px;
-      line-height: 1.6;
-      font-weight: 550;
+      line-height: 1.58;
+      font-weight: 530;
     }
 
     .cta-band .btn-primary {
@@ -870,11 +900,11 @@
       width: min(var(--max), calc(100% - 40px));
       margin: 0 auto;
       padding: 34px 0 44px;
-      color: var(--muted);
       border-top: 1px solid var(--line);
+      color: var(--muted);
+      text-align: center;
       font-size: 14px;
       font-weight: 600;
-      text-align: center;
     }
 
     @media (max-width: 980px) {
@@ -887,69 +917,58 @@
       .nav-links {
         display: none;
         grid-column: 1 / -1;
-        justify-self: stretch;
         width: 100%;
-        padding: 14px 0 18px;
+        justify-self: stretch;
+        padding: 16px 0 18px;
         border-top: 1px solid var(--line);
         flex-direction: column;
         align-items: flex-start;
-        gap: 12px;
+        gap: 13px;
       }
 
       .nav-links.open { display: flex; }
 
       .nav-actions {
-        justify-self: end;
         grid-column: 2;
         grid-row: 1;
+        justify-self: end;
         margin-right: 82px;
       }
 
-      .demo-wrap,
+      .hero-meta,
+      .workflow,
       .compare-grid,
-      .story-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .benefit-line,
-      .steps,
-      .metric-strip {
-        grid-template-columns: 1fr;
-      }
-
-      .metric-item {
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .metric-item:last-child { border-bottom: 0; }
-
-      .secret-row {
-        grid-template-columns: 1fr;
-      }
-
-      .secret-cell {
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .secret-cell:last-child { border-bottom: 0; }
-
+      .demo-panel,
+      .use-line,
       .cta-band {
         grid-template-columns: 1fr;
+      }
+
+      .meta-item,
+      .work-step {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .meta-item:last-child,
+      .work-step:last-child {
+        border-bottom: 0;
+      }
+
+      .demo-panel {
+        gap: 24px;
       }
     }
 
     @media (max-width: 640px) {
       .nav,
       section,
-      .secret-shell,
       footer {
         width: min(100% - 24px, var(--max));
       }
 
-      .brand-tag { display: none; }
       .brand-name { font-size: 17px; }
+      .brand-tag { display: none; }
       .nav-actions { display: none; }
 
       .hero {
@@ -957,20 +976,43 @@
       }
 
       .hero h1 {
-        font-size: 43px;
+        font-size: 42px;
       }
 
-      .demo-wrap,
-      .simple-band,
-      .cta-band,
-      .compare-card {
+      .hero-subtitle {
+        font-size: 17px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .way-card,
+      .demo-panel,
+      .use-box,
+      .cta-band {
         padding: 22px;
         border-radius: 22px;
       }
 
+      .way-row {
+        grid-template-columns: 26px 1fr;
+      }
+
+      .info {
+        grid-column: 2;
+        justify-self: start;
+      }
+
+      .info::after {
+        right: auto;
+        left: 0;
+        width: min(260px, calc(100vw - 56px));
+      }
+
       .t2t-carousel,
       .t2t-demo-screen {
-        min-height: 260px;
+        min-height: 265px;
       }
     }
   </style>
@@ -1004,88 +1046,179 @@
 
   <main>
     <section class="hero">
-      <div class="eyebrow">⚡ For freelancers, VAs & sheet sellers</div>
+      <div class="eyebrow">⚡ For freelancers, VAs & agencies</div>
 
       <h1>
-        Client Needs a Tracker?
-        <span class="gradient-text">AI Builds It.</span>
-        <span class="gradient-text">You Get Paid.</span>
+        Turn Client Requirements Into
+        <span>Ready‑Made Google Sheets</span>
       </h1>
 
       <p class="hero-subtitle">
-        Turn tracker / Google Sheet requests into ready-to-use tools in seconds.
+        Text2Tool creates trackers, calculators, reports and dashboards from a simple prompt, so you spend less time building sheets manually.
       </p>
-
-      <div class="hero-points" aria-label="Text2Tool value points">
-        <div class="hero-point"><span class="check">✓</span><span>Launch faster instead of building every sheet manually.</span></div>
-        <div class="hero-point"><span class="check">✓</span><span>Send better demos before the client hires you.</span></div>
-        <div class="hero-point"><span class="check">✓</span><span>Deliver tools the client can own by making a copy.</span></div>
-      </div>
 
       <div class="hero-actions">
         <a class="btn btn-primary" href="/create-tool/?v=final1">Create My First Tool</a>
         <a class="btn btn-secondary" href="/pricing/">View Pricing</a>
       </div>
 
-      <div class="hero-note">No payment is required to generate your first preview.</div>
+      <div class="hero-note">First preview is free. Delivery is by email in about 5 minutes.</div>
 
-      <div class="metric-strip" aria-label="Text2Tool speed and earnings stats">
-        <div class="metric-item">
-          <div class="metric-value">55x</div>
-          <div class="metric-label">Earning Boost</div>
+      <div class="hero-meta" aria-label="Text2Tool quick summary">
+        <div class="meta-item">
+          <strong>Prompt to Sheet</strong>
+          <span>Describe what the client needs</span>
         </div>
-        <div class="metric-item">
-          <div class="metric-value">100x</div>
-          <div class="metric-label">Time Saving</div>
+        <div class="meta-item">
+          <strong>Ready‑Made Tools</strong>
+          <span>Tabs, formulas, layout and reports</span>
         </div>
-        <div class="metric-item">
-          <div class="metric-value">~5 min</div>
-          <div class="metric-label">Email Delivery</div>
+        <div class="meta-item">
+          <strong>Client Work Faster</strong>
+          <span>Useful for proposals and delivery</span>
         </div>
-      </div>
-
-      <div class="story-grid">
-        <article class="story-card">
-          <p>“Before, I was stuck building a few trackers manually. Now I can turn client requests into clean Google Sheet tools much faster.”</p>
-        </article>
-
-        <article class="story-card">
-          <p>“When I apply for spreadsheet jobs, I build a quick demo first and send screenshots with my proposal. Clients notice the effort.”</p>
-        </article>
       </div>
     </section>
 
     <section>
       <div class="section-title">
-        <h2>Check End Results</h2>
-        <p>See the finished Google Sheet result.</p>
+        <h2>How It Works</h2>
+        <p>Simple enough for non‑technical users. Fast enough for daily client work.</p>
       </div>
 
-      <div class="demo-wrap">
-        <div class="demo-copy">
-          <div class="eyebrow">Preview the output</div>
-          <h3>Client asks. You type. AI builds. You deliver.</h3>
-          <p>Turn tracker / Google Sheet requests into ready-to-use tools in seconds.</p>
+      <div class="workflow">
+        <div class="work-step">
+          <div class="step-number">1</div>
+          <strong>Paste the request</strong>
+          <span>Use the client’s sheet requirements or your own idea.</span>
+        </div>
 
-          <div class="mini-flow">
-            <span><b>1</b>Client request</span>
-            <span><b>2</b>Text2Tool builds</span>
-            <span><b>3</b>You send proof</span>
+        <div class="work-step">
+          <div class="step-number">2</div>
+          <strong>AI builds the sheet</strong>
+          <span>Text2Tool prepares the Google Sheet structure.</span>
+        </div>
+
+        <div class="work-step">
+          <div class="step-number">3</div>
+          <strong>Use or deliver it</strong>
+          <span>Preview it, then make a copy and own the file.</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>The Old Way vs Text2Tool Way</h2>
+        <p>Less manual setup. More time for actual client work.</p>
+      </div>
+
+      <div class="compare-grid">
+        <article class="way-card old">
+          <div class="way-head">
+            <div class="way-icon">⌛</div>
+            <h3>The Old Way</h3>
+          </div>
+
+          <div class="way-list">
+            <div class="way-row">
+              <div class="row-icon">•</div>
+              <div class="row-copy">
+                <strong>Start from blank sheets</strong>
+                <span>Tabs, formulas and formatting take time.</span>
+              </div>
+              <span class="info" tabindex="0" data-tip="Manual Google Sheet work usually means creating columns, formulas, dropdowns, formatting, dashboards and basic automation from scratch.">i</span>
+            </div>
+
+            <div class="way-row">
+              <div class="row-icon">•</div>
+              <div class="row-copy">
+                <strong>Rebuild common tools</strong>
+                <span>Trackers, calculators and reports repeat again.</span>
+              </div>
+              <span class="info" tabindex="0" data-tip="Many client jobs ask for similar systems: attendance, inventory, invoice, payroll, profit and loss, CRM, KPI dashboards and reports.">i</span>
+            </div>
+
+            <div class="way-row">
+              <div class="row-icon">•</div>
+              <div class="row-copy">
+                <strong>Slow proposals</strong>
+                <span>No quick demo when the job is posted.</span>
+              </div>
+              <span class="info" tabindex="0" data-tip="Freelancers can lose time explaining only in text. A simple demo version can make the proposal easier for the client to understand.">i</span>
+            </div>
+          </div>
+
+          <div class="way-quote">Manual sheets slow down client work.</div>
+        </article>
+
+        <article class="way-card new">
+          <div class="way-head">
+            <div class="way-icon">⚡</div>
+            <h3>Text2Tool Way</h3>
+          </div>
+
+          <div class="way-list">
+            <div class="way-row">
+              <div class="row-icon">✓</div>
+              <div class="row-copy">
+                <strong>Paste requirements</strong>
+                <span>Use the client’s job description as the prompt.</span>
+              </div>
+              <span class="info" tabindex="0" data-tip="For example: a client asks for an inventory tracker, payroll sheet, invoice generator, CRM, report or dashboard. Paste the requirement and start from there.">i</span>
+            </div>
+
+            <div class="way-row">
+              <div class="row-icon">✓</div>
+              <div class="row-copy">
+                <strong>Get a Google Sheet tool</strong>
+                <span>Built with structure, tabs and formulas.</span>
+              </div>
+              <span class="info" tabindex="0" data-tip="The result is a Google Sheet style tool users can preview and then copy to own, depending on the selected Tool Kit.">i</span>
+            </div>
+
+            <div class="way-row">
+              <div class="row-icon">✓</div>
+              <div class="row-copy">
+                <strong>Apply with a demo</strong>
+                <span>Show a sample version before the client hires.</span>
+              </div>
+              <span class="info" tabindex="0" data-tip="Freelancers and VAs can create a demo from the job requirements and include it with their proposal or cover letter.">i</span>
+            </div>
+          </div>
+
+          <div class="way-quote">Faster setup. Better proposals. Easier delivery.</div>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="demo-panel">
+        <div class="demo-copy">
+          <div class="eyebrow">End result preview</div>
+          <h2>See what the finished sheet looks like</h2>
+          <p>Text2Tool is not just text. The goal is a usable Google Sheet tool with clear tabs, formulas, dashboards and settings.</p>
+
+          <div class="demo-points">
+            <div><b>1</b> Clean input tabs</div>
+            <div><b>2</b> Dashboard and summaries</div>
+            <div><b>3</b> Settings and dropdowns</div>
           </div>
         </div>
 
         <div class="demo-card">
-          <div class="demo-browser" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="browser-bar" aria-hidden="true"><span></span><span></span><span></span></div>
+
           <div class="t2t-carousel" aria-label="Finished Google Sheet screenshots">
             <button class="t2t-demo-nav t2t-demo-prev" type="button" aria-label="Previous screenshot">‹</button>
 
             <div class="t2t-demo-screen">
-              <img class="t2t-demo-slide is-active" src="/assets/sheet-preview-1.png" onerror="this.onerror=null;this.src='/assets/assetsheet-preview-1.png';" alt="Google Sheet attendance tracker main tab screenshot">
-              <img class="t2t-demo-slide" src="/assets/sheet-preview-2.png" onerror="this.onerror=null;this.src='/assets/assetsheet-preview-2.png';" alt="Google Sheet dashboard summary screenshot">
-              <img class="t2t-demo-slide" src="/assets/sheet-preview-3.png" onerror="this.onerror=null;this.src='/assets/assetsheet-preview-3.png';" alt="Google Sheet dashboard charts screenshot">
-              <img class="t2t-demo-slide" src="/assets/sheet-preview-4.png" onerror="this.onerror=null;this.src='/assets/assetsheet-preview-4.png';" alt="Google Sheet advanced analytics screenshot">
-              <img class="t2t-demo-slide" src="/assets/sheet-preview-5.png" onerror="this.onerror=null;this.src='/assets/assetsheet-preview-5.png';" alt="Google Sheet auto bot repair popup screenshot">
-              <img class="t2t-demo-slide" src="/assets/sheet-preview-6.png" onerror="this.onerror=null;this.src='/assets/assetsheet-preview-6.png';" alt="Google Sheet settings and auto bots menu screenshot">
+              <img class="t2t-demo-slide is-active" src="/assets/sheet-preview-1.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-1.png';" alt="Google Sheet attendance tracker main tab screenshot">
+              <img class="t2t-demo-slide" src="/assets/sheet-preview-2.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-2.png';" alt="Google Sheet dashboard summary screenshot">
+              <img class="t2t-demo-slide" src="/assets/sheet-preview-3.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-3.png';" alt="Google Sheet dashboard charts screenshot">
+              <img class="t2t-demo-slide" src="/assets/sheet-preview-4.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-4.png';" alt="Google Sheet advanced analytics screenshot">
+              <img class="t2t-demo-slide" src="/assets/sheet-preview-5.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-5.png';" alt="Google Sheet auto bot repair popup screenshot">
+              <img class="t2t-demo-slide" src="/assets/sheet-preview-6.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-6.png';" alt="Google Sheet settings and auto bot menu screenshot">
             </div>
 
             <button class="t2t-demo-nav t2t-demo-next" type="button" aria-label="Next screenshot">›</button>
@@ -1103,61 +1236,10 @@
       </div>
     </section>
 
-    <section class="compare-section">
-      <div class="compare-grid">
-        <article class="compare-card">
-          <h3>The Old Way</h3>
-          <div class="compare-list">
-            <div class="compare-item">
-              <strong>Hours lost</strong>
-              <span>Manual setup</span>
-            </div>
-            <div class="compare-item">
-              <strong>Less earnings</strong>
-              <span>Too much work</span>
-            </div>
-            <div class="compare-item">
-              <strong>Slow delivery</strong>
-              <span>Repeated edits</span>
-            </div>
-          </div>
-          <div class="compare-quote">Too much work. Too little money.</div>
-        </article>
-
-        <article class="compare-card">
-          <h3>The Gold Way</h3>
-          <div class="compare-list">
-            <div class="compare-item">
-              <strong>Build with T2T AI</strong>
-              <span>AI builds</span>
-            </div>
-            <div class="compare-item">
-              <strong>You deliver to client</strong>
-              <span>You get paid</span>
-            </div>
-            <div class="compare-item">
-              <strong>Repeat faster</strong>
-              <span>More output</span>
-            </div>
-          </div>
-          <div class="compare-quote">Less work. More money.</div>
-        </article>
-      </div>
-
-      <div class="simple-band">
-        <h2>AI is not your job’s enemy unless you don’t use it!</h2>
-        <p>Text2Tool helps freelancers and VAs move faster.</p>
-        <div class="money-line">
-          <span>Sell for $10–$50.</span>
-          <span>Create for $1 or less.</span>
-          <span>Keep the profit.</span>
-        </div>
-      </div>
-    </section>
-
     <section>
       <div class="section-title">
-        <h2>Popular Requests</h2>
+        <h2>Popular Google Sheet Tools</h2>
+        <p>Start with the type of tool your client needs.</p>
       </div>
 
       <div class="tool-grid">
@@ -1173,80 +1255,28 @@
       </div>
     </section>
 
-    <section class="secret-section">
-      <div class="secret-shell">
-        <div class="section-title">
-          <div class="eyebrow">✦ Built for top performers</div>
-          <h2>The Secret Tool of Top Rated Plus Freelancers</h2>
-          <p>See how top freelancers stay miles ahead.</p>
-        </div>
+    <section>
+      <div class="use-box">
+        <h2>Use it before or after winning the job</h2>
+        <p>Create a quick demo from the job description, or build the final sheet faster after the client approves the work.</p>
 
-        <div class="secret-compare" aria-label="Freelancer performance comparison">
-          <div class="secret-row">
-            <div class="secret-cell heading">Level</div>
-            <div class="secret-cell heading">Freelancers</div>
-            <div class="secret-cell heading">AI-Powered Freelancers</div>
-            <div class="secret-cell heading">T2T-Powered Freelancers</div>
+        <div class="use-line">
+          <div class="use-item">
+            <b>1</b>
+            <div>
+              <strong>For proposals</strong>
+              <span>Create a sample version from the client’s requirements and include it with your cover letter.</span>
+            </div>
           </div>
-          <div class="secret-row">
-            <div class="secret-cell heading">Speed</div>
-            <div class="secret-cell">Standard Speed</div>
-            <div class="secret-cell">2–3X Faster</div>
-            <div class="secret-cell highlight">100X Faster</div>
-          </div>
-          <div class="secret-row">
-            <div class="secret-cell heading">Output</div>
-            <div class="secret-cell">1X Output</div>
-            <div class="secret-cell">2–3X Output</div>
-            <div class="secret-cell highlight">100X Output</div>
-          </div>
-          <div class="secret-row">
-            <div class="secret-cell heading">Quality</div>
-            <div class="secret-cell">Good Quality</div>
-            <div class="secret-cell">High Accuracy</div>
-            <div class="secret-cell highlight">Exceptional Quality</div>
-          </div>
-          <div class="secret-row">
-            <div class="secret-cell heading">Earning</div>
-            <div class="secret-cell">Limited Earning Boost</div>
-            <div class="secret-cell">2–3X Earning Boost</div>
-            <div class="secret-cell highlight">100X Earning Boost</div>
+
+          <div class="use-item">
+            <b>2</b>
+            <div>
+              <strong>For delivery</strong>
+              <span>Save time building the actual tracker, calculator, report or dashboard.</span>
+            </div>
           </div>
         </div>
-
-        <div class="benefit-line" aria-label="T2T benefits">
-          <div>⚡ Deliver 100X Faster</div>
-          <div>📈 Earn More</div>
-          <div>🏆 Win More Clients</div>
-          <div>💰 Charge More</div>
-        </div>
-
-        <div class="section-title" style="margin-top:70px;">
-          <h2>How Top Users Use It</h2>
-          <p>They do not just apply. They send a quick demo so clients can see proof before hiring.</p>
-        </div>
-
-        <div class="steps">
-          <div class="step">
-            <div class="step-badge">Step 1</div>
-            <h3>Client posts a job</h3>
-            <p>Example: “I need a Google Sheet with profit and loss tracking, formulas, auto-highlights, and a clean layout for my company.”</p>
-          </div>
-
-          <div class="step">
-            <div class="step-badge">Step 2</div>
-            <h3>Generate a demo with T2T</h3>
-            <p>Paste the job description into Text2Tool, create a demo sheet, and capture clean screenshots.</p>
-          </div>
-
-          <div class="step">
-            <div class="step-badge">Step 3</div>
-            <h3>Send proof with your proposal</h3>
-            <p>Share the demo screenshots so the client knows you understand the job and can actually build it.</p>
-          </div>
-        </div>
-
-        <div class="result-line">Result: stronger proposals, faster trust, and higher hiring chances.</div>
       </div>
     </section>
 
@@ -1254,7 +1284,7 @@
       <div class="cta-band">
         <div>
           <h2>Ready to create your first tool?</h2>
-          <p>No payment is required to generate your first preview. Review your idea first, then choose a Tool Kit pack when you are ready.</p>
+          <p>Describe the Google Sheet you need. Preview it first, then choose a Tool Kit when you are ready.</p>
         </div>
 
         <a class="btn btn-primary" href="/create-tool/?v=final1">Create Your First Tool</a>
@@ -1275,7 +1305,6 @@
     const menuBtn = document.getElementById("menuBtn");
     const navLinks = document.getElementById("navLinks");
     const logoutBtn = document.getElementById("logoutBtn");
-    const flipCards = document.querySelectorAll(".flip-card");
 
     menuBtn?.addEventListener("click", () => {
       navLinks.classList.toggle("open");
@@ -1295,45 +1324,6 @@
     });
 
     checkHeaderLogin();
-
-    flipCards.forEach((card) => {
-      let clickedBack = false;
-
-      card.addEventListener("mouseenter", () => {
-        if (!clickedBack) {
-          card.classList.add("is-flipped");
-        }
-      });
-
-      card.addEventListener("mouseleave", () => {
-        card.classList.remove("is-flipped");
-        clickedBack = false;
-      });
-
-      card.addEventListener("click", () => {
-        if (card.classList.contains("is-flipped")) {
-          card.classList.remove("is-flipped");
-          clickedBack = true;
-        } else {
-          card.classList.add("is-flipped");
-          clickedBack = false;
-        }
-      });
-
-      card.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-
-          if (card.classList.contains("is-flipped")) {
-            card.classList.remove("is-flipped");
-            clickedBack = true;
-          } else {
-            card.classList.add("is-flipped");
-            clickedBack = false;
-          }
-        }
-      });
-    });
 
     const demoSlides = Array.from(document.querySelectorAll(".t2t-demo-slide"));
     const demoDots = Array.from(document.querySelectorAll(".t2t-demo-dot"));
@@ -1365,7 +1355,7 @@
         clearInterval(demoTimer);
       }
 
-      demoTimer = setInterval(nextDemoSlide, 2600);
+      demoTimer = setInterval(nextDemoSlide, 3000);
     }
 
     demoPrev?.addEventListener("click", (event) => {
@@ -1390,6 +1380,7 @@
 
     restartDemoTimer();
   </script>
+
   <!--Start of Tawk.to Script-->
   <script type="text/javascript">
   var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
