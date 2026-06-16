@@ -213,15 +213,7 @@
       width: min(var(--max), calc(100% - 40px));
       margin: 0 auto;
       padding: 70px 0;
-    }
-
-    .hero {
-      padding-top: 76px;
-      padding-bottom: 34px;
-      text-align: center;
-    }
-
-    .eyebrow {
+    }.eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -237,17 +229,18 @@
     }
 
     .hero h1 {
-      max-width: 940px;
+      max-width: 1080px;
       margin: 22px auto 0;
       color: var(--text);
-      font-size: clamp(45px, 7vw, 82px);
-      line-height: .98;
-      letter-spacing: -0.075em;
-      font-weight: 900;
+      font-size: clamp(42px, 4.6vw, 60px);
+      line-height: 1.08;
+      letter-spacing: -0.055em;
+      font-weight: 850;
     }
 
     .hero h1 span {
       color: var(--blue);
+      white-space: nowrap;
     }
 
     .hero-subtitle {
@@ -495,9 +488,9 @@
     }
 
     .way-row {
-      min-height: 74px;
+      min-height: 72px;
       display: grid;
-      grid-template-columns: 30px 1fr auto;
+      grid-template-columns: 26px 1fr;
       align-items: center;
       gap: 14px;
       padding: 16px;
@@ -517,7 +510,8 @@
     .row-copy strong {
       display: block;
       color: var(--text);
-      font-size: 16px;
+      font-size: 17px;
+      line-height: 1.35;
       letter-spacing: -0.025em;
       font-weight: 850;
     }
@@ -969,13 +963,7 @@
 
       .brand-name { font-size: 17px; }
       .brand-tag { display: none; }
-      .nav-actions { display: none; }
-
-      .hero {
-        padding-top: 54px;
-      }
-
-      .hero h1 {
+      .nav-actions { display: none; }.hero h1 {
         font-size: 42px;
       }
 
@@ -1164,9 +1152,9 @@
       border: 1px solid var(--line);
       border-radius: 22px;
       background: #ffffff;
-      padding: 24px;
+      padding: 22px;
       box-shadow: var(--shadow-small);
-      min-height: 350px;
+      min-height: 320px;
       display: flex;
       flex-direction: column;
     }
@@ -1236,7 +1224,7 @@
 
 
     .hero-example {
-      margin: 12px auto 0;
+      margin: 14px auto 0;
       color: var(--muted);
       font-size: 17px;
       line-height: 1.5;
@@ -1296,6 +1284,19 @@
       text-align: center;
     }
 
+
+    .home-save-box {
+      margin-top: 16px;
+      padding: 10px 12px;
+      border-radius: 13px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      border: 1px solid #cfe0ff;
+      font-size: 14px;
+      line-height: 1.2;
+      font-weight: 900;
+    }
+
   </style>
 </head>
 
@@ -1329,7 +1330,7 @@
     <section class="hero">
       <div class="eyebrow">⚡ For freelancers, VAs & agencies</div>
 
-      <h1>Turn text into <span>ready-made Google Sheets</span></h1>
+      <h1>Turn Text Into <span>Ready-Made Google Sheets</span></h1>
 
       <p class="hero-example">Example: Create an attendance tracker.</p>
 </section>
@@ -1383,11 +1384,9 @@
       </div>
     </section>
 
-
     <section>
       <div class="section-title">
         <h2>The Old Way vs Text2Tool Way</h2>
-        <p>Less manual setup. More time for actual client work.</p>
       </div>
 
       <div class="compare-grid">
@@ -1401,32 +1400,26 @@
             <div class="way-row">
               <div class="row-icon">•</div>
               <div class="row-copy">
-                <strong>Start from blank sheets</strong>
-                <span>Tabs, formulas and formatting take time.</span>
+                <strong>Spend hours fixing formulas created by AI</strong>
               </div>
-              <span class="info" tabindex="0" data-tip="Manual Google Sheet work usually means creating columns, formulas, dropdowns, formatting, dashboards and basic automation from scratch.">i</span>
             </div>
 
             <div class="way-row">
               <div class="row-icon">•</div>
               <div class="row-copy">
-                <strong>Rebuild common tools</strong>
-                <span>Trackers, calculators and reports repeat again.</span>
+                <strong>More work, less pay</strong>
               </div>
-              <span class="info" tabindex="0" data-tip="Many client jobs ask for similar systems: attendance, inventory, invoice, payroll, profit and loss, CRM, KPI dashboards and reports.">i</span>
             </div>
 
             <div class="way-row">
               <div class="row-icon">•</div>
               <div class="row-copy">
-                <strong>Slow proposals</strong>
-                <span>No quick demo when the job is posted.</span>
+                <strong>Manual sheets slow down client work</strong>
               </div>
-              <span class="info" tabindex="0" data-tip="Freelancers can lose time explaining only in text. A simple demo version can make the proposal easier for the client to understand.">i</span>
             </div>
           </div>
 
-          <div class="way-quote">Manual sheets slow down client work.</div>
+          <div class="way-quote">Too much manual fixing.</div>
         </article>
 
         <article class="way-card new">
@@ -1439,35 +1432,30 @@
             <div class="way-row">
               <div class="row-icon">✓</div>
               <div class="row-copy">
-                <strong>Paste requirements</strong>
-                <span>Use the client’s job description as the prompt.</span>
+                <strong>One prompt, everything done</strong>
               </div>
-              <span class="info" tabindex="0" data-tip="For example: a client asks for an inventory tracker, payroll sheet, invoice generator, CRM, report or dashboard. Paste the requirement and start from there.">i</span>
             </div>
 
             <div class="way-row">
               <div class="row-icon">✓</div>
               <div class="row-copy">
-                <strong>Get a Google Sheet tool</strong>
-                <span>Built with structure, tabs and formulas.</span>
+                <strong>Less work, more money</strong>
               </div>
-              <span class="info" tabindex="0" data-tip="The result is a Google Sheet style tool users can preview and then copy to own, depending on the selected Tool Kit.">i</span>
             </div>
 
             <div class="way-row">
               <div class="row-icon">✓</div>
               <div class="row-copy">
-                <strong>Apply with a demo</strong>
-                <span>Show a sample version before the client hires.</span>
+                <strong>Use saved time to do more work</strong>
               </div>
-              <span class="info" tabindex="0" data-tip="Freelancers and VAs can create a demo from the job requirements and include it with their proposal or cover letter.">i</span>
             </div>
           </div>
 
-          <div class="way-quote">Faster setup. Better proposals. Easier delivery.</div>
+          <div class="way-quote">Faster setup. Easier delivery.</div>
         </article>
       </div>
     </section>
+
 
     <section>
       <div class="section-title">
@@ -1487,7 +1475,6 @@
       </div>
     </section>
 
-
     <section class="home-pricing-section" id="pricing">
       <div class="section-title">
         <h2>Simple Tool Kit Pricing</h2>
@@ -1499,10 +1486,11 @@
           <div class="home-price-tag">Free</div>
           <h3>Free Preview</h3>
           <div class="home-price">$0</div>
-          <p>Test your tool idea and see a preview before buying.</p>
+          <p>Preview your idea before buying a Tool Kit.</p>
+          <div class="home-save-box">Free preview only</div>
           <ul>
-            <li>Create a tool preview</li>
-            <li>See planned tabs and fields</li>
+            <li>Create a preview</li>
+            <li>See planned sections</li>
             <li>No payment required</li>
           </ul>
           <a class="btn btn-secondary" href="/create-tool/?v=final1">Create Tool</a>
@@ -1512,11 +1500,12 @@
           <div class="home-price-tag">Tester</div>
           <h3>Tester Pack</h3>
           <div class="home-price">$1</div>
-          <p>Best for testing one small Google Sheet tool after preview.</p>
+          <p>Best for testing one small Google Sheet tool.</p>
+          <div class="home-save-box">0% savings</div>
           <ul>
-            <li>Same core features</li>
             <li>Good for first test</li>
             <li>Preview saved for 30 days</li>
+            <li>Simple pay-as-you-go</li>
           </ul>
           <a class="btn btn-secondary" href="/create-tool/?v=final1">Create Tool</a>
         </article>
@@ -1525,11 +1514,12 @@
           <div class="home-price-tag">Most popular</div>
           <h3>Freelance VA Pack</h3>
           <div class="home-price">$10</div>
-          <p>Best for freelancers and VAs creating tools for regular work.</p>
+          <p>Best for freelancers and VAs doing repeat sheet work.</p>
+          <div class="home-save-box">9% savings</div>
           <ul>
-            <li>Same core features</li>
-            <li>Useful for repeated tools</li>
             <li>Better than pay-as-you-go</li>
+            <li>Useful for client work</li>
+            <li>Built for regular use</li>
           </ul>
           <a class="btn btn-primary" href="/create-tool/?v=final1">Create Tool</a>
         </article>
@@ -1538,16 +1528,18 @@
           <div class="home-price-tag">Agency</div>
           <h3>Agency Pack</h3>
           <div class="home-price">$50</div>
-          <p>Best for agencies managing repeat admin, tracking and reporting work.</p>
+          <p>Best for agencies and repeat admin/reporting work.</p>
+          <div class="home-save-box">Approx. 10% savings</div>
           <ul>
-            <li>Same core features</li>
-            <li>Great for client tasks</li>
-            <li>Built for repeat workflows</li>
+            <li>Good for ongoing tasks</li>
+            <li>Useful for teams</li>
+            <li>Strong agency value</li>
           </ul>
           <a class="btn btn-secondary" href="/create-tool/?v=final1">Create Tool</a>
         </article>
       </div>
     </section>
+
 
 
     <section class="reviews-section">
