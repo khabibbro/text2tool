@@ -2486,6 +2486,20 @@
         submitBtn.disabled = hasLink;
       }
 
+
+      function scrollToCreateToolAfterLogin() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("continue") !== "create-tool") return;
+
+        const target = document.getElementById("create-tool");
+        if (!target) return;
+
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+          window.history.replaceState(null, "", window.location.origin + window.location.pathname + "#create-tool");
+        }, 450);
+      }
+
       async function loadHomeStatus() {
         const { data } = await homeSupabaseClient.auth.getSession();
         currentUser = data?.session?.user || null;
@@ -2567,11 +2581,11 @@
         await loadHomeStatus();
 
         if (!currentUser) {
-          showHomeMessage("Please sign in with Google first. Redirecting...", "success");
+          showHomeMessage("Please sign in with Google first. You will return to this form after login.", "success");
           await homeSupabaseClient.auth.signInWithOAuth({
             provider: "google",
             options: {
-              redirectTo: window.location.origin + "/#create-tool"
+              redirectTo: window.location.origin + "/?continue=create-tool"
             }
           });
           return;
@@ -2629,7 +2643,7 @@
       });
 
       updateHomeCounter();
-      loadHomeStatus();
+      loadHomeStatus().then(scrollToCreateToolAfterLogin);
     })();
   </script>
 
