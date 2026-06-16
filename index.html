@@ -1062,6 +1062,66 @@
       transform: translateX(-50%) translateY(0);
     }
 
+
+    .t2t-two-step-fix {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    @media (max-width: 760px) {
+      .t2t-two-step-fix {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+
+    .reviews-section {
+      padding-top: 44px;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .review-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: #ffffff;
+      padding: 26px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .review-card p {
+      margin: 0;
+      color: #263244;
+      font-size: 17px;
+      line-height: 1.65;
+      font-weight: 600;
+    }
+
+    .review-person {
+      margin-top: 18px;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .review-role {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 760px) {
+      .reviews-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
   </style>
 </head>
 
@@ -1114,15 +1174,15 @@
       <div class="hero-meta" aria-label="Text2Tool quick summary">
         <div class="meta-item">
           <strong>Prompt to Sheet</strong>
-          <span>Describe what the client needs</span>
+          <span>Describe what you need</span>
         </div>
         <div class="meta-item">
           <strong>Ready‑Made Tools</strong>
-          <span>Tabs, formulas, layout and reports</span>
+          <span>Auto adds Formulas & Layout</span>
         </div>
         <div class="meta-item">
-          <strong>Client Work Faster</strong>
-          <span>Useful for proposals and delivery</span>
+          <strong>Work Faster</strong>
+          <span>Useful for more work in less time</span>
         </div>
       </div>
     </section>
@@ -1133,7 +1193,7 @@
         <p>Simple enough for non‑technical users. Fast enough for daily client work.</p>
       </div>
 
-      <div class="workflow">
+      <div class="workflow t2t-two-step-fix">
         <div class="work-step">
           <div class="step-number">1</div>
           <strong>Enter prompt <span class="info-tip" data-tip="Example: Create a profit loss tracker.">i</span></strong>
@@ -1285,8 +1345,7 @@
 
     <section>
       <div class="section-title">
-        <h2>Popular Google Sheet Tools</h2>
-        <p>Start with the type of tool your client needs.</p>
+        <h2>Popular tools users request</h2>
       </div>
 
       <div class="tool-grid">
@@ -1299,6 +1358,27 @@
         <div class="tool-chip">Payroll Calculator</div>
         <div class="tool-chip">KPI Dashboard</div>
         <div class="tool-chip">Financial Statement Generator</div>
+      </div>
+    </section>
+
+
+    <section class="reviews-section">
+      <div class="section-title">
+        <h2>What users say</h2>
+      </div>
+
+      <div class="reviews-grid">
+        <article class="review-card">
+          <p>“Text2Tool helped me create a clean sheet much faster than building everything manually.”</p>
+          <div class="review-person">Sara</div>
+          <div class="review-role">Virtual Assistant</div>
+        </article>
+
+        <article class="review-card">
+          <p>“I used it to turn requirements into a ready Google Sheet structure without wasting hours on setup.”</p>
+          <div class="review-person">Adam</div>
+          <div class="review-role">Freelancer</div>
+        </article>
       </div>
     </section>
 
