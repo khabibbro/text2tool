@@ -1,0 +1,582 @@
+/* Text2Tool Professional Theme: visual-only polish for a cleaner SaaS interface. */
+
+:root {
+  --bg: #f7fbff !important;
+  --bg2: #eef7ff !important;
+  --panel: #ffffff !important;
+  --panel2: #f8fbff !important;
+  --panel3: #eef6ff !important;
+  --card: #ffffff !important;
+  --line: rgba(15, 82, 186, .14) !important;
+  --line2: rgba(15, 82, 186, .20) !important;
+  --border: rgba(15, 82, 186, .16) !important;
+  --text: #07111f !important;
+  --muted: #536176 !important;
+  --soft: #718096 !important;
+  --purple: #0ea5e9 !important;
+  --purple2: #0284c7 !important;
+  --pink: #2563eb !important;
+  --blue: #0ea5e9 !important;
+  --cyan: #06b6d4 !important;
+  --green: #10b981 !important;
+  --yellow: #f59e0b !important;
+  --red: #ef4444 !important;
+  --danger: #ef4444 !important;
+  --shadow: 0 26px 80px rgba(15, 82, 186, .11) !important;
+  --cardShadow: 0 26px 80px rgba(15, 82, 186, .11) !important;
+}
+
+html {
+  background: #f7fbff !important;
+}
+
+body,
+html body {
+  background:
+    radial-gradient(circle at 12% -8%, rgba(14, 165, 233, .20), transparent 34%),
+    radial-gradient(circle at 86% 4%, rgba(37, 99, 235, .13), transparent 32%),
+    linear-gradient(180deg, #ffffff 0%, #f7fbff 42%, #eef7ff 100%) !important;
+  color: #07111f !important;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(15, 82, 186, .035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 82, 186, .035) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,.55), transparent 70%);
+}
+
+a { color: inherit; }
+
+/* Header / navigation visual refresh */
+.site-header,
+body > header,
+header.site-header {
+  background: rgba(255, 255, 255, .86) !important;
+  border-bottom: 1px solid rgba(15, 82, 186, .12) !important;
+  box-shadow: 0 14px 44px rgba(15, 82, 186, .07) !important;
+  backdrop-filter: blur(18px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(150%) !important;
+}
+
+.nav,
+.wrap.nav,
+header .nav {
+  min-height: 74px !important;
+  height: auto !important;
+}
+
+.brand,
+.brand strong,
+.brand span:first-child,
+.brand h1 {
+  color: #07111f !important;
+}
+
+.brand small,
+.brand span:not(:first-child),
+.brand div span,
+.brand small,
+.logo + div span {
+  color: #64748b !important;
+}
+
+.brand-mark,
+.logo {
+  background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, .64) !important;
+  box-shadow: 0 16px 36px rgba(14, 165, 233, .26) !important;
+}
+
+.nav-links,
+.links,
+header nav.links {
+  background: rgba(248, 251, 255, .82) !important;
+  border: 1px solid rgba(15, 82, 186, .12) !important;
+  border-radius: 999px !important;
+  padding: 6px !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 12px 28px rgba(15, 82, 186, .06) !important;
+}
+
+.nav-links a,
+.nav-links .logout-btn,
+.logout-btn,
+.links a,
+header nav a {
+  color: #536176 !important;
+  background: transparent !important;
+  border-radius: 999px !important;
+}
+
+.nav-links a:hover,
+.nav-links a.active,
+.nav-links .active,
+.logout-btn:hover,
+.links a:hover,
+header nav a:hover {
+  color: #07111f !important;
+  background: #ffffff !important;
+  box-shadow: 0 8px 20px rgba(15, 82, 186, .08) !important;
+}
+
+.nav-cta,
+.links .cta,
+header nav .cta {
+  background: linear-gradient(135deg, #0ea5e9, #2563eb) !important;
+  color: #ffffff !important;
+  border: 0 !important;
+  box-shadow: 0 16px 34px rgba(14, 165, 233, .24) !important;
+}
+
+.menu-btn {
+  color: #07111f !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(15, 82, 186, .16) !important;
+  box-shadow: 0 10px 24px rgba(15, 82, 186, .08) !important;
+}
+
+/* General typography */
+h1, h2, h3, h4,
+.section-title h2,
+.hero h1,
+.hero h2,
+.t2t-hero-title,
+.card-title,
+.request-title,
+.price,
+.value,
+.number,
+strong {
+  color: #07111f !important;
+}
+
+p,
+.summary,
+.lead,
+.desc,
+.muted,
+.mini,
+.card-sub,
+.section-title p,
+.faq-answer,
+.price-card li,
+.card p,
+.panel p,
+.hero p,
+.t2t-main-hero p,
+.t2t-main-hero .t2t-subline,
+.t2t-story-card p,
+.flip-face p,
+.secret-title p,
+.secret-benefit p,
+.secret-tier p,
+.t2t-ai-box p,
+.t2t-money-box p,
+.t2t-final-cta p,
+td,
+label {
+  color: #536176 !important;
+}
+
+.gradient-text,
+.grad,
+.t2t-stat-card strong,
+.t2t-final-cta strong,
+.secret-title h2 span {
+  background: linear-gradient(90deg, #07111f 0%, #0284c7 42%, #2563eb 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+}
+
+/* Cards / panels */
+.t2t-main-hero,
+.hero,
+.panel,
+.card,
+.price-card,
+.faq-card,
+.faq-item,
+.search-panel,
+.category-sidebar,
+.example-prompts-box,
+.example-card,
+.request-panel,
+.hero-panel,
+.credit-strip,
+.shell,
+.box,
+.value-box,
+.secret-shell,
+.secret-tier,
+.secret-benefit,
+.secret-bar,
+.t2t-stat-card,
+.t2t-story-card,
+.flip-face,
+.t2t-ai-box,
+.t2t-money-box,
+.t2t-final-cta,
+.t2t-compare-card,
+.top-users-box,
+.request-card,
+.hero-card,
+.statement,
+.table-wrap,
+.modal-card,
+.toast {
+  background: rgba(255, 255, 255, .88) !important;
+  border-color: rgba(15, 82, 186, .14) !important;
+  box-shadow: 0 22px 70px rgba(15, 82, 186, .10) !important;
+  color: #07111f !important;
+}
+
+.t2t-main-hero,
+.hero,
+.secret-shell,
+.panel.hero-panel,
+.flip-back,
+.t2t-demo-front,
+.price-card.best,
+.price-card.popular,
+.change-card,
+.bottom-actions-card {
+  background:
+    radial-gradient(circle at 14% 0%, rgba(14, 165, 233, .15), transparent 40%),
+    radial-gradient(circle at 88% 0%, rgba(37, 99, 235, .10), transparent 38%),
+    rgba(255, 255, 255, .92) !important;
+}
+
+.t2t-story-card,
+.example-card,
+.faq-item,
+.card,
+.panel,
+.request-card,
+.secret-benefit,
+.price-card,
+.value-box {
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease !important;
+}
+
+.t2t-story-card:hover,
+.example-card:hover,
+.faq-item:hover,
+.price-card:hover,
+.secret-benefit:hover {
+  transform: translateY(-3px) !important;
+  border-color: rgba(14, 165, 233, .28) !important;
+  box-shadow: 0 28px 84px rgba(15, 82, 186, .13) !important;
+}
+
+/* Buttons and CTAs */
+.btn,
+button.btn,
+input[type="button"],
+input[type="submit"] {
+  border-radius: 999px !important;
+}
+
+.btn-primary,
+.btn.primary,
+button.btn-primary,
+.btn.btn-primary,
+.btn-green,
+.btn-blue,
+.btn-yellow,
+.btn-danger,
+.btn.green,
+.btn.blue,
+.btn.red,
+.cta {
+  background: linear-gradient(135deg, #0ea5e9, #2563eb) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+  box-shadow: 0 16px 36px rgba(14, 165, 233, .22) !important;
+}
+
+.btn-secondary,
+.btn:not(.btn-primary):not(.primary):not(.btn-green):not(.btn-blue):not(.btn-yellow):not(.btn-danger):not(.green):not(.blue):not(.red),
+button:not(.menu-btn):not(.logout-btn):not(.t2t-demo-nav):not(.t2t-demo-dot) {
+  background: #ffffff !important;
+  color: #07111f !important;
+  border-color: rgba(15, 82, 186, .16) !important;
+}
+
+.btn:hover,
+button:hover {
+  filter: none !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Badges, chips, pills */
+.eyebrow,
+.badge,
+.pill,
+.status-pill,
+.credit-pill,
+.tool-chip,
+.col-pill,
+.tag,
+.secret-label,
+.flip-hint,
+.t2t-mini-flow span,
+.t2t-auto-tags span,
+.t2t-ai-list span,
+.secret-row span,
+.file-chip,
+.category-link,
+.topic-btn {
+  background: #eef7ff !important;
+  color: #075985 !important;
+  border-color: rgba(14, 165, 233, .20) !important;
+  box-shadow: none !important;
+}
+
+.badge.done,
+.status-badge,
+.tag.green,
+.pill.green,
+.message.success,
+.save-message.success,
+.change-message.success {
+  background: rgba(16, 185, 129, .10) !important;
+  color: #047857 !important;
+  border-color: rgba(16, 185, 129, .22) !important;
+}
+
+.warning,
+.change-warning,
+.waiting-badge,
+.pill.yellow {
+  background: rgba(245, 158, 11, .10) !important;
+  color: #92400e !important;
+  border-color: rgba(245, 158, 11, .24) !important;
+}
+
+.error,
+.error-box,
+.error-badge,
+.change-message.error,
+.message.error,
+.err,
+.pill.red {
+  background: rgba(239, 68, 68, .09) !important;
+  color: #991b1b !important;
+  border-color: rgba(239, 68, 68, .22) !important;
+}
+
+/* Forms and tables */
+input,
+select,
+textarea,
+.search-input-wrap,
+.table-input,
+.table-select {
+  background: #ffffff !important;
+  color: #07111f !important;
+  border-color: rgba(15, 82, 186, .16) !important;
+  box-shadow: 0 10px 24px rgba(15, 82, 186, .05) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+table,
+.table-wrap {
+  background: #ffffff !important;
+}
+
+th {
+  background: #e8f5ff !important;
+  color: #075985 !important;
+}
+
+td,
+tr,
+.mid-table td,
+.mid-table th {
+  border-color: rgba(15, 82, 186, .12) !important;
+}
+
+td:first-child {
+  color: #07111f !important;
+}
+
+/* Progress / loaders */
+.progress-fill,
+.progress-bar,
+.bar i {
+  background: linear-gradient(90deg, #0ea5e9, #2563eb) !important;
+}
+
+.spinner {
+  border-color: rgba(14, 165, 233, .18) !important;
+  border-top-color: #0ea5e9 !important;
+}
+
+/* Carousel / demo controls */
+.t2t-demo-nav,
+.t2t-demo-dot.is-active {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: rgba(15, 82, 186, .18) !important;
+  box-shadow: 0 12px 28px rgba(15, 82, 186, .10) !important;
+}
+
+.t2t-demo-dot {
+  background: rgba(14, 165, 233, .25) !important;
+}
+
+/* Keep embedded Google tool iframe area clean */
+iframe {
+  background: #ffffff !important;
+}
+
+footer {
+  color: #64748b !important;
+}
+
+@media (max-width: 820px) {
+  .nav-links,
+  .links,
+  header nav.links {
+    border-radius: 22px !important;
+    background: #ffffff !important;
+    box-shadow: 0 20px 55px rgba(15, 82, 186, .12) !important;
+  }
+}
+
+
+/* Text2Tool professional polish */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container,
+.wrap,
+.section,
+main {
+  position: relative;
+}
+
+button,
+.btn,
+.cta,
+.nav-cta,
+.primary,
+.secondary,
+a.btn,
+input[type="submit"] {
+  letter-spacing: -0.01em !important;
+  font-weight: 750 !important;
+}
+
+.btn,
+.cta,
+.nav-cta,
+.primary,
+.secondary,
+button,
+a.btn,
+input[type="submit"] {
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease !important;
+}
+
+.btn:hover,
+.cta:hover,
+.nav-cta:hover,
+.primary:hover,
+.secondary:hover,
+button:hover,
+a.btn:hover,
+input[type="submit"]:hover {
+  transform: translateY(-1px);
+}
+
+.card,
+.panel,
+.price-card,
+.faq-card,
+.faq-item,
+.example-card,
+.request-panel,
+.hero-panel,
+.value-box,
+.secret-tier,
+.t2t-story-card,
+.t2t-ai-box,
+.t2t-money-box {
+  border-radius: 22px !important;
+}
+
+.card:hover,
+.price-card:hover,
+.example-card:hover,
+.faq-card:hover,
+.faq-item:hover,
+.t2t-story-card:hover,
+.secret-tier:hover {
+  border-color: rgba(14, 165, 233, .28) !important;
+  box-shadow: 0 30px 80px rgba(15, 82, 186, .13) !important;
+}
+
+input,
+textarea,
+select {
+  background: #ffffff !important;
+  color: #07111f !important;
+  border-color: rgba(15, 82, 186, .18) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.85) !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: rgba(14, 165, 233, .55) !important;
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, .12) !important;
+  outline: none !important;
+}
+
+.badge,
+.pill,
+.tag,
+.kicker,
+.hero-badge,
+.notice,
+.status-pill {
+  border: 1px solid rgba(15, 82, 186, .14) !important;
+  background: rgba(255, 255, 255, .76) !important;
+  color: #0f5299 !important;
+  box-shadow: 0 10px 26px rgba(15, 82, 186, .07) !important;
+}
+
+@media (max-width: 760px) {
+  .nav-links,
+  .links,
+  header nav.links {
+    border-radius: 22px !important;
+  }
+
+  .site-header,
+  body > header,
+  header.site-header {
+    background: rgba(255, 255, 255, .94) !important;
+  }
+}
+
+P
