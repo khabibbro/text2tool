@@ -1,42 +1,48 @@
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tool Preview | Text2Tool AI</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Text2Tool AI | AI Google Sheet Tools for Freelancers, VAs & Agencies</title>
 
 
 
   <link rel="icon" href="/favicon.png?v=3" type="image/png">
   <link rel="shortcut icon" href="/favicon.png?v=3" type="image/png">
   <link rel="apple-touch-icon" href="/favicon.png?v=3">
-<meta name="description" content="Review your Text2Tool AI tool preview before creating your final tool." />
+<meta name="description" content="Turn text into ready-made Google Sheets. Built for freelancers, virtual assistants, agencies and business users who want to save time on trackers, calculators, reports and dashboards." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     :root {
-      --bg: #f6f9ff;
-      --bg-soft: #eef5ff;
-      --surface: #ffffff;
-      --surface-soft: #f8fbff;
-      --text: #111827;
-      --muted: #5f6b7c;
-      --soft: #7b8797;
-      --line: #dfe7f3;
-      --line-strong: #cbd8ea;
+      --bg: #fbfcff;
+      --paper: #ffffff;
+      --paper-soft: #f8fbff;
+      --text: #121826;
+      --text-soft: #30394a;
+      --muted: #667085;
+      --muted-2: #7b8798;
+      --line: #e4eaf3;
+      --line-strong: #d3def0;
       --blue: #2563eb;
-      --blue-2: #1d4ed8;
+      --blue-dark: #1d4ed8;
       --blue-soft: #eef5ff;
-      --green: #16a34a;
+      --orange-soft: #fff7ed;
+      --orange-line: #fed7aa;
+      --orange: #ea580c;
       --green-soft: #ecfdf5;
-      --yellow: #f59e0b;
-      --yellow-soft: #fff7ed;
-      --danger: #dc2626;
-      --danger-soft: #fef2f2;
+      --green-line: #bbf7d0;
+      --green: #16a34a;
+      --radius: 24px;
       --max: 1180px;
-      --shadow: 0 24px 70px rgba(27, 55, 96, 0.10);
-      --shadow-soft: 0 14px 34px rgba(30, 64, 175, 0.08);
+      --shadow: 0 24px 70px rgba(15, 23, 42, 0.09);
+      --shadow-small: 0 14px 35px rgba(30, 64, 175, 0.08);
     }
 
     * { box-sizing: border-box; }
@@ -47,76 +53,73 @@
       margin: 0;
       min-height: 100vh;
       color: var(--text);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
       background:
-        radial-gradient(circle at 18% 8%, rgba(37, 99, 235, 0.08), transparent 30%),
-        radial-gradient(circle at 88% 2%, rgba(29, 78, 216, 0.07), transparent 28%),
-        linear-gradient(180deg, #ffffff 0%, #f5f8ff 48%, #ffffff 100%);
+        radial-gradient(circle at 18% 0%, rgba(37, 99, 235, 0.08), transparent 32%),
+        radial-gradient(circle at 88% 10%, rgba(59, 130, 246, 0.08), transparent 34%),
+        linear-gradient(180deg, #ffffff 0%, #f8fbff 48%, #ffffff 100%);
+      font-family: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
 
     a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
 
-    button,
-    textarea {
-      font: inherit;
-    }
-
-    .wrap {
-      width: min(var(--max), calc(100% - 40px));
-      margin: 0 auto;
-    }
-
-    header {
+    .site-header {
       position: sticky;
       top: 0;
-      z-index: 30;
+      z-index: 60;
       background: rgba(255, 255, 255, 0.94);
       backdrop-filter: blur(18px);
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid rgba(228, 234, 243, 0.95);
     }
 
     .nav {
+      width: min(var(--max), calc(100% - 40px));
       min-height: 76px;
+      margin: 0 auto;
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: 1fr auto 1fr;
       align-items: center;
       gap: 24px;
     }
 
     .brand {
+      justify-self: start;
       display: inline-flex;
       align-items: center;
       gap: 12px;
       min-width: max-content;
     }
 
-    .logo {
+    .brand-mark {
       width: 42px;
       height: 42px;
       border-radius: 12px;
       display: grid;
       place-items: center;
+      background: linear-gradient(135deg, #35b8ff 0%, var(--blue) 100%);
       color: #081225;
-      background: linear-gradient(135deg, #31b7ff 0%, #2563eb 100%);
-      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.24);
+      box-shadow: 0 14px 28px rgba(37, 99, 235, 0.22);
       font-size: 15px;
       font-weight: 900;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.06em;
     }
 
-    .brand strong {
-      display: block;
+    .brand-copy {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.08;
+    }
+
+    .brand-name {
       color: var(--text);
       font-size: 19px;
-      line-height: 1.05;
-      font-weight: 850;
-      letter-spacing: -0.04em;
+      font-weight: 900;
+      letter-spacing: -0.045em;
     }
 
-    .brand span {
-      display: block;
+    .brand-tag {
       margin-top: 4px;
       color: var(--muted);
       font-size: 12px;
@@ -124,625 +127,1939 @@
       letter-spacing: 0.08em;
     }
 
-    .links {
+    .nav-links {
+      justify-self: center;
       display: inline-flex;
       align-items: center;
-      justify-content: flex-end;
-      gap: 28px;
+      gap: 32px;
       color: #344054;
       font-size: 14px;
       font-weight: 650;
     }
 
-    .links a {
+    .nav-links a {
       position: relative;
       padding: 9px 0;
-      border-radius: 0;
       transition: color .18s ease;
     }
 
-    .links a:hover {
+    .nav-links a:hover,
+    .nav-links a.active {
       color: var(--blue);
-      background: transparent;
     }
 
-    .links .cta {
+    .nav-links a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 2px;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--blue);
+    }
+
+    .nav-actions {
+      justify-self: end;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: max-content;
+    }
+
+    .logout-btn {
+      border: 0;
+      background: transparent;
+      color: #344054;
+      padding: 10px 8px;
+      font-size: 14px;
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover { color: var(--blue); }
+
+    .nav-cta {
       min-height: 44px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0 20px !important;
+      padding: 0 20px;
       border-radius: 12px;
-      color: #ffffff !important;
       background: var(--blue);
-      box-shadow: 0 12px 26px rgba(37, 99, 235, 0.22);
+      color: #ffffff;
       font-size: 14px;
       font-weight: 800;
-      transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+      box-shadow: 0 12px 26px rgba(37, 99, 235, 0.22);
+      transition: background .18s ease, transform .18s ease, box-shadow .18s ease;
     }
 
-    .links .cta:hover {
+    .nav-cta:hover {
+      background: var(--blue-dark);
       transform: translateY(-1px);
-      background: var(--blue-2);
       box-shadow: 0 16px 34px rgba(37, 99, 235, 0.28);
     }
 
-    main {
-      padding: 36px 0 80px;
-    }
-
-    .shell {
+    .menu-btn {
+      display: none;
+      justify-self: end;
       border: 1px solid var(--line);
-      border-radius: 26px;
-      background: var(--surface);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .loading,
-    .error-box {
-      padding: 56px 32px;
-      text-align: center;
-    }
-
-    .loading h2,
-    .error-box h2 {
-      margin: 0;
+      background: var(--paper);
       color: var(--text);
-      font-size: clamp(30px, 3.4vw, 44px);
-      line-height: 1.08;
-      letter-spacing: -0.05em;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 14px;
       font-weight: 800;
+      cursor: pointer;
     }
 
-    .loading p,
-    .error-box p {
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.65;
-      font-weight: 550;
-    }
+    main { overflow: hidden; }
 
-    .spinner {
-      width: 44px;
-      height: 44px;
-      margin: 0 auto 18px;
-      border: 4px solid #dbe7fb;
-      border-top-color: var(--blue);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .hero {
-      padding: 36px;
-      border-bottom: 1px solid var(--line);
-      background:
-        radial-gradient(circle at 92% 0%, rgba(37, 99, 235, 0.10), transparent 35%),
-        linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-    }
-
-    .topline {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-
-    .badge,
-    .pill {
+    section {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      padding: 70px 0;
+    }.eyebrow {
       display: inline-flex;
       align-items: center;
+      gap: 8px;
       min-height: 34px;
-      padding: 8px 12px;
+      padding: 0 14px;
       border-radius: 999px;
       border: 1px solid #cfe0ff;
-      background: #f3f8ff;
+      background: #f4f8ff;
       color: #164a9e;
       font-size: 13px;
-      line-height: 1;
       font-weight: 850;
-    }
-
-    .badge {
-      color: #166534;
-      background: #ecfdf5;
-      border-color: #bbf7d0;
+      letter-spacing: -0.01em;
     }
 
     .hero h1 {
-      max-width: 860px;
-      margin: 0;
+      max-width: 980px;
+      margin: 22px auto 0;
       color: var(--text);
-      font-size: clamp(42px, 5vw, 66px);
-      line-height: 1.02;
-      letter-spacing: -0.065em;
-      font-weight: 800;
+      font-size: clamp(44px, 4.8vw, 62px);
+      line-height: 1.08;
+      letter-spacing: -0.055em;
+      font-weight: 850;
+      text-align: center;
     }
 
-    .summary {
-      max-width: 850px;
-      margin: 18px 0 0;
-      color: var(--muted);
-      font-size: 19px;
-      line-height: 1.65;
-      font-weight: 520;
-    }
-
-    .warning {
-      margin-top: 18px;
-      padding: 14px 16px;
-      border-radius: 16px;
-      color: #9a3412;
-      background: var(--yellow-soft);
-      border: 1px solid #fed7aa;
-      font-weight: 750;
-      line-height: 1.55;
-    }
-
-    .compact-note {
-      margin: 0;
-      color: var(--soft);
-      font-size: 13px;
-      font-weight: 760;
-      line-height: 1.55;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-      padding: 24px;
-    }
-
-    .full {
-      grid-column: 1 / -1;
-    }
-
-    .card {
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      background: #ffffff;
-      box-shadow: var(--shadow-soft);
-      padding: 24px;
-      min-width: 0;
-    }
-
-    .card h2 {
-      margin: 0 0 14px;
-      color: var(--text);
-      font-size: 26px;
-      line-height: 1.12;
-      letter-spacing: -0.045em;
-      font-weight: 800;
-    }
-
-    .card p {
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.65;
-      font-weight: 560;
-    }
-
-    .table-wrap {
-      width: 100%;
-      overflow-x: auto;
-      margin-top: 14px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: #ffffff;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 720px;
-    }
-
-    th {
-      text-align: left;
-      padding: 16px;
-      color: #ffffff;
-      background: var(--blue);
-      font-size: 13px;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      font-weight: 900;
-    }
-
-    td {
-      padding: 16px;
-      color: #263244;
-      border-top: 1px solid var(--line);
-      vertical-align: top;
-      font-size: 15px;
-      line-height: 1.55;
-      font-weight: 560;
-    }
-
-    .columns {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .col-pill {
-      display: inline-flex;
-      align-items: center;
-      min-height: 32px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      color: #164a9e;
-      background: var(--blue-soft);
-      border: 1px solid #cfe0ff;
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .list {
-      display: grid;
-      gap: 10px;
-      margin: 14px 0 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .list li {
-      display: grid;
-      grid-template-columns: 22px 1fr;
-      gap: 10px;
-      align-items: start;
-      color: #263244;
-      font-size: 15px;
-      line-height: 1.55;
-      font-weight: 620;
-    }
-
-    .list li::before {
-      content: "✓";
+    .hero h1 span {
       color: var(--blue);
-      font-weight: 900;
+      white-space: nowrap;
     }
 
-    .empty {
-      color: var(--soft);
-      border: 1px dashed var(--line-strong);
-      padding: 18px;
-      border-radius: 16px;
-      background: #f8fbff;
+    .hero-subtitle {
+      max-width: 735px;
+      margin: 22px auto 0;
+      color: var(--muted);
+      font-size: clamp(18px, 2vw, 22px);
+      line-height: 1.58;
+      font-weight: 500;
+      letter-spacing: -0.02em;
     }
 
-    .change-card {
-      border-color: #cfe0ff;
-      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-    }
-
-    .change-warning {
-      margin-top: 12px;
-      padding: 14px;
-      border-radius: 16px;
-      color: #9a3412;
-      background: var(--yellow-soft);
-      border: 1px solid #fed7aa;
-      font-size: 14px;
-      line-height: 1.55;
-      font-weight: 750;
-    }
-
-    textarea {
-      width: 100%;
-      min-height: 120px;
-      resize: vertical;
-      margin-top: 14px;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      background: #f8fbff;
-      color: var(--text);
-      padding: 14px;
-      font: inherit;
-      outline: none;
-    }
-
-    textarea:focus {
-      border-color: #93c5fd;
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
-      background: #ffffff;
-    }
-
-    .change-note {
-      color: var(--soft);
-      font-size: 13px;
-      font-weight: 760;
-      line-height: 1.55;
-      margin-top: 10px;
-    }
-
-    .change-message,
-    .save-message {
-      margin-top: 12px;
-      padding: 12px 14px;
-      border-radius: 14px;
-      font-weight: 760;
-      line-height: 1.45;
-      display: none;
-    }
-
-    .change-message.success,
-    .save-message.success {
-      display: block;
-      color: #166534;
-      border: 1px solid #bbf7d0;
-      background: #ecfdf5;
-    }
-
-    .change-message.error,
-    .save-message.error {
-      display: block;
-      color: #991b1b;
-      border: 1px solid #fecaca;
-      background: #fef2f2;
-    }
-
-    .bottom-actions-card {
-      background: #f8fbff;
-      border-color: #cfe0ff;
-    }
-
-    .bottom-actions-card .actions {
-      justify-content: flex-end;
-    }
-
-    .actions {
+    .hero-actions {
+      margin-top: 34px;
       display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
       flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 18px;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      min-height: 48px;
-      border: 1px solid var(--line-strong);
+      min-height: 54px;
+      padding: 0 25px;
       border-radius: 13px;
-      padding: 0 18px;
-      color: var(--text);
-      background: #ffffff;
-      font-size: 14px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      border-color: #bcd0f4;
-      box-shadow: 0 14px 28px rgba(27, 55, 96, 0.10);
+      font-size: 15px;
+      font-weight: 850;
+      border: 1px solid transparent;
+      transition: background .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease;
     }
 
     .btn-primary {
       color: #ffffff;
       background: var(--blue);
       border-color: var(--blue);
-      box-shadow: 0 16px 34px rgba(37, 99, 235, 0.22);
+      box-shadow: 0 18px 34px rgba(37, 99, 235, 0.22);
     }
 
     .btn-primary:hover {
-      background: var(--blue-2);
-      border-color: var(--blue-2);
-      box-shadow: 0 20px 42px rgba(37, 99, 235, 0.28);
+      background: var(--blue-dark);
+      border-color: var(--blue-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 22px 42px rgba(37, 99, 235, 0.28);
     }
 
-    .btn-green {
+    .btn-secondary {
+      color: var(--text);
+      background: #ffffff;
+      border-color: var(--line-strong);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+    }
+
+    .btn-secondary:hover {
+      border-color: #b9cae9;
+      transform: translateY(-1px);
+      box-shadow: 0 16px 34px rgba(15, 23, 42, 0.09);
+    }
+
+    .hero-note {
+      margin-top: 13px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .hero-meta {
+      max-width: 850px;
+      margin: 42px auto 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      background: rgba(255,255,255,.82);
+      box-shadow: var(--shadow-small);
+    }
+
+    .meta-item {
+      padding: 21px 18px;
+      border-right: 1px solid var(--line);
+      text-align: center;
+    }
+
+    .meta-item:last-child { border-right: 0; }
+
+    .meta-item strong {
+      display: block;
+      color: var(--text);
+      font-size: 18px;
+      letter-spacing: -0.03em;
+      font-weight: 900;
+    }
+
+    .meta-item span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .section-title {
+      max-width: 760px;
+      margin: 0 auto 36px;
+      text-align: center;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      color: var(--text);
+      font-size: clamp(34px, 4vw, 52px);
+      line-height: 1.04;
+      letter-spacing: -0.065em;
+      font-weight: 900;
+    }
+
+    .section-title p {
+      margin: 14px auto 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.6;
+      font-weight: 520;
+    }
+
+    .workflow {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #ffffff;
+      overflow: hidden;
+      box-shadow: var(--shadow-small);
+    }
+
+    .work-step {
+      min-height: 122px;
+      padding: 24px;
+      border-right: 1px solid var(--line);
+      display: grid;
+      align-content: center;
+      gap: 8px;
+    }
+
+    .work-step:last-child { border-right: 0; }
+
+    .step-number {
+      width: 34px;
+      height: 34px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 10px;
+      color: var(--blue);
+      background: var(--blue-soft);
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .work-step strong {
+      color: var(--text);
+      font-size: 18px;
+      letter-spacing: -0.03em;
+      font-weight: 900;
+    }
+
+    .work-step span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+      font-weight: 580;
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .way-card {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: #ffffff;
+      padding: 28px;
+      box-shadow: var(--shadow-small);
+      display: flex;
+      flex-direction: column;
+      min-height: 430px;
+    }
+
+    .way-card.old {
+      background: linear-gradient(145deg, #fffafa 0%, #ffffff 74%);
+    }
+
+    .way-card.new {
+      border-color: #bdd5ff;
+      background:
+        radial-gradient(circle at 92% 0%, rgba(37, 99, 235, .10), transparent 28%),
+        linear-gradient(145deg, #f3f8ff 0%, #ffffff 76%);
+    }
+
+    .way-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .way-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      flex: 0 0 auto;
+    }
+
+    .old .way-icon {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .new .way-icon {
+      background: #dbeafe;
+      color: var(--blue);
+    }
+
+    .way-head h3 {
+      margin: 0;
+      color: var(--text);
+      font-size: 29px;
+      line-height: 1.1;
+      letter-spacing: -0.055em;
+      font-weight: 900;
+    }
+
+    .way-list {
+      display: grid;
+      gap: 18px;
+      margin-top: 26px;
+    }
+
+    .way-row {
+      min-height: 86px;
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      align-items: center;
+      gap: 14px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, .88);
+    }
+
+    .row-icon {
+      color: var(--blue);
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .old .row-icon { color: var(--orange); }
+
+    .row-copy strong {
+      display: block;
+      color: var(--text);
+      font-size: 17px;
+      line-height: 1.35;
+      letter-spacing: -0.025em;
+      font-weight: 850;
+    }
+
+    .row-copy span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+      font-weight: 560;
+    }
+
+    .info {
+      position: relative;
+      width: 24px;
+      height: 24px;
+      display: inline-grid;
+      place-items: center;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 900;
+      cursor: help;
+    }
+
+    .info::after {
+      content: attr(data-tip);
+      position: absolute;
+      right: 0;
+      bottom: calc(100% + 10px);
+      width: 260px;
+      padding: 12px 13px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #111827;
+      color: #ffffff;
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 600;
+      text-align: left;
+      box-shadow: 0 18px 35px rgba(15, 23, 42, 0.20);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(5px);
+      transition: opacity .16s ease, transform .16s ease;
+      z-index: 10;
+    }
+
+    .info:hover::after,
+    .info:focus::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .way-quote {
+      margin-top: auto;
+      padding: 18px 16px;
+      border-radius: 16px;
+      text-align: center;
+      color: var(--blue);
+      background: #dbeafe;
+      border: 1px solid #bfdbfe;
+      font-size: 18px;
+      line-height: 1.25;
+      font-weight: 900;
+    }
+
+    .old .way-quote {
+      color: #9a3412;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+    }
+
+    .new .way-quote {
+      color: #1e40af;
+      background: #dbeafe;
+      border: 1px solid #bfdbfe;
+    }
+
+    .demo-panel {
+      display: grid;
+      grid-template-columns: .8fr 1.3fr;
+      gap: 28px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: #ffffff;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .demo-copy h2 {
+      margin: 0;
+      color: var(--text);
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.04;
+      letter-spacing: -0.06em;
+      font-weight: 900;
+    }
+
+    .demo-copy p {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.62;
+      font-weight: 520;
+    }
+
+    .demo-points {
+      margin-top: 22px;
+      display: grid;
+      gap: 11px;
+    }
+
+    .demo-points div {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--text-soft);
+      font-size: 15px;
+      font-weight: 750;
+    }
+
+    .demo-points b {
+      width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .demo-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: #f9fbff;
+      padding: 14px;
+      min-width: 0;
+      box-shadow: inset 0 1px 0 #ffffff;
+    }
+
+    .browser-bar {
+      height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      border-bottom: 0;
+      border-radius: 14px 14px 0 0;
+      background: #ffffff;
+    }
+
+    .browser-bar span {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #d7dfec;
+    }
+
+    .t2t-carousel {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 0 0 16px 16px;
+      background: #ffffff;
+      min-height: 390px;
+    }
+
+    .t2t-demo-screen {
+      position: relative;
+      width: 100%;
+      min-height: 390px;
+      background: #ffffff;
+    }
+
+    .t2t-demo-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 14px;
+      opacity: 0;
+      transform: scale(.99);
+      transition: opacity .25s ease, transform .25s ease;
+    }
+
+    .t2t-demo-slide.is-active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .t2t-demo-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 5;
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.92);
+      color: var(--text);
+      font-size: 26px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(15,23,42,.12);
+    }
+
+    .t2t-demo-prev { left: 12px; }
+    .t2t-demo-next { right: 12px; }
+
+    .t2t-demo-dots {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 12px;
+      z-index: 6;
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    .t2t-demo-dot {
+      width: 7px;
+      height: 7px;
+      border: 0;
+      border-radius: 999px;
+      background: #c7d3e5;
+      cursor: pointer;
+    }
+
+    .t2t-demo-dot.is-active {
+      width: 22px;
+      background: var(--blue);
+    }
+
+    .tool-grid {
+      max-width: 930px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .tool-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 16px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: #ffffff;
+      color: #263244;
+      font-size: 14px;
+      font-weight: 800;
+      box-shadow: 0 10px 22px rgba(15,23,42,.04);
+    }
+
+    .use-box {
+      max-width: 940px;
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background: #ffffff;
+      padding: 32px;
+      box-shadow: var(--shadow-small);
+    }
+
+    .use-box h2 {
+      margin: 0;
+      color: var(--text);
+      text-align: center;
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.05;
+      letter-spacing: -0.06em;
+      font-weight: 900;
+    }
+
+    .use-box p {
+      max-width: 760px;
+      margin: 14px auto 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 17px;
+      line-height: 1.62;
+      font-weight: 520;
+    }
+
+    .use-line {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .use-item {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--paper-soft);
+    }
+
+    .use-item b {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .use-item strong {
+      display: block;
+      color: var(--text);
+      font-size: 17px;
+      letter-spacing: -0.03em;
+      font-weight: 900;
+    }
+
+    .use-item span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+      font-weight: 570;
+    }
+
+    .cta-band {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+      border-radius: 26px;
+      padding: 34px;
+      background: #111827;
+      color: #ffffff;
+      box-shadow: 0 24px 60px rgba(17,24,39,.18);
+    }
+
+    .cta-band h2 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 44px);
+      line-height: 1.05;
+      letter-spacing: -0.06em;
+      font-weight: 900;
+    }
+
+    .cta-band p {
+      margin: 12px 0 0;
+      color: rgba(255,255,255,.74);
+      font-size: 17px;
+      line-height: 1.58;
+      font-weight: 530;
+    }
+
+    .cta-band .btn-primary {
+      background: #ffffff;
+      color: var(--text);
+      border-color: #ffffff;
+      box-shadow: none;
+    }
+
+    footer {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      padding: 34px 0 44px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    @media (max-width: 980px) {
+      .nav {
+        grid-template-columns: 1fr auto;
+      }
+
+      .menu-btn { display: inline-flex; }
+
+      .nav-links {
+        display: none;
+        grid-column: 1 / -1;
+        width: 100%;
+        justify-self: stretch;
+        padding: 16px 0 18px;
+        border-top: 1px solid var(--line);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 13px;
+      }
+
+      .nav-links.open { display: flex; }
+
+      .nav-actions {
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: end;
+        margin-right: 82px;
+      }
+
+      .hero-meta,
+      .workflow,
+      .compare-grid,
+      .demo-panel,
+      .use-line,
+      .cta-band {
+        grid-template-columns: 1fr;
+      }
+
+      .meta-item,
+      .work-step {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .meta-item:last-child,
+      .work-step:last-child {
+        border-bottom: 0;
+      }
+
+      .demo-panel {
+        gap: 24px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav,
+      section,
+      footer {
+        width: min(100% - 24px, var(--max));
+      }
+
+      .brand-name { font-size: 17px; }
+      .brand-tag { display: none; }
+      .nav-actions { display: none; }.hero h1 {
+        font-size: 42px;
+      }
+
+      .hero-subtitle {
+        font-size: 17px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .way-card,
+      .demo-panel,
+      .use-box,
+      .cta-band {
+        padding: 22px;
+        border-radius: 22px;
+      }
+
+      .way-row {
+        grid-template-columns: 26px 1fr;
+      }
+
+      .info {
+        grid-column: 2;
+        justify-self: start;
+      }
+
+      .info::after {
+        right: auto;
+        left: 0;
+        width: min(260px, calc(100vw - 56px));
+      }
+
+      .t2t-carousel,
+      .t2t-demo-screen {
+        min-height: 265px;
+      }
+    }
+
+    .info-tip {
+      position: relative;
+      display: inline-grid;
+      place-items: center;
+      width: 18px;
+      height: 18px;
+      margin-left: 6px;
+      border-radius: 999px;
+      border: 1px solid #cfe0ff;
+      background: #f3f8ff;
+      color: #2563eb;
+      font-size: 12px;
+      font-weight: 900;
+      cursor: help;
+      vertical-align: middle;
+    }
+
+    .info-tip::after {
+      content: attr(data-tip);
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 10px);
+      transform: translateX(-50%) translateY(4px);
+      width: max-content;
+      max-width: 260px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: #111827;
+      color: #ffffff;
+      box-shadow: 0 16px 34px rgba(17, 24, 39, 0.18);
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 650;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .15s ease, transform .15s ease;
+      z-index: 20;
+      text-align: left;
+      white-space: normal;
+    }
+
+    .info-tip:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+
+    .t2t-two-step-fix {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    @media (max-width: 760px) {
+      .t2t-two-step-fix {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+
+    .reviews-section {
+      padding-top: 44px;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .review-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: #ffffff;
+      padding: 26px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .review-card p {
+      margin: 0;
+      color: #263244;
+      font-size: 17px;
+      line-height: 1.65;
+      font-weight: 600;
+    }
+
+    .review-person {
+      margin-top: 18px;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .review-role {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 760px) {
+      .reviews-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    .workflow.t2t-two-step-fix {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    @media (max-width: 760px) {
+      .workflow.t2t-two-step-fix {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+
+    .home-pricing-section {
+      padding-top: 52px;
+    }
+
+    .pricing-rule {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 14px auto 0;
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: 1px solid #cfe0ff;
+      background: #f3f8ff;
+      color: #164a9e;
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .home-pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 34px;
+    }
+
+    .home-price-card {
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: #ffffff;
+      padding: 22px;
+      box-shadow: var(--shadow-small);
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .home-price-card.featured {
+      border-color: #b9d4ff;
+      box-shadow: 0 22px 55px rgba(37, 99, 235, 0.14);
+    }
+
+    .home-price-tag {
+      width: fit-content;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .home-price-card h3 {
+      margin: 18px 0 0;
+      color: var(--text);
+      font-size: 22px;
+      line-height: 1.1;
+      letter-spacing: -0.045em;
+      font-weight: 900;
+    }
+
+    .home-price {
+      margin-top: 12px;
+      color: var(--text);
+      font-size: 42px;
+      line-height: 1;
+      letter-spacing: -0.065em;
+      font-weight: 900;
+    }
+
+    .home-price-card p {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.55;
+      font-weight: 650;
+    }
+
+    .home-price-card .btn {
+      margin-top: auto;
+      width: 100%;
+      min-height: 48px;
+      padding: 0 16px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .home-pricing-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .home-pricing-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    .hero-example {
+      margin: 52px auto 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.5;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      text-align: center;
+    }
+
+
+    .home-price-card ul {
+      margin: 18px 0 22px;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .home-price-card li {
+      position: relative;
+      padding-left: 22px;
+      color: var(--text-soft);
+      font-size: 14px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .home-price-card li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--blue);
+      font-weight: 900;
+    }
+
+
+    .review-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+
+    .demo-cta {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      text-align: center;
+    }
+
+
+    .home-save-box {
+      margin-top: 16px;
+      padding: 10px 12px;
+      border-radius: 13px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      border: 1px solid #cfe0ff;
+      font-size: 14px;
+      line-height: 1.2;
+      font-weight: 900;
+    }
+
+
+    .way-card.old .way-quote {
+      color: #9a3412;
+      background: #fff7ed;
+      border-color: #fed7aa;
+    }
+
+
+    .way-section {
+      padding-top: 56px;
+      padding-bottom: 56px;
+    }
+
+    .way-section .section-title {
+      margin-bottom: 28px;
+    }
+
+    .way-section .section-title h2 {
+      font-size: clamp(32px, 3.5vw, 44px);
+      line-height: 1.08;
+      letter-spacing: -0.055em;
+    }
+
+    .way-section .compare-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .way-section .way-card {
+      min-height: 0;
+      padding: 22px;
+      border-radius: 18px;
+      box-shadow: 0 12px 28px rgba(27, 55, 96, 0.08);
+    }
+
+    .way-section .way-head {
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .way-section .way-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      font-size: 23px;
+    }
+
+    .way-section .way-head h3 {
+      font-size: 24px;
+      line-height: 1.1;
+      letter-spacing: -0.045em;
+    }
+
+    .way-section .way-list {
+      gap: 14px;
+      margin-top: 0;
+    }
+
+    .way-section .way-row {
+      min-height: 62px;
+      grid-template-columns: 24px 1fr;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 13px;
+    }
+
+    .way-section .row-copy strong {
+      font-size: 15px;
+      line-height: 1.32;
+      letter-spacing: -0.02em;
+    }
+
+    .way-section .way-quote {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 13px;
+      font-size: 15px;
+      line-height: 1.25;
+      font-weight: 900;
+    }
+
+
+    .way-section {
+      padding-top: 34px !important;
+    }
+
+
+    .hero-checklist {
+      max-width: 760px;
+      margin: 28px auto 0;
+      display: grid;
+      gap: 13px;
+      text-align: left;
+    }
+
+    .hero-checkitem {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: #1f2937;
+      font-size: 17px;
+      line-height: 1.45;
+      font-weight: 650;
+      letter-spacing: -0.015em;
+    }
+
+    .hero-checkitem .tick {
+      color: var(--blue);
+      font-size: 20px;
+      line-height: 1;
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    @media (max-width: 640px) {
+      .hero-checklist {
+        max-width: 100%;
+        margin-top: 22px;
+      }
+
+      .hero-checkitem {
+        font-size: 15px;
+      }
+    }
+
+
+    /* Final homepage polish: smaller, cleaner, centered headings */
+    .hero {
+      padding-top: 58px !important;
+      padding-bottom: 18px !important;
+      text-align: center !important;
+    }
+
+    .hero h1 {
+      max-width: 980px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      text-align: center !important;
+      font-size: clamp(40px, 4.5vw, 58px) !important;
+      line-height: 1.08 !important;
+      font-weight: 800 !important;
+      letter-spacing: -0.055em !important;
+    }
+
+    .hero h1 span {
+      color: var(--blue);
+    }
+
+    .section-title {
+      text-align: center !important;
+      max-width: 800px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    .section-title h2,
+    .demo-copy h2,
+    .cta-band h2 {
+      font-size: clamp(30px, 3.35vw, 44px) !important;
+      line-height: 1.08 !important;
+      font-weight: 800 !important;
+      letter-spacing: -0.05em !important;
+    }
+
+    .demo-copy h2 {
+      max-width: 520px;
+    }
+
+    .home-price-card h3,
+    .way-head h3,
+    .review-person {
+      font-weight: 800 !important;
+    }
+
+    .tool-chip,
+    .row-copy strong,
+    .home-price-card p,
+    .review-card p {
+      font-weight: 600 !important;
+    }
+
+
+    .home-faq-section {
+      padding-top: 56px;
+      padding-bottom: 56px;
+    }
+
+    .home-faq-wrap {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .home-faq-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 0 0 34px;
+      color: var(--text);
+      font-size: clamp(30px, 3.3vw, 44px);
+      line-height: 1.08;
+      letter-spacing: -0.05em;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .home-faq-title span {
+      font-size: 34px;
+      line-height: 1;
+    }
+
+    .home-faq-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .home-faq-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #ffffff;
+      box-shadow: 0 10px 28px rgba(27, 55, 96, 0.06);
+      overflow: hidden;
+    }
+
+    .home-faq-card summary {
+      list-style: none;
+      cursor: pointer;
+      min-height: 72px;
+      display: grid;
+      grid-template-columns: 34px 1fr 24px;
+      align-items: center;
+      gap: 18px;
+      padding: 20px 26px;
+      color: var(--text);
+      font-size: 17px;
+      line-height: 1.35;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .home-faq-card summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-icon {
+      color: var(--blue);
+      font-size: 22px;
+      line-height: 1;
+      text-align: center;
+    }
+
+    .faq-arrow {
+      color: #64748b;
+      font-size: 18px;
+      text-align: right;
+      transition: transform .18s ease;
+    }
+
+    .home-faq-card[open] .faq-arrow {
+      transform: rotate(180deg);
+    }
+
+    .home-faq-answer {
+      padding: 0 26px 22px 78px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.65;
+      font-weight: 520;
+    }
+
+    .home-faq-answer p {
+      margin: 0;
+    }
+
+    @media (max-width: 640px) {
+      .home-faq-card summary {
+        grid-template-columns: 28px 1fr 20px;
+        gap: 12px;
+        padding: 18px;
+        font-size: 15px;
+      }
+
+      .home-faq-answer {
+        padding: 0 18px 20px 58px;
+      }
+    }
+
+
+    /* V15 fixes: centered checklist, smaller comparison cards, embedded create section */
+    .hero-checklist {
+      width: fit-content !important;
+      max-width: calc(100% - 32px) !important;
+      margin: 28px auto 0 !important;
+      display: grid !important;
+      gap: 13px !important;
+      text-align: left !important;
+      justify-items: start !important;
+    }
+
+    .hero-checkitem {
+      justify-content: flex-start !important;
+      font-size: 16px !important;
+      font-weight: 620 !important;
+    }
+
+    .way-section .compare-grid {
+      max-width: 760px !important;
+      gap: 14px !important;
+    }
+
+    .way-section .way-card {
+      padding: 18px !important;
+      border-radius: 16px !important;
+    }
+
+    .way-section .way-head {
+      margin-bottom: 16px !important;
+    }
+
+    .way-section .way-icon {
+      width: 42px !important;
+      height: 42px !important;
+      font-size: 21px !important;
+      border-radius: 13px !important;
+    }
+
+    .way-section .way-head h3 {
+      font-size: 22px !important;
+      font-weight: 780 !important;
+    }
+
+    .way-section .way-list {
+      gap: 12px !important;
+    }
+
+    .way-section .way-row {
+      min-height: 56px !important;
+      padding: 13px 15px !important;
+      border-radius: 12px !important;
+    }
+
+    .way-section .row-copy strong {
+      font-size: 14px !important;
+      font-weight: 650 !important;
+    }
+
+    .way-section .way-quote {
+      margin-top: 14px !important;
+      padding: 12px !important;
+      font-size: 14px !important;
+    }
+
+    .home-create-section {
+      padding-top: 56px;
+      padding-bottom: 56px;
+    }
+
+    .home-create-card {
+      max-width: 1040px;
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: #ffffff;
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .home-create-frame {
+      width: 100%;
+      height: 980px;
+      display: block;
+      border: 0;
+      background: #ffffff;
+    }
+
+    @media (max-width: 900px) {
+      .way-section .compare-grid {
+        max-width: 100% !important;
+      }
+
+      .home-create-frame {
+        height: 1100px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-checklist {
+        width: fit-content !important;
+        max-width: calc(100% - 20px) !important;
+      }
+
+      .hero-checkitem {
+        font-size: 15px !important;
+      }
+
+      .home-create-frame {
+        height: 1180px;
+      }
+    }
+
+
+    /* V16 Create Tool embedded form - no iframe/no duplicate header */
+    .home-create-section {
+      padding-top: 56px;
+      padding-bottom: 56px;
+    }
+
+    .home-create-card {
+      max-width: 920px;
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: #ffffff;
+      box-shadow: var(--shadow-soft);
+      padding: 26px;
+      overflow: visible;
+    }
+
+    .home-create-top {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: start;
+      margin-bottom: 22px;
+    }
+
+    .home-create-top h3 {
+      margin: 0;
+      color: var(--text);
+      font-size: 28px;
+      line-height: 1.1;
+      letter-spacing: -0.045em;
+      font-weight: 800;
+    }
+
+    .home-create-top p {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.55;
+      font-weight: 560;
+    }
+
+    .home-create-status {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+      max-width: 360px;
+    }
+
+    .home-create-status span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid #cfe0ff;
+      background: #f3f8ff;
+      color: #164a9e;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .home-examples {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .home-examples button {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #f8fbff;
+      color: var(--text);
+      padding: 13px 12px;
+      min-height: 54px;
+      font-size: 14px;
+      line-height: 1.2;
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color .16s ease, box-shadow .16s ease, transform .16s ease;
+      text-align: left;
+    }
+
+    .home-examples button:hover {
+      transform: translateY(-1px);
+      border-color: #b9d4ff;
+      box-shadow: 0 12px 24px rgba(37, 99, 235, 0.08);
+    }
+
+    .home-tool-form label {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .home-tool-form textarea {
+      width: 100%;
+      min-height: 136px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #f8fbff;
+      color: var(--text);
+      padding: 18px;
+      outline: none;
+      font-size: 17px;
+      line-height: 1.55;
+      font-weight: 560;
+    }
+
+    .home-tool-form textarea:focus {
+      border-color: #93c5fd;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
+      background: #ffffff;
+    }
+
+    .home-prompt-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 650;
+    }
+
+    .home-form-error {
+      display: none;
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #991b1b;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .home-form-error.show {
+      display: block;
+    }
+
+    .home-form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .home-form-message {
+      display: none;
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #f8fbff;
+      color: var(--muted);
+      white-space: pre-line;
+      font-size: 14px;
+      line-height: 1.55;
+      font-weight: 650;
+    }
+
+    .home-form-message.show {
+      display: block;
+    }
+
+    .home-form-message.success {
       color: #166534;
       background: #ecfdf5;
       border-color: #bbf7d0;
     }
 
-    .btn:disabled {
-      opacity: .62;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
+    .home-form-message.error {
+      color: #991b1b;
+      background: #fef2f2;
+      border-color: #fecaca;
     }
 
-    .info-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 18px;
-      height: 18px;
-      margin-left: 7px;
-      border-radius: 999px;
-      border: 1px solid #cfe0ff;
-      color: var(--blue);
-      font-size: 11px;
-      font-weight: 900;
-      cursor: help;
-      vertical-align: middle;
-      background: #f3f8ff;
-    }
-
-    .question-box {
-      border: 1px solid #cfe0ff;
-      background: #f8fbff;
-      border-radius: 20px;
-      padding: 18px;
-      margin-top: 12px;
-    }
-
-    .progress-line {
-      height: 8px;
-      background: #e5edf9;
-      border-radius: 99px;
-      overflow: hidden;
-      margin: 12px 0 18px;
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      border-radius: 99px;
-      background: var(--blue);
-    }
-
-    .q-label {
-      color: var(--blue);
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      font-size: 12px;
-      font-weight: 900;
-      margin-bottom: 8px;
-    }
-
-    .q-text {
-      color: var(--text);
-      font-size: 17px;
-      line-height: 1.55;
-      margin: 0 0 14px;
-    }
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-    }
-
-    .step {
-      border: 1px solid var(--line);
-      background: #f8fbff;
-      border-radius: 16px;
-      padding: 14px;
-    }
-
-    .step strong {
-      display: block;
-      margin-bottom: 6px;
-      color: var(--text);
-      font-weight: 850;
-    }
-
-    .step span {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .export-modal-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      background: rgba(15, 23, 42, .52);
-      backdrop-filter: blur(10px);
-      padding: 22px;
-    }
-
-    .export-modal-overlay.show {
-      display: flex;
-    }
-
-    .export-modal-box {
-      width: min(620px, 100%);
-      border-radius: 24px;
-      border: 1px solid var(--line);
-      background: #ffffff;
-      box-shadow: 0 28px 90px rgba(15, 23, 42, .22);
-      padding: 26px;
-      text-align: left;
-    }
-
-    .export-modal-text {
-      margin: 0;
-      color: var(--text);
-      font-size: 18px;
-      line-height: 1.65;
-      font-weight: 800;
-      letter-spacing: -.01em;
-    }
-
-    .export-modal-note {
-      margin-top: 16px;
-      padding: 16px;
-      border-radius: 18px;
-      background: #f3f8ff;
-      border: 1px solid #cfe0ff;
-      color: #164a9e;
-      font-size: 16px;
-      line-height: 1.65;
-      font-weight: 800;
-    }
-
-    .export-modal-actions {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 18px;
-    }
-
-    .export-modal-actions .btn {
-      min-width: 120px;
-    }
-
-    footer {
-      color: var(--soft);
-      text-align: center;
-      padding: 24px 0 0;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    @media (max-width: 900px) {
-      .wrap {
-        width: min(100% - 28px, var(--max));
-      }
-
-      .nav {
+    @media (max-width: 820px) {
+      .home-create-top {
         grid-template-columns: 1fr;
-        gap: 12px;
-        padding: 14px 0;
       }
 
-      .links {
+      .home-create-status {
         justify-content: flex-start;
-        flex-wrap: wrap;
-        gap: 14px;
+        max-width: none;
       }
 
-      .grid {
-        grid-template-columns: 1fr;
-        padding: 16px;
+      .home-examples {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
+    }
 
-      .hero {
-        padding: 24px 18px;
-      }
-
-      .hero h1 {
-        font-size: 38px;
-      }
-
-      .steps {
+    @media (max-width: 560px) {
+      .home-examples {
         grid-template-columns: 1fr;
       }
 
-      .bottom-actions-card .actions {
+      .home-form-actions {
         justify-content: stretch;
       }
 
-      .btn {
-        flex: 1;
-        min-width: 140px;
+      .home-form-actions .btn {
+        width: 100%;
+      }
+
+      .home-prompt-meta {
+        flex-direction: column;
       }
     }
 
-    /* V3: use uploaded T2T logo */
+
+    /* V17 hero order: ticks first, example closer to preview */
+    .hero-checklist {
+      margin-top: 28px !important;
+      margin-bottom: 22px !important;
+    }
+
+    .hero-example {
+      margin: 0 auto 0 !important;
+      text-align: center !important;
+    }
+
+
+    /* V19: remove middle CTA and attach example line to preview */
+    .hero-checklist {
+      margin-bottom: 0 !important;
+    }
+
+    .hero-example {
+      margin: 34px auto 0 !important;
+      text-align: center !important;
+    }
+
+    .hero {
+      padding-bottom: 0 !important;
+    }
+
+    .hero + section {
+      padding-top: 22px !important;
+    }
+
+
+    .home-tool-kits {
+      margin-top: 10px;
+      color: var(--blue);
+      font-size: 16px;
+      line-height: 1.2;
+      font-weight: 900;
+      letter-spacing: -0.015em;
+    }
+
+
+    /* V22 preview copy update */
+    .demo-copy .eyebrow {
+      margin-bottom: 18px !important;
+    }
+
+    .demo-copy p {
+      margin-top: 0 !important;
+    }
+
+
+    /* V24: professional section heading typography */
+    .section-title h2,
+    .home-create-section h2,
+    .home-pricing-title h2,
+    .home-faq-title h2,
+    .home-reviews-title h2,
+    .tools-title h2,
+    .demo-copy h2 {
+      font-weight: 700 !important;
+      letter-spacing: -0.035em !important;
+      color: #111827 !important;
+    }
+
+    .section-title h2,
+    .home-pricing-title h2,
+    .home-faq-title h2,
+    .home-reviews-title h2,
+    .tools-title h2 {
+      font-size: clamp(34px, 4.4vw, 54px) !important;
+      line-height: 1.08 !important;
+    }
+
+    .home-create-section h2 {
+      font-size: clamp(34px, 4.1vw, 52px) !important;
+      line-height: 1.08 !important;
+    }
+
+    .hero h1 {
+      font-weight: 720 !important;
+      letter-spacing: -0.045em !important;
+    }
+
+
+    /* V25: full-width professional header */
+    .nav {
+      width: 100% !important;
+      max-width: none !important;
+      min-height: 76px !important;
+      margin: 0 !important;
+      padding: 0 22px !important;
+      display: grid !important;
+      grid-template-columns: minmax(260px, 1fr) auto minmax(260px, 1fr) !important;
+      align-items: center !important;
+      gap: 24px !important;
+    }
+
+    .brand {
+      justify-self: start !important;
+    }
+
+    .nav-links {
+      justify-self: center !important;
+    }
+
+    .nav-actions {
+      justify-self: end !important;
+    }
+
+    @media (max-width: 760px) {
+      .nav {
+        padding: 12px 16px !important;
+        grid-template-columns: 1fr auto !important;
+      }
+
+      .nav-links {
+        grid-column: 1 / -1 !important;
+        justify-self: start !important;
+      }
+
+      .nav-actions {
+        justify-self: end !important;
+      }
+    }
+
+
+    /* V27: use uploaded T2T logo */
     .brand-logo-img {
       width: 74px !important;
       height: auto !important;
@@ -761,771 +2078,764 @@
       gap: 14px !important;
     }
 
-    .export-modal-brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid var(--line);
+    @media (max-width: 520px) {
+      .brand-logo-img {
+        width: 62px !important;
+      }
     }
 
-    .export-modal-logo {
-      width: 76px;
-      height: auto;
-      display: block;
+
+    /* V28: larger preview image with centered text below */
+    .demo-panel {
+      grid-template-columns: 1fr !important;
+      gap: 24px !important;
+      padding: 28px !important;
+      max-width: 1240px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
     }
 
-    .export-modal-brand strong {
-      display: block;
-      color: var(--text);
-      font-size: 18px;
-      line-height: 1.1;
-      font-weight: 800;
-      letter-spacing: -0.035em;
+    .demo-card {
+      width: 100% !important;
+      max-width: 1080px !important;
+      margin: 0 auto !important;
+      padding: 16px !important;
     }
 
-    .export-modal-brand span {
-      display: block;
-      margin-top: 3px;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 750;
-      letter-spacing: 0.04em;
+    .t2t-carousel,
+    .t2t-demo-screen {
+      min-height: 505px !important;
+    }
+
+    .demo-copy {
+      max-width: 800px !important;
+      margin: 0 auto !important;
+      text-align: center !important;
+    }
+
+    .demo-copy .eyebrow {
+      justify-content: center !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    .demo-copy p {
+      margin-left: auto !important;
+      margin-right: auto !important;
+      max-width: 760px !important;
+      text-align: center !important;
+    }
+
+    .demo-points {
+      width: fit-content !important;
+      margin: 20px auto 0 !important;
+      justify-items: start !important;
+      text-align: left !important;
+    }
+
+    @media (max-width: 760px) {
+      .t2t-carousel,
+      .t2t-demo-screen {
+        min-height: 320px !important;
+      }
+
+      .demo-panel {
+        padding: 18px !important;
+      }
     }
 
   </style>
-
 </head>
+
 <body>
-  <header>
-    <div class="wrap nav">
+  <header class="site-header">
+    <nav class="nav" aria-label="Main navigation">
       <a class="brand" href="/">
-        <img class="logo brand-logo-img" src="/t2t-logo.png?v=3" alt="Text2Tool logo">
-        <div><strong>Text2Tool AI</strong><span>We build it, you own it</span></div>
+        <img class="brand-mark brand-logo-img" src="/t2t-logo.png?v=3" alt="Text2Tool logo">
+        <span class="brand-copy">
+          <span class="brand-name">Text2Tool AI</span>
+          <span class="brand-tag">We build it, you own it</span>
+        </span>
       </a>
-      <nav class="links">
-        <a href="/">Home</a>
-        <a href="/#pricing">Pricing</a>
-        <a href="/#faq">FAQ</a>
-        <a class="cta" href="/#create-tool">Create Tool</a>
-      </nav>
-    </div>
+
+      <button class="menu-btn" type="button" id="menuBtn">Menu</button>
+
+      <div class="nav-links" id="navLinks">
+        <a class="active" href="/">Home</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+      </div>
+
+      <div class="nav-actions">
+        <button class="logout-btn" type="button" id="logoutBtn" style="display:none;">Logout</button>
+        <a class="nav-cta" href="#create-tool">Create Tool</a>
+      </div>
+    </nav>
   </header>
 
   <main>
-    <div class="wrap">
-      <section class="shell" id="app">
-        <div class="loading">
-          <div class="spinner"></div>
-          <h2>Loading your preview...</h2>
-          <p>Please wait while we open your tool preview.</p>
-          <p id="loadingNote" style="color:#7b8797;font-size:13px;margin-top:16px;"></p>
-        </div>
-      </section>
-      <footer>Built for startups, agencies, virtual assistants and growing businesses. Text2Tool AI © 2026.</footer>
-    </div>
-  </main>
+    <section class="hero">
+<h1>Turn Text Into <span>Ready-Made Google Sheets</span></h1>
 
-  <script>
-    window.onerror = function(message, source, lineno, colno, error) {
-      showError('Page script error: ' + message + ' at line ' + lineno);
-      return true;
-    };
+      <div class="hero-checklist" aria-label="What Text2Tool adds">
+        <div class="hero-checkitem"><span class="tick">✓</span><span>Formulas added in relevant cells</span></div>
+        <div class="hero-checkitem"><span class="tick">✓</span><span>Cells protected</span></div>
+        <div class="hero-checkitem"><span class="tick">✓</span><span>Conditional formatting added</span></div>
+        <div class="hero-checkitem"><span class="tick">✓</span><span>Analytics dashboards &amp; settings created</span></div>
+      </div>
 
-    window.onunhandledrejection = function(event) {
-      const msg = event && event.reason && event.reason.message ? event.reason.message : 'Unknown loading error.';
-      showError('Preview loading error: ' + msg);
-    };
+      <p class="hero-example">Example: Create an attendance tracker.</p>
 
-    const SUPABASE_URL = 'https://wldldtmtxmmlufcmubnr.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_R63WYwDu58UPHLJkb2eXPQ_4qUQS5PX';
-    const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+</section>
 
-    const app = document.getElementById('app');
-    const params = new URLSearchParams(window.location.search);
-    const previewId = params.get('id') || '';
-    const token = params.get('token') || '';
-    let exportPreviewId = previewId;
-    let exportPreviewToken = token;
-    let savedChangeRequest = '';
+    <section>
+      <div class="demo-panel">
+        <div class="demo-card">
+          <div class="browser-bar" aria-hidden="true"><span></span><span></span><span></span></div>
 
-    let preview = null;
-    let questions = [];
-    let qIndex = 0;
-    let answers = {};
-    let storageKey = '';
-    let saveTimer = null;
+          <div class="t2t-carousel" aria-label="Finished Google Sheet screenshots">
+            <button class="t2t-demo-nav t2t-demo-prev" type="button" aria-label="Previous screenshot">‹</button>
 
-    setTimeout(() => {
-      const note = document.getElementById('loadingNote');
-      if (note) note.textContent = 'Still loading. If this stays here, the page will show the exact error shortly.';
-    }, 4000);
+            <div class="t2t-demo-screen">
+              <img class="t2t-demo-slide is-active" src="/assets/sheet-preview-1.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-1.png';" alt="Google Sheet attendance tracker main tab screenshot">
+              <img class="t2t-demo-slide" src="/assets/sheet-preview-2.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-2.png';" alt="Google Sheet dashboard summary screenshot">
+              <img class="t2t-demo-slide" src="/assets/sheet-preview-3.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-3.png';" alt="Google Sheet dashboard charts screenshot">
+              <img class="t2t-demo-slide" src="/assets/sheet-preview-4.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-4.png';" alt="Google Sheet advanced analytics screenshot">
+              <img class="t2t-demo-slide" src="/assets/sheet-preview-5.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-5.png';" alt="Google Sheet auto bot repair popup screenshot">
+              <img class="t2t-demo-slide" src="/assets/sheet-preview-6.png" onerror="this.onerror=null;this.src='/assets/assetssheet-preview-6.png';" alt="Google Sheet settings and auto bot menu screenshot">
+            </div>
 
-    init();
+            <button class="t2t-demo-nav t2t-demo-next" type="button" aria-label="Next screenshot">›</button>
 
-    async function init() {
-      if (!previewId || !token) {
-        showError('Preview link is missing or incomplete.');
-        return;
-      }
-
-      try {
-        preview = await fetchPreview();
-        questions = [];
-        storageKey = 't2t_preview_answers_' + previewId;
-        answers = readSavedAnswers();
-        renderPreview();
-      } catch (error) {
-        showError(error.message || 'Could not load preview.');
-      }
-    }
-
-    async function fetchPreview() {
-      const endpoint = SUPABASE_URL + '/rest/v1/rpc/get_public_tool_preview';
-
-      const response = await withTimeout(fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          apikey: SUPABASE_KEY,
-          Authorization: 'Bearer ' + SUPABASE_KEY,
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          p_preview_id: previewId,
-          p_preview_token: token
-        })
-      }), 15000, 'Preview request timed out.');
-
-      const text = await response.text();
-
-      if (!response.ok) {
-        throw new Error('Preview could not be loaded. Please refresh or create a new preview.');
-      }
-
-      const rows = JSON.parse(text);
-      if (!Array.isArray(rows) || !rows.length) {
-        throw new Error('Preview not found or expired.');
-      }
-
-      return rows[0];
-    }
-
-    function renderPreview() {
-      const title = preview.preview_title || 'Your tool preview is ready.';
-      const summary = preview.preview_summary || 'Review your tool preview before creating the final tool.';
-      const warning = preview.preview_warning || '';
-      const complexity = preview.complexity || 'simple';
-
-      app.innerHTML = `
-        <div class="hero">
-          <div class="topline">
-            <div class="badge">✅ Preview Ready</div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;">
-              <div class="pill">Complexity: ${escapeHtml(capitalize(complexity))}</div>
-              <div class="pill">1 Tool Kit = 1 delivery</div>
+            <div class="t2t-demo-dots" aria-label="Screenshot controls">
+              <button class="t2t-demo-dot is-active" type="button" aria-label="Show screenshot 1"></button>
+              <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 2"></button>
+              <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 3"></button>
+              <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 4"></button>
+              <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 5"></button>
+              <button class="t2t-demo-dot" type="button" aria-label="Show screenshot 6"></button>
             </div>
           </div>
-          <h1>${escapeHtml(title)}</h1>
-          <p class="summary">${escapeHtml(summary)}</p>
-          ${warning ? `<div class="warning">${escapeHtml(warning)}</div>` : ''}
-          <p class="compact-note" style="margin-top:14px;">No Tool Kit is used on this preview page. 1 Tool Kit is used when you click Done — Export.</p>
         </div>
 
-        <div class="grid">
-          <section class="card full">
-            <h2>Preview <span class="info-icon" title="This is a simple preview of what your finished Google Sheet will include.">i</span></h2>
-            <p class="compact-note">This is a high-level preview. The final Google Sheet may include extra formulas, dropdowns, dashboards, settings, and repair buttons created during export.</p>
-            ${renderStructure(preview.preview_structure)}
-          </section>
+        <div class="demo-copy">
+          <div class="eyebrow">End Result Preview</div>
+          <p>Text2Tool creates your tools for you with a simple prompt and exports them to Google Sheets so you can share with your team.</p>
 
-          <section class="card full">
-            <h2>Tool Features <span class="info-icon" title="These are the helpful parts Text2Tool plans to include automatically in the finished tool.">i</span></h2>
-            ${renderList(preview.preview_fields, 'Standard Google Sheet features will be added during export.')}
-          </section>
-
-          <section class="card change-card full" id="changeCard">
-            <h2>Request Changes <span class="info-icon" title="Use this only when the final tool really needs changes.">i</span></h2>
-            <p>Need edits? Tell Text2Tool what to add, remove, or change before the final tool is created.</p>
-            <div class="change-warning">Only use this if absolutely necessary. You can make changes or edit later in Google Sheets. Adding too many changes can cause AI to hallucinate.</div>
-            <textarea id="changeRequestBox" placeholder="Example: Add supplier tracking, include payment status, simplify the dashboard, or change the monthly summary."></textarea>
-            <div class="change-message" id="changeMessage"></div>
-            <p class="change-note">Your saved changes will be used for the final tool, but they may not be shown in the preview above.</p>
-          </section>
-
-          <section class="card full bottom-actions-card" id="finishCard">
-            <h2>Final Actions <span class="info-icon" title="Create the finished Google Sheet only when this preview looks right.">i</span></h2>
-            <p>When ready, click Done — Export. AI will build your Google Sheet in the background and deliver it by email in 5–7 minutes.</p>
-            <div class="actions">
-              <button class="btn" type="button" id="requestChangesBtn">Save Changes</button>
-              <button class="btn btn-primary" type="button" id="createFinalToolBtn">Done — Export</button>
-            </div>
-            <div class="change-message" id="finalToolMessage"></div>
-            <p class="change-note">After export starts, 1 Tool Kit is used. Open the shared Google Sheet email and click File &gt; Make a copy to own and edit it.</p>
-          </section>
+          <div class="demo-points">
+            <div><b>1</b> Multiple Tabs</div>
+            <div><b>2</b> Dashboards and Analytics</div>
+            <div><b>3</b> Built-In Formulas &amp; Settings</div>
+          </div>
         </div>
-      `;
+      </div>
+</section>
 
-      setupChangeRequest();
-      setupCreateFinalTool();
-    }
+<section class="way-section">
+<div class="compare-grid">
+        <article class="way-card old">
+          <div class="way-head">
+            <div class="way-icon">⌛</div>
+            <h3>The Old Way</h3>
+          </div>
 
-
-    function setupCreateFinalTool() {
-      const btn = document.getElementById('createFinalToolBtn');
-      const msg = document.getElementById('finalToolMessage');
-      if (!btn || !msg) return;
-
-      btn.addEventListener('click', async () => {
-        saveCurrentAnswer();
-
-        msg.className = 'change-message';
-        msg.textContent = '';
-
-        if (!supabaseClient) {
-          msg.className = 'change-message error';
-          msg.textContent = 'Could not load the delivery system. Please refresh the page and try again.';
-          return;
-        }
-
-        btn.disabled = true;
-        btn.textContent = 'Starting export...';
-        msg.className = 'change-message success';
-        msg.textContent = 'Starting export. 1 Tool Kit will be used and your Google Sheet will be emailed in 5–7 minutes.';
-
-        try {
-          const sessionResult = await supabaseClient.auth.getSession().catch(() => ({ data: null }));
-          const session = sessionResult?.data?.session;
-          if (!session?.access_token) {
-            throw new Error('Please sign in first to create your final tool.');
-          }
-
-          const rpcResult = await withTimeout(
-            supabaseClient.rpc('create_final_tool_delivery_request', {
-              p_preview_id: exportPreviewId,
-              p_preview_token: exportPreviewToken,
-              p_followup_answers: buildFollowupAnswersObject()
-            }),
-            45000,
-            'Final tool request timed out. Please try again.'
-          );
-
-          if (rpcResult.error) {
-            throw new Error(rpcResult.error.message || 'Could not save final tool request.');
-          }
-
-          const data = rpcResult.data || {};
-          if (!data.success) {
-            throw new Error(data.message || 'Could not save final tool request.');
-          }
-
-          triggerFinalToolBuildInBackground(data.delivery_id, data.delivery_token, session.access_token);
-
-          msg.className = 'change-message success';
-          msg.textContent = 'Delivery = Email in 5–7 minutes';
-          btn.textContent = 'Export Started';
-          showExportStartedDialog();
-        } catch (error) {
-          msg.className = 'change-message error';
-          msg.textContent = error?.message || 'Could not save final tool request. Please try again.';
-          btn.disabled = false;
-          btn.textContent = 'Done — Export';
-        }
-      });
-    }
-
-    function triggerFinalToolBuildInBackground(deliveryId, deliveryToken, accessToken) {
-      if (!deliveryId || !deliveryToken) return;
-
-      try {
-        fetch(SUPABASE_URL + '/functions/v1/process-tool-request', {
-          method: 'POST',
-          headers: {
-            apikey: SUPABASE_KEY,
-            Authorization: 'Bearer ' + (accessToken || SUPABASE_KEY),
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            action: 'build_final_tool',
-            delivery_id: deliveryId,
-            delivery_token: deliveryToken
-          }),
-          keepalive: true
-        }).then(response => {
-          if (!response.ok) console.warn('Final tool background build request returned status:', response.status);
-        }).catch(error => {
-          console.warn('Final tool background build request failed:', error);
-        });
-      } catch (error) {
-        console.warn('Could not start final tool background build:', error);
-      }
-    }
-
-    function showExportStartedDialog() {
-      let modal = document.getElementById('exportStartedModal');
-      if (!modal) {
-        modal = document.createElement('div');
-        modal.id = 'exportStartedModal';
-        modal.className = 'export-modal-overlay';
-        modal.setAttribute('role', 'dialog');
-        modal.setAttribute('aria-modal', 'true');
-        modal.innerHTML = `
-          <div class="export-modal-box">
-            <div class="export-modal-brand">
-              <img class="export-modal-logo" src="/t2t-logo.png?v=3" alt="Text2Tool logo">
-              <div>
-                <strong>Text2Tool AI</strong>
-                <span>We build it, you own it</span>
+          <div class="way-list">
+            <div class="way-row">
+              <div class="row-icon">•</div>
+              <div class="row-copy">
+                <strong>Spend hours fixing formulas created by AI</strong>
               </div>
             </div>
-            <p class="export-modal-text">Delivery = Email in 5–7 minutes</p>
-            <p class="export-modal-text">Once delivered</p>
-            <div class="export-modal-note">Click &gt; File &gt; Make a copy to own it</div>
-            <div class="export-modal-actions">
-              <button class="btn btn-primary" type="button" id="exportModalOkBtn">OK</button>
+
+            <div class="way-row">
+              <div class="row-icon">•</div>
+              <div class="row-copy">
+                <strong>Manual sheets slow down client work</strong>
+              </div>
             </div>
           </div>
-        `;
-        document.body.appendChild(modal);
-        const okBtn = document.getElementById('exportModalOkBtn');
-        if (okBtn) okBtn.addEventListener('click', () => modal.classList.remove('show'));
+
+          <div class="way-quote">More work. Less pay.</div>
+        </article>
+
+        <article class="way-card new">
+          <div class="way-head">
+            <div class="way-icon">⚡</div>
+            <h3>The Gold Way</h3>
+          </div>
+
+          <div class="way-list">
+            <div class="way-row">
+              <div class="row-icon">✓</div>
+              <div class="row-copy">
+                <strong>One prompt, everything done</strong>
+              </div>
+            </div>
+
+            <div class="way-row">
+              <div class="row-icon">✓</div>
+              <div class="row-copy">
+                <strong>Use saved time to do more work</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="way-quote">Less work. More money.</div>
+        </article>
+      </div>
+    </section>
+
+
+
+    <section>
+      <div class="section-title">
+        <h2>Popular Tools Users Request</h2>
+      </div>
+
+      <div class="tool-grid">
+        <div class="tool-chip">Invoice Generator</div>
+        <div class="tool-chip">Attendance Tracker</div>
+        <div class="tool-chip">Inventory Tracker</div>
+        <div class="tool-chip">Profit & Loss Tracker</div>
+        <div class="tool-chip">Lead Tracker</div>
+        <div class="tool-chip">Commission Calculator</div>
+        <div class="tool-chip">Payroll Calculator</div>
+        <div class="tool-chip">KPI Dashboard</div>
+        <div class="tool-chip">Financial Statement Generator</div>
+      </div>
+    </section>
+
+    <section class="home-pricing-section" id="pricing">
+      <div class="section-title">
+        <h2>Simple Tool Kit Pricing</h2>
+        <div class="pricing-rule">1 Tool Kit = 1 Google Sheet</div>
+      </div>
+
+      <div class="home-pricing-grid" aria-label="Text2Tool pricing cards">
+        <article class="home-price-card">
+          <div class="home-price-tag">Free</div>
+          <h3>Free Preview</h3>
+          <div class="home-price">$0</div>
+          <div class="home-tool-kits">1 Free Preview</div>
+          <p>Preview your idea before buying a Tool Kit.</p>
+          <div class="home-save-box">Free preview only</div>
+          <ul>
+            <li>Create a preview</li>
+            <li>See planned sections</li>
+            <li>No payment required</li>
+          </ul>
+          <a class="btn btn-secondary" href="#create-tool">Create Tool</a>
+        </article>
+
+        <article class="home-price-card">
+          <div class="home-price-tag">Tester</div>
+          <h3>Tester Pack</h3>
+          <div class="home-price">$1</div>
+          <div class="home-tool-kits">1 Tool Kit</div>
+          <p>Best for testing one small Google Sheet tool.</p>
+          <div class="home-save-box">0% savings</div>
+          <ul>
+            <li>1 Tool Kit included</li>
+            <li>Preview saved for 30 days</li>
+            <li>Simple pay-as-you-go</li>
+          </ul>
+          <a class="btn btn-secondary" href="#create-tool">Create Tool</a>
+        </article>
+
+        <article class="home-price-card featured">
+          <div class="home-price-tag">Most popular</div>
+          <h3>Freelance VA Pack</h3>
+          <div class="home-price">$10</div>
+          <div class="home-tool-kits">11 Tool Kits</div>
+          <p>Best for freelancers and VAs doing repeat sheet work.</p>
+          <div class="home-save-box">9% savings</div>
+          <ul>
+            <li>11 Tool Kits included</li>
+            <li>1 bonus Tool Kit</li>
+            <li>Built for regular use</li>
+          </ul>
+          <a class="btn btn-primary" href="#create-tool">Create Tool</a>
+        </article>
+
+        <article class="home-price-card">
+          <div class="home-price-tag">Agency</div>
+          <h3>Agency Pack</h3>
+          <div class="home-price">$50</div>
+          <div class="home-tool-kits">55 Tool Kits</div>
+          <p>Best for agencies and repeat admin/reporting work.</p>
+          <div class="home-save-box">Approx. 10% savings</div>
+          <ul>
+            <li>55 Tool Kits included</li>
+            <li>5 bonus Tool Kits</li>
+            <li>Strong agency value</li>
+          </ul>
+          <a class="btn btn-secondary" href="#create-tool">Create Tool</a>
+        </article>
+      </div>
+    </section>
+
+
+
+    <section class="reviews-section">
+      <div class="section-title">
+        <h2>What Users Say</h2>
+      </div>
+
+      <div class="reviews-grid">
+        <article class="review-card">
+          <div class="review-avatar">SM</div>
+          <p>“Before, I was stuck building a few trackers manually. Now I can turn client requests into clean Google Sheet tools much faster, take more jobs, and keep moving to the next order.”</p>
+          <div class="review-person">Sarah M.</div>
+          <div class="review-role">Freelance VA</div>
+        </article>
+
+        <article class="review-card">
+          <div class="review-avatar">DR</div>
+          <p>“When I apply for spreadsheet jobs, I build a quick demo first and send screenshots with my proposal. Clients notice the fast response and it helps me look more prepared than other freelancers.”</p>
+          <div class="review-person">Daniel R.</div>
+          <div class="review-role">Freelancer</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="home-create-section" id="create-tool">
+      <div class="section-title">
+        <h2>Create Your Tool</h2>
+        <p>Keep the prompt short, clear, and simple.</p>
+      </div>
+
+      <div class="home-create-card">
+        <div class="home-create-top">
+          <div>
+            <h3>Enter your prompt</h3>
+            <p>Example: Create a profit loss tracker.</p>
+          </div>
+
+          <div class="home-create-status">
+            <span id="homeSignedInText">Checking login...</span>
+            <span id="homePreviewText">Previews: Checking...</span>
+            <span id="homeCreditText">Tool Kits: Checking...</span>
+          </div>
+        </div>
+
+        <div class="home-examples">
+          <button type="button" data-home-example="Create an attendance tracker.">Attendance tracker</button>
+          <button type="button" data-home-example="Create a profit loss tracker.">Profit loss tracker</button>
+          <button type="button" data-home-example="Create an invoice generator.">Invoice generator</button>
+          <button type="button" data-home-example="Create an inventory tracker.">Inventory tracker</button>
+        </div>
+
+        <form id="homeToolForm" class="home-tool-form">
+          <label for="homePrompt">Your tool request</label>
+
+          <textarea
+            id="homePrompt"
+            maxlength="50"
+            placeholder="Example: Create an attendance tracker."
+            required
+          ></textarea>
+
+          <div class="home-prompt-meta">
+            <span>Limit: 50 characters. One clear tool request only.</span>
+            <span id="homeCharCounter">0 / 50</span>
+          </div>
+
+          <div id="homeLinkError" class="home-form-error">Links are not allowed. Please type one short tool request only.</div>
+
+          <div class="home-form-actions">
+            <button class="btn btn-secondary" id="homeExampleBtn" type="button">Use Example</button>
+            <button class="btn btn-primary" id="homeSubmitBtn" type="submit">Submit Tool Request</button>
+          </div>
+
+          <div id="homeFormMessage" class="home-form-message"></div>
+        </form>
+      </div>
+    </section>
+
+
+
+    <section class="home-faq-section" id="faq">
+      <div class="home-faq-wrap">
+        <h2 class="home-faq-title"><span>📝</span> Frequently Asked Questions</h2>
+
+        <div class="home-faq-list">
+          <details class="home-faq-card">
+            <summary><span class="faq-icon">?</span><span>What if my tool has an issue?</span><span class="faq-arrow">⌄</span></summary>
+            <div class="home-faq-answer"><p>If it shows errors, that usually means you have not yet added data. Make sure to click File &gt; Make a copy to own it and get full features. Reach out to live chat support if the above does not help. If you are reaching out during off-duty hours, please email ai@text2tool.com and a ticket will be created. Someone will get back to you within 12 hours or less.</p></div>
+          </details>
+
+          <details class="home-faq-card">
+            <summary><span class="faq-icon">✎</span><span>How should I write my prompt?</span><span class="faq-arrow">⌄</span></summary>
+            <div class="home-faq-answer"><p>Keep it short, clear, and simple. Example: “Create me a profit loss tracker for my Shopify business.”</p></div>
+          </details>
+
+          <details class="home-faq-card">
+            <summary><span class="faq-icon">⚡</span><span>Do I need to explain formulas and tabs?</span><span class="faq-arrow">⌄</span></summary>
+            <div class="home-faq-answer"><p>No. Text2Tool is designed to create the best structure from simple prompts. You can add details only when they are truly important.</p></div>
+          </details>
+
+          <details class="home-faq-card">
+            <summary><span class="faq-icon">✉</span><span>How will I receive my tool?</span><span class="faq-arrow">⌄</span></summary>
+            <div class="home-faq-answer"><p>Your tool is exported to Google Sheets and sent to you via email in 5–7 minutes. Make sure to click File &gt; Make a copy before using it so you get ownership.</p></div>
+          </details>
+
+          <details class="home-faq-card">
+            <summary><span class="faq-icon">✓</span><span>Do I own the Google Sheet after delivery?</span><span class="faq-arrow">⌄</span></summary>
+            <div class="home-faq-answer"><p>Yes. Click File → Make a copy to save the tool inside your own Google Drive and use it under your own Google account.</p></div>
+          </details>
+
+          <details class="home-faq-card">
+            <summary><span class="faq-icon">⚙</span><span>Can I edit the tool after making a copy?</span><span class="faq-arrow">⌄</span></summary>
+            <div class="home-faq-answer"><p>Yes. First open the delivered Google Sheet, then click File &gt; Make a copy. After the copy is saved in your own Google Drive, you can edit and customize the tool according to your needs.</p></div>
+          </details>
+<details class="home-faq-card">
+            <summary><span class="faq-icon">▦</span><span>What kinds of tools can I request?</span><span class="faq-arrow">⌄</span></summary>
+            <div class="home-faq-answer"><p>You can request invoice generators, attendance trackers, inventory trackers, lead trackers, commission calculators, payroll calculators, KPI dashboards, profit and loss trackers, and similar Google Sheet tools.</p></div>
+          </details>
+
+          <details class="home-faq-card">
+            <summary><span class="faq-icon">$</span><span>What are Tool Kits?</span><span class="faq-arrow">⌄</span></summary>
+            <div class="home-faq-answer"><p>Tool Kits are used when you are ready to generate the final working Google Sheets tool after previewing the idea.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    Built for freelancers, VAs, agencies and growing businesses. Text2Tool AI © 2026.
+  </footer>
+
+  <script>
+    const SUPABASE_URL = "https://wldldtmtxmmlufcmubnr.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_R63WYwDu58UPHLJkb2eXPQ_4qUQS5PX";
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const menuBtn = document.getElementById("menuBtn");
+    const navLinks = document.getElementById("navLinks");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    menuBtn?.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
+    });
+
+    async function checkHeaderLogin() {
+      const { data } = await supabaseClient.auth.getSession();
+
+      if (data?.session) {
+        logoutBtn.style.display = "inline-flex";
       }
-      modal.classList.add('show');
     }
 
-    function buildFollowupAnswersObject() {
-      const result = {};
-      questions.forEach((question, index) => {
-        result[String(index + 1)] = {
-          question: String(question || ''),
-          answer: String(answers[index] || '').trim()
-        };
+    logoutBtn?.addEventListener("click", async () => {
+      await supabaseClient.auth.signOut();
+      window.location.href = "/";
+    });
+
+    checkHeaderLogin();
+
+    const demoSlides = Array.from(document.querySelectorAll(".t2t-demo-slide"));
+    const demoDots = Array.from(document.querySelectorAll(".t2t-demo-dot"));
+    const demoPrev = document.querySelector(".t2t-demo-prev");
+    const demoNext = document.querySelector(".t2t-demo-next");
+    let demoIndex = 0;
+    let demoTimer = null;
+
+    function showDemoSlide(index) {
+      if (!demoSlides.length) return;
+
+      demoIndex = (index + demoSlides.length) % demoSlides.length;
+
+      demoSlides.forEach((slide, i) => {
+        slide.classList.toggle("is-active", i === demoIndex);
       });
-      return result;
+
+      demoDots.forEach((dot, i) => {
+        dot.classList.toggle("is-active", i === demoIndex);
+      });
     }
 
-    function setupChangeRequest() {
-      const box = document.getElementById('changeRequestBox');
-      const btn = document.getElementById('requestChangesBtn');
-      const msg = document.getElementById('changeMessage');
-      if (!box || !btn || !msg) return;
+    function nextDemoSlide() {
+      showDemoSlide(demoIndex + 1);
+    }
 
-      btn.addEventListener('click', async () => {
-        const changeText = String(box.value || '').trim();
+    function restartDemoTimer() {
+      if (demoTimer) {
+        clearInterval(demoTimer);
+      }
 
-        msg.className = 'change-message';
-        msg.textContent = '';
+      demoTimer = setInterval(nextDemoSlide, 3000);
+    }
 
-        if (!changeText) {
-          msg.className = 'change-message error';
-          msg.textContent = 'Please type the changes you want first.';
+    demoPrev?.addEventListener("click", (event) => {
+      event.stopPropagation();
+      showDemoSlide(demoIndex - 1);
+      restartDemoTimer();
+    });
+
+    demoNext?.addEventListener("click", (event) => {
+      event.stopPropagation();
+      showDemoSlide(demoIndex + 1);
+      restartDemoTimer();
+    });
+
+    demoDots.forEach((dot, index) => {
+      dot.addEventListener("click", (event) => {
+        event.stopPropagation();
+        showDemoSlide(index);
+        restartDemoTimer();
+      });
+    });
+
+    restartDemoTimer();
+  </script>
+
+
+  <script>
+    (function () {
+      const HOME_SUPABASE_URL = "https://wldldtmtxmmlufcmubnr.supabase.co";
+      const HOME_SUPABASE_ANON_KEY = "sb_publishable_R63WYwDu58UPHLJkb2eXPQ_4qUQS5PX";
+      const homeSupabaseClient = supabase.createClient(HOME_SUPABASE_URL, HOME_SUPABASE_ANON_KEY);
+
+      const form = document.getElementById("homeToolForm");
+      const promptInput = document.getElementById("homePrompt");
+      const charCounter = document.getElementById("homeCharCounter");
+      const linkError = document.getElementById("homeLinkError");
+      const submitBtn = document.getElementById("homeSubmitBtn");
+      const exampleBtn = document.getElementById("homeExampleBtn");
+      const message = document.getElementById("homeFormMessage");
+      const signedInText = document.getElementById("homeSignedInText");
+      const previewText = document.getElementById("homePreviewText");
+      const creditText = document.getElementById("homeCreditText");
+
+      const PROMPT_LIMIT = 50;
+      const MULTIPLE_TOOLS_MESSAGE = "Multiple tools detected. Please request one tool at a time.";
+
+      let currentUser = null;
+      let canCreatePreview = true;
+      let toolCreditBalance = 0;
+
+      function showHomeMessage(text, type = "") {
+        if (!message) return;
+        message.textContent = text;
+        message.className = "home-form-message show" + (type ? " " + type : "");
+      }
+
+      function clearHomeMessage() {
+        if (!message) return;
+        message.textContent = "";
+        message.className = "home-form-message";
+      }
+
+      function promptHasDisallowedLink(text) {
+        const value = String(text || "");
+        const explicitLink = /https?:\/\/|www\./i.test(value);
+        const domainLike = /(^|[^A-Za-z0-9@._-])([A-Za-z0-9-]+\.)+[A-Za-z]{2,}([/?#:]|$|[^A-Za-z0-9._-])/i.test(value);
+        return explicitLink || domainLike;
+      }
+
+      function detectMultipleTools(text) {
+        const value = " " + String(text || "").toLowerCase().replace(/[^a-z0-9]+/g, " ") + " ";
+        const groups = [
+          [" invoice ", " invoicing ", " billing "],
+          [" attendance ", " timesheet ", " employee hours "],
+          [" payroll ", " payslip ", " salary "],
+          [" inventory ", " stock ", " warehouse "],
+          [" crm ", " lead tracker ", " sales pipeline "],
+          [" project tracker ", " task tracker ", " kanban "],
+          [" profit loss ", " profit and loss ", " income expense "],
+          [" support ticket ", " helpdesk "],
+          [" booking ", " appointment ", " reservation "]
+        ];
+
+        let hits = 0;
+
+        for (const group of groups) {
+          if (group.some((word) => value.includes(word))) hits++;
+        }
+
+        return hits >= 2;
+      }
+
+      function setHomeBusy(isBusy) {
+        if (!submitBtn) return;
+        submitBtn.disabled = isBusy || promptHasDisallowedLink(promptInput.value);
+        exampleBtn.disabled = isBusy;
+        submitBtn.textContent = isBusy ? "Preparing Preview..." : "Submit Tool Request";
+      }
+
+      function updateHomeCounter() {
+        const length = promptInput.value.length;
+        charCounter.textContent = length + " / " + PROMPT_LIMIT;
+
+        const hasLink = promptHasDisallowedLink(promptInput.value);
+        linkError.classList.toggle("show", hasLink);
+        submitBtn.disabled = hasLink;
+      }
+
+
+      function scrollToCreateToolAfterLogin() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("continue") !== "create-tool") return;
+
+        const target = document.getElementById("create-tool");
+        if (!target) return;
+
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+          window.history.replaceState(null, "", window.location.origin + window.location.pathname + "#create-tool");
+        }, 450);
+      }
+
+      async function loadHomeStatus() {
+        const { data } = await homeSupabaseClient.auth.getSession();
+        currentUser = data?.session?.user || null;
+
+        if (!currentUser) {
+          signedInText.textContent = "Sign in required";
+          previewText.textContent = "Previews: Sign in";
+          creditText.textContent = "Tool Kits: Sign in";
           return;
         }
 
-        if (changeText.length > 4000) {
-          msg.className = 'change-message error';
-          msg.textContent = 'Please keep your change request under 4,000 characters.';
-          return;
-        }
-
-        if (/(https?:\/\/|www\.|(^|[^A-Za-z0-9@._-])([A-Za-z0-9-]+\.)+[A-Za-z]{2,}([\/?#:]|$|[^A-Za-z0-9._-]))/i.test(changeText)) {
-          msg.className = 'change-message error';
-          msg.textContent = 'Links are not allowed here. Please remove website links/domains.';
-          return;
-        }
-
-        if (!supabaseClient) {
-          msg.className = 'change-message error';
-          msg.textContent = 'Could not load the update system. Please refresh the page and try again.';
-          return;
-        }
-
-        btn.disabled = true;
-        btn.textContent = 'Saving changes...';
-        msg.className = 'change-message success';
-        msg.textContent = 'Saving your changes for the final tool. Please wait...';
+        signedInText.textContent = "Signed in as " + (currentUser.email || "your account");
 
         try {
-          const data = await callProcessToolRequest({
-            action: 'request_changes',
-            preview_id: previewId,
-            preview_token: token,
-            change_request: changeText
+          const { data: creditData } = await homeSupabaseClient.rpc("get_my_tool_credit_balance");
+          toolCreditBalance = Number(creditData || 0);
+          creditText.textContent = "Tool Kits: " + toolCreditBalance;
+        } catch (error) {
+          creditText.textContent = "Tool Kits: —";
+        }
+
+        try {
+          const { data: previewStatus } = await homeSupabaseClient.rpc("get_my_preview_status");
+          canCreatePreview = Boolean(previewStatus?.can_create_preview);
+
+          if (previewStatus?.mode === "paid") {
+            previewText.textContent = "Previews: " + Number(previewStatus.paid_remaining || 0) + " left";
+          } else {
+            previewText.textContent = "Previews: " + Number(previewStatus?.free_remaining || 0) + " left";
+          }
+        } catch (error) {
+          canCreatePreview = true;
+          previewText.textContent = "Previews: Ready";
+        }
+      }
+
+      exampleBtn?.addEventListener("click", () => {
+        promptInput.value = "Create a profit loss tracker.";
+        updateHomeCounter();
+        promptInput.focus();
+      });
+
+      document.querySelectorAll("[data-home-example]").forEach((button) => {
+        button.addEventListener("click", () => {
+          promptInput.value = button.getAttribute("data-home-example") || "";
+          updateHomeCounter();
+          promptInput.focus();
+        });
+      });
+
+      promptInput?.addEventListener("input", updateHomeCounter);
+
+      form?.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        clearHomeMessage();
+
+        const prompt = promptInput.value.trim();
+
+        if (!prompt) {
+          showHomeMessage("Please describe the Google Sheet tool you want.", "error");
+          return;
+        }
+
+        if (prompt.length > PROMPT_LIMIT) {
+          showHomeMessage("Keep it short and simple. Maximum " + PROMPT_LIMIT + " characters.", "error");
+          return;
+        }
+
+        if (promptHasDisallowedLink(prompt)) {
+          showHomeMessage("Links are not allowed. Please type one short tool request only.", "error");
+          return;
+        }
+
+        if (detectMultipleTools(prompt)) {
+          showHomeMessage(MULTIPLE_TOOLS_MESSAGE, "error");
+          return;
+        }
+
+        await loadHomeStatus();
+
+        if (!currentUser) {
+          showHomeMessage("Please sign in with Google first. You will return to this form after login.", "success");
+          await homeSupabaseClient.auth.signInWithOAuth({
+            provider: "google",
+            options: {
+              redirectTo: window.location.origin + "/?continue=create-tool"
+            }
+          });
+          return;
+        }
+
+        if (!canCreatePreview && toolCreditBalance <= 0) {
+          showHomeMessage("Preview limit reached. Please choose a Tool Kit to continue.", "error");
+          return;
+        }
+
+        setHomeBusy(true);
+        showHomeMessage("Request received. Preparing your preview...", "success");
+
+        try {
+          const { data: requestRow, error: insertError } = await homeSupabaseClient
+            .from("tool_requests")
+            .insert({
+              user_id: currentUser.id,
+              email: currentUser.email,
+              prompt: prompt,
+              status: "submitted",
+              source_links: [],
+              upload_context: null
+            })
+            .select("id")
+            .single();
+
+          if (insertError) {
+            const err = insertError.message || "Could not save your request.";
+            if (err.toLowerCase().includes("multiple tools")) throw new Error(MULTIPLE_TOOLS_MESSAGE);
+            if (err.toLowerCase().includes("free preview") || err.toLowerCase().includes("preview limit")) throw new Error("Preview limit reached. Please choose a Tool Kit to continue.");
+            throw new Error(err);
+          }
+
+          const { data: functionData, error: functionError } = await homeSupabaseClient.functions.invoke("process-tool-request", {
+            body: { request_id: requestRow.id }
           });
 
-          if (!data || !data.success) throw new Error(data?.error || 'Could not save changes.');
+          if (functionError) throw new Error(functionError.message || "Preview generation failed.");
+          if (!functionData || functionData.success === false) throw new Error(functionData?.error || "Preview generation failed.");
 
-          if (data.preview_id && data.preview_token) {
-            exportPreviewId = data.preview_id;
-            exportPreviewToken = data.preview_token;
+          if (!functionData.preview_id || !functionData.preview_token) {
+            throw new Error("Preview was prepared, but the preview link was not returned. Please try again.");
           }
-          savedChangeRequest = changeText;
 
-          msg.className = 'change-message success';
-          msg.textContent = 'Changes saved for the final tool. They may not be shown in the preview above, but they will be used when you click Done — Export.';
-          btn.disabled = false;
-          btn.textContent = 'Save Changes';
+          showHomeMessage("Preview ready. Redirecting...", "success");
+
+          window.location.href = "/preview/?id=" + encodeURIComponent(functionData.preview_id) + "&token=" + encodeURIComponent(functionData.preview_token) + "&v=created1";
         } catch (error) {
-          msg.className = 'change-message error';
-          msg.textContent = error?.message || 'Could not save changes. Please try again.';
-          btn.disabled = false;
-          btn.textContent = 'Save Changes';
+          console.error(error);
+          showHomeMessage("Something went wrong:\n" + (error.message || "Please try again."), "error");
+          setHomeBusy(false);
+          await loadHomeStatus();
         }
       });
-    }
 
-
-    async function callProcessToolRequest(payload, timeoutMs = 45000, timeoutMessage = 'Preview update timed out. Please try again.') {
-      const sessionResult = await supabaseClient.auth.getSession().catch(() => ({ data: null }));
-      const accessToken = sessionResult?.data?.session?.access_token || SUPABASE_KEY;
-
-      const response = await withTimeout(fetch(SUPABASE_URL + '/functions/v1/process-tool-request', {
-        method: 'POST',
-        headers: {
-          apikey: SUPABASE_KEY,
-          Authorization: 'Bearer ' + accessToken,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      }), timeoutMs, timeoutMessage);
-
-      const text = await response.text();
-      let data = null;
-      try { data = text ? JSON.parse(text) : null; } catch (_) { data = null; }
-
-      if (!response.ok) {
-        throw new Error(data?.error || 'Could not update preview. Please try again.');
-      }
-
-      return data;
-    }
-
-    function renderStructure(value) {
-      const rows = normalizeStructure(value);
-      const usefulRows = rows.filter(row => String(row.tab_name || '').trim());
-
-      // If Supabase/OpenAI sends a complete structure, show it.
-      if (usefulRows.length && usefulRows.some(row => toArray(row.columns).length)) {
-        return renderStructureTable(usefulRows);
-      }
-
-      // Google Sheets mode:
-      // Do not show old HTML-preview placeholders like "To be confirmed".
-      // The final Google Sheet is created by the Apps Script builder, but this preview
-      // should still show the standard sheet tabs clearly before the user builds.
-      return renderStructureTable(getGoogleSheetsPreviewRows());
-    }
-
-    function getGoogleSheetsPreviewRows() {
-      const requestedFields = toArray(preview.preview_fields)
-        .map(field => String(field || '').trim())
-        .filter(Boolean);
-
-      const dataColumns = requestedFields.length
-        ? requestedFields.slice(0, 8)
-        : ['Name / Item', 'Date', 'Status', 'Amount / Hours', 'Category', 'Notes'];
-
-      return [
-        {
-          tab_name: 'Data',
-          purpose: 'Main working tab where users enter and manage records.',
-          columns: dataColumns
-        },
-        {
-          tab_name: 'Dashboard',
-          purpose: 'Simple overview with the most important KPIs and summaries.',
-          columns: ['Total Records', 'Key Totals', 'Status Summary', 'Latest Activity', 'Important KPIs']
-        },
-        {
-          tab_name: 'Visual Analytics',
-          purpose: 'Charts and visual summaries based on the entered data.',
-          columns: ['Charts', 'Graphs', 'Pie Charts', 'Trend Views', 'Visual KPIs']
-        },
-        {
-          tab_name: 'Custom Analytics',
-          purpose: 'User-controlled reporting with date and value filters.',
-          columns: ['From Date', 'To Date', 'Filter By', 'Custom Summary', 'Filtered Results']
-        },
-        {
-          tab_name: 'Settings',
-          purpose: 'Dropdown source lists and editable tool settings.',
-          columns: ['Dropdown Lists', 'Categories', 'Statuses', 'Names / Items', 'Tool Options']
-        },
-        {
-          tab_name: 'Read Me',
-          purpose: 'Short guide explaining how to use the finished Google Sheet.',
-          columns: ['Tabs Guide', 'Button Guide', 'Safe Usage Tips']
-        }
-      ];
-    }
-
-    function renderStructureTable(rows) {
-      return `
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Tab Name</th>
-                <th>Purpose</th>
-                <th>Columns / Sections</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${rows.map(row => {
-                const columns = toArray(row.columns).filter(Boolean);
-                const columnHtml = columns.length
-                  ? columns.map(col => `<span class="col-pill">${escapeHtml(col)}</span>`).join('')
-                  : '<span class="col-pill">Standard Google Sheet section</span>';
-
-                return `
-                  <tr>
-                    <td>${escapeHtml(row.tab_name)}</td>
-                    <td>${escapeHtml(row.purpose || 'Used for this part of the Google Sheet tool.')}</td>
-                    <td><div class="columns">${columnHtml}</div></td>
-                  </tr>
-                `;
-              }).join('')}
-            </tbody>
-          </table>
-        </div>
-      `;
-    }
-
-    function renderButtonsTable() {
-      const rows = getMenuButtons();
-
-      return `
-        <div class="table-wrap" style="margin-top:14px;">
-          <table>
-            <thead>
-              <tr>
-                <th>Button</th>
-                <th>What It Does</th>
-                <th>When To Use It</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${rows.map(row => `
-                <tr>
-                  <td>${escapeHtml(row.name)}</td>
-                  <td>${escapeHtml(row.purpose)}</td>
-                  <td>${escapeHtml(row.when)}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-      `;
-    }
-
-    function getMenuButtons() {
-      const rows = [
-        {
-          name: '🤖 Reset Everything — Keep Data',
-          purpose: 'Rebuilds the layout, default formulas, dropdowns, dashboard, charts, and protections while keeping entered data where possible.',
-          when: 'Use if your team wants to reset the tool layout but keep the entered data.'
-        },
-        {
-          name: '🔧 Fix Formulas Only — Keep Data',
-          purpose: 'Repairs default formula cells without deleting normal working data.',
-          when: 'Use if someone accidentally edits a calculation and wants Auto Bots to fix it.'
-        },
-        {
-          name: '🛡️ Fix Default Formulas — Keep Your Custom Formulas',
-          purpose: 'Fills missing default formulas while preserving custom formulas users added themselves.',
-          when: 'Use when your team added custom formulas and only missing default formulas should be restored.'
-        }
-      ];
-
-      const allText = [
-        preview.preview_title,
-        preview.preview_summary,
-        toArray(preview.preview_fields).join(' '),
-        toArray(preview.preview_sections).join(' ')
-      ].join(' ').toLowerCase();
-
-      if (/invoice|receipt|quote|estimate|pdf|print/.test(allText)) {
-        rows.push({
-          name: '⬇️ Save / Print PDF',
-          purpose: 'Creates a clean PDF version of the selected invoice, quote, report, or document.',
-          when: 'Use when your team wants a clean printable copy.'
-        });
-      }
-
-      if (/email|send|invoice|receipt|report/.test(allText)) {
-        rows.push({
-          name: '✉️ Email PDF',
-          purpose: 'Sends the generated document or report by email when the tool requires it.',
-          when: 'Use when your team wants to send the document directly from the sheet.'
-        });
-      }
-
-      return rows;
-    }
-
-    function renderList(value, emptyText) {
-      const items = toArray(value);
-      if (!items.length) return `<div class="empty">${escapeHtml(emptyText)}</div>`;
-      return `<ul class="list">${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`;
-    }
-
-    function renderQuestions() {
-      const area = document.getElementById('questionsArea');
-      if (!area) return;
-
-      if (!questions.length) {
-        area.innerHTML = '<div class="empty">✅ No follow-up questions were needed for this preview.</div>';
-        return;
-      }
-
-      const q = questions[qIndex] || questions[0];
-      const answeredCount = Object.values(answers).filter(v => String(v || '').trim()).length;
-      const progress = Math.round(((qIndex + 1) / questions.length) * 100);
-      const savedAnswer = answers[qIndex] || '';
-      const completed = answeredCount >= questions.length;
-
-      area.innerHTML = `
-        <div class="question-box">
-          <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;">
-            <div class="pill">Question ${qIndex + 1} of ${questions.length}</div>
-            <div class="badge">${completed ? '✅ Questions completed' : '✅ ' + answeredCount + ' of ' + questions.length + ' saved'}</div>
-          </div>
-          <div class="progress-line"><div class="progress-fill" style="width:${progress}%"></div></div>
-          <div class="q-label">Text2Tool Question</div>
-          <p class="q-text">${escapeHtml(q)}</p>
-          <textarea id="answerBox" placeholder="Type your answer here...">${escapeHtml(savedAnswer)}</textarea>
-          <div class="save-message success" id="answerSavedMsg">${savedAnswer ? '✅ Saved' : 'Answer saves automatically when you type.'}</div>
-          <div class="actions">
-            <button class="btn" type="button" id="prevQuestion">Previous</button>
-            <button class="btn" type="button" id="skipQuestion">Skip for now</button>
-            <button class="btn btn-primary" type="button" id="nextQuestion">${qIndex === questions.length - 1 ? 'Save Answer' : 'Save & Next'}</button>
-            <button class="btn" type="button" id="copyAnswers">Copy answers</button>
-          </div>
-          <p style="color:#a59ab8;font-size:13px;font-weight:800;">${answeredCount} of ${questions.length} answered. Skipping is allowed.</p>
-        </div>
-      `;
-
-      document.getElementById('answerBox').addEventListener('input', () => {
-        saveCurrentAnswer();
-        showSavedMessage();
-      });
-      document.getElementById('prevQuestion').addEventListener('click', () => { saveCurrentAnswer(); qIndex = Math.max(0, qIndex - 1); renderQuestions(); });
-      document.getElementById('skipQuestion').addEventListener('click', () => { saveCurrentAnswer(); qIndex = Math.min(questions.length - 1, qIndex + 1); renderQuestions(); });
-      document.getElementById('nextQuestion').addEventListener('click', () => { saveCurrentAnswer(); showSavedMessage(true); if (qIndex < questions.length - 1) { qIndex++; renderQuestions(); } });
-      document.getElementById('copyAnswers').addEventListener('click', copyAnswers);
-    }
-
-    function showSavedMessage(force) {
-      const msg = document.getElementById('answerSavedMsg');
-      if (!msg) return;
-      msg.className = 'save-message success';
-      msg.textContent = '✅ Saved';
-      clearTimeout(saveTimer);
-      saveTimer = setTimeout(() => {
-        if (!force && msg) msg.textContent = '✅ Saved in this browser';
-      }, 900);
-    }
-
-    function saveCurrentAnswer() {
-      const answerBox = document.getElementById('answerBox');
-      if (!answerBox) return;
-      answers[qIndex] = answerBox.value;
-      localStorage.setItem(storageKey, JSON.stringify(answers));
-    }
-
-    function readSavedAnswers() {
-      try { return JSON.parse(localStorage.getItem(storageKey) || '{}'); } catch (_) { return {}; }
-    }
-
-    function formatAnswers() {
-      return questions.map((question, index) => {
-        const answer = String(answers[index] || '').trim();
-        return `Q${index + 1}: ${question}\nA${index + 1}: ${answer || '[Not answered yet]'}`;
-      }).join('\n\n');
-    }
-
-    async function copyAnswers() {
-      saveCurrentAnswer();
-      try {
-        await navigator.clipboard.writeText(formatAnswers());
-        alert('Answers copied.');
-      } catch (_) {
-        alert(formatAnswers());
-      }
-    }
-
-    function showError(message) {
-      const box = document.getElementById('app');
-      if (!box) return;
-      box.innerHTML = `
-        <div class="error-box">
-          <h2>Preview could not be opened</h2>
-          <p style="color:#c9c2d8;line-height:1.6;max-width:800px;margin:0 auto 18px;">${escapeHtml(message)}</p>
-          <div class="actions" style="justify-content:center;">
-            <a class="btn btn-primary" href="/create-tool/?v=preview-error">Create Tool</a>
-            <a class="btn" href="/">Go Home</a>
-          </div>
-        </div>
-      `;
-    }
-
-    function withTimeout(promise, ms, message) {
-      return Promise.race([
-        promise,
-        new Promise((_, reject) => setTimeout(() => reject(new Error(message || 'Request timed out.')), ms))
-      ]);
-    }
-
-    function normalizeStructure(value) {
-      let rows = value;
-      if (typeof rows === 'string') {
-        try { rows = JSON.parse(rows); } catch (_) { rows = []; }
-      }
-      if (!Array.isArray(rows)) return [];
-      return rows.map(item => {
-        if (!item || typeof item !== 'object') return null;
-        return {
-          tab_name: String(item.tab_name || item.name || '').trim(),
-          purpose: String(item.purpose || '').trim(),
-          columns: toArray(item.columns)
-        };
-      }).filter(item => item && item.tab_name);
-    }
-
-    function toArray(value) {
-      if (Array.isArray(value)) return value.map(item => {
-        if (item && typeof item === 'object') {
-          return String(item.name || item.title || item.label || item.button_name || item.tab_name || item.column || '').trim();
-        }
-        return String(item || '').trim();
-      }).filter(Boolean);
-
-      if (typeof value === 'string') {
-        try {
-          const parsed = JSON.parse(value);
-          if (Array.isArray(parsed)) return toArray(parsed);
-        } catch (_) {}
-        return value.split('\n').map(item => item.trim()).filter(Boolean);
-      }
-
-      return [];
-    }
-
-    function capitalize(value) {
-      const clean = String(value || '').trim();
-      return clean ? clean.charAt(0).toUpperCase() + clean.slice(1) : '';
-    }
-
-    function escapeHtml(value) {
-      return String(value ?? '')
-        .replaceAll('&','&amp;')
-        .replaceAll('<','&lt;')
-        .replaceAll('>','&gt;')
-        .replaceAll('"','&quot;')
-        .replaceAll("'","&#039;");
-    }
+      updateHomeCounter();
+      loadHomeStatus().then(scrollToCreateToolAfterLogin);
+    })();
   </script>
+
   <!--Start of Tawk.to Script-->
   <script type="text/javascript">
   var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
