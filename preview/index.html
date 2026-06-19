@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -1233,16 +1232,81 @@
       const rows = normalizeStructure(value);
       const usefulRows = rows.filter(row => String(row.tab_name || '').trim());
 
-      // If Supabase/OpenAI sends a complete structure, show it.
+      // If Supabase/OpenAI sends a complete structure, show it,
+      // but normalize old preview-only names to the real Builder tab names.
       if (usefulRows.length && usefulRows.some(row => toArray(row.columns).length)) {
-        return renderStructureTable(usefulRows);
+        return renderStructureTable(normalizeGoogleSheetsActualPreviewRows(usefulRows));
       }
 
       // Google Sheets mode:
-      // Do not show old HTML-preview placeholders like "To be confirmed".
-      // The final Google Sheet is created by the Apps Script builder, but this preview
-      // should still show the standard sheet tabs clearly before the user builds.
+      // Do not show the old fixed preview tabs.
+      // Show the same current tabs the Builder creates for generic Google Sheet tools.
       return renderStructureTable(getGoogleSheetsPreviewRows());
+    }
+
+    function normalizeGoogleSheetsActualPreviewRows(rows) {
+      const renameMap = {
+        'data': 'Main Work / Data',
+        'main data': 'Main Work / Data',
+        'main work': 'Main Work / Data',
+        'main work data': 'Main Work / Data',
+        'visual analytics': 'Analytics',
+        'numerical analytics': 'Analytics',
+        'custom analytics': 'Custom Reports',
+        'custom report': 'Custom Reports',
+        'custom reports': 'Custom Reports',
+        'readme': 'Read Me',
+        'read me': 'Read Me'
+      };
+
+      const seen = new Set();
+
+      return rows.map(row => {
+        const originalName = String(row.tab_name || '').trim();
+        const key = originalName.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+        const newName = renameMap[key] || originalName;
+
+        return {
+          tab_name: newName,
+          purpose: getActualPreviewPurpose(newName, row.purpose),
+          columns: toArray(row.columns)
+        };
+      }).filter(row => {
+        const key = String(row.tab_name || '').toLowerCase();
+        if (!key || seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
+
+    function getActualPreviewPurpose(tabName, fallbackPurpose) {
+      const name = String(tabName || '').toLowerCase();
+
+      if (name === 'main work / data') {
+        return 'Main working tab where users enter and manage records.';
+      }
+
+      if (name === 'dashboard') {
+        return 'Simple overview with the most important KPIs and summaries.';
+      }
+
+      if (name === 'analytics') {
+        return 'Lightweight summaries, charts, and useful breakdowns based on the entered data.';
+      }
+
+      if (name === 'custom reports') {
+        return 'Simple user-controlled reporting with date, status, category, or value filters.';
+      }
+
+      if (name === 'settings') {
+        return 'Horizontal dropdown control center and editable tool settings.';
+      }
+
+      if (name === 'read me') {
+        return 'Short guide explaining how to use and expand the finished Google Sheet.';
+      }
+
+      return String(fallbackPurpose || '').trim() || 'Used for this part of the Google Sheet tool.';
     }
 
     function getGoogleSheetsPreviewRows() {
@@ -1251,12 +1315,12 @@
         .filter(Boolean);
 
       const dataColumns = requestedFields.length
-        ? requestedFields.slice(0, 8)
+        ? requestedFields.slice(0, 10)
         : ['Name / Item', 'Date', 'Status', 'Amount / Hours', 'Category', 'Notes'];
 
       return [
         {
-          tab_name: 'Data',
+          tab_name: 'Main Work / Data',
           purpose: 'Main working tab where users enter and manage records.',
           columns: dataColumns
         },
@@ -1266,24 +1330,24 @@
           columns: ['Total Records', 'Key Totals', 'Status Summary', 'Latest Activity', 'Important KPIs']
         },
         {
-          tab_name: 'Visual Analytics',
-          purpose: 'Charts and visual summaries based on the entered data.',
-          columns: ['Charts', 'Graphs', 'Pie Charts', 'Trend Views', 'Visual KPIs']
+          tab_name: 'Analytics',
+          purpose: 'Lightweight summaries, charts, and useful breakdowns based on the entered data.',
+          columns: ['Summary Tables', 'Charts', 'Trends', 'Breakdowns', 'Visual KPIs']
         },
         {
-          tab_name: 'Custom Analytics',
-          purpose: 'User-controlled reporting with date and value filters.',
-          columns: ['From Date', 'To Date', 'Filter By', 'Custom Summary', 'Filtered Results']
+          tab_name: 'Custom Reports',
+          purpose: 'Simple user-controlled reporting with date, status, category, or value filters.',
+          columns: ['From Date', 'To Date', 'Filter By', 'Filtered Results', 'Report Summary']
         },
         {
           tab_name: 'Settings',
-          purpose: 'Dropdown source lists and editable tool settings.',
+          purpose: 'Horizontal dropdown control center and editable tool settings.',
           columns: ['Dropdown Lists', 'Categories', 'Statuses', 'Names / Items', 'Tool Options']
         },
         {
           tab_name: 'Read Me',
-          purpose: 'Short guide explaining how to use the finished Google Sheet.',
-          columns: ['Tabs Guide', 'Button Guide', 'Safe Usage Tips']
+          purpose: 'Short guide explaining how to use and expand the finished Google Sheet.',
+          columns: ['Tabs Guide', 'Copy/Paste Row Tips', 'Safe Usage Tips']
         }
       ];
     }
