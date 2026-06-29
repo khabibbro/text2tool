@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2273,6 +2274,62 @@
       }
     }
 
+
+    /* Auth buttons: show Sign in/Sign up when logged out, Logout when logged in */
+    .auth-link-btn,
+    .auth-cta-btn {
+      border: 0;
+      cursor: pointer;
+      font-family: inherit;
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      padding: 0 14px;
+      font-size: 14px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .auth-link-btn {
+      background: transparent;
+      color: #344054;
+    }
+
+    .auth-link-btn:hover { color: var(--blue); }
+
+    .auth-cta-btn {
+      background: #ffffff;
+      color: var(--blue);
+      border: 1px solid #bfdbfe;
+      box-shadow: 0 10px 22px rgba(37, 99, 235, 0.12);
+    }
+
+    .auth-cta-btn:hover {
+      background: var(--blue-soft);
+    }
+
+    @media (max-width: 640px) {
+      .nav-actions {
+        display: inline-flex !important;
+        gap: 7px !important;
+        margin-right: 72px !important;
+      }
+
+      .auth-link-btn,
+      .auth-cta-btn,
+      .logout-btn {
+        min-height: 36px !important;
+        padding: 0 9px !important;
+        font-size: 12px !important;
+      }
+
+      .nav-actions .nav-cta {
+        display: none !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -2296,6 +2353,8 @@
       </div>
 
       <div class="nav-actions">
+        <button class="auth-link-btn" type="button" id="loginBtn">Sign in</button>
+        <button class="auth-cta-btn" type="button" id="signupBtn">Sign up</button>
         <button class="logout-btn" type="button" id="logoutBtn" style="display:none;">Logout</button>
         <a class="nav-cta" href="#create-tool">Create Tool</a>
       </div>
@@ -2469,7 +2528,7 @@
             <li>Preview saved for 30 days</li>
             <li>Simple pay-as-you-go</li>
           </ul>
-          <a class="btn btn-secondary" href="#create-tool">Create Tool</a>
+          <a class="btn btn-secondary" href="#pricing" data-buy-plan="tester">Buy 1 Tool Kit</a>
         </article>
 
         <article class="home-price-card featured">
@@ -2484,7 +2543,7 @@
             <li>1 bonus Tool Kit</li>
             <li>Built for regular use</li>
           </ul>
-          <a class="btn btn-primary" href="#create-tool">Create Tool</a>
+          <a class="btn btn-primary" href="#pricing" data-buy-plan="freelance">Buy 11 Tool Kits</a>
         </article>
 
         <article class="home-price-card">
@@ -2499,7 +2558,7 @@
             <li>5 bonus Tool Kits</li>
             <li>Strong agency value</li>
           </ul>
-          <a class="btn btn-secondary" href="#create-tool">Create Tool</a>
+          <a class="btn btn-secondary" href="#pricing" data-buy-plan="agency">Buy 55 Tool Kits</a>
         </article>
       </div>
     </section>
@@ -2681,19 +2740,34 @@
 
     const menuBtn = document.getElementById("menuBtn");
     const navLinks = document.getElementById("navLinks");
+    const loginBtn = document.getElementById("loginBtn");
+    const signupBtn = document.getElementById("signupBtn");
     const logoutBtn = document.getElementById("logoutBtn");
 
     menuBtn?.addEventListener("click", () => {
       navLinks.classList.toggle("open");
     });
 
+    async function signInWithGoogleFromHeader() {
+      await supabaseClient.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: window.location.origin + "/?continue=create-tool"
+        }
+      });
+    }
+
     async function checkHeaderLogin() {
       const { data } = await supabaseClient.auth.getSession();
+      const isLoggedIn = Boolean(data?.session);
 
-      if (data?.session) {
-        logoutBtn.style.display = "inline-flex";
-      }
+      if (loginBtn) loginBtn.style.display = isLoggedIn ? "none" : "inline-flex";
+      if (signupBtn) signupBtn.style.display = isLoggedIn ? "none" : "inline-flex";
+      if (logoutBtn) logoutBtn.style.display = isLoggedIn ? "inline-flex" : "none";
     }
+
+    loginBtn?.addEventListener("click", signInWithGoogleFromHeader);
+    signupBtn?.addEventListener("click", signInWithGoogleFromHeader);
 
     logoutBtn?.addEventListener("click", async () => {
       await supabaseClient.auth.signOut();
@@ -2776,6 +2850,27 @@
       const previewText = document.getElementById("homePreviewText");
       const creditText = document.getElementById("homeCreditText");
 
+      const LEMON_SQUEEZY_PLANS = {
+        tester: {
+          key: "tester",
+          name: "Tester Pack",
+          kits: 1,
+          checkoutUrl: "https://text2tool.lemonsqueezy.com/checkout/buy/e8c5767b-5450-4ee9-b955-2017b0354eb6"
+        },
+        freelance: {
+          key: "freelance",
+          name: "Freelance VA Pack",
+          kits: 11,
+          checkoutUrl: "https://text2tool.lemonsqueezy.com/checkout/buy/3e09305f-b37f-4b05-b2cd-60b682560d7d"
+        },
+        agency: {
+          key: "agency",
+          name: "Agency Pack",
+          kits: 55,
+          checkoutUrl: "https://text2tool.lemonsqueezy.com/checkout/buy/a7b8f901-3580-4240-a69d-284abe0ed9fe"
+        }
+      };
+
       const PROMPT_LIMIT = 50;
       const MULTIPLE_TOOLS_MESSAGE = "Multiple tools detected. Please request one tool at a time.";
 
@@ -2842,6 +2937,68 @@
       }
 
 
+      function buildLemonCheckoutUrl(plan) {
+        const checkout = new URL(plan.checkoutUrl);
+
+        checkout.searchParams.set("checkout[custom][user_id]", currentUser?.id || "");
+        checkout.searchParams.set("checkout[custom][email]", currentUser?.email || "");
+        checkout.searchParams.set("checkout[custom][plan]", plan.key);
+        checkout.searchParams.set("checkout[custom][plan_name]", plan.name);
+        checkout.searchParams.set("checkout[custom][kits]", String(plan.kits));
+        checkout.searchParams.set("checkout[custom][source]", "text2tool_home_pricing");
+
+        if (currentUser?.email) {
+          checkout.searchParams.set("checkout[email]", currentUser.email);
+        }
+
+        return checkout.toString();
+      }
+
+      async function startLemonCheckout(planKey) {
+        const plan = LEMON_SQUEEZY_PLANS[planKey];
+        if (!plan) return;
+
+        await loadHomeStatus();
+
+        if (!currentUser) {
+          showHomeMessage("Please sign in with Google first. Checkout will open after login.", "success");
+          await homeSupabaseClient.auth.signInWithOAuth({
+            provider: "google",
+            options: {
+              redirectTo: window.location.origin + "/?continue=pricing&buy_plan=" + encodeURIComponent(planKey)
+            }
+          });
+          return;
+        }
+
+        window.location.href = buildLemonCheckoutUrl(plan);
+      }
+
+      function scrollToPricingAfterLogin() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("continue") !== "pricing") return;
+
+        const target = document.getElementById("pricing");
+        if (!target) return;
+
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 250);
+      }
+
+      async function continueCheckoutAfterLogin() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("continue") !== "pricing") return;
+
+        const planKey = params.get("buy_plan") || "";
+        if (!planKey || !LEMON_SQUEEZY_PLANS[planKey]) return;
+
+        if (!currentUser) return;
+
+        window.history.replaceState(null, "", window.location.origin + window.location.pathname + "#pricing");
+        await startLemonCheckout(planKey);
+      }
+
       function scrollToCreateToolAfterLogin() {
         const params = new URLSearchParams(window.location.search);
         if (params.get("continue") !== "create-tool") return;
@@ -2906,6 +3063,14 @@
       });
 
       promptInput?.addEventListener("input", updateHomeCounter);
+
+      document.querySelectorAll("[data-buy-plan]").forEach((button) => {
+        button.addEventListener("click", async (event) => {
+          event.preventDefault();
+          const planKey = button.getAttribute("data-buy-plan") || "";
+          await startLemonCheckout(planKey);
+        });
+      });
 
       form?.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -2998,7 +3163,11 @@
       });
 
       updateHomeCounter();
-      loadHomeStatus().then(scrollToCreateToolAfterLogin);
+      loadHomeStatus().then(async () => {
+        scrollToCreateToolAfterLogin();
+        scrollToPricingAfterLogin();
+        await continueCheckoutAfterLogin();
+      });
     })();
   </script>
 
